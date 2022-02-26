@@ -1,3 +1,4 @@
+import 'package:governmentapp/JobData.dart';
 import 'package:governmentapp/VacancyDetails.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
@@ -30,6 +31,10 @@ class _TempState extends State<Temp> {
   bool isSomeUsefullLinks = false;
 
   String HowToApply = "";
+
+  String ApplyLink = "";
+  String NotificationLink = "";
+  String WebsiteLink = "";
 
 
   void Contains_Department_Title(String data){
@@ -253,7 +258,7 @@ class _TempState extends State<Temp> {
       }
 
 
-    print("Apply Link: " + link);
+      ApplyLink = link;
   }
 
   void Contains_DownloadNotifications(String data)
@@ -269,8 +274,7 @@ class _TempState extends State<Temp> {
       i++;
     }
 
-
-    print("Notification Link: " + link);
+    NotificationLink = link;
   }
 
   void Contains_OfficialWebsite(String data)
@@ -286,8 +290,7 @@ class _TempState extends State<Temp> {
       i++;
     }
 
-
-    print("Website Link: " + link);
+    WebsiteLink = link;
   }
 
   void Read_Row5(String data){
@@ -312,6 +315,67 @@ class _TempState extends State<Temp> {
 
   }
 
+
+  void Save_Job(){
+    JobData jobData = new JobData();
+    jobData.Department = Department;
+    jobData.Title = Title;
+    jobData.Short_Details = Short_Details;
+    jobData.DataProviderUrl = DataProviderUrl;
+    jobData.Important_Dates = Important_Dates;
+    jobData.ApplicationFees = ApplicationFees;
+    jobData.Total_Vacancies = Total_Vacancies;
+    jobData.VDetails = VDetails;
+    jobData.HowToApply = HowToApply;
+    jobData.ApplyLink = ApplyLink;
+    jobData.NotificationLink = NotificationLink;
+    jobData.WebsiteLink = WebsiteLink;
+
+    print(Department);
+    print(Title);
+    print(Short_Details);
+    print(DataProviderUrl);
+    print("Important Dates");
+    for(var id in Important_Dates.keys)
+      {
+        print(Important_Dates[id]);
+      }
+    print("Application Fees");
+    for(var id in ApplicationFees.keys)
+      {
+        print(ApplicationFees[id]);
+      }
+    print(Total_Vacancies);
+
+
+    for(var i=0; i<VDetails.length; i++)
+      {
+        print("Headers");
+        for(int j=0; j<VDetails[i].headers.length; j++)
+          {
+            print(VDetails[i].headers[j]);
+          }
+
+        for(int j=0; j<VDetails[i].datas.length; j++)
+          {
+            print(VDetails[i].datas[j].data.toList());
+          }
+      }
+
+
+
+    //print("VDL1: " + VDetails.length.toString());
+    //if(VDetails.length != 0)
+      //{
+        //print("VDL2: " + VDetails[0].headers.length.toString());
+        //print("VDL3: " + VDetails[0].datas.length.toString());
+      //}
+
+    print(HowToApply);
+    print(ApplyLink);
+    print(NotificationLink);
+    print(WebsiteLink);
+  }
 
   Future<void> Loading() async {
     var url = Uri.parse("https://www.sarkariresult.com/force/navy-ssc-entry-jan2023/");
@@ -382,9 +446,10 @@ class _TempState extends State<Temp> {
             }
 
 
-
-
       }
+
+      Save_Job();
+
     }
     catch(e)
     {
