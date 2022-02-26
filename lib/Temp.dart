@@ -1,4 +1,5 @@
 import 'package:governmentapp/JobData.dart';
+import 'package:governmentapp/ShowJob.dart';
 import 'package:governmentapp/VacancyDetails.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
@@ -331,6 +332,10 @@ class _TempState extends State<Temp> {
     jobData.NotificationLink = NotificationLink;
     jobData.WebsiteLink = WebsiteLink;
 
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> ShowJob(jobData: jobData)));
+
+/*
+
     print(Department);
     print(Title);
     print(Short_Details);
@@ -375,6 +380,8 @@ class _TempState extends State<Temp> {
     print(ApplyLink);
     print(NotificationLink);
     print(WebsiteLink);
+
+ */
   }
 
   Future<void> Loading() async {
@@ -466,18 +473,36 @@ class _TempState extends State<Temp> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child:  Center(child: GestureDetector(
-          onTap: (){
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        padding: EdgeInsets.all(20),
+        child:  Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Enter a sarkariresult.com job url',
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            GestureDetector(
+              onTap: (){
             Loading();
-          },
-          child: Container(
+              },
+              child: Container(
             width: 200,
             height: 50,
             color: Colors.grey,
             alignment: Alignment.center,
-            child: const Text("Click"),
-          ),
-        )),
+            child: const Text("Load Data"),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
