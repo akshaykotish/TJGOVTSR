@@ -6,6 +6,7 @@ class JobData{
   String Department = "";
   String Title = "";
   String Short_Details = "";
+  String DocumentRequired = "";
   String DataProviderUrl = "";
   Map<String, String> Important_Dates = new Map<String, String>();
   Map<String, String> ApplicationFees = new Map<String, String>();
@@ -15,4 +16,8 @@ class JobData{
   String ApplyLink = "";
   String NotificationLink = "";
   String WebsiteLink = "";
+  String url = "";
+
+
+  bool isSave = false;
 }

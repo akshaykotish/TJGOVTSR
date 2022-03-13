@@ -3,7 +3,8 @@
    <application
         android:label="governmentapp"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+       >
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,5 +31,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-    </application>
+
+   </application>
 </manifest>

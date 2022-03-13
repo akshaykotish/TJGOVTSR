@@ -1,3 +1,4 @@
+import 'package:governmentapp/DataPullers/AllPullers.dart';
 import 'package:governmentapp/JobData.dart';
 import 'package:governmentapp/ShowJob.dart';
 import 'package:governmentapp/VacancyDetails.dart';
@@ -21,6 +22,8 @@ class _TempState extends State<Temp> {
   Map<String, String> Important_Dates = new Map<String, String>();
   Map<String, String> ApplicationFees = new Map<String, String>();
   String Total_Vacancies = "";
+
+  String DocumentRequired = "";
 
   bool isAgeLimitDone = false;
 
@@ -294,6 +297,11 @@ class _TempState extends State<Temp> {
     WebsiteLink = link;
   }
 
+
+  void Contains_DocumentRequired(String data){
+    DocumentRequired = data;
+}
+
   void Read_Row5(String data){
     int c = 0;
     String word = "";
@@ -322,6 +330,7 @@ class _TempState extends State<Temp> {
     jobData.Department = Department;
     jobData.Title = Title;
     jobData.Short_Details = Short_Details;
+    jobData.DocumentRequired = DocumentRequired;
     jobData.DataProviderUrl = DataProviderUrl;
     jobData.Important_Dates = Important_Dates;
     jobData.ApplicationFees = ApplicationFees;
@@ -385,7 +394,9 @@ class _TempState extends State<Temp> {
   }
 
   Future<void> Loading() async {
-    var url = Uri.parse("https://www.sarkariresult.com/force/navy-ssc-entry-jan2023/");
+    //var url = Uri.parse("https://www.sarkariresult.com/force/navy-ssc-entry-jan2023/");
+    var url = Uri.parse(urlcntrlr.text);
+
     String pagedata = await http.read(url);
 
 
@@ -413,14 +424,18 @@ class _TempState extends State<Temp> {
             {
               Contains_AgeLimit(Data);
             }
-          else if(Data.contains("Vacancy Details"))
+          else if(Data.contains("Vacancy Details") || Data.contains("Exam Details"))
           {
             Contains_VacancyDetails(Data);
           }
-          else if(Data.contains("How to Fill")){
+          else if(Data.contains("How to Fill") && HowToApply == ""){
             Contains_HowtoFill(Data);
           }
-          else if(Data.contains("Interested Candidates Can Read"))
+          else if(Data.contains("Document Required"))
+            {
+              Contains_DocumentRequired(Data);
+            }
+          else if(Data.contains("Interested Candidate"))
           {
             IsVacancyDetails = false;
             IsVacancyHeader = false;
@@ -466,8 +481,32 @@ class _TempState extends State<Temp> {
 
   @override
   void initState() {
+     Department = "";
+     Title = "";
+     Short_Details = "";
+     DataProviderUrl = "";
+     Important_Dates = new Map<String, String>();
+     ApplicationFees = new Map<String, String>();
+     Total_Vacancies = "";
+
+     isAgeLimitDone = false;
+
+     IsVacancyDetails = false;
+     IsVacancyHeader = false;
+     VDetails = <VacancyDetails>[];
+     VacancyId = -1;
+
+     isSomeUsefullLinks = false;
+
+     HowToApply = "";
+
+     ApplyLink = "";
+     NotificationLink = "";
+     WebsiteLink = "";
     super.initState();
   }
+
+  var urlcntrlr = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -480,8 +519,9 @@ class _TempState extends State<Temp> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextField(
-              decoration: InputDecoration(
+             TextField(
+              controller: urlcntrlr,
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Enter a sarkariresult.com job url',
               ),
@@ -491,14 +531,30 @@ class _TempState extends State<Temp> {
             ),
             GestureDetector(
               onTap: (){
-            Loading();
+                Loading();
               },
               child: Container(
-            width: 200,
-            height: 50,
-            color: Colors.grey,
-            alignment: Alignment.center,
-            child: const Text("Load Data"),
+                width: 200,
+                height: 50,
+                color: Colors.grey,
+                alignment: Alignment.center,
+                child: const Text("Load Data"),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            GestureDetector(
+              onTap: (){
+                JobsFetcher jobsFetcher = new JobsFetcher();
+                jobsFetcher.Load();
+              },
+              child: Container(
+                width: 200,
+                height: 50,
+                color: Colors.grey,
+                alignment: Alignment.center,
+                child: const Text("Jobs Fetcher"),
               ),
             ),
           ],
