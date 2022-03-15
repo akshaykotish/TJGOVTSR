@@ -17,6 +17,7 @@ class JobData{
   String NotificationLink = "";
   String WebsiteLink = "";
   String url = "";
+  String Location = "";
 
 
   bool isSave = false;
