@@ -5,6 +5,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
+import 'package:governmentapp/Files/Header.dart';
+import 'package:governmentapp/Files/JobBoxs.dart';
+import 'package:governmentapp/Files/PositionedSearchArea.dart';
+import 'package:governmentapp/Files/SearchArea.dart';
+import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/JobData.dart';
 import 'package:governmentapp/JobObject.dart';
 
@@ -18,6 +23,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  bool PositionedSearchArea_Visible = false;
+  ScrollController scrollController = new ScrollController();
+
 
   StreamController<List<JobData>> jobdatacontroller = StreamController<List<JobData>>();
 
@@ -250,6 +259,21 @@ class _HomeState extends State<Home> {
 
     @override
   void initState() {
+    scrollController.addListener(() {
+      print(scrollController.offset );
+
+      if(scrollController.offset.ceil() > 350)
+        {
+          setState(() {
+            PositionedSearchArea_Visible = true;
+          });
+        }
+      else{
+        setState(() {
+          PositionedSearchArea_Visible = false;
+        });
+      }
+    });
     GetJobData();
     super.initState();
   }
@@ -258,99 +282,37 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         child: Stack(
           children: <Widget>[
-            Positioned(
-              top: MediaQuery.of(context).padding.top,
-              left: 0,
-              right: 0,
-              height: 60,
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      child: Text("Jobs",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 30,
-                            color: Colors.black
-                        ),
-                      ),
-                    ),
-                    Container(
-                      child: Row(
-                        children: const <Widget>[
-
-                          Icon(
-                            Icons.thumb_up,
-                            color: Colors.black,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text("Liked",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 18,
-                                color: Colors.black
-                            ),),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              top: MediaQuery.of(context).padding.top + 60,
-              left: 0,
-              right: 0,
+            SingleChildScrollView(
+              controller: scrollController,
               child: Column(
                 children: <Widget>[
+                  Visibility(visible: !PositionedSearchArea_Visible ,child: Header()),
+                  Visibility(visible: !PositionedSearchArea_Visible ,child: SearchArea()),
+                  JobBoxs(),
                   Container(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                       Container(
-                         padding: EdgeInsets.all(5),
-                         width: MediaQuery.of(context).size.width,
-                         height: 55,
-                         color: Colors.grey[300],
-                         child: const TextField(
-                           decoration: InputDecoration(
-                               border: InputBorder.none,
-                               labelText: 'Look out the job you want to search',
-                               hintText: 'Look out the job you want to search'
-                           ),
-                         ),
-                       ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height - 225,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: Departments
-                      ),
-                    ),
+                    color: Colors.white,
+                    height: 1700,
+                    width: 300,
                   )
-                  /*Container(
-                    height: 400,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: Departments,
-                      ),
-                    ),
-                  )*/
                 ],
               ),
             ),
+
+            Positioned(
+              left: 0,
+              top: 0,
+              right: 0,
+              child: AnimatedOpacity(
+                duration: Duration(seconds: 1,),
+                opacity: PositionedSearchArea_Visible ? 1 : 0,
+                child: Visibility(
+                    visible: PositionedSearchArea_Visible,
+                    child: PositionedSearchArea()),
+              ),),
           ],
         ),
       ),

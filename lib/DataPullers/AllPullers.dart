@@ -216,6 +216,7 @@ class Pull{
   }
 
 
+  VacancyDetailsData OldVacancyDetails = new VacancyDetailsData();
   void Contains_PostDatas(String data){
     int c = 0;
     String word = "";
@@ -238,6 +239,27 @@ class Pull{
         word += data[i];
       }
     }
+
+    if(OldVacancyDetails.data.length < vdd.data.length)
+      {
+        print("A");
+        for(int l=OldVacancyDetails.data.length; l<vdd.data.length; l++)
+          {
+            print("PD" + vdd.data[l]);
+            OldVacancyDetails.data.add(vdd.data[l]);
+          }
+      }
+    else if(OldVacancyDetails.data.length > vdd.data.length)
+      {
+        print("B");
+        for(int l=vdd.data.length; l<OldVacancyDetails.data.length; l++)
+        {
+          print("PD" + OldVacancyDetails.data[l]);
+          vdd.data.add(OldVacancyDetails.data[l]);
+        }
+      }
+
+    OldVacancyDetails = vdd;
 
     VDetails[VacancyId].datas.add(vdd);
 
@@ -500,7 +522,6 @@ class JobsFetcher{
   }
 
   bool WriteToFirebase(JobData jobData){
-
     String DocumentID = jobData.Title.replaceAll("Online Form", "").replaceAll(" ", "").replaceAll("\n", "").replaceAll("/", "").replaceAll(":", "");
     print(DocumentID);
 
@@ -512,16 +533,13 @@ class JobsFetcher{
       }
 
 
-
-
-
     try {
       FirebaseFirestore.instance.collection(
-          "SRJobs/" + jobData.Department.replaceAll("/", "") + "/" + jobData.Location.replaceAll("/", "")).doc(
+          "Jobs/" + jobData.Department.replaceAll("/", "") + "/" + jobData.Location.replaceAll("/", "")).doc(
           DocumentID).get().then((value) {
         if (value.data() == null) {
           FirebaseFirestore.instance.collection(
-              "SRJobs/" + jobData.Department.replaceAll("/", "") + "/" + jobData.Location.replaceAll("/", "")).doc(
+              "Jobs/" + jobData.Department.replaceAll("/", "") + "/" + jobData.Location.replaceAll("/", "")).doc(
               DocumentID).set({
             "Department": jobData.Department,
             "Title": jobData.Title,
@@ -534,7 +552,8 @@ class JobsFetcher{
             "HowToApply": jobData.HowToApply,
             "ApplyLink": jobData.ApplyLink,
             "NotificationLink": jobData.NotificationLink,
-            "WebsiteLink": jobData.WebsiteLink
+            "WebsiteLink": jobData.WebsiteLink,
+            "URL": jobData.url,
           });
 
 
@@ -572,7 +591,7 @@ class JobsFetcher{
     }
     catch(e)
     {
-      print("SRJobs/" + jobData.Department + "/" + jobData.Location + "/" + DocumentID);
+      print("Jobs/" + jobData.Department + "/" + jobData.Location + "/" + DocumentID);
       print("FirebaseError: ${e}");
     }
     return true;
@@ -616,7 +635,7 @@ class JobsFetcher{
 
 
     for (int i = 20; i < document.getElementsByTagName("li").length; i++) {
-      JobData jobData = new JobData();
+      JobData jobData = JobData();
       Pull pull = Pull();
 
       String title = document.getElementsByTagName("li")[i].text;
@@ -624,6 +643,8 @@ class JobsFetcher{
       jobData.url = EURL;
       jobData = await pull.Load(EURL);
       jobData.Location = await FindLocation(jobData);
+
+      print("Length is " + jobData.VDetails.length.toString());
       WriteToFirebase(jobData);
     }
 

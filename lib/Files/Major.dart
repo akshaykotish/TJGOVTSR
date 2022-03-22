@@ -4,6 +4,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/Files/Home.dart';
 
+import '../HexColors.dart';
+
 class Major extends StatefulWidget {
   const Major({Key? key}) : super(key: key);
 
@@ -37,7 +39,7 @@ class _MajorState extends State<Major> {
                 right: 0,
                 height: 60,
                 child: Container(
-                  color: Colors.grey[100],
+                  color: ColorFromHexCode("#17202A"),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -50,7 +52,7 @@ class _MajorState extends State<Major> {
                               Icons.work_outline_outlined,
                             ),
                             SizedBox(width: 5,),
-                            Text("Jobs", style: TextStyle(fontWeight: FontWeight.w600),)
+                            Text("Jobs", style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),)
                           ],
                         ),
                       ),
