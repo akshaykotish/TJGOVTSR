@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:governmentapp/Files/JobBox.dart';
 
 class JobBoxs extends StatefulWidget {
   const JobBoxs({Key? key}) : super(key: key);
@@ -13,8 +14,16 @@ class _JobBoxsState extends State<JobBoxs> {
     return Container(
       child: SingleChildScrollView(
         child: Column(
-          children: <Widget>[
-
+          children: const <Widget>[
+            JobBox(),
+            JobBox(),
+            JobBox(),
+            JobBox(),
+            JobBox(),
+            JobBox(),
+            JobBox(),
+            JobBox(),
+            JobBox(),
           ],
         ),
       ),

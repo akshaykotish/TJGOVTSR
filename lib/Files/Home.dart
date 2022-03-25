@@ -293,11 +293,6 @@ class _HomeState extends State<Home> {
                   Visibility(visible: !PositionedSearchArea_Visible ,child: Header()),
                   Visibility(visible: !PositionedSearchArea_Visible ,child: SearchArea()),
                   JobBoxs(),
-                  Container(
-                    color: Colors.white,
-                    height: 1700,
-                    width: 300,
-                  )
                 ],
               ),
             ),
