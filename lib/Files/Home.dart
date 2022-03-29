@@ -22,7 +22,11 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+
+  late Animation _animation;
+  late AnimationController _animationController;
+  double AnimatedDrawer = 400;
 
   bool PositionedSearchArea_Visible = false;
   ScrollController scrollController = new ScrollController();
@@ -259,6 +263,9 @@ class _HomeState extends State<Home> {
 
     @override
   void initState() {
+
+      super.initState();
+//      GetJobData();
     scrollController.addListener(() {
       print(scrollController.offset );
 
@@ -274,8 +281,36 @@ class _HomeState extends State<Home> {
         });
       }
     });
-    GetJobData();
-    super.initState();
+
+
+      WidgetsBinding.instance?.addPostFrameCallback((_) => Animate());
+
+    }
+
+    void Animate(){
+      _animationController = AnimationController(
+        vsync: this,
+        duration: Duration(seconds: 3),
+      );
+
+
+      _animation = Tween(begin: 100.0, end: MediaQuery.of(context).size.height.toDouble()).animate(_animationController);
+
+
+      _animationController.addStatusListener((AnimationStatus status) {
+        setState(() {
+          AnimatedDrawer = _animation.value;
+        });
+        if (status == AnimationStatus.completed) {
+
+        }
+      });
+    }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -293,6 +328,7 @@ class _HomeState extends State<Home> {
                   Visibility(visible: !PositionedSearchArea_Visible ,child: Header()),
                   Visibility(visible: !PositionedSearchArea_Visible ,child: SearchArea()),
                   JobBoxs(),
+
                 ],
               ),
             ),
@@ -308,6 +344,38 @@ class _HomeState extends State<Home> {
                     visible: PositionedSearchArea_Visible,
                     child: PositionedSearchArea()),
               ),),
+
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: MediaQuery.of(context).size.height,
+              child: DraggableScrollableSheet(
+                    initialChildSize: .1,
+                    minChildSize: .05,
+                    maxChildSize: .84,
+                    builder: (BuildContext context, ScrollController scrollController) {
+                      return Container(
+                        color: Colors.white,
+                        child: SingleChildScrollView(
+                          controller: scrollController,
+                          child: Column(
+                            children: <Widget>[
+                              Text("Hello"),
+                              Text("Hello"),
+                              Text("Hello"),
+                              Text("Hello"),
+                              Text("Hello"),
+                              Text("Hello"),
+                              Text("Hello"),
+                              Text("Hello"),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+                    ),
+
           ],
         ),
       ),

@@ -14,16 +14,16 @@ class _JobBoxsState extends State<JobBoxs> {
     return Container(
       child: SingleChildScrollView(
         child: Column(
-          children: const <Widget>[
-            JobBox(),
-            JobBox(),
-            JobBox(),
-            JobBox(),
-            JobBox(),
-            JobBox(),
-            JobBox(),
-            JobBox(),
-            JobBox(),
+          children: <Widget>[
+            JobBox(isClicked: false,),
+            JobBox(isClicked: false,),
+            JobBox(isClicked: false,),
+            JobBox(isClicked: false,),
+            JobBox(isClicked: false,),
+            JobBox(isClicked: false,),
+            JobBox(isClicked: true,),
+            JobBox(isClicked: false,),
+            JobBox(isClicked: false,),
           ],
         ),
       ),

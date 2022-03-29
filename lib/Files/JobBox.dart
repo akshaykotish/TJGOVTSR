@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class JobBox extends StatefulWidget {
-  const JobBox({Key? key}) : super(key: key);
+
+  bool isClicked = false;
+  JobBox({required this.isClicked});
+
+
 
   @override
   State<JobBox> createState() => _JobBoxState();
@@ -40,7 +44,7 @@ class _JobBoxState extends State<JobBox> {
             spreadRadius: 1,
           ),
         ],
-        color: Colors.white,
+        color: widget.isClicked ? Colors.blue : Colors.white,
       ),
       width: MediaQuery.of(context).size.width,
       child: Row(
@@ -49,7 +53,7 @@ class _JobBoxState extends State<JobBox> {
               width: 70,
               height: 70,
               decoration: BoxDecoration(
-                color: Colors.grey[300],
+                color:  widget.isClicked ? Colors.white : Colors.grey[300],
                 borderRadius: BorderRadius.circular(25),
               ),
               child: const Center(child: Text("SBI", style: TextStyle(fontSize: 20,),))),
@@ -62,7 +66,8 @@ class _JobBoxState extends State<JobBox> {
                 right: 20,
               ),
               decoration: BoxDecoration(
-                color: Colors.grey[100],
+                color: widget.isClicked ? Colors.blue : Colors.grey[100],
+                border: Border.all(color: widget.isClicked ? Colors.blue : Colors.white, ),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.shade300,
@@ -85,13 +90,13 @@ class _JobBoxState extends State<JobBox> {
                 child: Text("Senior branch manager", style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
-                  color: Colors.grey[800],
+                  color: widget.isClicked ? Colors.white : Colors.grey[800],
                 ),),
               ),
               Text("Kaithal", style: TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.w600,
-                color: Colors.grey[700]
+                color:  widget.isClicked ? Colors.white60 : Colors.grey[700],
               ),),
             ],
           )
