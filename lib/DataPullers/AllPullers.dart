@@ -521,85 +521,113 @@ class JobsFetcher{
     return RID;
   }
 
+  String LSID = "";
+  bool StopTheSave = false;
+
   bool WriteToFirebase(JobData jobData){
     String DocumentID = jobData.Title.replaceAll("Online Form", "").replaceAll(" ", "").replaceAll("\n", "").replaceAll("/", "").replaceAll(":", "");
     print(DocumentID);
 
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    if(LSID != DocumentID) {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    if(DocumentID.isEmpty)
-      {
+      if (DocumentID.isEmpty) {
         return false;
       }
 
 
-    try {
-      FirebaseFirestore.instance.collection(
-          "Jobs/" + jobData.Department.replaceAll("/", "") + "/" + jobData.Location.replaceAll("/", "")).doc(
-          DocumentID).get().then((value) {
-        if (value.data() == null) {
-          FirebaseFirestore.instance.collection(
-              "Jobs/" + jobData.Department.replaceAll("/", "") + "/" + jobData.Location.replaceAll("/", "")).doc(
-              DocumentID).set({
-            "Department": jobData.Department,
-            "Title": jobData.Title,
-            "Short_Details": jobData.Short_Details,
-            "DocumentRequired": jobData.DocumentRequired,
-            "DataProviderUrl": jobData.DataProviderUrl,
-            "Important_Dates": jobData.Important_Dates,
-            "ApplicationFees": jobData.ApplicationFees,
-            "Total_Vacancies": jobData.Total_Vacancies,
-            "HowToApply": jobData.HowToApply,
-            "ApplyLink": jobData.ApplyLink,
-            "NotificationLink": jobData.NotificationLink,
-            "WebsiteLink": jobData.WebsiteLink,
-            "URL": jobData.url,
-          });
+      try {
+        String LocationURL = "AllJobs/" +
+            jobData.Department.replaceAll("/", "") + "/" +
+            jobData.Location.replaceAll("/", "");
 
+        String Part1 = jobData.Department.replaceAll("/", "").replaceAll(
+            ",", "");
+        String Part2 = jobData.Location.replaceAll("/", "")
+            .replaceAll(",", "")
+            .toUpperCase();
 
-          for (int i = 0; i < jobData.VDetails.length; i++) {
-            String ID = GenerateRandomID();
+        String DocumentName = Part1 + "/" + Part2 + "/" + DocumentID;
 
-            FirebaseFirestore.instance.collection('Jobs').doc(
-                DocumentID + "/VDetails/" + ID).set({
-              "TotalVacancies": jobData.VDetails[i].TotalVacancies,
-              "Title": jobData.VDetails[i].Title,
-              "headers": jobData.VDetails[i].headers,
-            });
-
-            for (int j = 0; j < jobData.VDetails[i].datas.length; j++) {
-              String IDJ = GenerateRandomID();
-
-              FirebaseFirestore.instance.collection('Jobs')
-                  .doc(
-                  DocumentID + "/VDetails/" + ID + "/VacancyDetailsData/" + IDJ)
+        FirebaseFirestore.instance.collection("Jobs").doc(Part1).set({}).then((
+            value) {
+          FirebaseFirestore.instance.collection("Jobs").doc(DocumentName)
+              .get()
+              .then((value) {
+            if (value.data() == null) {
+              FirebaseFirestore.instance.collection("Jobs")
+                  .doc(DocumentName)
                   .set({
-                "data": jobData.VDetails[i].datas[j].data,});
+                "Department": jobData.Department,
+                "Title": jobData.Title,
+                "Short_Details": jobData.Short_Details,
+                "DocumentRequired": jobData.DocumentRequired,
+                "DataProviderUrl": jobData.DataProviderUrl,
+                "Important_Dates": jobData.Important_Dates,
+                "ApplicationFees": jobData.ApplicationFees,
+                "Total_Vacancies": jobData.Total_Vacancies,
+                "HowToApply": jobData.HowToApply,
+                "ApplyLink": jobData.ApplyLink,
+                "NotificationLink": jobData.NotificationLink,
+                "WebsiteLink": jobData.WebsiteLink,
+                "URL": jobData.url,
+                "Location": jobData.Location,
+              });
+
+
+              for (int i = 0; i < jobData.VDetails.length; i++) {
+                String ID = GenerateRandomID();
+
+                FirebaseFirestore.instance.collection("Jobs/").doc(
+                    DocumentName + "/VDetails/" + ID).set({
+                  "TotalVacancies": jobData.VDetails[i].TotalVacancies,
+                  "Title": jobData.VDetails[i].Title,
+                  "headers": jobData.VDetails[i].headers,
+                });
+
+                for (int j = 0; j < jobData.VDetails[i].datas.length; j++) {
+                  String IDJ = GenerateRandomID();
+
+                  FirebaseFirestore.instance.collection("Jobs/")
+                      .doc(
+                      DocumentName + "/VDetails/" + ID +
+                          "/VacancyDetailsData/" + IDJ)
+                      .set({
+                    "data": jobData.VDetails[i].datas[j].data,});
+                }
+              }
+
+              FirebaseFirestore.instance.collection('Logs')
+                  .doc("LastSavedID")
+                  .set({
+                "JobId": DocumentID,
+              });
+
+              return true;
             }
-          }
-
-          FirebaseFirestore.instance.collection('Logs').doc("LastSavedID").set({
-            "JobId": DocumentID,
+            else {
+              return false;
+            }
           });
+        });
+        //FirebaseFirestore.instance.collection("Jobs").doc(jobData.Department.replaceAll("/", "").replaceAll(" ", "")).collection(jobData.Location.replaceAll("/", "").replaceAll(" ", "")).doc(DocumentID).set({"Hello": "World"});
 
-          return true;
-        }
-        else {
-          return false;
-        }
-      });
+
+      }
+      catch (e) {
+        print("Jobs/" + jobData.Department + "/" + jobData.Location + "/" +
+            DocumentID);
+        print("FirebaseError: ${e}");
+      }
     }
-    catch(e)
-    {
-      print("Jobs/" + jobData.Department + "/" + jobData.Location + "/" + DocumentID);
-      print("FirebaseError: ${e}");
+    else{
+      StopTheSave = true;
     }
     return true;
-
   }
 
-  var States = <String>["Andaman and Nicobar", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Orissa", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
-  String FindLocation(JobData jobData){
+  static var States = <String>["Andaman and Nicobar", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Orissa", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
+  static String FindLocation(JobData jobData){
     String Location = "India";
 
     for(int i=0; i<States.length; i++)
@@ -614,6 +642,7 @@ class JobsFetcher{
           )
           {
             Location = States[i];
+            break;
           }
       }
 
@@ -621,7 +650,23 @@ class JobsFetcher{
   }
 
 
+  Future<String> LastSaveID() async {
+    String Output = "";
+
+    await FirebaseFirestore.instance.collection("Logs").doc("LastSavedID").get().then(await (value){
+      if(value.exists)
+        {
+          Output = value.data()!["JobId"];
+          return Output;
+        }
+    });
+    return Output;
+  }
+
   Future<void> Load() async {
+
+    LSID = await LastSaveID();
+    
     var url = Uri.parse("https://www.sarkariresult.com/latestjob/");
     String pagedata = await http.read(url);
     var document = parse(pagedata);
@@ -635,17 +680,25 @@ class JobsFetcher{
 
 
     for (int i = 20; i < document.getElementsByTagName("li").length; i++) {
-      JobData jobData = JobData();
-      Pull pull = Pull();
+      if(!StopTheSave) {
+        JobData jobData = JobData();
+        Pull pull = Pull();
 
-      String title = document.getElementsByTagName("li")[i].text;
-      var EURL = await ExtractURL(document.getElementsByTagName("li")[i].innerHtml.toString());
-      jobData.url = EURL;
-      jobData = await pull.Load(EURL);
-      jobData.Location = await FindLocation(jobData);
+        String title = document.getElementsByTagName("li")[i].text;
+        var EURL = await ExtractURL(
+            document.getElementsByTagName("li")[i].innerHtml.toString());
+        jobData.url = EURL;
+        jobData = await pull.Load(EURL);
 
-      print("Length is " + jobData.VDetails.length.toString());
-      WriteToFirebase(jobData);
+        jobData.Location = await FindLocation(jobData);
+
+        print("Length is " + jobData.VDetails.length.toString());
+        WriteToFirebase(jobData);
+      }
+      else{
+        print("Saved Done");
+        break;
+      }
     }
 
   }

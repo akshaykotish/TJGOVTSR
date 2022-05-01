@@ -1,9 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:governmentapp/Files/CurrentJob.dart';
+import 'package:governmentapp/HexColors.dart';
+import 'package:governmentapp/JobData.dart';
+
+
+extension StringCasingExtension on String {
+  String toCapitalized() => length > 0 ?'${this[0].toUpperCase()}${substring(1).toLowerCase()}':'';
+  String toTitleCase() => replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toCapitalized()).join(' ');
+
+  String toShortForm()
+  {
+    String output = "";
+    for(int i=0; i<this.length; i++)
+    {
+      if(i == 0)
+      {
+        output += this[i];
+      }
+      else if(this[i-1] == ' ' && this[i].toUpperCase() == this[i])
+      {
+        output += this[i];
+      }
+      else if(this[i] == ',' || this[i] == '(' || this[i] == ')')
+      {
+        break;
+      }
+    }
+    return output;
+  }
+}
+
 
 class JobBox extends StatefulWidget {
 
+  JobData jobData;
   bool isClicked = false;
-  JobBox({required this.isClicked});
+  JobBox({required this.isClicked, required this.jobData});
 
 
 
@@ -12,95 +44,89 @@ class JobBox extends StatefulWidget {
 }
 
 class _JobBoxState extends State<JobBox> {
+
+  String GetShortForm(String text){
+    var output = "";
+
+    for(int i=0; i<text.length; i++)
+    {
+      if(i == 0)
+      {
+        output += text[i];
+      }
+      else if(text[i-1] == ' ')
+      {
+        output += text[i];
+      }
+      else if(text[i] == ',' || text[i] == '(' || text[i] == ')')
+      {
+        break;
+      }
+    }
+
+    return output;
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(
-        left: 30,
-        top: 20,
-        bottom: 20,
-      ),
-      padding: const EdgeInsets.only(
-        left: 30,
-        top: 10,
-        bottom: 10,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          topLeft: Radius.circular(20),
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          CurrentJob.currrentjobData = widget.jobData;
+          CurrentJob.CurrentJobStreamController.add(widget.jobData);
+        });
+      },
+      child: Container(
+        margin: const EdgeInsets.only(
+          left: 30,
+          top: 20,
+          bottom: 20,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(.1),
-            offset: const Offset(1, 1),
-            blurRadius: 1,
-            spreadRadius: 1,
+        padding: const EdgeInsets.only(
+          left: 10,
+          top: 10,
+          bottom: 10,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            topLeft: Radius.circular(20),
           ),
-          BoxShadow(
-            color: Colors.black.withOpacity(.1),
-            offset: -const Offset(1, 1),
-            blurRadius: 1,
-            spreadRadius: 1,
-          ),
-        ],
-        color: widget.isClicked ? Colors.blue : Colors.white,
-      ),
-      width: MediaQuery.of(context).size.width,
-      child: Row(
-        children: <Widget>[
-          Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                color:  widget.isClicked ? Colors.white : Colors.grey[300],
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: const Center(child: Text("SBI", style: TextStyle(fontSize: 20,),))),
-          ClipOval(
-            child: Container(
-              margin: const EdgeInsets.only(
-                left: 15,
-                bottom: 15,
-                top: 15,
-                right: 20,
-              ),
-              decoration: BoxDecoration(
-                color: widget.isClicked ? Colors.blue : Colors.grey[100],
-                border: Border.all(color: widget.isClicked ? Colors.blue : Colors.white, ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade300,
-                    spreadRadius: 1,
-                    blurRadius: 1,
-                    offset: Offset(1, 1),
-                  ),
-                ]
-              ),
-              width: 3,
-              height: 50,
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width/2 + 20,
-                child: Text("Senior branch manager", style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: widget.isClicked ? Colors.white : Colors.grey[800],
+          color: widget.isClicked ? Colors.blue : Colors.grey[200],
+        ),
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          children: <Widget>[
+            Container(
+                width: 85,
+                height: 85,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Center(child: Text(widget.jobData.Department.toShortForm().length > 4 ? widget.jobData.Department.toShortForm().substring(0, 4) : widget.jobData.Department.toShortForm(), style: TextStyle(fontSize: 25, color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.bold),))),
+            const SizedBox(width: 20,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width/2 + 20,
+                  child: Text(widget.jobData.Title.length > 75 ? widget.jobData.Title.substring(0, 75) + "..." : widget.jobData.Title, style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: widget.isClicked ? Colors.white : Colors.grey[800],
+                  ),),
+                ),
+                Text(widget.jobData.Short_Details.length > 30 ? widget.jobData.Short_Details.substring(0, 30) : widget.jobData.Short_Details, style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  color:  widget.isClicked ? Colors.white60 : Colors.grey[700],
                 ),),
-              ),
-              Text("Kaithal", style: TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.w600,
-                color:  widget.isClicked ? Colors.white60 : Colors.grey[700],
-              ),),
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

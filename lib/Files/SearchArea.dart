@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:governmentapp/Files/CurrentJob.dart';
+import 'package:governmentapp/Filtration/SearchSheet.dart';
 import 'package:governmentapp/HexColors.dart';
 
 class SearchArea extends StatefulWidget {
@@ -12,6 +14,7 @@ class _SearchAreaState extends State<SearchArea> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: ColorFromHexCode("#F4F6F7"),
       width: MediaQuery.of(context).size.width,
       height: 300,
       padding: EdgeInsets.all(30),
@@ -36,8 +39,8 @@ class _SearchAreaState extends State<SearchArea> {
               right: 0,
               bottom: 20,
             ),
-            decoration: const BoxDecoration(
-              color: Colors.white,
+            decoration: BoxDecoration(
+              color: ColorFromHexCode("#F4F6F7"),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,23 +63,30 @@ class _SearchAreaState extends State<SearchArea> {
                         offset: -Offset(.5,.5),
                       ),
                     ],
-                    color: Colors.white,
+                    color: ColorFromHexCode("#F4F6F7"),
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     top: 10,
                     left: 20,
                     bottom: 10,
                     right: 20,
                   ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(Icons.search, color: Colors.grey[900], size: 30,),
-                      SizedBox(width: 20,),
-                      Text("Search for a job...", style: TextStyle(fontSize: 18, color: Colors.grey[800]),),
-                    ],
+                  child: GestureDetector(
+                    onTap: () async {
+                      var ToSearches = await Navigator.push(context, MaterialPageRoute(builder: (context) => SearchSheet()));
+                      print("ToSearches: " + ToSearches.toString());
+                      CurrentJob.CurrentSearchData.add(ToSearches);
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.search, color: Colors.grey[900], size: 30,),
+                        SizedBox(width: 20,),
+                        Text("Search for a job...", style: TextStyle(fontSize: 18, color: Colors.grey[800]),),
+                      ],
+                    ),
                   ),
                 ),
                 Container(

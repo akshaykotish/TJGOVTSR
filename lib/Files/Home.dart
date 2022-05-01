@@ -5,8 +5,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
+import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Files/Header.dart';
 import 'package:governmentapp/Files/JobBoxs.dart';
+import 'package:governmentapp/Files/JobSheet.dart';
 import 'package:governmentapp/Files/PositionedSearchArea.dart';
 import 'package:governmentapp/Files/SearchArea.dart';
 import 'package:governmentapp/HexColors.dart';
@@ -34,8 +36,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   StreamController<List<JobData>> jobdatacontroller = StreamController<List<JobData>>();
 
+
   Stream Get_JobsData_In_RealTime() {
-    GetJobData();
+    //GetJobData();
     return jobdatacontroller.stream;
   }
 
@@ -43,12 +46,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   var SelectedStates = ["", ""];
   var selectedIntrest = ["", ""];
 
-
-  var Departments = <Widget>[];
-  var Jobs = <Widget>[];
-  var Saved = [1,5,6];
-
-  Map<String, List<JobData>> department_wise_jobs = Map<String, List<JobData>>();
 
 
   String GetShortName(String v){
@@ -75,191 +72,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     return output;
   }
 
-  void GetJobData(){
-    FirebaseFirestore.instance.collection("Jobs").snapshots().listen((event) {
 
-      int i = 0;
-      var jobs = <Widget>[];
-      event.docs.forEach((element) {
-        JobData jobData = new JobData();
-        jobData.Title = element.data()["Title"];
-        jobData.Department = element.data()["Department"];
-        jobData.Short_Details = element.data()["Short_Details"];
-        jobData.isSave = false;
+  JobData SheetjobData = JobData();
 
-        if(department_wise_jobs.containsKey(jobData.Department) == false)
-          {
-            department_wise_jobs[jobData.Department] = <JobData>[];
-          }
-
-        department_wise_jobs[jobData.Department]?.add(jobData);
-        //print(department_wise_jobs[jobData.Department]?.length);
-      });
-
-      print("Hello");
-      var _Departments = <Widget>[];
-      for(var v in department_wise_jobs.keys)
-      {
-        var AllJobs = <Widget>[];
-
-
-        for(int l=0; l<department_wise_jobs[v]!.length; l++)
-          {
-            AllJobs.add(
-
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.all(15),
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(15),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        //color: Colors.grey.shade400,
-                        color: Colors.grey.shade400.withOpacity(1),
-                        offset: const Offset(1, 1),
-                        blurRadius: 1,
-                        spreadRadius: 1,
-                      ),
-                      BoxShadow(
-                        //color: Colors.grey.shade400,
-                        color: Colors.grey.shade300.withOpacity(1),
-                        offset: const Offset(-1, 1),
-                        blurRadius: 1,
-                        spreadRadius: 1,
-                      ),
-                      BoxShadow(
-                        //color: Colors.grey.shade400,
-                        color: Colors.grey.shade200.withOpacity(1),
-                        offset: const Offset(1, -1),
-                        blurRadius: 1,
-                        spreadRadius: 1,
-                      ),
-                      BoxShadow(
-                        //color: Colors.grey.shade400,
-                        color: Colors.grey.shade100.withOpacity(1),
-                        offset: const Offset(-1, -1),
-                        blurRadius: 1,
-                        spreadRadius: 1,
-                      ),
-                    ],
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 40,
-                        child: Text(department_wise_jobs[v]![l].Title,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 40,
-                        child: Text(department_wise_jobs[v]![l].Department,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Color.fromRGBO(88, 88, 88, 1),
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width - 40,
-                        child: Text(department_wise_jobs[v]![l].Short_Details,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Color.fromRGBO(88, 88, 88, 1),
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children:  <Widget>[
-                          Row(
-                            children: const <Widget>[
-                              Icon(Icons.thumb_up_outlined),
-                              SizedBox(width: 5,),
-                              Text("0 Liked")
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Row(
-                            children: const <Widget>[
-                              Icon(Icons.remove_red_eye_outlined),
-                              SizedBox(width: 5,),
-                              Text("0 Views")
-                            ],
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-            );
-          }
-
-        _Departments.add(
-          Column(
-            children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.only(left: 15, right: 15, top: 15),
-                child: Row(
-                  children: <Widget>[
-                    const Text("Jobs in ",
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),),
-                    Text(GetShortName(v),
-                      style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold
-                      ),),
-                    const Text(" at ",
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),),
-                    const Icon(
-                      Icons.location_on_outlined,
-                    ),
-                    const Text("India ",
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold
-                      ),),
-                  ],
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: AllJobs,
-              )
-            ],
-          )
-        );
-
-
-        setState(() {
-          Departments = _Departments;
-        });
-      }
-
-
-    });
-
-
-  }
 
     @override
   void initState() {
@@ -267,9 +82,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       super.initState();
 //      GetJobData();
     scrollController.addListener(() {
-      print(scrollController.offset );
 
-      if(scrollController.offset.ceil() > 350)
+      if(scrollController.offset.ceil() > 400)
         {
           setState(() {
             PositionedSearchArea_Visible = true;
@@ -284,6 +98,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
 
       WidgetsBinding.instance?.addPostFrameCallback((_) => Animate());
+
+
+      if(!CurrentJob.currentjobStream.isBroadcast) {
+        CurrentJob.currentjobStream.listen((value) {
+          setState(() {
+            SheetjobData = value;
+          });
+        });
+      }
 
     }
 
@@ -317,6 +140,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        color: ColorFromHexCode("#F4F6F7"),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Stack(
@@ -327,8 +151,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 children: <Widget>[
                   Visibility(visible: !PositionedSearchArea_Visible ,child: Header()),
                   Visibility(visible: !PositionedSearchArea_Visible ,child: SearchArea()),
-                  JobBoxs(),
-
+                  const JobBoxs(),
+                  const SizedBox(height: 350,),
                 ],
               ),
             ),
@@ -351,26 +175,29 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               right: 0,
               height: MediaQuery.of(context).size.height,
               child: DraggableScrollableSheet(
-                    initialChildSize: .1,
-                    minChildSize: .05,
+                    initialChildSize: .10,
+                    minChildSize: .1,
                     maxChildSize: .84,
                     builder: (BuildContext context, ScrollController scrollController) {
                       return Container(
-                        color: Colors.white,
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: -const Offset(1, 1),
+                              blurRadius: 5,
+                              spreadRadius: 4,
+                              color: Colors.grey.shade300,
+                            ),
+                          ],
+                          color: Colors.white,
+                        ),
                         child: SingleChildScrollView(
                           controller: scrollController,
-                          child: Column(
-                            children: <Widget>[
-                              Text("Hello"),
-                              Text("Hello"),
-                              Text("Hello"),
-                              Text("Hello"),
-                              Text("Hello"),
-                              Text("Hello"),
-                              Text("Hello"),
-                              Text("Hello"),
-                            ],
-                          ),
+                          child: JobSheet(jobData: SheetjobData,)
                         ),
                       );
                     }),

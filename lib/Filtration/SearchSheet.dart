@@ -1,89 +1,68 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:governmentapp/ForUsers/ChooseInterest.dart';
+import 'package:governmentapp/DataPullers/AllPullers.dart';
+import 'package:governmentapp/ForUsers/ChooseState.dart';
+import 'package:governmentapp/HexColors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChooseState extends StatefulWidget {
-  const ChooseState({Key? key}) : super(key: key);
+class SearchSheet extends StatefulWidget {
+  const SearchSheet({Key? key}) : super(key: key);
 
   @override
-  State<ChooseState> createState() => _ChooseStateState();
+  State<SearchSheet> createState() => _SearchSheetState();
 }
 
-class _ChooseStateState extends State<ChooseState> {
-
-
+class _SearchSheetState extends State<SearchSheet> {
 
   TextEditingController textEditingController = TextEditingController();
 
   bool ShowHintBox = false;
 
-  var SelectedState = <String>[];
-  var SelectedStateWidget = <Widget>[];
+  var SelectedSearchWord = <String>[];
+  var SelectedSearchWordWidget = <Widget>[];
 
-  void RemoveItemFromSelectedState(var zbox)
+
+  void RemoveItemFromSelectedSearchWord(var zbox)
   {
     print(zbox);
 
-    if(SelectedState.length > zbox) {
-      SelectedState.removeAt(zbox);
-      LoadSelectedState();
+    if(SelectedSearchWord.length > zbox) {
+      SelectedSearchWord.removeAt(zbox);
+      LoadSelectedSearchWord();
     }
   }
 
-  void LoadSelectedState(){
-    var _SelectedStateWidget = <Widget>[];
 
-    for(int i=0; i<SelectedState.length; i++)
+  void LoadSelectedSearchWord(){
+    var _SelectedSearchWordWidget = <Widget>[];
+
+    for(int i=0; i<SelectedSearchWord.length; i++)
     {
       int zbox = i;
 
-      _SelectedStateWidget.add(
+      _SelectedSearchWordWidget.add(
           Container(
             width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(
+            margin:  const EdgeInsets.only(
               left: 20,
               top: 5,
               bottom: 5,
               right: 20,
             ),
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              color: Colors.white38,
+            padding:  const EdgeInsets.all(15),
+            decoration:  BoxDecoration(
+              color: Colors.grey.shade100,
               boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.shade500,
-                  offset: Offset(1, 1),
-                  blurRadius: 1,
-                  spreadRadius: 1,
-                ),
-                BoxShadow(
-                  color: Colors.grey.shade400,
-                  offset: Offset(1, 1),
-                  blurRadius: 1,
-                  spreadRadius: 1,
-                ),
-                BoxShadow(
-                  color: Colors.grey.shade300,
-                  offset: Offset(1, 1),
-                  blurRadius: 1,
-                  spreadRadius: 1,
-                ),
-                BoxShadow(
-                  color: Colors.grey.shade200,
-                  offset: Offset(1, 1),
-                  blurRadius: 1,
-                  spreadRadius: 1,
-                ),
               ],
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
             child: Row(
               children: <Widget>[
                 Container(
                     width:MediaQuery.of(context).size.width - 100,
-                    child: Text(SelectedState[i],
+                    child: Text(SelectedSearchWord[i],
                       style: const TextStyle(
                         color: Colors.black,
                       ),
@@ -92,7 +71,7 @@ class _ChooseStateState extends State<ChooseState> {
                 Container(
                   child: GestureDetector(
                     onTap: (){
-                      RemoveItemFromSelectedState(zbox);
+                      RemoveItemFromSelectedSearchWord(zbox);
                     },
                     child: const Icon(
                       Icons.remove_circle_outline_rounded,
@@ -107,30 +86,33 @@ class _ChooseStateState extends State<ChooseState> {
     }
 
     setState(() {
-      SelectedStateWidget = _SelectedStateWidget;
+      SelectedSearchWordWidget = _SelectedSearchWordWidget;
     });
   }
 
 
 
 
-  var ToFindStates = <String>["India","Andaman and Nicobar", "Andaman and Nicobar", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Orissa", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
+  var ToFindSearchSheetsData = ["Andaman and Nicobar", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Orissa", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
 
-  var ToFindStatesShowWidget = <Widget>[];
+  var ToFindSearchSheetsDataShowWidget = <Widget>[];
 
 
-  void FindState(e){
-    var _ToFindStatesShowWidget = <Widget>[];
+  void FindSearchWord(e){
 
-    for(int i=0; i<ToFindStates.length; i++)
+    var _ToFindSearchSheetsDataShowWidget = <Widget>[];
+
+    for(int i=0; i<ToFindSearchSheetsData.length && _ToFindSearchSheetsDataShowWidget.length < 3; i++)
     {
-      if(ToFindStates[i].toLowerCase().contains(e.toString().toLowerCase()))
+      if(ToFindSearchSheetsData[i].toLowerCase().contains(e.toString().toLowerCase()))
       {
-        _ToFindStatesShowWidget.add(
+        _ToFindSearchSheetsDataShowWidget.add(
           GestureDetector(
             onTap: (){
-              SelectedState.add(ToFindStates[i]);
-              LoadSelectedState();
+              SelectedSearchWord.add(ToFindSearchSheetsData[i]);
+
+              LoadSelectedSearchWord();
+
               textEditingController.text = "";
               setState(() {
                 ShowHintBox = false;
@@ -146,17 +128,18 @@ class _ChooseStateState extends State<ChooseState> {
               ),
               padding: EdgeInsets.all(10),
               color: Colors.grey[200],
-              child: Text(ToFindStates[i]),
+              child: Text(ToFindSearchSheetsData[i]),
             ),
           ),
         );
       }
     }
-    _ToFindStatesShowWidget.add(
+    _ToFindSearchSheetsDataShowWidget.add(
       GestureDetector(
         onTap: (){
-          SelectedState.add(e.toString());
-          LoadSelectedState();
+          SelectedSearchWord.add(e.toString());
+
+          LoadSelectedSearchWord();
           textEditingController.text = "";
           setState(() {
             ShowHintBox = false;
@@ -178,33 +161,60 @@ class _ChooseStateState extends State<ChooseState> {
     );
 
     setState(() {
-      ToFindStatesShowWidget = _ToFindStatesShowWidget;
+      ToFindSearchSheetsDataShowWidget = _ToFindSearchSheetsDataShowWidget;
       ShowHintBox = true;
     });
 
   }
 
 
-  Future<void> OnLoadSaved() async {
-    final prefs = await SharedPreferences.getInstance();
-    SelectedState = (await prefs.getStringList('UserStates'))!;
-
-    LoadSelectedState();
+  void LoadAllSearchSheetsData(){
+    FirebaseFirestore.instance.collection("Jobs").snapshots().listen((event) {
+      event.docs.forEach((element) {
+        //print(element.id);
+        ToFindSearchSheetsData.add(element.id);
+      });
+    });
   }
 
-  Future<void> SaveSelectedState() async {
+  Future<void> OnLoadSaved() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('UserStates', SelectedState);
+    SelectedSearchWord = (await prefs.getStringList('UserSearchSheetsData'))!;
 
-    //print(prefs.getStringList('UserDepartments'));
+    LoadSelectedSearchWord();
+  }
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseInterest()));
+  Future<void> SaveSelectedSearchSheetsData() async {
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('UserSearchSheetsData', SelectedSearchWord);
+    //print(prefs.getStringList('UserSearchSheetsData'));
+
+    //Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseState()));
+
+    Navigator.pop(context, SelectedSearchWord);
+  }
+
+
+  void LoadAllInterest(){
+    FirebaseFirestore.instance.collection("Interest").snapshots().listen((event) {
+      event.docs.forEach((element) {
+        //print(element.id);
+        ToFindSearchSheetsData.add(element.id);
+      });
+    });
   }
 
   @override
   void initState() {
-    OnLoadSaved();
+    LoadAllInterest();
+    LoadAllSearchSheetsData();
     super.initState();
+
+  }
+
+
+  void FN(){
 
   }
 
@@ -226,7 +236,7 @@ class _ChooseStateState extends State<ChooseState> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      const Text("Choose the States",
+                      const Text("Write the search keyword",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -236,16 +246,16 @@ class _ChooseStateState extends State<ChooseState> {
                         width: MediaQuery.of(context).size.width,
                         child: TextField (
                           controller: textEditingController,
-                          onChanged: (e){
-                            FindState(e);
+                          onChanged: (e){ 
+                            FindSearchWord(e);
                           },
                           decoration: InputDecoration(
                               border: InputBorder.none,
-                              labelText: 'Enter State Name Here',
+                              labelText: 'Your Search Keyword',
                               labelStyle: TextStyle(
                                 color: Colors.grey.shade400,
                               ),
-                              hintText: 'Haryana'
+                              hintText: 'Engineer, Irrigation SearchWord, Haryana'
                           ),
                         ),
                       ),
@@ -257,11 +267,15 @@ class _ChooseStateState extends State<ChooseState> {
             ),
             Positioned(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/4,
+              height: MediaQuery.of(context).size.height/1.5,
               top: MediaQuery.of(context).size.height/4,
               child: Container(
-                child: Column(
-                  children: SelectedStateWidget,
+                color: Colors.white,
+                height: MediaQuery.of(context).size.height/1.5,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: SelectedSearchWordWidget,
+                  ),
                 ),
               ),
             ),
@@ -276,7 +290,7 @@ class _ChooseStateState extends State<ChooseState> {
                   color: Colors.white,
                   child: SingleChildScrollView(
                     child: Column(
-                      children: ToFindStatesShowWidget,
+                      children: ToFindSearchSheetsDataShowWidget,
                     ),
                   ),
                 ),
@@ -289,12 +303,12 @@ class _ChooseStateState extends State<ChooseState> {
               height: 60,
               child: GestureDetector(
                 onTap: (){
-                  SaveSelectedState();
+                  SaveSelectedSearchSheetsData();
                 },
                 child: Container(
                   color: Colors.grey[900],
                   child: const Center(child: Text(
-                    "Proceed",
+                    "Apply",
                     style: TextStyle(fontSize: 18,
                       color: Colors.white,
                       fontWeight: FontWeight.w500,

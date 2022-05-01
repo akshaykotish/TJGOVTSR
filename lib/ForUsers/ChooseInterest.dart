@@ -1,6 +1,10 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Files/Home.dart';
 
 class ChooseInterest extends StatefulWidget {
   const ChooseInterest({Key? key}) : super(key: key);
@@ -15,27 +19,27 @@ class _ChooseInterestState extends State<ChooseInterest> {
 
   bool ShowHintBox = false;
 
-  var SelectedState = <String>[];
-  var SelectedStateWidget = <Widget>[];
+  var SelectedInterest = <String>[];
+  var SelectedInterestWidget = <Widget>[];
 
-  void RemoveItemFromSelectedState(var zbox)
+  void RemoveItemFromSelectedInterest(var zbox)
   {
     print(zbox);
 
-    if(SelectedState.length > zbox) {
-      SelectedState.removeAt(zbox);
-      LoadSelectedState();
+    if(SelectedInterest.length > zbox) {
+      SelectedInterest.removeAt(zbox);
+      LoadSelectedInterest();
     }
   }
 
-  void LoadSelectedState(){
-    var _SelectedStateWidget = <Widget>[];
+  void LoadSelectedInterest(){
+    var _SelectedInterestWidget = <Widget>[];
 
-    for(int i=0; i<SelectedState.length; i++)
+    for(int i=0; i<SelectedInterest.length; i++)
     {
       int zbox = i;
 
-      _SelectedStateWidget.add(
+      _SelectedInterestWidget.add(
           Container(
             width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.only(
@@ -79,7 +83,7 @@ class _ChooseInterestState extends State<ChooseInterest> {
               children: <Widget>[
                 Container(
                     width:MediaQuery.of(context).size.width - 100,
-                    child: Text(SelectedState[i],
+                    child: Text(SelectedInterest[i],
                       style: const TextStyle(
                         color: Colors.black,
                       ),
@@ -88,7 +92,7 @@ class _ChooseInterestState extends State<ChooseInterest> {
                 Container(
                   child: GestureDetector(
                     onTap: (){
-                      RemoveItemFromSelectedState(zbox);
+                      RemoveItemFromSelectedInterest(zbox);
                     },
                     child: const Icon(
                       Icons.remove_circle_outline_rounded,
@@ -103,7 +107,7 @@ class _ChooseInterestState extends State<ChooseInterest> {
     }
 
     setState(() {
-      SelectedStateWidget = _SelectedStateWidget;
+      SelectedInterestWidget = _SelectedInterestWidget;
     });
   }
 
@@ -125,8 +129,8 @@ class _ChooseInterestState extends State<ChooseInterest> {
         _ToFindInterestShowWidget.add(
           GestureDetector(
             onTap: (){
-              SelectedState.add(ToFindInterest[i].toUpperCase());
-              LoadSelectedState();
+              SelectedInterest.add(ToFindInterest[i]);
+              LoadSelectedInterest();
               textEditingController.text = "";
               setState(() {
                 ShowHintBox = false;
@@ -142,7 +146,7 @@ class _ChooseInterestState extends State<ChooseInterest> {
               ),
               padding: EdgeInsets.all(10),
               color: Colors.grey[200],
-              child: Text(ToFindInterest[i].toUpperCase()),
+              child: Text(ToFindInterest[i]),
             ),
           ),
         );
@@ -151,8 +155,9 @@ class _ChooseInterestState extends State<ChooseInterest> {
     _ToFindInterestShowWidget.add(
       GestureDetector(
         onTap: (){
-          SelectedState.add(e.toString().toUpperCase());
-          LoadSelectedState();
+          SelectedInterest.add(e.toString());
+          CheckAndSave(e.toString());
+          LoadSelectedInterest();
           textEditingController.text = "";
           setState(() {
             ShowHintBox = false;
@@ -168,7 +173,7 @@ class _ChooseInterestState extends State<ChooseInterest> {
           ),
           padding: EdgeInsets.all(10),
           color: Colors.grey[200],
-          child: Text(e.toString().toUpperCase()),
+          child: Text(e.toString()),
         ),
       ),
     );
@@ -180,10 +185,47 @@ class _ChooseInterestState extends State<ChooseInterest> {
 
   }
 
+
+  void LoadAllInterest(){
+    FirebaseFirestore.instance.collection("Interest").snapshots().listen((event) {
+      event.docs.forEach((element) {
+        //print(element.id);
+        ToFindInterest.add(element.id);
+      });
+    });
+  }
+
+  void CheckAndSave(String e){
+    FirebaseFirestore.instance.collection("Interest").doc(e).get().then((value){
+      if(!value.exists)
+        {
+          FirebaseFirestore.instance.collection("Interest").doc(e).set({});
+        }
+    });
+  }
+
+  Future<void> OnLoadSaved() async {
+    final prefs = await SharedPreferences.getInstance();
+    SelectedInterest = (await prefs.getStringList('UserInterest'))!;
+
+    LoadSelectedInterest();
+  }
+
+  Future<void> SaveSelectedInterest() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('UserInterest', SelectedInterest);
+
+    //print(prefs.getStringList('UserDepartments'));
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+  }
+
+
   @override
   void initState() {
+    LoadAllInterest();
+    OnLoadSaved();
     super.initState();
-
   }
 
   @override
@@ -239,7 +281,7 @@ class _ChooseInterestState extends State<ChooseInterest> {
               top: MediaQuery.of(context).size.height/4,
               child: Container(
                 child: Column(
-                  children: SelectedStateWidget,
+                  children: SelectedInterestWidget,
                 ),
               ),
             ),
@@ -265,15 +307,20 @@ class _ChooseInterestState extends State<ChooseInterest> {
               left: 0,
               right: 0,
               height: 60,
-              child: Container(
-                color: Colors.grey[900],
-                child: const Center(child: Text(
-                  "Proceed",
-                  style: TextStyle(fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
-                )),
+              child: GestureDetector(
+                onTap: (){
+                  SaveSelectedInterest();
+                },
+                child: Container(
+                  color: Colors.grey[900],
+                  child: const Center(child: Text(
+                    "Proceed",
+                    style: TextStyle(fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  )),
+                ),
               ),
             )
           ]

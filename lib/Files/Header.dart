@@ -12,6 +12,7 @@ class _HeaderState extends State<Header> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: ColorFromHexCode("#F4F6F7"),
       margin: const EdgeInsets.only(
         left: 15,
         top: 70,
