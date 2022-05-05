@@ -255,7 +255,7 @@ class _SearchSheetState extends State<SearchSheet> {
                               labelStyle: TextStyle(
                                 color: Colors.grey.shade400,
                               ),
-                              hintText: 'Engineer, Irrigation SearchWord, Haryana'
+                              hintText: 'Engineer, Irrigation, Haryana'
                           ),
                         ),
                       ),

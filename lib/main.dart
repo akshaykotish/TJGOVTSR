@@ -3,7 +3,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
+import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Files/Home.dart';
+import 'package:governmentapp/Filtration/FilterPage.dart';
 import 'package:governmentapp/Filtration/SearchSheet.dart';
 import 'package:governmentapp/ForUsers/ChooseDepartment.dart';
 import 'package:governmentapp/Temp.dart';
@@ -23,6 +25,7 @@ Future<void> main() async {
   JobsFetcher jobsFetcher = new JobsFetcher();
   jobsFetcher.Load();
 
+  CurrentJob.Listen();
 
   runApp(const MyApp());
 }
@@ -34,6 +37,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         fontFamily: 'Poppins',

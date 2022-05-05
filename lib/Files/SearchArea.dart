@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
+import 'package:governmentapp/Filtration/FilterPage.dart';
 import 'package:governmentapp/Filtration/SearchSheet.dart';
 import 'package:governmentapp/HexColors.dart';
 
@@ -89,19 +90,24 @@ class _SearchAreaState extends State<SearchArea> {
                     ),
                   ),
                 ),
-                Container(
-                  width: 60,
-                  height: 60,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: ColorFromHexCode("#3498DB"),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.filter_list_outlined,
-                      color: ColorFromHexCode("#F4F6F7"),
-                      size: 35,
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterPage()));
+                  },
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: ColorFromHexCode("#3498DB"),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.filter_list_outlined,
+                        color: ColorFromHexCode("#F4F6F7"),
+                        size: 35,
+                      ),
                     ),
                   ),
                 )

@@ -99,16 +99,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
       WidgetsBinding.instance?.addPostFrameCallback((_) => Animate());
 
-
-      if(!CurrentJob.currentjobStream.isBroadcast) {
-        CurrentJob.currentjobStream.listen((value) {
-          setState(() {
-            SheetjobData = value;
-          });
+      CurrentJob.currentjobStreamToCall = (value) {
+        setState(() {
+          SheetjobData = value;
         });
-      }
-
+      };
     }
+
 
     void Animate(){
       _animationController = AnimationController(

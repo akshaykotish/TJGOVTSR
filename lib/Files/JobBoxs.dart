@@ -189,14 +189,12 @@ class _JobBoxsState extends State<JobBoxs> {
   void initState() {
     LoadJobs();
 
-      if (!CurrentJob.CurrentSearchDataStream.isBroadcast) {
-        CurrentJob.CurrentSearchDataStream.listen((event) {
-          setState(() {
-            ToSearchKeywords = event;
-            LoadSearchJobs(ToSearchKeywords);
-          });
-        });
-      }
+    CurrentJob.currentSearchDataStreamToCall = (value){
+      setState(() {
+        ToSearchKeywords = value;
+        LoadSearchJobs(ToSearchKeywords);
+      });
+    };
 
     super.initState();
   }
