@@ -31,8 +31,8 @@ Future<void> main() async {
   CurrentJob.Listen();
 
 
-  Sumi sumi = new Sumi();
-  sumi.Execute();
+  //Sumi sumi = new Sumi();
+  //sumi.Execute();
 
   runApp(const MyApp());
 }

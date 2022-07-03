@@ -665,7 +665,7 @@ class JobsFetcher{
 
     LSID = await LastSaveID();
     
-    var url = Uri.parse("");
+    var url = Uri.parse("https://www.sarkariresult.com/latestjob/");
     String pagedata = await http.read(url);
     var document = parse(pagedata);
 
