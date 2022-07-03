@@ -11,6 +11,8 @@ import 'package:governmentapp/Files/JobBoxs.dart';
 import 'package:governmentapp/Files/JobSheet.dart';
 import 'package:governmentapp/Files/PositionedSearchArea.dart';
 import 'package:governmentapp/Files/SearchArea.dart';
+import 'package:governmentapp/Filtration/FilterPage.dart';
+import 'package:governmentapp/ForUsers/ChooseDepartment.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/JobData.dart';
 import 'package:governmentapp/JobObject.dart';
@@ -25,6 +27,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+
+  var initialchildsize = .10;
+  late DraggableScrollableController draggableScrollableController;
 
   late Animation _animation;
   late AnimationController _animationController;
@@ -78,12 +83,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
     @override
   void initState() {
+      draggableScrollableController = DraggableScrollableController();
 
       super.initState();
 //      GetJobData();
     scrollController.addListener(() {
 
-      if(scrollController.offset.ceil() > 400)
+      if(scrollController.offset.ceil() > 250)
         {
           setState(() {
             PositionedSearchArea_Visible = true;
@@ -101,6 +107,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
       CurrentJob.currentjobStreamToCall = (value) {
         setState(() {
+          initialchildsize = .9;
+          draggableScrollableController.animateTo(0.9, duration: Duration(milliseconds: 500), curve: Curves.easeIn);
           SheetjobData = value;
         });
       };
@@ -149,6 +157,34 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                   Visibility(visible: !PositionedSearchArea_Visible ,child: Header()),
                   Visibility(visible: !PositionedSearchArea_Visible ,child: SearchArea()),
                   const JobBoxs(),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseDepartment()));
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.center,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: Text("If you don't find what are you looking for", style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                child: Text("click to ", style: TextStyle(color: Colors.black.withOpacity(0.4), fontWeight: FontWeight.bold,), textAlign: TextAlign.center,),
+                              ),
+                              Container(
+                                  child: Text("try with some more filters", style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)),
+                              SizedBox(width: 5,),
+                              Icon(Icons.filter_list_outlined, color: Colors.grey[400],)
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 350,),
                 ],
               ),
@@ -159,22 +195,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               top: 0,
               right: 0,
               child: AnimatedOpacity(
-                duration: Duration(seconds: 1,),
+                duration: Duration(milliseconds: 100,),
                 opacity: PositionedSearchArea_Visible ? 1 : 0,
                 child: Visibility(
                     visible: PositionedSearchArea_Visible,
                     child: PositionedSearchArea()),
               ),),
-
             Positioned(
               bottom: 0,
               left: 0,
               right: 0,
               height: MediaQuery.of(context).size.height,
               child: DraggableScrollableSheet(
-                    initialChildSize: .10,
+                  controller: draggableScrollableController,
+                    initialChildSize: initialchildsize,
                     minChildSize: .1,
-                    maxChildSize: .84,
+                    maxChildSize: .9,
                     builder: (BuildContext context, ScrollController scrollController) {
                       return Container(
                         decoration: BoxDecoration(
@@ -185,12 +221,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                           boxShadow: [
                             BoxShadow(
                               offset: -const Offset(1, 1),
-                              blurRadius: 5,
-                              spreadRadius: 4,
+                              blurRadius: 1,
+                              spreadRadius: 1,
                               color: Colors.grey.shade300,
                             ),
                           ],
-                          color: Colors.white,
                         ),
                         child: SingleChildScrollView(
                           controller: scrollController,
@@ -199,7 +234,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       );
                     }),
                     ),
-
           ],
         ),
       ),

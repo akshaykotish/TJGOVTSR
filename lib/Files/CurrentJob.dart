@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:governmentapp/JobData.dart';
 
 class CurrentJob{
@@ -14,20 +16,38 @@ class CurrentJob{
   static Stream currentSearchDataStream = CurrentSearchData.stream;
   static late Function currentSearchDataStreamToCall;
 
+  static late Function currentjobStreamForVacanciesToCall;
+
+
+  static StreamController<String> LovedJobsData = StreamController<String>();
+  static Stream lovedjobDataStream = LovedJobsData.stream;
+  static late Function lovedjobDataStreamToCall;
+
 
   static void Listen(){
-    currentjobStream.listen((event) {
+    currentjobStream.listen((event) async {
       if(currentjobStreamToCall != null)
       {
         currentjobStreamToCall(event);
       }
+      if(currentjobStreamForVacanciesToCall != null)
+        {
+          currentjobStreamForVacanciesToCall(event);
+        }
     });
 
     currentSearchDataStream.listen((event) {
       if(currentSearchDataStreamToCall != null)
       {
-        currentSearchDataStreamToCall(event);
+         currentSearchDataStreamToCall(event);
       }
+    });
+
+    lovedjobDataStream.listen((event) {
+      if(lovedjobDataStreamToCall != null)
+        {
+          lovedjobDataStreamToCall();
+        }
     });
   }
 
@@ -36,4 +56,6 @@ class CurrentJob{
   CurrentJob(jdata){
     currrentjobData = jdata;
   }
+
+
 }

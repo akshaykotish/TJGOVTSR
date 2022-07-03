@@ -3,15 +3,14 @@ import 'package:governmentapp/Files/JobBox.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/JobData.dart';
 
-
 class DepartmentBox extends StatefulWidget {
 
 
 
   String DepartmentName = "";
-  var jobDatas;
+  List<JobBox> jobboxes = <JobBox>[];
 
-  DepartmentBox({required this.DepartmentName, required this.jobDatas});
+  DepartmentBox({required this.DepartmentName, required this.jobboxes});
 
   @override
   State<DepartmentBox> createState() => _DepartmentBoxState();
@@ -19,28 +18,8 @@ class DepartmentBox extends StatefulWidget {
 
 class _DepartmentBoxState extends State<DepartmentBox> {
 
-  var AllJobs = <JobBox>[];
-
-  void LoadJobs(){
-    var _AllJobs = <JobBox>[];
-
-    print("Last: " + widget.jobDatas.length.toString());
-
-    for(var i=0; i<widget.jobDatas.length; i++)
-    {
-      _AllJobs.add(
-          JobBox(isClicked: false, jobData: widget.jobDatas[i],)
-      );
-    }
-
-    setState(() {
-      AllJobs = _AllJobs;
-    });
-  }
-
   @override
   void initState() {
-    LoadJobs();
     super.initState();
   }
 
@@ -68,7 +47,7 @@ class _DepartmentBoxState extends State<DepartmentBox> {
             ),
           ),
           Column(
-            children: AllJobs,
+            children: widget.jobboxes,
           ),
         ],
       ),

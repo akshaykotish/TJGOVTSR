@@ -58,10 +58,7 @@ class _FilterPageState extends State<FilterPage> {
               right: 5,
             ),
             padding:  const EdgeInsets.all(5),
-            decoration:  BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
+
             child: Row(
               children: <Widget>[
                 Container(
@@ -69,6 +66,8 @@ class _FilterPageState extends State<FilterPage> {
                     child: Text(SelectedDepartment[i],
                       style: const TextStyle(
                         color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "Poppins"
                       ),
                     )
                 ),
@@ -182,69 +181,100 @@ class _FilterPageState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 100,
-              child: SingleChildScrollView(
-              child: Container(
-                padding: const EdgeInsets.only(
-                  top: 70,
-                  left: 10,
-                  right: 10,
-                  bottom: 10
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text("Look at your filters", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),),
-                    const SizedBox(height: 20,),
-                    const Text("Departments", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
-                    Column(
-                      children: SelectedDepartmentWidget,
-                    ),
-                    const SizedBox(height: 20,),
-                    const Text("States", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
-                    Column(
-                      children: SelectedStateWidget,
-                    ),
-                    const SizedBox(height: 20,),
-                    const Text("Interest", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
-                    Column(
-                      children: SelectedInterestWidget,
-                    ),
-                  ],
-                ),
-              ),
-          ),
-            ),
-            Positioned(
-                bottom: 0,
+      body: GestureDetector(
+        onTap: (){
+          Navigator.pop(context);
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseDepartment()));
+        },
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
                 left: 0,
                 right: 0,
-                height: 60,
-                child: GestureDetector(
-                  onTap: (){
-                    Navigator.pop(context);
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseDepartment()));
-                  },
-                  child: Container(
-                    color: Colors.grey[900],
-                    child: const Center(child: Text(
-                      "Edit",
-                      style: TextStyle(fontSize: 18,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )),
+                bottom: 100,
+                child: SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.only(
+                    top: 70,
+                    left: 10,
+                    right: 10,
+                    bottom: 10
                   ),
-                ),)
-          ]
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Filtering Jobs", style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.grey[800]),),
+                      const SizedBox(height: 20,),
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade200,
+                                spreadRadius: 6,
+                                blurRadius: 13.0,
+                                offset:const Offset(5, 5),
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(20)
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 20,),
+                            Text("Departments", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
+                            Column(
+                              children: SelectedDepartmentWidget,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 20,),
+                      const Text("States", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
+                      Column(
+                        children: SelectedStateWidget,
+                      ),
+                      const SizedBox(height: 20,),
+                      const Text("Interest", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
+                      Column(
+                        children: SelectedInterestWidget,
+                      ),
+
+                    ],
+                  ),
+
+                ),
+            ),
+              ),
+              Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: 60,
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.pop(context);
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseDepartment()));
+                    },
+                    child: Container(
+                      color: Colors.grey[900],
+                      child: const Center(child: Text(
+                        "Add/Edit Your Filters",
+                        style: TextStyle(fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
+                    ),
+                  ),)
+            ]
+          ),
         ),
       ),
     );

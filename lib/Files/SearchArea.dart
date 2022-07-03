@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Filtration/FilterPage.dart';
 import 'package:governmentapp/Filtration/SearchSheet.dart';
+import 'package:governmentapp/ForUsers/ChooseDepartment.dart';
 import 'package:governmentapp/HexColors.dart';
 
 class SearchArea extends StatefulWidget {
@@ -92,7 +93,7 @@ class _SearchAreaState extends State<SearchArea> {
                 ),
                 GestureDetector(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>FilterPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseDepartment()));
                   },
                   child: Container(
                     width: 60,

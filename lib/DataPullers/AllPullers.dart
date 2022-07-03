@@ -1,14 +1,10 @@
 import 'dart:math';
 
 import 'package:governmentapp/JobData.dart';
-import 'package:governmentapp/JobObject.dart';
-import 'package:governmentapp/ShowJob.dart';
 import 'package:governmentapp/VacancyDetails.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 import 'package:html/parser.dart' show parse;
-import 'package:governmentapp/VacancyDetails.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
@@ -454,13 +450,9 @@ class Pull{
         {
           Contains_PostDatas(Data);
         }
-
-
       }
 
       Save_Job();
-
-
    }
     catch(e)
     {
@@ -500,6 +492,8 @@ class Pull{
 
 
 class JobsFetcher{
+
+  var islogged = false;
 
   String ExtractURL(String data){
     var res = data.indexOf('href="');
@@ -597,11 +591,15 @@ class JobsFetcher{
                 }
               }
 
-              FirebaseFirestore.instance.collection('Logs')
-                  .doc("LastSavedID")
-                  .set({
-                "JobId": DocumentID,
-              });
+              if(islogged == false) {
+                FirebaseFirestore.instance.collection('Logs')
+                    .doc("LastSavedID")
+                    .set({
+                  "JobId": DocumentID,
+                }).then((value) {
+                  islogged = true;
+                });
+              }
 
               return true;
             }
@@ -667,15 +665,15 @@ class JobsFetcher{
 
     LSID = await LastSaveID();
     
-    var url = Uri.parse("https://www.sarkariresult.com/latestjob/");
+    var url = Uri.parse("");
     String pagedata = await http.read(url);
     var document = parse(pagedata);
 
     //print(document.getElementsByTagName("li")[20].text);
     //print(document.getElementsByTagName("li")[20].innerHtml);
-    //print(ExtractURL(document.getElementsByTagName("li")[20].innerHtml));
+    //print(ExtractURL(document.getElementsBhttps://www.sarkariresult.com/latestjob/yTagName("li")[20].innerHtml));
 
-    //var URLLink = ExtractURL(document.getElementsByTagName("li")[20].innerHtml);
+    //var URLLink = ExtractURL(document.getElementsByTagName("li")[20 ].innerHtml);
 
 
 

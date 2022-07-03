@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/HexColors.dart';
 
 class Header extends StatefulWidget {
@@ -30,22 +31,29 @@ class _HeaderState extends State<Header> {
             padding: EdgeInsets.all(10),
             child: const Center(child: Text("#BornToProud", style: TextStyle(fontFamily: "Poppins", fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black),)),
           ),
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: ColorFromHexCode("#3498DB"),
-            ),
-            padding: const EdgeInsets.all(5),
-            child: Center(
-              child: Icon(
-                Icons.favorite_outlined,
-                color: ColorFromHexCode("#F4F6F7")
-              ),
-            ),
 
+      GestureDetector(
+        onTap: (){
+          CurrentJob.LovedJobsData.add("Loved");
+        },
+        child: Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            color: ColorFromHexCode("#3498DB"),
           ),
+          padding: const EdgeInsets.all(5),
+          child: Center(
+            child: Icon(
+                Icons.favorite_outlined,
+                color: ColorFromHexCode("#F4F6F7"),
+            ),
+          ),
+        ),
+      )
+
+
         ],
       ),
     );

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/HexColors.dart';
@@ -75,7 +77,9 @@ class _JobBoxState extends State<JobBox> {
         setState(() {
           CurrentJob.currrentjobData = widget.jobData;
           CurrentJob.CurrentJobStreamController.add(widget.jobData);
+
         });
+
       },
       child: Container(
         margin: const EdgeInsets.only(
