@@ -23,6 +23,7 @@ class _JobBoxsState extends State<JobBoxs> {
   var UserIntrests = <String>[];
   var AllDepartmentsList = <Widget>[];
   var LovedJobs = <String>[];
+  bool isloved = false;
 
 
   Future<void> LoadPrefs() async {
@@ -36,7 +37,7 @@ class _JobBoxsState extends State<JobBoxs> {
   }
 
 
-  Future<void> Load_My_Jobs(String keyword, bool isloved)
+  Future<void> Load_My_Jobs(String keyword)
   async {
 
     print("Loading Pref Started");
@@ -70,7 +71,14 @@ class _JobBoxsState extends State<JobBoxs> {
         statesToSearch.isEmpty ? statesToSearch.add("INDIA") : statesToSearch;
 
         await Future.forEach(statesToSearch, (state) async {
-          var Jobs = await ref.collection("Jobs" + "/" + department.id + "/" + state.toString().toUpperCase()).get();
+          var Jobs;
+          try {
+             Jobs = await ref.collection("Jobs" + "/" + department.id + "/" +
+                state.toString().toUpperCase()).get();
+          }
+          catch(e){
+
+          }
           for (var job in Jobs.docs) {
 
             if(job.data()["Title"].toString().toLowerCase().contains(keyword.toLowerCase()) || job.data()["Department"].toString().toLowerCase().contains(keyword.toLowerCase()))
@@ -125,13 +133,16 @@ class _JobBoxsState extends State<JobBoxs> {
                   });
                 });
 
-                if(!_ToShowJobs.containsKey(jobData.Department))
-                  {
+                if((isloved && LovedJobs.contains(jobData.Key) && (keyword == "" || jobData.Title.toLowerCase().contains(keyword.toLowerCase()) || jobData.Department.toLowerCase().contains(keyword.toLowerCase()) || jobData.Location.toLowerCase().contains(keyword.toLowerCase()))) || (!isloved && (keyword == "" || jobData.Title.toLowerCase().contains(keyword.toLowerCase()) || jobData.Department.toLowerCase().contains(keyword.toLowerCase()) || jobData.Location.toLowerCase().contains(keyword.toLowerCase())))) {
+
+                  if (!_ToShowJobs.containsKey(jobData.Department)) {
                     _ToShowJobs[jobData.Department] = <JobBox>[];
                   }
 
-                _ToShowJobs[jobData.Department]!.add(JobBox(isClicked: false, jobData: jobData));
-                print(_ToShowJobs.length.toString() + " is lenght");
+                  _ToShowJobs[jobData.Department]!.add(
+                      JobBox(isClicked: false, jobData: jobData));
+                  print(_ToShowJobs.length.toString() + " is lenght");
+                }
               }
 
           }
@@ -149,9 +160,6 @@ class _JobBoxsState extends State<JobBoxs> {
          });
        }
 
-
-
-      //});
     }
 
 
@@ -163,7 +171,7 @@ class _JobBoxsState extends State<JobBoxs> {
 
   @override
   void initState() {
-    Load_My_Jobs("Haryana", false);
+    Load_My_Jobs("Clerk");
     super.initState();
   }
 
