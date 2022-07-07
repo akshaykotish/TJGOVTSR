@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
 import 'package:governmentapp/DataPullers/HeaderIdentifiers.dart';
+import 'package:governmentapp/DataPullers/JobsManager.dart';
 import 'package:governmentapp/DataPullers/Sumi.dart';
 import 'package:governmentapp/DataPullers/TempAllJobs.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
@@ -28,7 +29,10 @@ Future<void> main() async {
   jobsFetcher.Load();
 
 
-  CurrentJob.Listen();
+  //CurrentJob.Listen();
+
+  JobsManager.init();
+  JobsManager.LoadAllJobs();
 
 
   //Sumi sumi = new Sumi();
