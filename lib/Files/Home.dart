@@ -85,6 +85,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   void initState() {
       draggableScrollableController = DraggableScrollableController();
 
+      print("HELLLLLLO");
+      CurrentJob.currentjobStreamToCall = (value) {
+        print("OKAYBRO");
+        setState(() {
+          initialchildsize = .9;
+          draggableScrollableController.animateTo(0.9, duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+          SheetjobData = value;
+        });
+      };
+
       super.initState();
 //      GetJobData();
     scrollController.addListener(() {
@@ -105,13 +115,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
       WidgetsBinding.instance?.addPostFrameCallback((_) => Animate());
 
-      CurrentJob.currentjobStreamToCall = (value) {
-        setState(() {
-          initialchildsize = .9;
-          draggableScrollableController.animateTo(0.9, duration: Duration(milliseconds: 500), curve: Curves.easeIn);
-          SheetjobData = value;
-        });
-      };
     }
 
 

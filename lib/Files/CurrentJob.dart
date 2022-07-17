@@ -26,8 +26,10 @@ class CurrentJob{
 
   static void Listen(){
     currentjobStream.listen((event) async {
+      print("CAlled1");
       if(currentjobStreamToCall != null)
       {
+        print("CAlled2");
         currentjobStreamToCall(event);
       }
       if(currentjobStreamForVacanciesToCall != null)

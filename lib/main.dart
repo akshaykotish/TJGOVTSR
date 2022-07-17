@@ -32,7 +32,7 @@ Future<void> main() async {
   //CurrentJob.Listen();
 
   JobsManager.init();
-  JobsManager.LoadAllJobs();
+  JobsManager.LoadJobsData();
 
 
   //Sumi sumi = new Sumi();

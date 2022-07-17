@@ -74,12 +74,16 @@ class _JobBoxState extends State<JobBox> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        setState(() {
-          CurrentJob.currrentjobData = widget.jobData;
-          CurrentJob.CurrentJobStreamController.add(widget.jobData);
+        //CurrentJob.currrentjobData = widget.jobData;
+        CurrentJob.CurrentJobStreamController.add(widget.jobData);
 
-        });
-
+        if(CurrentJob.currentjobStreamToCall != null)
+          {
+            CurrentJob.currentjobStreamToCall(widget.jobData);
+            CurrentJob.currentjobStreamForVacanciesToCall(widget.jobData);
+            print("AOAKDOAODPKFOF");
+          }
+        print("AOAKDOAODPKFOF");
       },
       child: Container(
         margin: const EdgeInsets.only(
