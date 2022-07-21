@@ -663,41 +663,47 @@ class JobsFetcher{
 
   Future<void> Load() async {
 
-    LSID = await LastSaveID();
-    
-    var url = Uri.parse("https://www.sarkariresult.com/latestjob/");
-    String pagedata = await http.read(url);
-    var document = parse(pagedata);
+    try {
+      LSID = await LastSaveID();
 
-    //print(document.getElementsByTagName("li")[20].text);
-    //print(document.getElementsByTagName("li")[20].innerHtml);
-    //print(ExtractURL(document.getElementsBhttps://www.sarkariresult.com/latestjob/yTagName("li")[20].innerHtml));
+      var url = Uri.parse("https://www.sarkariresult.com/latestjob/");
+      String pagedata = await http.read(url);
+      var document = parse(pagedata);
 
-    //var URLLink = ExtractURL(document.getElementsByTagName("li")[20 ].innerHtml);
+      //print(document.getElementsByTagName("li")[20].text);
+      //print(document.getElementsByTagName("li")[20].innerHtml);
+      //print(ExtractURL(document.getElementsBhttps://www.sarkariresult.com/latestjob/yTagName("li")[20].innerHtml));
+
+      //var URLLink = ExtractURL(document.getElementsByTagName("li")[20 ].innerHtml);
 
 
+      for (int i = 20; i < document
+          .getElementsByTagName("li")
+          .length; i++) {
+        if (!StopTheSave) {
+          JobData jobData = JobData();
+          Pull pull = Pull();
 
-    for (int i = 20; i < document.getElementsByTagName("li").length; i++) {
-      if(!StopTheSave) {
-        JobData jobData = JobData();
-        Pull pull = Pull();
+          String title = document.getElementsByTagName("li")[i].text;
+          var EURL = await ExtractURL(
+              document.getElementsByTagName("li")[i].innerHtml.toString());
+          jobData.url = EURL;
+          jobData = await pull.Load(EURL);
 
-        String title = document.getElementsByTagName("li")[i].text;
-        var EURL = await ExtractURL(
-            document.getElementsByTagName("li")[i].innerHtml.toString());
-        jobData.url = EURL;
-        jobData = await pull.Load(EURL);
+          jobData.Location = await FindLocation(jobData);
 
-        jobData.Location = await FindLocation(jobData);
-
-        print("Length is " + jobData.VDetails.length.toString());
-        WriteToFirebase(jobData);
-      }
-      else{
-        print("Saved Done");
-        break;
+          print("Length is " + jobData.VDetails.length.toString());
+          WriteToFirebase(jobData);
+        }
+        else {
+          print("Saved Done");
+          break;
+        }
       }
     }
-
+    catch(E)
+    {
+      //print(E);
+    }
   }
 }

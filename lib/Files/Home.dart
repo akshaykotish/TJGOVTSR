@@ -170,6 +170,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       child: Column(
                         children: <Widget>[
                           Container(
+                            child: Image.asset("assets/images/loading.gif"),
+                            width: 100,
+                            height: 50,
+                          ),
+                          SizedBox(height: 10,),
+                          Container(
                               width: MediaQuery.of(context).size.width,
                               child: Text("If you don't find what are you looking for", style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)),
                           Row(

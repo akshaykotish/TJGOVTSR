@@ -2,11 +2,15 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:governmentapp/BackgroundFuncs.dart';
+import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
+import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
 import 'package:governmentapp/DataPullers/HeaderIdentifiers.dart';
 import 'package:governmentapp/DataPullers/JobsManager.dart';
 import 'package:governmentapp/DataPullers/Sumi.dart';
 import 'package:governmentapp/DataPullers/TempAllJobs.dart';
+import 'package:governmentapp/Files/AnimatedFlips.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Files/Home.dart';
 import 'package:governmentapp/Filtration/FilterPage.dart';
@@ -19,6 +23,7 @@ import 'ForUsers/ChooseDepartment.dart';
 import 'ForUsers/ChooseInterest.dart';
 import 'ForUsers/ChooseState.dart';
 
+
 Future<void> main() async {
 
   await WidgetsFlutterBinding.ensureInitialized();
@@ -29,11 +34,15 @@ Future<void> main() async {
   jobsFetcher.Load();
 
 
-  //CurrentJob.Listen();
+  CurrentJob.Listen();
 
-  JobsManager.init();
-  JobsManager.LoadJobsData();
+  //JobsManager.init();
+  //JobsManager.LoadJobsData();
 
+  JobDisplayManagement.Execute();
+  RequiredDataLoading.Execute();
+
+  //BackgroundFuncs.Load();
 
   //Sumi sumi = new Sumi();
   //sumi.Execute();

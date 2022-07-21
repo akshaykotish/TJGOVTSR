@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataPullers/JobsManager.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Files/DepartmentBox.dart';
@@ -73,7 +74,12 @@ class _JobBoxsState extends State<JobBoxs> {
 
   @override
   void initState() {
-    JobsManager.loadingjobsDataStreamToCall = (jobs){
+    // JobsManager.loadingjobsDataStreamToCall = (jobs){
+    //   DisplayJobs(jobs);
+    // };
+
+    JobDisplayManagement.jobstoshowstreamToCall = (jobs)
+    {
       DisplayJobs(jobs);
     };
 
