@@ -1,5 +1,7 @@
 
 
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
@@ -56,6 +58,7 @@ class RequiredDataLoading{
   static var UserIntrests = <String>[];
   static var AllDepartmentsList = <Widget>[];
   static var LovedJobs = <String>[];
+  static var RequiredData = <String>[];
 
   static Future<void> init() async {
     final prefs = await SharedPreferences.getInstance();
@@ -75,6 +78,11 @@ class RequiredDataLoading{
     var lj = (prefs.getStringList(
         'lovedjobs')); //Loading LovedJobs Caches
     lj != null ? LovedJobs = lj : null;
+
+
+    var rd = (prefs.getStringList(
+        'RequiredData')); //Loading LovedJobs Caches
+    rd != null ? RequiredData = rd : null;
   }
 
   static Future<List<String>> CreateRequiredPaths()
@@ -104,9 +112,23 @@ class RequiredDataLoading{
 
       JobDisplayManagement.jobstoshow.add(jobData);
       JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
+
+      SaveCookiesForRequriedData(jobData);
+  }
+
+  static Future<void> SaveCookiesForRequriedData(JobData jobData) async {
+
+    String jsonString = await jsonEncode(await jobData.toJson());
+
+    RequiredData.add(jsonString);
+
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setStringList("RequiredData", RequiredData);
   }
 
   static Future<void> DownloadRequiredData() async {
+    print("Loaded from Web");
+
     var Reference = FirebaseFirestore.instance;
 
     List<String> Paths = await CreateRequiredPaths();
@@ -138,12 +160,34 @@ class RequiredDataLoading{
   }
 
 
+  static void LoadCachedRequiredData(){
+    print("Loaded from Cache");
+
+    RequiredData.forEach((job) async {
+      JobData jobData = JobData();
+      await jobData.fromJson(job);
+
+      JobDisplayManagement.jobstoshow.add(jobData);
+      JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
+
+    });
+  }
+
+
   static Future<void> Execute() async {
     await init();
     print("Required Caches are = ${UserDepartments.length}");
 
-    await DownloadRequiredData();
+    RequiredData.isEmpty ?
+    await DownloadRequiredData() : LoadCachedRequiredData();
 
     print("Hurry! We did it.... ${JobDisplayManagement.jobstoshow.length}");
+  }
+
+  //--------------------------------------------------------------------------
+
+
+  void SaveRequiredDataAsCache(){
+
   }
 }

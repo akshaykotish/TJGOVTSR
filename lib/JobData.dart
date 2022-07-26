@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:governmentapp/VacancyDetails.dart';
 
 class JobData{
@@ -70,6 +71,7 @@ class JobData{
     var data = jsonDecode(json);
 
     vdetailsquery = data["vdetailsquery"];
+    print("VDQ ${vdetailsquery}");
     if(vdetailsquery != "") {
       await LoadVDetails(vdetailsquery);
     }
@@ -166,6 +168,57 @@ class JobData{
       //print("End1");
   }
 
+  Future<void> LoadingVDetails(var job, var ref) async {
+
+    var vdetailsquerylist = <String>[];
+    print("Flag A");
+    var LVD_VDetails = await ref.collection("Jobs" + "/" + job.data()["Department"] + "/" + job.data()["Location"].toString().toUpperCase() + "/" + job.id + "/VDetails").get();
+    print("Flag B");
+    int indx = 0;
+    await Future.forEach(LVD_VDetails.docs, (vdtl) async {
+      print("RunType = " + vdtl.runtimeType.toString());
+      print("Flag C");
+      var data = LVD_VDetails.docs[indx].data();
+      VacancyDetails vacancyDetails = new VacancyDetails();
+      vacancyDetails.Title = data["Title"];
+      vacancyDetails.TotalVacancies = data["TotalVacancies"];
+      vacancyDetails.headers = data["headers"];
+      print("Flag D");
+      var vdetailquery = {
+        "Title": data["Title"],
+        "TotalVacancies": data["TotalVacancies"],
+        "headers": data["headers" ],
+        "data": null,
+      };
+      print("Flag E");
+      var LVD_VDetailData = await ref.collection("Jobs" + "/" + job.data()["Department"] + "/" + job.data()["Location"].toString().toUpperCase() + "/" + job.id + "/VDetails/" + LVD_VDetails.docs[indx].id + "/VacancyDetailsData").get();
+      print("Flag F");
+      List<String> vacancydata = <String>[];
+      int p = 0;
+      await Future.forEach(LVD_VDetailData.docs, (ele) async {
+        print("Flag G");
+        var VDetailDataA = LVD_VDetailData.docs[p].data();
+        VacancyDetailsData vacancyDetailsData = new VacancyDetailsData();
+        vacancyDetailsData.data = VDetailDataA["data"];
+        //vacancyDetailsData.data = VDetailDataA["data"];
+
+        vacancyDetails.datas.add(vacancyDetailsData);
+        vacancydata.add(jsonEncode(VDetailDataA["data"].toString()));
+
+        vdetailquery["data"] = jsonEncode(vacancydata);
+
+        if (p == VDetailDataA.length - 1) {
+          var cc = await jsonEncode(vdetailquery);
+          vdetailsquerylist.add(cc);
+          vdetailsquery = await jsonEncode(vdetailsquerylist);
+        }
+        p++;
+      });
+      VDetails.add(vacancyDetails);
+      indx++;
+    });
+  }
+
   Future<void> LoadFromFireStoreValues(var job) async {
     var ref = FirebaseFirestore.instance;
 
@@ -197,60 +250,11 @@ class JobData{
               "Vacancy Details Total : ", "");
     }
 
-    var vdetailsquerylist = <String>[];
+
+    await LoadingVDetails(job, ref);
+    print("REQ " + vdetailsquery);
 
 
-    bool isjdsaved = false;
-    await ref.collection("Jobs" + "/" + job.data()["Department"] + "/" +
-        job.data()["Location"].toString().toUpperCase() + "/" + job.id + "/VDetails")
-        .get()
-        .then((vdetails) async {
-      //print("Here1");
-
-      vdetails.docs.forEach((vdtl) async {
-        VacancyDetails vacancyDetails = new VacancyDetails();
-        vacancyDetails.Title = vdtl.data()["Title"];
-        vacancyDetails.TotalVacancies = vdtl.data()["TotalVacancies"];
-        vacancyDetails.headers = vdtl.data()["headers"];
-
-        var vdetailquery = {
-          "Title": vdtl.data()["Title"],
-          "TotalVacancies": vdtl.data()["TotalVacancies"],
-          "headers": vdtl.data()["headers"],
-          "data": null,
-        };
-
-        await ref.collection("Jobs" + "/" + job.data()["Department"] + "/" +
-            job.data()["Location"].toString().toUpperCase() + "/" + job.id +
-            "/VDetails/" + vdtl.id + "/VacancyDetailsData")
-            .get()
-            .then((vdetaildata) async {
-          List<String> vacancydata = <String>[];
-
-          for (var p = 0; p < vdetaildata.docs.length; p++) {
-            VacancyDetailsData vacancyDetailsData = new VacancyDetailsData();
-            vacancyDetailsData.data = vdetaildata.docs[p].data()["data"];
-            vacancyDetailsData.data =
-            vdetaildata.docs[p].data()["data"];
-
-            vacancyDetails.datas.add(vacancyDetailsData);
-            vacancydata.add(jsonEncode(
-                vdetaildata.docs[p].data()["data"].toString()));
-
-            vdetailquery["data"] = jsonEncode(vacancydata);
-
-            if (p == vdetaildata.docs.length - 1) {
-              var cc = await jsonEncode(vdetailquery);
-              vdetailsquerylist.add(cc);
-              vdetailsquery = await jsonEncode(vdetailsquerylist);
-            }
-          }
-        });
-
-
-        VDetails.add(vacancyDetails);
-      });
-    });
   }
 
 
