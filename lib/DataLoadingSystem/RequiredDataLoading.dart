@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
+import 'package:governmentapp/DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:governmentapp/JobData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,6 +62,8 @@ class RequiredDataLoading{
   static var RequiredData = <String>[];
 
   static Future<void> init() async {
+    JobDisplayManagement.jobstoshow.clear();
+
     final prefs = await SharedPreferences.getInstance();
 
     var ud = (prefs.getStringList(
@@ -111,6 +114,7 @@ class RequiredDataLoading{
       print("Fired" + jobData.Title);
 
       JobDisplayManagement.jobstoshow.add(jobData);
+
       JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
 
       SaveCookiesForRequriedData(jobData);
@@ -147,6 +151,7 @@ class RequiredDataLoading{
               }
             else{
               await Future.forEach(UserIntrests, (String intrest){
+                print("Looking for ${intrest}");
                 if(job.data()["Title"].toString().toLowerCase().contains(intrest.toLowerCase()) || job.data()["Short_Details"].toString().toLowerCase().contains(intrest.toLowerCase()))
                   {
                     istoadd = true;
@@ -187,7 +192,16 @@ class RequiredDataLoading{
   //--------------------------------------------------------------------------
 
 
-  void SaveRequiredDataAsCache(){
+  static Future<void> LoadLovedJobs() async {
+    JobDisplayManagement.jobstoshow.clear();
+    await Future.forEach(LovedJobs, (String lovedjob) async {
+      JobData jobData = JobData();
+      print("LOVED" + lovedjob);
+      await jobData.fromJson(lovedjob);
 
+      JobDisplayManagement.jobstoshow.add(jobData);
+      JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
+    });
   }
+
 }

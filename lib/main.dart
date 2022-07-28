@@ -18,6 +18,7 @@ import 'package:governmentapp/Filtration/SearchSheet.dart';
 import 'package:governmentapp/ForUsers/ChooseDepartment.dart';
 import 'package:governmentapp/Temp.dart';
 
+import 'DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'Files/Major.dart';
 import 'ForUsers/ChooseDepartment.dart';
 import 'ForUsers/ChooseInterest.dart';
@@ -29,6 +30,7 @@ Future<void> main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  SearchAbleDataLoading.Execute();
 
   JobsFetcher jobsFetcher = new JobsFetcher();
   jobsFetcher.Load();
@@ -40,7 +42,6 @@ Future<void> main() async {
   //JobsManager.LoadJobsData();
 
   JobDisplayManagement.Execute();
-  RequiredDataLoading.Execute();
 
   //BackgroundFuncs.Load();
 

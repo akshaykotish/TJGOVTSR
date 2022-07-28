@@ -41,7 +41,6 @@ class _PositionedSearchAreaState extends State<PositionedSearchArea> {
             GestureDetector(
               onTap: () async {
                 var ToSearches = await Navigator.push(context, MaterialPageRoute(builder: (context) => SearchSheet()));
-                print("ToSearches: " + ToSearches.toString());
                 CurrentJob.CurrentSearchData.add(ToSearches);
               },
               child: Container(

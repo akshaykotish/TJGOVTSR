@@ -259,6 +259,8 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('UserDepartments', SelectedDepartment);
+    await prefs.setStringList("RequiredData", []);
+
     //print(prefs.getStringList('UserDepartments'));
 
     Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseState()));

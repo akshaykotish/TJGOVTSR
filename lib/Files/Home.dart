@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Files/Header.dart';
@@ -83,6 +84,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
     @override
   void initState() {
+      RequiredDataLoading.Execute();
       draggableScrollableController = DraggableScrollableController();
 
       print("HELLLLLLO");

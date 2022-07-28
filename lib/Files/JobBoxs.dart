@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
+import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
+import 'package:governmentapp/DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:governmentapp/DataPullers/JobsManager.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Files/DepartmentBox.dart';
@@ -84,8 +86,13 @@ class _JobBoxsState extends State<JobBoxs> {
     };
 
     CurrentJob.currentSearchDataStreamToCall = (search){
-      print("AAA: ${search.toString()}");
-      JobsManager.FilteredJobs(search, false);
+      print("CALELD SEARCH");
+      SearchAbleDataLoading.FastestSearchSystem(search);
+    };
+
+    CurrentJob.lovedjobDataStreamToCall = (){
+      print("LOading LovedJobs");
+      RequiredDataLoading.LoadLovedJobs();
     };
     super.initState();
   }

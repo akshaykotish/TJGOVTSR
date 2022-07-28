@@ -68,37 +68,45 @@ class JobData{
 
   Future<void> fromJson(String json)
   async {
-    var data = jsonDecode(json);
+      var data = jsonDecode(json);
 
-    vdetailsquery = data["vdetailsquery"];
-    print("VDQ ${vdetailsquery}");
-    if(vdetailsquery != "") {
-      await LoadVDetails(vdetailsquery);
+
+      try {
+        vdetailsquery = data["vdetailsquery"];
+        print("VDQ ${vdetailsquery}");
+        if (vdetailsquery != "") {
+          await LoadVDetails(vdetailsquery);
+        }
+      }
+      catch(e)
+    {
+
     }
-     Key = data["Key"];
-     Department = data["Department"];
-     Title = data["Title"];
-     Short_Details = data["Short_Details"];
-     DocumentRequired = data["DocumentRequired"];
-     DataProviderUrl = data["DataProviderUrl"];
-     Important_Dates = jsonDecode(data["Important_Dates"]);
-     ApplicationFees = jsonDecode(data["ApplicationFees"]);
-     Total_Vacancies = data["Total_Vacancies"];
+      Key = data["Key"];
+      Department = data["Department"];
+      Title = data["Title"];
+      Short_Details = data["Short_Details"];
+      DocumentRequired = data["DocumentRequired"];
+      DataProviderUrl = data["DataProviderUrl"];
+      Important_Dates = jsonDecode(data["Important_Dates"]);
+      ApplicationFees = jsonDecode(data["ApplicationFees"]);
+      Total_Vacancies = data["Total_Vacancies"];
 
-     //List<dynamic> vdetails = jsonDecode(data["VDetails"]);
+      //List<dynamic> vdetails = jsonDecode(data["VDetails"]);
 
-     ////print("LENGTH: " + data["VDetails"].toString());
-     // vdetails.forEach((element) {
-     //   //print("EEE = " + element);
-     // });
+      ////print("LENGTH: " + data["VDetails"].toString());
+      // vdetails.forEach((element) {
+      //   //print("EEE = " + element);
+      // });
 
 
-    HowToApply = data["HowToApply"];
-     ApplyLink = data["ApplyLink"];
-     NotificationLink = data["NotificationLink"];
-     WebsiteLink = data["WebsiteLink"];
-     url = data["url"];
-     Location = data["Location"];
+      HowToApply = data["HowToApply"];
+      ApplyLink = data["ApplyLink"];
+      NotificationLink = data["NotificationLink"];
+      WebsiteLink = data["WebsiteLink"];
+      url = data["url"];
+      Location = data["Location"];
+
   }
 
   Future<void> LoadVDetails(String vdetailsqry) async {
@@ -169,54 +177,64 @@ class JobData{
   }
 
   Future<void> LoadingVDetails(var job, var ref) async {
+    try {
+      var vdetailsquerylist = <String>[];
+      print("Flag A");
+      var LVD_VDetails = await ref.collection(
+          "Jobs" + "/" + job.data()["Department"] + "/" +
+              job.data()["Location"].toString().toUpperCase() + "/" + job.id +
+              "/VDetails").get();
+      print("Flag B");
+      int indx = 0;
+      await Future.forEach(LVD_VDetails.docs, (vdtl) async {
+        print("RunType = " + vdtl.runtimeType.toString());
+        print("Flag C");
+        var data = LVD_VDetails.docs[indx].data();
+        VacancyDetails vacancyDetails = new VacancyDetails();
+        vacancyDetails.Title = data["Title"];
+        vacancyDetails.TotalVacancies = data["TotalVacancies"];
+        vacancyDetails.headers = data["headers"];
+        print("Flag D");
+        var vdetailquery = {
+          "Title": data["Title"],
+          "TotalVacancies": data["TotalVacancies"],
+          "headers": data["headers" ],
+          "data": null,
+        };
+        print("Flag E");
+        var LVD_VDetailData = await ref.collection(
+            "Jobs" + "/" + job.data()["Department"] + "/" +
+                job.data()["Location"].toString().toUpperCase() + "/" + job.id +
+                "/VDetails/" + LVD_VDetails.docs[indx].id +
+                "/VacancyDetailsData")
+            .get();
+        print("Flag F");
+        List<String> vacancydata = <String>[];
+        int p = 0;
+        await Future.forEach(LVD_VDetailData.docs, (ele) async {
+          print("Flag G");
+          var VDetailDataA = LVD_VDetailData.docs[p].data();
+          VacancyDetailsData vacancyDetailsData = new VacancyDetailsData();
+          vacancyDetailsData.data = VDetailDataA["data"];
+          //vacancyDetailsData.data = VDetailDataA["data"];
 
-    var vdetailsquerylist = <String>[];
-    print("Flag A");
-    var LVD_VDetails = await ref.collection("Jobs" + "/" + job.data()["Department"] + "/" + job.data()["Location"].toString().toUpperCase() + "/" + job.id + "/VDetails").get();
-    print("Flag B");
-    int indx = 0;
-    await Future.forEach(LVD_VDetails.docs, (vdtl) async {
-      print("RunType = " + vdtl.runtimeType.toString());
-      print("Flag C");
-      var data = LVD_VDetails.docs[indx].data();
-      VacancyDetails vacancyDetails = new VacancyDetails();
-      vacancyDetails.Title = data["Title"];
-      vacancyDetails.TotalVacancies = data["TotalVacancies"];
-      vacancyDetails.headers = data["headers"];
-      print("Flag D");
-      var vdetailquery = {
-        "Title": data["Title"],
-        "TotalVacancies": data["TotalVacancies"],
-        "headers": data["headers" ],
-        "data": null,
-      };
-      print("Flag E");
-      var LVD_VDetailData = await ref.collection("Jobs" + "/" + job.data()["Department"] + "/" + job.data()["Location"].toString().toUpperCase() + "/" + job.id + "/VDetails/" + LVD_VDetails.docs[indx].id + "/VacancyDetailsData").get();
-      print("Flag F");
-      List<String> vacancydata = <String>[];
-      int p = 0;
-      await Future.forEach(LVD_VDetailData.docs, (ele) async {
-        print("Flag G");
-        var VDetailDataA = LVD_VDetailData.docs[p].data();
-        VacancyDetailsData vacancyDetailsData = new VacancyDetailsData();
-        vacancyDetailsData.data = VDetailDataA["data"];
-        //vacancyDetailsData.data = VDetailDataA["data"];
+          vacancyDetails.datas.add(vacancyDetailsData);
+          vacancydata.add(jsonEncode(VDetailDataA["data"].toString()));
 
-        vacancyDetails.datas.add(vacancyDetailsData);
-        vacancydata.add(jsonEncode(VDetailDataA["data"].toString()));
+          vdetailquery["data"] = jsonEncode(vacancydata);
 
-        vdetailquery["data"] = jsonEncode(vacancydata);
-
-        if (p == VDetailDataA.length - 1) {
-          var cc = await jsonEncode(vdetailquery);
-          vdetailsquerylist.add(cc);
-          vdetailsquery = await jsonEncode(vdetailsquerylist);
-        }
-        p++;
+          if (p == VDetailDataA.length - 1) {
+            var cc = await jsonEncode(vdetailquery);
+            vdetailsquerylist.add(cc);
+            vdetailsquery = await jsonEncode(vdetailsquerylist);
+          }
+          p++;
+        });
+        VDetails.add(vacancyDetails);
+        indx++;
       });
-      VDetails.add(vacancyDetails);
-      indx++;
-    });
+    }
+    catch(e){}
   }
 
   Future<void> LoadFromFireStoreValues(var job) async {

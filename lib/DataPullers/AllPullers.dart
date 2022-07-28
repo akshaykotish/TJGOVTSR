@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:governmentapp/DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:governmentapp/JobData.dart';
 import 'package:governmentapp/VacancyDetails.dart';
 import 'package:html/parser.dart';
@@ -518,7 +519,7 @@ class JobsFetcher{
   String LSID = "";
   bool StopTheSave = false;
 
-  bool WriteToFirebase(JobData jobData){
+  Future<bool> WriteToFirebase(JobData jobData) async {
     String DocumentID = jobData.Title.replaceAll("Online Form", "").replaceAll(" ", "").replaceAll("\n", "").replaceAll("/", "").replaceAll(":", "");
     print(DocumentID);
 
@@ -547,7 +548,7 @@ class JobsFetcher{
             value) {
           FirebaseFirestore.instance.collection("Jobs").doc(DocumentName)
               .get()
-              .then((value) {
+              .then((value) async {
             if (value.data() == null) {
               FirebaseFirestore.instance.collection("Jobs")
                   .doc(DocumentName)
@@ -601,13 +602,17 @@ class JobsFetcher{
                 });
               }
 
+              await UpdatetoIndex(jobData, DocumentID);
               return true;
+
             }
             else {
               return false;
             }
           });
         });
+
+
         //FirebaseFirestore.instance.collection("Jobs").doc(jobData.Department.replaceAll("/", "").replaceAll(" ", "")).collection(jobData.Location.replaceAll("/", "").replaceAll(" ", "")).doc(DocumentID).set({"Hello": "World"});
 
 
@@ -693,7 +698,7 @@ class JobsFetcher{
           jobData.Location = await FindLocation(jobData);
 
           print("Length is " + jobData.VDetails.length.toString());
-          WriteToFirebase(jobData);
+          await WriteToFirebase(jobData);
         }
         else {
           print("Saved Done");
@@ -705,5 +710,16 @@ class JobsFetcher{
     {
       //print(E);
     }
+  }
+
+  Future<void> UpdatetoIndex(JobData jobData, String DocumentID) async {
+    String Path = "Jobs/" + jobData.Department + "/" + jobData.Location.toUpperCase() + "/" + DocumentID;
+    String Title = jobData.Title;
+    String Key = DocumentID;
+    String toStore = Key + ";" + Title + ";" + Path;
+    (SearchAbleDataLoading.SearchAbleCache.contains(toStore) == false ? SearchAbleDataLoading.SearchAbleCache.add(toStore) : null);
+    await SearchAbleDataLoading.Fire();
+    await SearchAbleDataLoading.JobIndexSaveToFirebase();
+    print("FRoMDTPULLER");
   }
 }

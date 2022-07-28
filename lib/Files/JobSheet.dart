@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/HexColors.dart';
@@ -286,22 +288,24 @@ class _JobSheetState extends State<JobSheet> {
   }
 
   Future<void> OnLikeJob() async {
-    String Title = jobData.Key;
     final prefs = await SharedPreferences.getInstance();
     List<String>? lovedjobs = prefs.getStringList('lovedjobs');
 
     lovedjobs ??= <String>[];
 
-    if(!lovedjobs.contains(Title))
+    String jobString = await jsonEncode(await jobData.toJson());
+    print(jobString);
+
+    if(!lovedjobs.contains(jobString))
     {
-      lovedjobs.add(Title);
+      lovedjobs.add(jobString);
 
       setState(() {
         lovebtntxt = "Loved";
       });
     }
     else{
-      lovedjobs.remove(Title);
+      lovedjobs.remove(jobString);
 
       setState(() {
         lovebtntxt = "Love";

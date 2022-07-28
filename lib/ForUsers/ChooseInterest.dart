@@ -214,6 +214,7 @@ class _ChooseInterestState extends State<ChooseInterest> {
   Future<void> SaveSelectedInterest() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('UserInterest', SelectedInterest);
+    await prefs.setStringList("RequiredData", []);
 
     //print(prefs.getStringList('UserDepartments'));
 
