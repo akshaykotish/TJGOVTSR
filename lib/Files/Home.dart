@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
@@ -29,7 +30,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
-  var initialchildsize = .10;
+  var initialchildsize = .0;
   late DraggableScrollableController draggableScrollableController;
 
   late Animation _animation;
@@ -84,6 +85,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
     @override
   void initState() {
+      JobDisplayManagement.isloadingjobs = true;
       RequiredDataLoading.Execute();
       draggableScrollableController = DraggableScrollableController();
 
@@ -171,16 +173,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       alignment: Alignment.center,
                       child: Column(
                         children: <Widget>[
-                          Container(
+                          JobDisplayManagement.ismoreloadingjobs == true ? Container(
                             child: Image.asset("assets/images/loading.gif"),
                             width: 100,
                             height: 50,
-                          ),
+                          ) : Container(),
                           SizedBox(height: 10,),
-                          Container(
+                          JobDisplayManagement.ismoreloadingjobs == false ? Container(
                               width: MediaQuery.of(context).size.width,
-                              child: Text("If you don't find what are you looking for", style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)),
-                          Row(
+                              child: Text("If you don't find what are you looking for", style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)) : Container(),
+                          JobDisplayManagement.ismoreloadingjobs == false ? Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
@@ -191,7 +193,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                               SizedBox(width: 5,),
                               Icon(Icons.filter_list_outlined, color: Colors.grey[400],)
                             ],
-                          ),
+                          ) : Container(),
                         ],
                       ),
                     ),
@@ -220,7 +222,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               child: DraggableScrollableSheet(
                   controller: draggableScrollableController,
                     initialChildSize: initialchildsize,
-                    minChildSize: .1,
+                    minChildSize: 0,
                     maxChildSize: .9,
                     builder: (BuildContext context, ScrollController scrollController) {
                       return Container(

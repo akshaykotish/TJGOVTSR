@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
+import 'package:governmentapp/DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
 import 'package:governmentapp/ForUsers/ChooseState.dart';
 import 'package:governmentapp/HexColors.dart';
@@ -21,6 +23,7 @@ class _SearchSheetState extends State<SearchSheet> {
   bool ShowHintBox = false;
 
   var SelectedSearchWord = <String>[];
+  var UnSelectedSearchWord = <String>[];
   var SelectedSearchWordWidget = <Widget>[];
 
 
@@ -92,24 +95,27 @@ class _SearchSheetState extends State<SearchSheet> {
 
 
 
-
   var ToFindSearchSheetsData = ["Andaman and Nicobar", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Orissa", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
 
   var ToFindSearchSheetsDataShowWidget = <Widget>[];
 
 
-  void FindSearchWord(e){
+  Future<void> FindSearchWord(e) async {
 
     var _ToFindSearchSheetsDataShowWidget = <Widget>[];
+    var alreadyadded = <String>[];
 
     for(int i=0; i<ToFindSearchSheetsData.length && _ToFindSearchSheetsDataShowWidget.length < 3; i++)
     {
-      if(ToFindSearchSheetsData[i].toLowerCase().contains(e.toString().toLowerCase()))
+
+      String Departmentis = await (ToFindSearchSheetsData[i].split(";").length == 3 ? ToFindSearchSheetsData[i].split(";")[2].toString().split("/")[1] : ToFindSearchSheetsData[i]);
+
+    if(ToFindSearchSheetsData[i].toLowerCase().contains(e.toString().toLowerCase()) && await !alreadyadded.contains(Departmentis))
       {
         _ToFindSearchSheetsDataShowWidget.add(
           GestureDetector(
             onTap: (){
-              SelectedSearchWord.add(ToFindSearchSheetsData[i]);
+              SelectedSearchWord.add(Departmentis);
 
               LoadSelectedSearchWord();
 
@@ -128,12 +134,18 @@ class _SearchSheetState extends State<SearchSheet> {
               ),
               padding: EdgeInsets.all(10),
               color: Colors.grey[200],
-              child: Text(ToFindSearchSheetsData[i]),
+              child: Text(Departmentis),
             ),
           ),
         );
       }
     }
+
+    if(_ToFindSearchSheetsDataShowWidget.isEmpty)
+      {
+        UnSelectedSearchWord.add(e);
+      }
+    
     _ToFindSearchSheetsDataShowWidget.add(
       GestureDetector(
         onTap: (){
@@ -169,12 +181,14 @@ class _SearchSheetState extends State<SearchSheet> {
 
 
   void LoadAllSearchSheetsData(){
-    FirebaseFirestore.instance.collection("Jobs").snapshots().listen((event) {
-      event.docs.forEach((element) {
-        //print(element.id);
-        ToFindSearchSheetsData.add(element.id);
-      });
-    });
+    // FirebaseFirestore.instance.collection("Jobs").snapshots().listen((event) {
+    //   event.docs.forEach((element) {
+    //     //print(element.id);
+    //     ToFindSearchSheetsData.add(element.id);
+    //   });
+    // });
+
+    ToFindSearchSheetsData = SearchAbleDataLoading.SearchAbleCache;
   }
 
   Future<void> OnLoadSaved() async {
@@ -186,20 +200,28 @@ class _SearchSheetState extends State<SearchSheet> {
 
   Future<void> SaveSelectedSearchSheetsData() async {
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('UserSearchSheetsData', SelectedSearchWord);
-    //print(prefs.getStringList('UserSearchSheetsData'));
+    JobDisplayManagement.isloadingjobs = true;
 
-    //Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseState()));
+    if(textEditingController.text != null && textEditingController.text != "") {
+      SelectedSearchWord.add(textEditingController.text);
+    }
 
-    Navigator.pop(context, SelectedSearchWord);
+    await OnProceed();
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setStringList('UserSearchSheetsData', SelectedSearchWord);
+      //print(prefs.getStringList('UserSearchSheetsData'));
+
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseState()));
+
+      Navigator.pop(context, SelectedSearchWord);
+
   }
 
 
   void LoadAllInterest(){
     FirebaseFirestore.instance.collection("Interest").snapshots().listen((event) {
       event.docs.forEach((element) {
-        //print(element.id);
         ToFindSearchSheetsData.add(element.id);
       });
     });
@@ -207,15 +229,92 @@ class _SearchSheetState extends State<SearchSheet> {
 
   @override
   void initState() {
+    JobDisplayManagement.isloadingjobs = true;
     LoadAllInterest();
     LoadAllSearchSheetsData();
     super.initState();
 
   }
 
+  Future<List<String>> GetKeyWord3List(List<String> keywords) async {
+    String k1 = keywords.length > 0 ? keywords[0] : "";
+    String k2 = keywords.length > 1 ? keywords[1] : "";
+    String k3 = keywords.length > 2 ? keywords[2] : "";
 
-  void FN(){
+    List<String> topsearches3 = <String>[];
+    List<String> topsearches2 = <String>[];
+    List<String> topsearches1 = <String>[];
 
+
+    if(k1 != "") {
+      await Future.forEach(ToFindSearchSheetsData, (String dpt){
+        if(dpt.toLowerCase().contains(k1.toLowerCase()))
+        {
+          topsearches1.add(dpt);
+        }
+      });
+
+      if(k2 != "") {
+        await Future.forEach(topsearches1, (String dpt){
+          if(dpt.toLowerCase().contains(k2.toLowerCase()))
+          {
+            topsearches2.add(dpt);
+          }
+        });
+
+        if(k3 != "") {
+          print("First 3 = " + topsearches3.length.toString());
+          await Future.forEach(topsearches2, (String dpt){
+            if(dpt.toLowerCase().contains(k3.toLowerCase()))
+            {
+              topsearches3.add(dpt);
+            }
+          });
+        }
+        else{
+          topsearches3 = topsearches2;
+        }
+
+      }
+      else{
+        topsearches2 = topsearches1;
+        topsearches3 = topsearches1;
+
+      }
+    }
+
+    return topsearches3;
+  }
+
+  Future<void> OnProceed() async {
+
+    //sub inspector haryana
+    await Future.forEach(UnSelectedSearchWord, (String departments) async {
+
+      var keywords = departments.split(" ");
+
+
+      List<String> reqkeywords = <String>[];
+
+
+      List<String> topsearches = <String>[];
+
+      var topsearches3 = await GetKeyWord3List(keywords);
+
+      print("Top 3 = " + topsearches3.length.toString());
+
+      await Future.forEach(topsearches3, (String res) async {
+        String dep =  await res.split(";")[2].toString().split("/")[1];
+        if(!topsearches.contains(dep))
+        {
+          topsearches.add(dep);
+          print("Selected Search words :- " + res + " - Top 3");
+        }
+      });
+
+      topsearches.addAll(SelectedSearchWord);
+      SelectedSearchWord = await topsearches;
+    });
   }
 
   @override
@@ -255,7 +354,7 @@ class _SearchSheetState extends State<SearchSheet> {
                               labelStyle: TextStyle(
                                 color: Colors.grey.shade400,
                               ),
-                              hintText: 'Engineer, Irrigation, Haryana'
+                              hintText: 'Hope you spell correct!!!'
                           ),
                         ),
                       ),

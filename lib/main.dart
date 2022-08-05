@@ -41,6 +41,7 @@ Future<void> main() async {
   //JobsManager.init();
   //JobsManager.LoadJobsData();
 
+  JobDisplayManagement.isloadingjobs = true;
   JobDisplayManagement.Execute();
 
   //BackgroundFuncs.Load();

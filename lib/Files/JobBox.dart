@@ -112,7 +112,7 @@ class _JobBoxState extends State<JobBox> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                 ),
-                child: Center(child: Text(widget.jobData.Department.toShortForm().length > 4 ? widget.jobData.Department.toShortForm().substring(0, 4) : widget.jobData.Department.toShortForm(), style: TextStyle(fontSize: 25, color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.bold),))),
+                child: Center(child: Text(widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").length > 4 ? widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").substring(0, 4) : widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", ""), style: TextStyle(fontSize: 25, color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.bold),))),
             const SizedBox(width: 20,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

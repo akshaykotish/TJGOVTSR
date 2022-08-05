@@ -114,15 +114,35 @@ class SearchAbleDataLoading{
 
   static Future<void> FastestSearchSystem(List<String> searchkeywords) async {
     JobDisplayManagement.jobstoshow.clear();
+
+    List<JobData> gains = <JobData>[];
+    JobDisplayManagement.ismoreloadingjobs = true;
+
     await Future.forEach(SearchAbleCache, (searchable)
     async {
       bool isit = false;
+      bool priority = false;
 
       await Future.forEach(searchkeywords, (keywords){
+
+        var searchparts = keywords.toString().split(" ");
+
+        String key1 = searchparts.length >= 1 ? searchparts[0] : "";
+        String key2 = searchparts.length >= 2 ? searchparts[1] : "";
+        String key3 = searchparts.length >= 3 ? searchparts[2] : "";
+
         if(searchable.toString().toLowerCase().contains(keywords.toString().toLowerCase()))
           {
             isit = true;
           }
+
+        String Title = searchable.toString().split(";").length >= 2 ? searchable.toString().split(";")[1] : searchable.toString();
+        if((Title.toString().toLowerCase().contains(key1.toLowerCase()) && Title.toString().toLowerCase().contains(key2.toLowerCase()) && Title.toString().toLowerCase().contains(key3.toLowerCase())) || (Title.toString().toLowerCase().contains(key1.toLowerCase()) && Title.toString().toLowerCase().contains(key2.toLowerCase())) || (Title.toString().toLowerCase().contains(key2.toLowerCase()) && Title.toString().toLowerCase().contains(key3.toLowerCase())) || (Title.toString().toLowerCase().contains(key1.toLowerCase()) && Title.toString().toLowerCase().contains(key3.toLowerCase())))
+          {
+            priority = true;
+            print("Priority" + keywords.toString());
+          }
+
       });
       if(isit == true)
         {
@@ -130,12 +150,44 @@ class SearchAbleDataLoading{
           var job = await FirebaseFirestore.instance.doc(parts[2]).get();
           if(job.exists)
             {
-              print("Yay! job found!" + searchable.toString() + " " + isit.toString());
+              //print("Yay! job found!" + searchable.toString() + " " + isit.toString());
               JobData jobData = JobData();
-              await RequiredDataLoading.Fire(job);
+              await jobData.LoadFromFireStoreValues(job);
+
+              if(priority) {
+                JobDisplayManagement.jobstoshow.add(jobData);
+                JobDisplayManagement.jobstoshowstreamcontroller.add(
+                    JobDisplayManagement.jobstoshow);
+              }
+              else{
+                gains.add(jobData);
+                print("Added to Gains" + jobData.Title);
+              }
+
+              if(JobDisplayManagement.jobstoshow.isEmpty)
+                {
+                  RequiredDataLoading.SaveCookiesForRequriedData(jobData);
+                }
+
+              JobDisplayManagement.isloadingjobs == true ? JobDisplayManagement.isloadingjobs = false : null;
+              //await RequiredDataLoading.Fire(job);
             }
         }
+
+
+      print("EFFE545");
     });
+
+    print("EFFER");
+
+    JobDisplayManagement.jobstoshow.addAll(gains);
+    JobDisplayManagement.jobstoshowstreamcontroller.add(
+        JobDisplayManagement.jobstoshow);
+
+
+    JobDisplayManagement.ismoreloadingjobs = false;
+    JobDisplayManagement.isloadingjobs = false;
+
   }
 
   static Future<void> Execute() async {

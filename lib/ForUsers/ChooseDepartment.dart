@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:governmentapp/DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
 import 'package:governmentapp/ForUsers/ChooseState.dart';
 import 'package:governmentapp/HexColors.dart';
@@ -21,6 +22,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
   bool ShowHintBox = false;
 
   var SelectedDepartment = <String>[];
+  var UknownSelectedDepartment = <String>[];
   var SelectedDepartmentWidget = <Widget>[];
 
   var SelectedState = <String>[];
@@ -55,7 +57,6 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
     if(SelectedState.contains(State))
       {
         SelectedState.remove(State);
-
 
         final prefs = await SharedPreferences.getInstance();
         await prefs.setStringList('UserStates', SelectedState);
@@ -167,18 +168,24 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
   var ToFindDepartmentsShowWidget = <Widget>[];
 
 
-  void FindDepartment(e){
+  Future<void> FindDepartment(e) async {
 
     var _ToFindDepartmentsShowWidget = <Widget>[];
+    var alreadyadded = <String>[];
 
-    for(int i=0; i<ToFindDepartments.length && _ToFindDepartmentsShowWidget.length < 3; i++)
+    for(int i=0; i<ToFindDepartments.length && _ToFindDepartmentsShowWidget.length < 10; i++)
       {
-        if(ToFindDepartments[i].toLowerCase().contains(e.toString().toLowerCase()))
+
+        //Jobs/Bihar School Examination Board (BSEB)/BIHAR/TeacherEligibilityTest(BETETBTET)2017
+        String Departmentis = await ToFindDepartments[i].split(";")[2].toString().split("/")[1];
+
+        if(ToFindDepartments[i].toLowerCase().contains(e.toString().toLowerCase()) && await !alreadyadded.contains(Departmentis))
           {
+            alreadyadded.add(Departmentis);
             _ToFindDepartmentsShowWidget.add(
               GestureDetector(
                 onTap: (){
-                  SelectedDepartment.add(ToFindDepartments[i]);
+                  SelectedDepartment.add(Departmentis);
                   AddStateToSelectedState(FindLocation(ToFindDepartments[i]));
 
                   LoadSelectedDepartment();
@@ -198,12 +205,18 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                   ),
                   padding: EdgeInsets.all(10),
                   color: Colors.grey[200],
-                  child: Text(ToFindDepartments[i]),
+                  child: Text(Departmentis),
                 ),
               ),
             );
           }
       }
+
+    if(_ToFindDepartmentsShowWidget.isEmpty)
+    {
+      UknownSelectedDepartment.add(e);
+    }
+
     _ToFindDepartmentsShowWidget.add(
       GestureDetector(
         onTap: (){
@@ -239,13 +252,14 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
   }
 
 
-  void LoadAllDepartments(){
-    FirebaseFirestore.instance.collection("Jobs").snapshots().listen((event) {
-      event.docs.forEach((element) {
-        //print(element.id);
-        ToFindDepartments.add(element.id);
-      });
-    });
+   void LoadAllDepartments(){
+  //   FirebaseFirestore.instance.collection("Jobs").snapshots().listen((event) {
+  //     event.docs.forEach((element) {
+  //       //print(element.id);
+  //       ToFindDepartments.add(element.id);
+  //     });
+  //   });
+    ToFindDepartments = SearchAbleDataLoading.SearchAbleCache;
   }
 
   Future<void> OnLoadSaved() async {
@@ -255,7 +269,18 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
     LoadSelectedDepartment();
   }
 
+
+
   Future<void> SaveSelectedDepartments() async {
+
+    if(textEditingController.text != "") {
+      SelectedDepartment.add(textEditingController.text);
+      AddStateToSelectedState(FindLocation(textEditingController.text.toString()));
+    }
+
+    await OnProceed();
+
+    print("Size is " + SelectedDepartment.length.toString());
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('UserDepartments', SelectedDepartment);
@@ -271,13 +296,83 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
     OnLoadSaved();
     LoadAllDepartments();
     super.initState();
-
   }
 
+  Future<void> OnProceed() async {
 
-  void FN(){
+    //sub inspector haryana
+    await Future.forEach(UknownSelectedDepartment, (String departments) async {
 
+      var keywords = departments.split(" ");
+
+      String k1 = keywords.length > 0 ? keywords[0] : "";
+      String k2 = keywords.length > 1 ? keywords[1] : "";
+      String k3 = keywords.length > 2 ? keywords[2] : "";
+
+      List<String> reqkeywords = <String>[];
+
+      List<String> topsearches3 = <String>[];
+      List<String> topsearches2 = <String>[];
+      List<String> topsearches1 = <String>[];
+
+      List<String> topsearches = <String>[];
+
+      //sub
+      if(k1 != "") {
+        await Future.forEach(ToFindDepartments, (String dpt){
+            if(dpt.toLowerCase().contains(k1.toLowerCase()))
+              {
+                topsearches1.add(dpt);
+              }
+        });
+
+        if(k2 != "") {
+          await Future.forEach(topsearches1, (String dpt){
+            if(dpt.toLowerCase().contains(k2.toLowerCase()))
+            {
+              topsearches2.add(dpt);
+            }
+          });
+
+          if(k3 != "") {
+            await Future.forEach(topsearches2, (String dpt){
+              if(dpt.toLowerCase().contains(k3.toLowerCase()))
+              {
+                topsearches3.add(dpt);
+              }
+            });
+          }
+          else{
+            topsearches3 = topsearches2;
+          }
+
+        }
+        else{
+          topsearches2 = topsearches1;
+          topsearches3 = topsearches1;
+        }
+      }
+
+      print("Top 3 = " + topsearches3.length.toString());
+
+      await Future.forEach(topsearches3, (String res) async {
+        String dep =  await res.split(";")[2].toString().split("/")[1];
+        if(!topsearches.contains(dep))
+        {
+          topsearches.add(dep);
+          print("Selected Department :- " + res + " - Top 3");
+        }
+      });
+
+      topsearches.addAll(SelectedDepartment);
+      SelectedDepartment = topsearches;
+
+      await Future.forEach(SelectedDepartment, (String res){
+        AddStateToSelectedState(FindLocation(res));
+      });
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -108,11 +108,16 @@ class RequiredDataLoading{
 
   static Future<void> Fire(var job) async {
 
+
       JobData jobData = JobData();
       await jobData.LoadFromFireStoreValues(job);
 
       print("Fired" + jobData.Title);
 
+      if(JobDisplayManagement.ismoreloadingjobs)
+        {
+          JobDisplayManagement.ismoreloadingjobs = false;
+        }
       JobDisplayManagement.jobstoshow.add(jobData);
 
       JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
@@ -137,7 +142,8 @@ class RequiredDataLoading{
 
     List<String> Paths = await CreateRequiredPaths();
 
-    Future.forEach(Paths, (String path) async {
+    JobDisplayManagement.ismoreloadingjobs = true;
+    await Future.forEach(Paths, (String path) async {
       var RequiredJobs = await Reference.collection(path).get();
 
         RequiredJobs.docs.forEach((job) async {
@@ -162,20 +168,28 @@ class RequiredDataLoading{
 
         });
     });
+    JobDisplayManagement.ismoreloadingjobs = false;
   }
 
 
   static void LoadCachedRequiredData(){
     print("Loaded from Cache");
 
+
+    JobDisplayManagement.ismoreloadingjobs = true;
     RequiredData.forEach((job) async {
       JobData jobData = JobData();
       await jobData.fromJson(job);
 
+      if(JobDisplayManagement.ismoreloadingjobs)
+      {
+        JobDisplayManagement.ismoreloadingjobs = false;
+      }
       JobDisplayManagement.jobstoshow.add(jobData);
       JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
 
     });
+    JobDisplayManagement.ismoreloadingjobs = false;
   }
 
 
@@ -185,6 +199,8 @@ class RequiredDataLoading{
 
     RequiredData.isEmpty ?
     await DownloadRequiredData() : LoadCachedRequiredData();
+
+    JobDisplayManagement.isloadingjobs = false;
 
     print("Hurry! We did it.... ${JobDisplayManagement.jobstoshow.length}");
   }

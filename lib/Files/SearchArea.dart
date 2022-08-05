@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Filtration/FilterPage.dart';
 import 'package:governmentapp/Filtration/SearchSheet.dart';
@@ -79,6 +80,7 @@ class _SearchAreaState extends State<SearchArea> {
                       var ToSearches = await Navigator.push(context, MaterialPageRoute(builder: (context) => SearchSheet()));
                       print("ToSearches: " + ToSearches.toString());
                       CurrentJob.CurrentSearchData.add(ToSearches);
+                      JobDisplayManagement.isloadingjobs = true;
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,

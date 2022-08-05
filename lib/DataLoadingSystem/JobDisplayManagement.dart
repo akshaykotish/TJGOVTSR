@@ -11,6 +11,9 @@ class JobDisplayManagement{
   static Stream jobstoshowstream = jobstoshowstreamcontroller.stream;
   static late Function jobstoshowstreamToCall;
 
+  static bool isloadingjobs = false;
+  static bool ismoreloadingjobs = false;
+
   static void init(){
     jobstoshowstream.listen((event) async {
       if(jobstoshowstreamToCall != null)

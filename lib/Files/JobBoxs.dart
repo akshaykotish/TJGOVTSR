@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:governmentapp/Animations/Loading.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/DataLoadingSystem/SearchAbleDataLoading.dart';
@@ -87,6 +88,7 @@ class _JobBoxsState extends State<JobBoxs> {
 
     CurrentJob.currentSearchDataStreamToCall = (search){
       print("CALELD SEARCH");
+      JobDisplayManagement.isloadingjobs = true;
       SearchAbleDataLoading.FastestSearchSystem(search);
     };
 
@@ -99,9 +101,9 @@ class _JobBoxsState extends State<JobBoxs> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: AllDepartmentsList,
+    return  Container(
+      child: JobDisplayManagement.isloadingjobs == true ? SingleChildScrollView(child: LoadingAnim()) :  Column(
+        children:AllDepartmentsList,
       ),
     );
   }

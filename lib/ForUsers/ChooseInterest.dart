@@ -266,7 +266,7 @@ class _ChooseInterestState extends State<ChooseInterest> {
                               labelStyle: TextStyle(
                                 color: Colors.grey.shade400,
                               ),
-                              hintText: 'Engineering'
+                              hintText: 'Designations, Years etc.. '
                           ),
                         ),
                       ),
