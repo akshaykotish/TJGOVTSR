@@ -38,6 +38,13 @@ class Pull{
   String NotificationLink = "";
   String WebsiteLink = "";
 
+  List<String> ButtonsName = <String>[];
+  List<String> ButtonsURL = <String>[];
+
+  String Designation = "";
+
+  String LastUpdate = "";
+
   Pull(){
 
   }
@@ -363,6 +370,10 @@ class Pull{
     jobData.ApplyLink = ApplyLink;
     jobData.NotificationLink = NotificationLink;
     jobData.WebsiteLink = WebsiteLink;
+    jobData.LastUpdate = DateTime.now().toString();
+    jobData.ButtonsName = ButtonsName;
+    jobData.ButtonsURL = ButtonsURL;
+    jobData.Designation = Designation;
 
   }
 
@@ -370,6 +381,12 @@ class Pull{
   String Data = "";
   var url;
   var document;
+
+  void FoundTheDesignation(String designationString){
+    var doc = parse(designationString).getElementsByTagName("h1");
+    Designation = doc[0].innerHtml;
+  }
+
 
   Future<JobData> Load(String joburl) async {
     jobData.url = joburl;
@@ -379,18 +396,20 @@ class Pull{
 
     pagedata = await http.read(url);
 
-
-
     document = parse(pagedata);
+
     //print(document.getElementsByTagName("table")[2].children[0].children[0].text);
 
     try {
-      for (int i = 0; i <
-          document.getElementsByTagName("table")[2].children[0].children
-              .length; i++) {
+      FoundTheDesignation(document.getElementsByTagName("table")[1].outerHtml);
+
+      int i = 0;
+      var doxy = document.getElementsByTagName("table")[2].children[0].children;
+
+      await Future.forEach(doxy, (element) async {
         //print(document.getElementsByTagName("table")[2].children[0].children[i].text);
 
-        String Data = document.getElementsByTagName("table")[2].children[0].children[i].text;
+        String Data = doxy[i].text;
 
         if(i == 0)
         {
@@ -449,9 +468,16 @@ class Pull{
         }
         else if(IsVacancyDetails)
         {
-          Contains_PostDatas(Data);
+          Contains_PostDatas(document);
         }
-      }
+
+        if(isSomeUsefullLinks)
+          {
+            LoadSomeUseFullData(document.getElementsByTagName("table")[2].children[0].children[i].innerHtml);
+          }
+
+        i++;
+      });
 
       Save_Job();
    }
@@ -461,6 +487,20 @@ class Pull{
     }
       return jobData;
 
+  }
+
+  void LoadSomeUseFullData(String data){
+
+      var doc = parse(data);
+
+      String button = doc.getElementsByTagName("b")[0].innerHtml;
+      String url = (doc.getElementsByTagName("a").length > 0 ? doc.getElementsByTagName("a")[0].attributes["href"].toString() : "");
+
+      if(button != "" && url != "")
+        {
+          ButtonsName.add(button);
+          ButtonsURL.add(url);
+        }
   }
 
 
@@ -492,38 +532,81 @@ class Pull{
 }
 
 
-class JobsFetcher{
+class JobsFetcher {
 
   var islogged = false;
-
-  String ExtractURL(String data){
-    var res = data.indexOf('href="');
-
-    String link = "";
-    int i = res + 6;
-    while(data[i] != '"')
-      {
-        link += data[i];
-        i++;
-      }
-
-      return link;
-  }
-
-  String GenerateRandomID(){
-    Random random = Random();
-    String RID = DateTime.now().toString().replaceAll("/", "").replaceAll(":", "").replaceAll("-", "").replaceAll(" ", "").replaceAll(".", "") + random.nextInt(5000).toString();
-    return RID;
-  }
 
   String LSID = "";
   bool StopTheSave = false;
 
+
+  static var States = <String>[
+    "Andaman and Nicobar",
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chandigarh",
+    "Chhattisgarh",
+    "Dadra and Nagar Haveli",
+    "Daman and Diu",
+    "Delhi",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jammu and Kashmir",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Lakshadweep",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Orissa",
+    "Puducherry",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal"
+  ];
+
+  String ExtractURL(String data) {
+    var res = data.indexOf('href="');
+
+    String link = "";
+    int i = res + 6;
+    while (data[i] != '"') {
+      link += data[i];
+      i++;
+    }
+
+    return link;
+  }
+
+  String GenerateRandomID() {
+    Random random = Random();
+    String RID = DateTime.now().toString().replaceAll("/", "").replaceAll(
+        ":", "").replaceAll("-", "").replaceAll(" ", "").replaceAll(".", "") +
+        random.nextInt(5000).toString();
+    return RID;
+  }
+
+
   Future<bool> WriteToFirebase(JobData jobData) async {
-    String DocumentID = jobData.Title.replaceAll("Online Form", "").replaceAll(" ", "").replaceAll("\n", "").replaceAll("/", "").replaceAll(":", "");
+    String DocumentID = jobData.Title.replaceAll("Online Form", "").replaceAll(
+        " ", "").replaceAll("\n", "").replaceAll("/", "").replaceAll(":", "");
     print(DocumentID);
 
-    if(LSID != DocumentID) {
+    if (LSID != DocumentID) {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
       if (DocumentID.isEmpty) {
@@ -592,7 +675,7 @@ class JobsFetcher{
                 }
               }
 
-              if(islogged == false) {
+              if (islogged == false) {
                 FirebaseFirestore.instance.collection('Logs')
                     .doc("LastSavedID")
                     .set({
@@ -604,7 +687,6 @@ class JobsFetcher{
 
               await UpdatetoIndex(jobData, DocumentID);
               return true;
-
             }
             else {
               return false;
@@ -623,31 +705,29 @@ class JobsFetcher{
         print("FirebaseError: ${e}");
       }
     }
-    else{
+    else {
       StopTheSave = true;
     }
     return true;
   }
 
-  static var States = <String>["Andaman and Nicobar", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli", "Daman and Diu", "Delhi", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka", "Kerala", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Orissa", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"];
-  static String FindLocation(JobData jobData){
+
+  static String FindLocation(JobData jobData) {
     String Location = "India";
 
-    for(int i=0; i<States.length; i++)
-      {
-        if(jobData.Short_Details.contains(States[i]) ||
+    for (int i = 0; i < States.length; i++) {
+      if (jobData.Short_Details.contains(States[i]) ||
           jobData.Title.contains(States[i]) ||
-            jobData.Department.contains(States[i]) ||
-            jobData.VDetails.contains(States[i]) ||
-            jobData.DocumentRequired.contains(States[i]) ||
-            jobData.Total_Vacancies.contains(States[i]) ||
-            jobData.Important_Dates.keys.toString().contains(States[i])
-          )
-          {
-            Location = States[i];
-            break;
-          }
+          jobData.Department.contains(States[i]) ||
+          jobData.VDetails.contains(States[i]) ||
+          jobData.DocumentRequired.contains(States[i]) ||
+          jobData.Total_Vacancies.contains(States[i]) ||
+          jobData.Important_Dates.keys.toString().contains(States[i])
+      ) {
+        Location = States[i];
+        break;
       }
+    }
 
     return Location;
   }
@@ -656,31 +736,29 @@ class JobsFetcher{
   Future<String> LastSaveID() async {
     String Output = "";
 
-    await FirebaseFirestore.instance.collection("Logs").doc("LastSavedID").get().then(await (value){
-      if(value.exists)
-        {
-          Output = value.data()!["JobId"];
-          return Output;
-        }
+    await FirebaseFirestore.instance.collection("Logs").doc("LastSavedID")
+        .get()
+        .then(await (value) {
+      if (value.exists) {
+        Output = value.data()!["JobId"];
+        return Output;
+      }
     });
     return Output;
   }
 
-  Future<void> Load() async {
-
+  Future<void> Load([String? link]) async {
     try {
       LSID = await LastSaveID();
 
       var url = Uri.parse("https://www.sarkariresult.com/latestjob/");
+      if(link != null) {
+        url = await Uri.parse(link);
+      }
       String pagedata = await http.read(url);
-      var document = parse(pagedata);
+      var document = parse(pagedata); //Document Data is here...
 
-      //print(document.getElementsByTagName("li")[20].text);
-      //print(document.getElementsByTagName("li")[20].innerHtml);
-      //print(ExtractURL(document.getElementsBhttps://www.sarkariresult.com/latestjob/yTagName("li")[20].innerHtml));
-
-      //var URLLink = ExtractURL(document.getElementsByTagName("li")[20 ].innerHtml);
-
+      print("MYLENGTHS Are ${pagedata.length} and url is ${link}");
 
       for (int i = 20; i < document
           .getElementsByTagName("li")
@@ -706,20 +784,29 @@ class JobsFetcher{
         }
       }
     }
-    catch(E)
-    {
+    catch (E) {
       //print(E);
     }
   }
 
+
   Future<void> UpdatetoIndex(JobData jobData, String DocumentID) async {
-    String Path = "Jobs/" + jobData.Department + "/" + jobData.Location.toUpperCase() + "/" + DocumentID;
+    String Path = "Jobs/" + jobData.Department + "/" +
+        jobData.Location.toUpperCase() + "/" + DocumentID;
     String Title = jobData.Title;
     String Key = DocumentID;
     String toStore = Key + ";" + Title + ";" + Path;
-    (SearchAbleDataLoading.SearchAbleCache.contains(toStore) == false ? SearchAbleDataLoading.SearchAbleCache.add(toStore) : null);
+    (SearchAbleDataLoading.SearchAbleCache.contains(toStore) == false
+        ? SearchAbleDataLoading.SearchAbleCache.add(toStore)
+        : null);
     await SearchAbleDataLoading.Fire();
     await SearchAbleDataLoading.JobIndexSaveToFirebase();
     print("FRoMDTPULLER");
+  }
+
+
+  static void LoadTemporaryForTesting(){
+    Pull pull = Pull();
+    pull.Load("https://www.sarkariresult.com/2022/airforce-apprentice-chandigarh/");
   }
 }

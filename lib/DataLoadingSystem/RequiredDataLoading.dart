@@ -1,5 +1,6 @@
 
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -103,6 +104,37 @@ class RequiredDataLoading{
         });
       }
     });
+
+    if(UserDepartments.length == 0) {
+      await Future.forEach(UserStates, (String states) async {
+        await Future.forEach(
+            SearchAbleDataLoading.SearchAbleCache, (String SearchString) {
+          if (SearchString.toLowerCase().contains(states.toLowerCase())) {
+            String path = SearchString.split(";")[0];
+            if (!Paths.contains(path)) {
+              Paths.add(path);
+            }
+          }
+        });
+      });
+    }
+
+    if(UserDepartments.length == 0) {
+      await Future.forEach(UserIntrests, (String intrest) async {
+        await Future.forEach(
+            SearchAbleDataLoading.SearchAbleCache, (String SearchString) {
+          if (SearchString.toLowerCase().contains(intrest.toLowerCase())) {
+            String path = SearchString.split(";")[0];
+            if (!Paths.contains(path)) {
+              Paths.add(path);
+            }
+          }
+        });
+      });
+    }
+
+
+
     return Paths;
   }
 
@@ -144,29 +176,42 @@ class RequiredDataLoading{
 
     JobDisplayManagement.ismoreloadingjobs = true;
     await Future.forEach(Paths, (String path) async {
-      var RequiredJobs = await Reference.collection(path).get();
+      print(path);
+      if(path.split("/").length == 3) {
+        var RequiredJobs = await Reference.collection(path).get();
 
         RequiredJobs.docs.forEach((job) async {
-            JobData jobData = JobData();
+          JobData jobData = JobData();
 
-            bool istoadd = false;
+          bool istoadd = false;
 
-            if(UserIntrests.isEmpty)
-              {
-                Fire(job);
+          JobDisplayManagement.HideJobsLoading();
+          if (UserIntrests.isEmpty) {
+            Fire(job);
+          }
+          else {
+            await Future.forEach(UserIntrests, (String intrest) {
+              print("Looking for ${intrest}");
+              if (job.data()["Designation"].toString().toLowerCase().contains(
+                  intrest.toLowerCase()) ||
+                  job.data()["Short_Details"].toString().toLowerCase().contains(
+                      intrest.toLowerCase()) ||
+                  job.data()["Title"].toString().toLowerCase().contains(
+                      intrest.toLowerCase()) ||
+                  job.data()["Short_Details"].toString().toLowerCase().contains(
+                      intrest.toLowerCase())) {
+                istoadd = true;
               }
-            else{
-              await Future.forEach(UserIntrests, (String intrest){
-                print("Looking for ${intrest}");
-                if(job.data()["Title"].toString().toLowerCase().contains(intrest.toLowerCase()) || job.data()["Short_Details"].toString().toLowerCase().contains(intrest.toLowerCase()))
-                  {
-                    istoadd = true;
-                  }
-              });
-              istoadd == true ? Fire(job) : null;
-            }
-
+            });
+            istoadd == true ? Fire(job) : null;
+          }
         });
+      }
+      else if(path.split("/").length == 4){
+        var job = await Reference.doc(path).get();
+        JobDisplayManagement.HideJobsLoading();
+        Fire(job);
+      }
     });
     JobDisplayManagement.ismoreloadingjobs = false;
   }
@@ -184,12 +229,14 @@ class RequiredDataLoading{
       if(JobDisplayManagement.ismoreloadingjobs)
       {
         JobDisplayManagement.ismoreloadingjobs = false;
+        JobDisplayManagement.isloadingjobs = false;
       }
       JobDisplayManagement.jobstoshow.add(jobData);
       JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
 
     });
     JobDisplayManagement.ismoreloadingjobs = false;
+    JobDisplayManagement.isloadingjobs = false;
   }
 
 
@@ -200,6 +247,7 @@ class RequiredDataLoading{
     RequiredData.isEmpty ?
     await DownloadRequiredData() : LoadCachedRequiredData();
 
+    JobDisplayManagement.HideJobsLoading();
     JobDisplayManagement.isloadingjobs = false;
 
     print("Hurry! We did it.... ${JobDisplayManagement.jobstoshow.length}");
@@ -211,13 +259,29 @@ class RequiredDataLoading{
   static Future<void> LoadLovedJobs() async {
     JobDisplayManagement.jobstoshow.clear();
     await Future.forEach(LovedJobs, (String lovedjob) async {
+      if(JobDisplayManagement.isloadingjobs == true)
+        {
+          JobDisplayManagement.isloadingjobs = false;
+        }
       JobData jobData = JobData();
       print("LOVED" + lovedjob);
       await jobData.fromJson(lovedjob);
 
+      JobDisplayManagement.isloadingjobs = false;
       JobDisplayManagement.jobstoshow.add(jobData);
       JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
     });
+  }
+
+  static Future<void> LoadLovedCache() async {
+
+    final prefs = await SharedPreferences.getInstance();
+    var l = prefs.getStringList('lovedjobs');
+    if(l != null)
+      {
+        LovedJobs = l;
+      }
+
   }
 
 }

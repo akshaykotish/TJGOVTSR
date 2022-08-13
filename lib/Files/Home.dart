@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:governmentapp/Animations/Loading.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
@@ -89,9 +90,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       RequiredDataLoading.Execute();
       draggableScrollableController = DraggableScrollableController();
 
-      print("HELLLLLLO");
       CurrentJob.currentjobStreamToCall = (value) {
-        print("OKAYBRO");
         setState(() {
           initialchildsize = .9;
           draggableScrollableController.animateTo(0.9, duration: Duration(milliseconds: 500), curve: Curves.easeIn);
@@ -117,7 +116,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     });
 
 
-      WidgetsBinding.instance?.addPostFrameCallback((_) => Animate());
+      //WidgetsBinding.instance?.addPostFrameCallback((_) => Animate());
 
     }
 
@@ -161,9 +160,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               controller: scrollController,
               child: Column(
                 children: <Widget>[
-                  Visibility(visible: !PositionedSearchArea_Visible ,child: Header()),
+                  Header(),
                   Visibility(visible: !PositionedSearchArea_Visible ,child: SearchArea()),
-                  const JobBoxs(),
                   GestureDetector(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseDepartment()));
@@ -173,31 +171,54 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       alignment: Alignment.center,
                       child: Column(
                         children: <Widget>[
-                          JobDisplayManagement.ismoreloadingjobs == true ? Container(
-                            child: Image.asset("assets/images/loading.gif"),
-                            width: 100,
-                            height: 50,
-                          ) : Container(),
-                          SizedBox(height: 10,),
-                          JobDisplayManagement.ismoreloadingjobs == false ? Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Text("If you don't find what are you looking for", style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)) : Container(),
-                          JobDisplayManagement.ismoreloadingjobs == false ? Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          JobDisplayManagement.ismoreloadingjobs == true ? Column(
                             children: <Widget>[
-                              Container(
-                                child: Text("click to ", style: TextStyle(color: Colors.black.withOpacity(0.4), fontWeight: FontWeight.bold,), textAlign: TextAlign.center,),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 250,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const <Widget>[
+                                      SkeletonDeptCard(),
+                                      SkeltonCard(),
+                                      SizedBox(height: 20,),
+                                    ],
+                                  ),
+                                ),
                               ),
+
                               Container(
-                                  child: Text("try with some more filters", style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)),
-                              SizedBox(width: 5,),
-                              Icon(Icons.filter_list_outlined, color: Colors.grey[400],)
+                                child: Image.asset("assets/images/loading.gif"),
+                                width: 100,
+                                height: 50,
+                              ),
                             ],
                           ) : Container(),
+                          SizedBox(height: 10,),
                         ],
                       ),
                     ),
                   ),
+                  const JobBoxs(),
+                  SizedBox(height: 10,),
+                  JobDisplayManagement.ismoreloadingjobs == false ? Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Text("If you don't find what are you looking for", style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)) : Container(),
+                  JobDisplayManagement.ismoreloadingjobs == false ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        child: Text("click to ", style: TextStyle(color: Colors.black.withOpacity(0.4), fontWeight: FontWeight.bold,), textAlign: TextAlign.center,),
+                      ),
+                      Container(
+                          child: Text("try with some more filters", style: TextStyle(color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)),
+                      SizedBox(width: 5,),
+                      Icon(Icons.filter_list_outlined, color: Colors.grey[400],)
+                    ],
+                  ) : Container(),
                   const SizedBox(height: 350,),
                 ],
               ),

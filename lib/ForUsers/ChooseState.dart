@@ -193,6 +193,12 @@ class _ChooseStateState extends State<ChooseState> {
   }
 
   Future<void> SaveSelectedState() async {
+
+    if(textEditingController.text != "")
+    {
+      SelectedState.add(textEditingController.text);
+    }
+
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('UserStates', SelectedState);
     await prefs.setStringList("RequiredData", []);

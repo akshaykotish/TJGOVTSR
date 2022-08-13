@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:governmentapp/HexColors.dart';
 
 
 class AnimatedFlips extends StatefulWidget {
@@ -17,7 +18,14 @@ class _AnimatedFlipsState extends State<AnimatedFlips> {
   double angle = 0;
 
   int index = 0;
-  var strigs = ["My", "Name", "is", "Akshay Kotish"];
+  var strigs = [
+    "Change the world by being yourself",
+    "Every moment is a fresh beginning",
+    "When nothing goes right, go left",
+    "Success is the child of audacity",
+    "Never regret anything that made you smile",
+    "Impossible is for the unwilling",
+  ];
 
 
   void Flip()
@@ -59,8 +67,7 @@ class _AnimatedFlipsState extends State<AnimatedFlips> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return Container(
         child: Center(
           child: GestureDetector(
             onTap: Flip,
@@ -87,16 +94,15 @@ class _AnimatedFlipsState extends State<AnimatedFlips> {
                   ,
                   child: Container(
                     alignment: Alignment.center,
-                    width: 200,
-                    height: 100,
                     child: isback == false ? Container(
-                        child: Text(strigs[index])) :
+                        child: Text(strigs[index], style: TextStyle(fontFamily: "Poppins", fontSize: 12, color: ColorFromHexCode("#DADADA"), fontWeight: FontWeight.bold,)))
+                        :
                     Container(
                       child: Transform(
                         alignment: Alignment.center,
                           transform: Matrix4.identity()
                             ..rotateX(pi),
-                          child: Text(strigs[index+1])),
+                          child: Text(strigs[index+1], style: TextStyle(fontFamily: "Poppins", fontSize: 12, color: ColorFromHexCode("#DADADA"), fontWeight: FontWeight.bold,),)),
                     ),
                   ),
                 ));
@@ -104,7 +110,6 @@ class _AnimatedFlipsState extends State<AnimatedFlips> {
             ),
           )
         ),
-      ),
-    );
+      );
   }
 }

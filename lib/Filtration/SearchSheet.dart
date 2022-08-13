@@ -108,7 +108,7 @@ class _SearchSheetState extends State<SearchSheet> {
     for(int i=0; i<ToFindSearchSheetsData.length && _ToFindSearchSheetsDataShowWidget.length < 3; i++)
     {
 
-      String Departmentis = await (ToFindSearchSheetsData[i].split(";").length == 3 ? ToFindSearchSheetsData[i].split(";")[2].toString().split("/")[1] : ToFindSearchSheetsData[i]);
+      String Departmentis = await (ToFindSearchSheetsData[i].split(";").length == 4 ? ToFindSearchSheetsData[i].split(";")[2].toString() : ToFindSearchSheetsData[i]);
 
     if(ToFindSearchSheetsData[i].toLowerCase().contains(e.toString().toLowerCase()) && await !alreadyadded.contains(Departmentis))
       {
@@ -141,15 +141,17 @@ class _SearchSheetState extends State<SearchSheet> {
       }
     }
 
-    if(_ToFindSearchSheetsDataShowWidget.isEmpty)
-      {
-        UnSelectedSearchWord.add(e);
-      }
     
     _ToFindSearchSheetsDataShowWidget.add(
       GestureDetector(
         onTap: (){
           SelectedSearchWord.add(e.toString());
+
+
+          if(!UnSelectedSearchWord.contains(e))
+          {
+            UnSelectedSearchWord.add(e);
+          }
 
           LoadSelectedSearchWord();
           textEditingController.text = "";
@@ -206,16 +208,10 @@ class _SearchSheetState extends State<SearchSheet> {
       SelectedSearchWord.add(textEditingController.text);
     }
 
-    await OnProceed();
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.setStringList('UserSearchSheetsData', SelectedSearchWord);
-      //print(prefs.getStringList('UserSearchSheetsData'));
-
-      //Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseState()));
-
       Navigator.pop(context, SelectedSearchWord);
-
   }
 
 
@@ -248,7 +244,7 @@ class _SearchSheetState extends State<SearchSheet> {
 
     if(k1 != "") {
       await Future.forEach(ToFindSearchSheetsData, (String dpt){
-        if(dpt.toLowerCase().contains(k1.toLowerCase()))
+        if(dpt.toLowerCase(). contains(k1.toLowerCase()))
         {
           topsearches1.add(dpt);
         }
@@ -284,37 +280,6 @@ class _SearchSheetState extends State<SearchSheet> {
     }
 
     return topsearches3;
-  }
-
-  Future<void> OnProceed() async {
-
-    //sub inspector haryana
-    await Future.forEach(UnSelectedSearchWord, (String departments) async {
-
-      var keywords = departments.split(" ");
-
-
-      List<String> reqkeywords = <String>[];
-
-
-      List<String> topsearches = <String>[];
-
-      var topsearches3 = await GetKeyWord3List(keywords);
-
-      print("Top 3 = " + topsearches3.length.toString());
-
-      await Future.forEach(topsearches3, (String res) async {
-        String dep =  await res.split(";")[2].toString().split("/")[1];
-        if(!topsearches.contains(dep))
-        {
-          topsearches.add(dep);
-          print("Selected Search words :- " + res + " - Top 3");
-        }
-      });
-
-      topsearches.addAll(SelectedSearchWord);
-      SelectedSearchWord = await topsearches;
-    });
   }
 
   @override

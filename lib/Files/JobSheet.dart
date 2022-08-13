@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/JobData.dart';
@@ -230,6 +231,9 @@ class _JobSheetState extends State<JobSheet> {
   }
 
   Future<void> OnJobLoad() async {
+
+    String jobString = await jsonEncode(await jobData.toJson());
+
     final prefs = await SharedPreferences.getInstance();
     List<String>? appliedjobs = prefs.getStringList('appliedjobs');
 
@@ -246,7 +250,7 @@ class _JobSheetState extends State<JobSheet> {
 
     List<String>? lovedjobs = prefs.getStringList('lovedjobs');
 
-    if(lovedjobs != null && lovedjobs.contains(jobData.Key)){
+    if(lovedjobs != null && lovedjobs.contains(jobString)){
       setState(() {
         lovebtntxt = "Loved";
       });
@@ -312,6 +316,7 @@ class _JobSheetState extends State<JobSheet> {
       });
     }
     await prefs.setStringList('lovedjobs', lovedjobs);
+    RequiredDataLoading.LoadLovedCache();
 
     print("APlly");
   }

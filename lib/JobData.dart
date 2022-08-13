@@ -1,14 +1,12 @@
-
-
 import 'dart:convert';
-
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/VacancyDetails.dart';
 
-class JobData{
-  String Key = "";
-  String Department = "";
+class JobData {
+  String Key = "UNKEY";
+  String Department = "UNKNOWN";
   String Title = "";
   String Short_Details = "";
   String DocumentRequired = "";
@@ -22,23 +20,31 @@ class JobData{
   String NotificationLink = "";
   String WebsiteLink = "";
   String url = "";
-  String Location = "";
+  String Location = "INDIA";
   String vdetailsquery = "";
+  List<dynamic> ButtonsName = <dynamic>[];
+  List<dynamic> ButtonsURL = <dynamic>[];
+  String Designation = "";
+  String LastUpdate = "";
+  String AdvertisementNumber = "";
+  Map<String, dynamic> ExamCenters = new Map<String, dynamic>();
+  List<dynamic> Corrections = <dynamic>[];
+  Map<String, dynamic> AgeLimits = new Map<String, dynamic>();
+  List<dynamic> HowTo = <dynamic>[];
+
+  void GenerateKey()
+  {
+    String DocumentID = Title.replaceAll("Online Form", "").replaceAll(
+      " ", "").replaceAll("\n", "").replaceAll("/", "").replaceAll(":", "");
+    Key =  DocumentID;
+  }
+
+
 
 
   bool isSave = false;
 
-
-  String CToString()
-  {
-    return Key + ";;;" + Department + ";;;" + Title + ";;;" + Short_Details + ";;;" +
-    DocumentRequired + ";;;" + DataProviderUrl + ";;;" +Important_Dates.toString() + ";;;" +ApplicationFees.toString() +
-    Total_Vacancies + ";;;" + HowToApply + ";;;" + NotificationLink + ";;;" +WebsiteLink + ";;;" +
-    url + ";;;" + Location + ";;;" + vdetailsquery + ";;;";
-  }
-
   Future<Map> toJson() async {
-
     List VDetailslst = [];
 
     await Future.forEach(VDetails, (VacancyDetails element) async {
@@ -56,167 +62,165 @@ class JobData{
       "ApplicationFees": jsonEncode(ApplicationFees),
       "Total_Vacancies": Total_Vacancies,
       "VDetails": vdetailsquery,
-      "HowToApply" : HowToApply,
-      "ApplyLink" : ApplyLink,
-      "NotificationLink" : NotificationLink,
+      "HowToApply": HowToApply,
+      "ApplyLink": ApplyLink,
+      "NotificationLink": NotificationLink,
       "WebsiteLink": WebsiteLink,
-      "url" : url,
+      "url": url,
       "Location": Location,
       "vdetailsquery": vdetailsquery,
+      "ButtonsName": jsonEncode(ButtonsName),
+      "ButtonsURL": jsonEncode(ButtonsURL),
+      "Designation": Designation,
+      "LastUpdate": LastUpdate,
+      "AdvertisementNumber": AdvertisementNumber,
     };
   }
 
-  Future<void> fromJson(String json)
-  async {
-      var data = jsonDecode(json);
+  Future<void> fromJson(String json) async {
+    var data = jsonDecode(json);
 
 
-      try {
-        vdetailsquery = data["vdetailsquery"];
-        print("VDQ ${vdetailsquery}");
-        if (vdetailsquery != "") {
-          await LoadVDetails(vdetailsquery);
-        }
+    try {
+      vdetailsquery = data["vdetailsquery"];
+      //print("VDQ ${vdetailsquery}");
+      if (vdetailsquery != "") {
+        await LoadVDetails(vdetailsquery);
       }
-      catch(e)
-    {
-
     }
-      Key = data["Key"];
-      Department = data["Department"];
-      Title = data["Title"];
-      Short_Details = data["Short_Details"];
-      DocumentRequired = data["DocumentRequired"];
-      DataProviderUrl = data["DataProviderUrl"];
-      Important_Dates = jsonDecode(data["Important_Dates"]);
-      ApplicationFees = jsonDecode(data["ApplicationFees"]);
-      Total_Vacancies = data["Total_Vacancies"];
+    catch (e) {}
 
-      //List<dynamic> vdetails = jsonDecode(data["VDetails"]);
+    Key = data["Key"];
+    Department = data["Department"];
+    Title = data["Title"];
+    Short_Details = data["Short_Details"];
+    DocumentRequired = data["DocumentRequired"];
+    DataProviderUrl = data["DataProviderUrl"];
+    Important_Dates = jsonDecode(data["Important_Dates"]);
+    ApplicationFees = jsonDecode(data["ApplicationFees"]);
+    Total_Vacancies = data["Total_Vacancies"];
 
-      ////print("LENGTH: " + data["VDetails"].toString());
-      // vdetails.forEach((element) {
-      //   //print("EEE = " + element);
-      // });
+    //List<dynamic> vdetails = jsonDecode(data["VDetails"]);
+
+    ////print("LENGTH: " + data["VDetails"].toString());
+    // vdetails.forEach((element) {
+    //   //print("EEE = " + element);
+    // });
 
 
-      HowToApply = data["HowToApply"];
-      ApplyLink = data["ApplyLink"];
-      NotificationLink = data["NotificationLink"];
-      WebsiteLink = data["WebsiteLink"];
-      url = data["url"];
-      Location = data["Location"];
+    HowToApply = data["HowToApply"];
+    ApplyLink = data["ApplyLink"];
+    NotificationLink = data["NotificationLink"];
+    WebsiteLink = data["WebsiteLink"];
+    url = data["url"];
+    Location = data["Location"];
 
+    ButtonsName = jsonDecode(data["ButtonsName"]);
+    ButtonsURL = jsonDecode(data["ButtonsURL"]);
+
+    Designation = data["Designation"];
+    LastUpdate = data["LastUpdate"];
+
+    AdvertisementNumber = data["AdvertisementNumber"];
+    ExamCenters = data["ExamCenters"];
+    Corrections = data["Corrections"];
+    AgeLimits = data["AgeLimits"];
+    HowTo = data["HowTo"];
   }
 
   Future<void> LoadVDetails(String vdetailsqry) async {
-      //print("Start1");
+    List<dynamic> AllDatas = <dynamic>[];
 
-      List<dynamic> AllDatas = <dynamic>[];
-
-      try {
-        AllDatas = jsonDecode(vdetailsqry);
-      }
-      catch(e)
-    {
+    try {
+      AllDatas = jsonDecode(vdetailsqry);
+    }
+    catch (e) {
       print("Here is error " + vdetailsqry);
       return;
     }
 
-      AllDatas.forEach((ele) async {
-        try {
-          var element = ele; //.toString().replaceAll("\"\\\"", "").replaceAll('"\"', "").replaceAll('\""', "");
-          //print(element);
-          var myele = jsonDecode(element);
+    AllDatas.forEach((ele) async {
+      try {
+        var element = ele;
+        var myele = jsonDecode(element);
 
-          VacancyDetails vacancyDetails = new VacancyDetails();
-          vacancyDetails.Title = myele["Title"].toString();
-          vacancyDetails.TotalVacancies = myele["TotalVacancies"] ?? 0;
+        VacancyDetails vacancyDetails = new VacancyDetails();
+        vacancyDetails.Title = myele["Title"].toString();
+        vacancyDetails.TotalVacancies = myele["TotalVacancies"] ?? 0;
 
-          //print("DATAS = " + myele["data"].toString().replaceAll(r'"\"', "").replaceAll(r'\""', ''));
-          //vacancyDetails.datas = jsonDecode(myele["data"]);
-          var myheader = myele["headers"];
-          if (myheader.runtimeType == String) {
-            vacancyDetails.headers = jsonDecode(await myele["headers"]);
-          }
-          else {
-            vacancyDetails.headers = myheader;
-          }
-
-          List<dynamic> datas = <dynamic>[];
-          var mydata = myele["data"];
-          if(mydata.runtimeType == String)
-            {
-              datas = jsonDecode(mydata);
-            }
-          else{
-            datas = mydata;
-          }
-          //List<dynamic> datas = jsonDecode(await myele["data"]);
-
-          await Future.forEach(datas, (dynamic isdata) {
-            VacancyDetailsData vacancyDetailsData = new VacancyDetailsData();
-
-            var vddata = isdata.toString().replaceAll('"', "").replaceAll("[", "").replaceAll("]", "");
-            var vddatas = vddata.split(",");
-
-            vacancyDetailsData.data = vddatas;
-
-            vacancyDetails.datas.add(vacancyDetailsData);
-          });
-          VDetails.add(vacancyDetails);
-
+        //print("DATAS = " + myele["data"].toString().replaceAll(r'"\"', "").replaceAll(r'\""', ''));
+        //vacancyDetails.datas = jsonDecode(myele["data"]);
+        var myheader = myele["headers"];
+        if (myheader.runtimeType == String) {
+          vacancyDetails.headers = jsonDecode(await myele["headers"]);
         }
-        catch (e) {
-          print("After eroor = " + e.toString());
+        else {
+          vacancyDetails.headers = myheader;
         }
-      });
 
+        List<dynamic> datas = <dynamic>[];
+        var mydata = myele["data"];
+        if (mydata.runtimeType == String) {
+          datas = jsonDecode(mydata);
+        }
+        else {
+          datas = mydata;
+        }
+        //List<dynamic> datas = jsonDecode(await myele["data"]);
 
-      //print("End1");
+        await Future.forEach(datas, (dynamic isdata) {
+          VacancyDetailsData vacancyDetailsData = new VacancyDetailsData();
+
+          var vddata = isdata.toString().replaceAll('"', "")
+              .replaceAll("[", "")
+              .replaceAll("]", "");
+          var vddatas = vddata.split(",");
+
+          vacancyDetailsData.data = vddatas;
+
+          vacancyDetails.datas.add(vacancyDetailsData);
+        });
+        VDetails.add(vacancyDetails);
+      }
+      catch (e) {
+        print("After eroor = " + e.toString());
+      }
+    });
+
   }
 
   Future<void> LoadingVDetails(var job, var ref) async {
     try {
       var vdetailsquerylist = <String>[];
-      print("Flag A");
-      var LVD_VDetails = await ref.collection(
+      var LVDVDetails = await ref.collection(
           "Jobs" + "/" + job.data()["Department"] + "/" +
               job.data()["Location"].toString().toUpperCase() + "/" + job.id +
               "/VDetails").get();
-      print("Flag B");
       int indx = 0;
-      await Future.forEach(LVD_VDetails.docs, (vdtl) async {
-        print("RunType = " + vdtl.runtimeType.toString());
-        print("Flag C");
-        var data = LVD_VDetails.docs[indx].data();
+      await Future.forEach(LVDVDetails.docs, (vdtl) async {
+        var data = LVDVDetails.docs[indx].data();
         VacancyDetails vacancyDetails = new VacancyDetails();
         vacancyDetails.Title = data["Title"];
         vacancyDetails.TotalVacancies = data["TotalVacancies"];
         vacancyDetails.headers = data["headers"];
-        print("Flag D");
         var vdetailquery = {
           "Title": data["Title"],
           "TotalVacancies": data["TotalVacancies"],
           "headers": data["headers" ],
           "data": null,
         };
-        print("Flag E");
-        var LVD_VDetailData = await ref.collection(
+        var LVDVDetailData = await ref.collection(
             "Jobs" + "/" + job.data()["Department"] + "/" +
                 job.data()["Location"].toString().toUpperCase() + "/" + job.id +
-                "/VDetails/" + LVD_VDetails.docs[indx].id +
+                "/VDetails/" + LVDVDetails.docs[indx].id +
                 "/VacancyDetailsData")
             .get();
-        print("Flag F");
         List<String> vacancydata = <String>[];
         int p = 0;
-        await Future.forEach(LVD_VDetailData.docs, (ele) async {
-          print("Flag G");
-          var VDetailDataA = LVD_VDetailData.docs[p].data();
+        await Future.forEach(LVDVDetailData.docs, (ele) async {
+          var VDetailDataA = LVDVDetailData.docs[p].data();
           VacancyDetailsData vacancyDetailsData = new VacancyDetailsData();
           vacancyDetailsData.data = VDetailDataA["data"];
-          //vacancyDetailsData.data = VDetailDataA["data"];
 
           vacancyDetails.datas.add(vacancyDetailsData);
           vacancydata.add(jsonEncode(VDetailDataA["data"].toString()));
@@ -234,106 +238,60 @@ class JobData{
         indx++;
       });
     }
-    catch(e){}
+    catch (e) {}
   }
 
   Future<void> LoadFromFireStoreValues(var job) async {
-    var ref = FirebaseFirestore.instance;
+    try {
+      var ref = FirebaseFirestore.instance;
 
-    Title = job.data()["Title"];
-    Department = job.data()["Department"];
-    url = job.data()["URL"];
-    Total_Vacancies = job.data()["Total_Vacancies"];
-    WebsiteLink = job.data()["WebsiteLink"];
-    Location = job.data()["Location"];
-    ApplicationFees = job.data()["ApplicationFees"];
-    Important_Dates = job.data()["Important_Dates"];
-    HowToApply = job.data()["HowToApply"];
-    Key = job.id;
-    ApplyLink = job.data()["ApplyLink"];
-    WebsiteLink = job.data()["WebsiteLink"];
-    NotificationLink = job.data()["NotificationLink"];
+      Title = job.data()["Title"].toString();
+      Department = job.data()["Department"].toString();
+      url = job.data()["URL"].toString();
+      Total_Vacancies = job.data()["Total_Vacancies"].toString();
+      WebsiteLink = job.data()["WebsiteLink"].toString();
+      Location = job.data()["Location"].toString();
+      ApplicationFees = job.data()["ApplicationFees"];
+      Important_Dates = job.data()["Important_Dates"];
+      HowToApply = job.data()["HowToApply"].toString();
+      Key = job.id;
+      ApplyLink = job.data()["ApplyLink"].toString();
+      WebsiteLink = job.data()["WebsiteLink"].toString();
+      NotificationLink = job.data()["NotificationLink"].toString();
 
-    Short_Details =
-        job.data()["Short_Details"].toString().replaceAll(
-            "Short Details of Notification", "");
-
-
-    if (Short_Details.replaceAll(
-        "Short Details of Notification", "") == "" ||
-        Short_Details.replaceAll(
-            "Short Details of Notification", "") == "\n") {
       Short_Details =
-          job.data()["Total_Vacancies"].toString().replaceAll(
-              "Vacancy Details Total : ", "");
-    }
+          job.data()["Short_Details"].toString().replaceAll(
+              "Short Details of Notification", "");
 
 
-    await LoadingVDetails(job, ref);
-    print("REQ " + vdetailsquery);
-
-
-  }
-
-
-
-  void GetFromString(String data){
-    var allvars = data.split(";;;");
-
-    for(int i=0; i<allvars.length; i++)
-      {
-        switch(i)
-        {
-          case 0:
-            Key = allvars[i];
-            break;
-          case 1:
-            Department = allvars[i];
-            break;
-          case 2:
-            Title = allvars[i];
-            break;
-          case 3:
-            Short_Details = allvars[i];
-            break;
-          case 4:
-            DocumentRequired = allvars[i];
-            break;
-          case 5:
-            DataProviderUrl = allvars[i];
-            break;
-          case 6:
-            var data = allvars[i].split(",");
-            Map<String, dynamic> Important_Dates = Map<String, dynamic>();
-            data.forEach((element) => Important_Dates[element.split(":")[0]] = element.split(":").length > 1 ? element.split(":")[1] : "");
-            break;
-          case 7:
-            var data = allvars[i].split(",");
-            Map<String, dynamic> ApplicationFees = Map<String, dynamic>();
-            data.forEach((element) => ApplicationFees[element.split(":")[0]] = element.split(":").length > 1 ? element.split(":")[1] : "");
-            break;
-          case 8:
-            Total_Vacancies = allvars[i];
-            break;
-          case 9:
-            HowToApply = allvars[i];
-            break;
-          case 10:
-            ApplyLink = allvars[i];
-            break;
-          case 11:
-            NotificationLink =  allvars[i];
-            break;
-          case 12:
-            WebsiteLink =  allvars[i];
-            break;
-          case 13:
-            url = allvars[i];
-            break;
-          case 14:
-            Location = allvars[i];
-            break;
-        }
+      if (Short_Details.replaceAll(
+          "Short Details of Notification", "") == "" ||
+          Short_Details.replaceAll(
+              "Short Details of Notification", "") == "\n") {
+        Short_Details =
+            job.data()["Total_Vacancies"].toString().replaceAll(
+                "Vacancy Details Total : ", "");
       }
+
+      ButtonsName = job.data()["ButtonsName"];
+      ButtonsURL = job.data()["ButtonsURL"];
+
+      Designation = job.data()["Designation"].toString();
+      LastUpdate = job.data()["LastUpdate"].toString();
+
+
+      AdvertisementNumber = job.data()["AdvertisementNumber"].toString();
+      ExamCenters = job.data()["ExamCenters"];
+      Corrections = job.data()["Corrections"];
+      AgeLimits = job.data()["AgeLimits"];
+      HowTo = job.data()["HowTo"];
+
+      await LoadingVDetails(job, ref);
+    }
+    catch(e)
+    {
+      JobDisplayManagement.WhatToShow += "error is ${e}\n";
+    }
   }
+
 }

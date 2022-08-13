@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +53,15 @@ class _JobBoxsState extends State<JobBoxs> {
 
     int index = 0;
 
+    if(jobs.isEmpty)
+      {
+        _AllDepartmentsList.add(
+          Container(
+            child: Text(JobDisplayManagement.WhatToShow, style: TextStyle(color: Colors.red),),
+          )
+        );
+      }
+
     jobs.forEach((job) {
       index++;
       if (!_ToShowJobs.containsKey(job.Department)) {
@@ -73,6 +84,10 @@ class _JobBoxsState extends State<JobBoxs> {
         });
       }
     });
+
+    setState(() {
+      AllDepartmentsList = _AllDepartmentsList;
+    });
   }
 
   @override
@@ -86,15 +101,38 @@ class _JobBoxsState extends State<JobBoxs> {
       DisplayJobs(jobs);
     };
 
-    CurrentJob.currentSearchDataStreamToCall = (search){
+    CurrentJob.currentSearchDataStreamToCall = (search) async {
+      JobDisplayManagement.jobstoshow.clear();
+      JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
+
       print("CALELD SEARCH");
+
       JobDisplayManagement.isloadingjobs = true;
-      SearchAbleDataLoading.FastestSearchSystem(search);
+      await SearchAbleDataLoading.FastestSearchSystem(search);
+      Timer(Duration(seconds: 1), (){
+        setState(() {
+          JobDisplayManagement.isloadingjobs = false;
+        });
+      });
     };
 
-    CurrentJob.lovedjobDataStreamToCall = (){
+    CurrentJob.lovedjobDataStreamToCall = () async {
+
+      JobDisplayManagement.jobstoshow.clear();
+      JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
+
+      AllDepartmentsList.clear();
+      print("Loved Click");
+      setState(() {
+        JobDisplayManagement.isloadingjobs = true;
+      });
       print("LOading LovedJobs");
-      RequiredDataLoading.LoadLovedJobs();
+      await RequiredDataLoading.LoadLovedJobs();
+      Timer(Duration(seconds: 1), (){
+        setState(() {
+          JobDisplayManagement.isloadingjobs = false;
+        });
+      });
     };
     super.initState();
   }
@@ -102,7 +140,9 @@ class _JobBoxsState extends State<JobBoxs> {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      child: JobDisplayManagement.isloadingjobs == true ? SingleChildScrollView(child: LoadingAnim()) :  Column(
+      child: JobDisplayManagement.isloadingjobs == true ?
+          SingleChildScrollView(child: LoadingAnim())
+          :  Column(
         children:AllDepartmentsList,
       ),
     );

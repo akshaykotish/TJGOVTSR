@@ -67,6 +67,9 @@ flutter:
 
 
   fonts:
+    - family: SportsWorld
+      fonts:
+        - asset: assets/fonts/Sports_world/Sports World-Regular.ttf
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins/Poppins-Black.ttf
@@ -94,6 +97,8 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/branding/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

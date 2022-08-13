@@ -65,7 +65,6 @@ class TempAllJobs{
                 });
 
                 jobDatas.add(jobData);
-                print("Current Length is " + jobDatas.length.toString());
               });
           });
         }

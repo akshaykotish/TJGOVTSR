@@ -170,17 +170,33 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
 
   Future<void> FindDepartment(e) async {
 
+    print("E" + e.toString()
+    );
     var _ToFindDepartmentsShowWidget = <Widget>[];
     var alreadyadded = <String>[];
 
+    bool isexsists = false;
     for(int i=0; i<ToFindDepartments.length && _ToFindDepartmentsShowWidget.length < 10; i++)
       {
-
         //Jobs/Bihar School Examination Board (BSEB)/BIHAR/TeacherEligibilityTest(BETETBTET)2017
-        String Departmentis = await ToFindDepartments[i].split(";")[2].toString().split("/")[1];
+        String Departmentis = "";
+        try {
+           Departmentis = await ToFindDepartments[i]
+              .split(";")
+              .length == 4
+              ? ToFindDepartments[i].split(";")[1]
+              : ToFindDepartments[i].split(";")[0].split("/")[1];
+        }
+        catch(e){}
+
+        if(Departmentis == "")
+          {
+            continue;
+          }
 
         if(ToFindDepartments[i].toLowerCase().contains(e.toString().toLowerCase()) && await !alreadyadded.contains(Departmentis))
           {
+            isexsists = true;
             alreadyadded.add(Departmentis);
             _ToFindDepartmentsShowWidget.add(
               GestureDetector(
@@ -210,18 +226,19 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
               ),
             );
           }
-      }
 
-    if(_ToFindDepartmentsShowWidget.isEmpty)
-    {
-      UknownSelectedDepartment.add(e);
-    }
+      }
 
     _ToFindDepartmentsShowWidget.add(
       GestureDetector(
         onTap: (){
           SelectedDepartment.add(e.toString());
           AddStateToSelectedState(FindLocation(e.toString()));
+
+          if(!UknownSelectedDepartment.contains(e))
+          {
+            UknownSelectedDepartment.add(e);
+          }
 
           LoadSelectedDepartment();
           textEditingController.text = "";
@@ -276,6 +293,10 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
     if(textEditingController.text != "") {
       SelectedDepartment.add(textEditingController.text);
       AddStateToSelectedState(FindLocation(textEditingController.text.toString()));
+      if(!UknownSelectedDepartment.contains(textEditingController.text))
+      {
+        UknownSelectedDepartment.add(textEditingController.text);
+      }
     }
 
     await OnProceed();
@@ -297,6 +318,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
     LoadAllDepartments();
     super.initState();
   }
+
 
   Future<void> OnProceed() async {
 
@@ -356,7 +378,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
       print("Top 3 = " + topsearches3.length.toString());
 
       await Future.forEach(topsearches3, (String res) async {
-        String dep =  await res.split(";")[2].toString().split("/")[1];
+        String dep =  await res.split(";")[0].toString().split("/")[1];
         if(!topsearches.contains(dep))
         {
           topsearches.add(dep);

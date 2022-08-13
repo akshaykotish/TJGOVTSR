@@ -87,9 +87,9 @@ class _JobBoxState extends State<JobBox> {
       },
       child: Container(
         margin: const EdgeInsets.only(
-          left: 30,
-          top: 20,
-          bottom: 20,
+          left: 20,
+          top: 15,
+          bottom:5,
         ),
         padding: const EdgeInsets.only(
           left: 10,
@@ -101,7 +101,7 @@ class _JobBoxState extends State<JobBox> {
             bottomLeft: Radius.circular(20),
             topLeft: Radius.circular(20),
           ),
-          color: widget.isClicked ? Colors.blue : Colors.grey[200],
+          color: widget.isClicked ? Colors.blue : ColorFromHexCode("#FFF1C9").withOpacity(0.4),
         ),
         width: MediaQuery.of(context).size.width,
         child: Row(
@@ -112,7 +112,7 @@ class _JobBoxState extends State<JobBox> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                 ),
-                child: Center(child: Text(widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").length > 4 ? widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").substring(0, 4) : widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", ""), style: TextStyle(fontSize: 25, color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.bold),))),
+                child: Center(child: Text(widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").length > 4 ? widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").substring(0, 4) : widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", ""), style: TextStyle(fontSize: 30, color: ColorFromHexCode("#726500"), fontWeight: FontWeight.bold),))),
             const SizedBox(width: 20,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,10 +120,10 @@ class _JobBoxState extends State<JobBox> {
               children: <Widget>[
                 Container(
                   width: MediaQuery.of(context).size.width/2 + 20,
-                  child: Text(widget.jobData.Title.length > 75 ? widget.jobData.Title.substring(0, 75) + "..." : widget.jobData.Title, style: TextStyle(
-                    fontSize: 15,
+                  child: Text(widget.jobData.Designation.length > 75 ? widget.jobData.Designation.substring(0, 75) + "..." : widget.jobData.Designation, style: TextStyle(
+                    fontSize: 17,
                     fontWeight: FontWeight.w700,
-                    color: widget.isClicked ? Colors.white : Colors.grey[800],
+                    color: widget.isClicked ? Colors.white : ColorFromHexCode("#2A2500"),
                   ),),
                 ),
                 Text(widget.jobData.Short_Details.length > 30 ? widget.jobData.Short_Details.substring(0, 30) : widget.jobData.Short_Details, style: TextStyle(

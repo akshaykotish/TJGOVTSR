@@ -212,6 +212,12 @@ class _ChooseInterestState extends State<ChooseInterest> {
   }
 
   Future<void> SaveSelectedInterest() async {
+
+    if(textEditingController.text != "")
+      {
+        SelectedInterest.add(textEditingController.text);
+      }
+
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('UserInterest', SelectedInterest);
     await prefs.setStringList("RequiredData", []);
