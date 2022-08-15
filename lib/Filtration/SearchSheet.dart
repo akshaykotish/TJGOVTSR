@@ -57,8 +57,6 @@ class _SearchSheetState extends State<SearchSheet> {
             padding:  const EdgeInsets.all(15),
             decoration:  BoxDecoration(
               color: Colors.grey.shade100,
-              boxShadow: [
-              ],
               borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
             child: Row(
@@ -108,7 +106,8 @@ class _SearchSheetState extends State<SearchSheet> {
     for(int i=0; i<ToFindSearchSheetsData.length && _ToFindSearchSheetsDataShowWidget.length < 3; i++)
     {
 
-      String Departmentis = await (ToFindSearchSheetsData[i].split(";").length == 4 ? ToFindSearchSheetsData[i].split(";")[2].toString() : ToFindSearchSheetsData[i]);
+      String Departmentis = await (ToFindSearchSheetsData[i].split(";").length == 4 ? ToFindSearchSheetsData[i].split(";")[1].toString() : ToFindSearchSheetsData[i]);
+      String Jobis = await (ToFindSearchSheetsData[i].split(";").length == 4 ? ToFindSearchSheetsData[i].split(";")[2].toString() : ToFindSearchSheetsData[i]);
 
     if(ToFindSearchSheetsData[i].toLowerCase().contains(e.toString().toLowerCase()) && await !alreadyadded.contains(Departmentis))
       {
@@ -135,6 +134,33 @@ class _SearchSheetState extends State<SearchSheet> {
               padding: EdgeInsets.all(10),
               color: Colors.grey[200],
               child: Text(Departmentis),
+            ),
+          ),
+        );
+
+        _ToFindSearchSheetsDataShowWidget.add(
+          GestureDetector(
+            onTap: (){
+              SelectedSearchWord.add(Jobis);
+
+              LoadSelectedSearchWord();
+
+              textEditingController.text = "";
+              setState(() {
+                ShowHintBox = false;
+              });
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              margin: const EdgeInsets.only(
+                left: 20,
+                top: 5,
+                bottom: 5,
+                right: 20,
+              ),
+              padding: EdgeInsets.all(10),
+              color: Colors.grey[200],
+              child: Text(Jobis),
             ),
           ),
         );

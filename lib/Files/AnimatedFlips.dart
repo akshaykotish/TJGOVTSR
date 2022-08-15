@@ -14,6 +14,7 @@ class AnimatedFlips extends StatefulWidget {
 
 class _AnimatedFlipsState extends State<AnimatedFlips> {
 
+  static bool isrunning = false;
   bool isback = false;
   double angle = 0;
 
@@ -34,6 +35,7 @@ class _AnimatedFlipsState extends State<AnimatedFlips> {
 
   void StartAnimation()
   {
+    isrunning = true;
     Timer.periodic(Duration(seconds: 5), (timer) {
 
       if(angle == pi) {
@@ -60,7 +62,7 @@ class _AnimatedFlipsState extends State<AnimatedFlips> {
 
   @override
   void initState() {
-    StartAnimation();
+    isrunning == false ? StartAnimation() : null;
     super.initState();
   }
 

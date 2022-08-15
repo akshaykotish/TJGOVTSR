@@ -12,12 +12,16 @@ class _BannerForAdsState extends State<BannerForAds> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      height: 200,
+      height: 215,
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
       child: Container(
+        decoration: BoxDecoration(
+          image: const DecorationImage(
+            image: AssetImage("./assets/branding/adbanner.png"),
+          ),
+          color: Colors.brown.withOpacity(0.6),
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+        ),
 
       ),
     );

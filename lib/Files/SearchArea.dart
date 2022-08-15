@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
@@ -17,16 +19,14 @@ class _SearchAreaState extends State<SearchArea> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(5),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
+      margin: const EdgeInsets.all(10),
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.2),
+              borderRadius: const BorderRadius.all(Radius.circular(15))
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,6 +41,7 @@ class _SearchAreaState extends State<SearchArea> {
                   child: GestureDetector(
                     onTap: () async {
                       JobDisplayManagement.isloadingjobs = true;
+                      JobDisplayManagement.ismoreloadingjobs = true;
                       JobDisplayManagement.jobstoshow.clear();
                       var ToSearches = await Navigator.push(context, MaterialPageRoute(builder: (context) => SearchSheet()));
                       print("ToSearches: " + ToSearches.toString());
@@ -60,7 +61,7 @@ class _SearchAreaState extends State<SearchArea> {
                           ),
                         ),
                         const SizedBox(width: 20,),
-                        Text("Look at the jobs..", style: TextStyle(fontSize: 20, color: Colors.grey[400], fontWeight: FontWeight.bold, fontFamily: "Poppins"),),
+                        Text("Look at the jobs..", style: TextStyle(fontSize: 20, color: Colors.grey[500], fontWeight: FontWeight.w400, fontFamily: "Poppins"),),
                       ],
                     ),
                   ),
@@ -91,8 +92,8 @@ class _SearchAreaState extends State<SearchArea> {
                 )
               ],
             ),
-          )
-        ],
+          ),
+        ),
       ),
     );
   }

@@ -160,7 +160,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               controller: scrollController,
               child: Column(
                 children: <Widget>[
-                  Header(),
                   Visibility(visible: !PositionedSearchArea_Visible ,child: SearchArea()),
                   GestureDetector(
                     onTap: (){
@@ -235,39 +234,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     visible: PositionedSearchArea_Visible,
                     child: PositionedSearchArea()),
               ),),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: MediaQuery.of(context).size.height,
-              child: DraggableScrollableSheet(
-                  controller: draggableScrollableController,
-                    initialChildSize: initialchildsize,
-                    minChildSize: 0,
-                    maxChildSize: .9,
-                    builder: (BuildContext context, ScrollController scrollController) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              offset: -const Offset(1, 1),
-                              blurRadius: 1,
-                              spreadRadius: 1,
-                              color: Colors.grey.shade300,
-                            ),
-                          ],
-                        ),
-                        child: SingleChildScrollView(
-                          controller: scrollController,
-                          child: JobSheet(jobData: SheetjobData,)
-                        ),
-                      );
-                    }),
-                    ),
+
           ],
         ),
       ),

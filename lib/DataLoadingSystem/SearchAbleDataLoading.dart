@@ -129,11 +129,20 @@ class SearchAbleDataLoading{
     JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
   }
 
+  static Future<void> Flush(List<JobData> fp, List<JobData> sp, List<JobData> tp)
+  async {
+    JobDisplayManagement.jobstoshow.clear();
+    await AddToShow(fp);
+    await AddToShow(sp);
+    await AddToShow(tp);
+  }
+
   static Future<void> FastestSearchSystem(List<String> searchkeywords) async {
     try {
       JobDisplayManagement.jobstoshow.clear();
 
       if (searchkeywords == null || searchkeywords.isEmpty) {
+        JobDisplayManagement.ismoreloadingjobs = false;
         return;
       }
 
@@ -144,13 +153,11 @@ class SearchAbleDataLoading{
       JobDisplayManagement.ismoreloadingjobs = true;
 
 
-      //bool gorun = true;
-      int readytoadd = 0;
-
       var RevSearchable = await SearchAbleCache.reversed;
       await Future.forEach(RevSearchable, (String JobString) async {
         if(JobDisplayManagement.jobstoshow.length >= 100)
           {
+            JobDisplayManagement.ismoreloadingjobs = false;
             return;
           }
           await Future.forEach(searchkeywords, (String keyword) async {
@@ -170,7 +177,7 @@ class SearchAbleDataLoading{
                 JobData? jobData;
                 if (count != 0) {
                   String path = JobString.split(";")[0];
-                  bool pc = await path.contains("UNKNOWN");
+                  bool pc = path.contains("UNKNOWN");
                   if(pc == false){
                     jobData = await GetJobFromURL(path);
                   }
@@ -180,55 +187,49 @@ class SearchAbleDataLoading{
                 }
 
             if (jobData != null) {
-                print("Job count = ${count} and ${jobData.Designation} and ${parts.toString()}");
+                if(count >= keyword.length) {
+                  jobData.count = 3;
+                }
+                else{
+                  jobData.count = count;
+                }
+
                 if (count >= 3) {
                   firstpriority.add(jobData);
-                  readytoadd++;
                 }
                 else if (count == 2) {
                   secondpriority.add(jobData);
-                  readytoadd++;
                 }
                 else if (count == 1) {
                   thirdpriority.add(jobData);
-                  readytoadd++;
                 }
 
-                if(readytoadd%10 == 0)
-                  {
-                    JobDisplayManagement.jobstoshow.clear();
-                    await AddToShow(firstpriority);
-                    await AddToShow(secondpriority);
-                    await AddToShow(thirdpriority);
-                  }
+                print(JobDisplayManagement.ismoreloadingjobs);
 
-                //
-                // if(count != 0)
-                //   {
-                //     JobDisplayManagement.jobstoshow.add(jobData);
-                //     JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
-                //   }
+                if(count >= parts.length)
+                  {
+                    Flush(firstpriority, secondpriority, thirdpriority);
+                  }
 
                   if (JobDisplayManagement.isloadingjobs == true) {
                     JobDisplayManagement.isloadingjobs = false;
+                    JobDisplayManagement.ismoreloadingjobs = false;
                   }
-
 
                   if(JobDisplayManagement.jobstoshow.length >= 100)
                     {
+                      JobDisplayManagement.ismoreloadingjobs = false;
                       return;
                     }
                 }
                 });
           });
 
-      JobDisplayManagement.jobstoshow.clear();
-      await AddToShow(firstpriority);
-      await AddToShow(secondpriority);
-      await AddToShow(thirdpriority);
-
-
       JobDisplayManagement.ismoreloadingjobs = false;
+      JobDisplayManagement.jobstoshow.clear();
+      Flush(firstpriority, secondpriority, thirdpriority);
+
+
     }
     catch(e)
     {

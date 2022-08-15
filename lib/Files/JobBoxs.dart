@@ -74,7 +74,6 @@ class _JobBoxsState extends State<JobBoxs> {
 
       if(index == jobs.length)
       {
-        print("INDEX REACHED" + _ToShowJobs.length.toString());
         _ToShowJobs.forEach((key, value) {
           _AllDepartmentsList.add(DepartmentBox(DepartmentName: key, jobboxes: value));
 

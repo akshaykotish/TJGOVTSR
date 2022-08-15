@@ -239,18 +239,51 @@ class RequiredDataLoading{
     JobDisplayManagement.isloadingjobs = false;
   }
 
+  static Future<void> LoadHotJobs()
+  async {
+
+    JobDisplayManagement.ismoreloadingjobs = true;
+    var Jobs = await FirebaseFirestore.instance.collection("Logs").doc("Hots").get();
+    if(Jobs.exists && Jobs.data()!["Hots"] != null)
+      {
+        Iterable hots = (Jobs.data()!["Hots"] as List<dynamic>).reversed;
+        for (var p in hots) {
+          String path = p.toString();
+          var job = await FirebaseFirestore.instance.doc(path).get();
+          if(job.exists)
+            {
+              JobData jobData = JobData();
+              jobData.count = 50;
+              await jobData.LoadFromFireStoreValues(job);
+              JobDisplayManagement.jobstoshow.add(jobData);
+              JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
+              if(JobDisplayManagement.isloadingjobs == true)
+                {
+                  JobDisplayManagement.isloadingjobs = false;
+                }
+            }
+        }
+      }
+    JobDisplayManagement.ismoreloadingjobs = false;
+  }
+
 
   static Future<void> Execute() async {
     await init();
     print("Required Caches are = ${UserDepartments.length}");
 
-    RequiredData.isEmpty ?
-    await DownloadRequiredData() : LoadCachedRequiredData();
+      if(UserDepartments.isNotEmpty) {
+        RequiredData.isEmpty ?
+        await DownloadRequiredData() : LoadCachedRequiredData();
 
-    JobDisplayManagement.HideJobsLoading();
-    JobDisplayManagement.isloadingjobs = false;
+        JobDisplayManagement.HideJobsLoading();
+        JobDisplayManagement.isloadingjobs = false;
 
-    print("Hurry! We did it.... ${JobDisplayManagement.jobstoshow.length}");
+        print("Hurry! We did it.... ${JobDisplayManagement.jobstoshow.length}");
+      }
+      else{
+       await LoadHotJobs();
+      }
   }
 
   //--------------------------------------------------------------------------

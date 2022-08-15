@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:governmentapp/Beauty/Buttons.dart';
+import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/Files/SearchArea.dart';
 import 'package:governmentapp/HexColors.dart';
 
@@ -15,23 +18,31 @@ class _ToolSectionState extends State<ToolSection> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(10),
-      padding: const EdgeInsets.only(
-        top: 10,
-        bottom: 10,
+      decoration: const BoxDecoration(
+        borderRadius:  BorderRadius.all(Radius.circular(15)),
       ),
-      height: 210,
-      decoration: BoxDecoration(
-        color: ColorFromHexCode("#F0F0F0"),
-        borderRadius: const BorderRadius.all(Radius.circular(15)),
-
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const <Widget>[
-          Buttons(),
-          SizedBox(height: 10,),
-          SearchArea(),
-        ],
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            padding: const EdgeInsets.only(
+              top: 10,
+              bottom: 10,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.1),
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const <Widget>[
+                Buttons(),
+                SizedBox(height: 10,),
+                SearchArea(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

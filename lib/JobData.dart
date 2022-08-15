@@ -5,6 +5,9 @@ import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/VacancyDetails.dart';
 
 class JobData {
+
+  int count = 0;
+
   String Key = "UNKEY";
   String Department = "UNKNOWN";
   String Title = "";

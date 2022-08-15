@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:governmentapp/Files/JobBox.dart';
 import 'package:governmentapp/HexColors.dart';
@@ -31,34 +33,28 @@ class _DepartmentBoxState extends State<DepartmentBox> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           SizedBox(height: 50,),
-          Container(
-            padding: EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width - 50,
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-              color: ColorFromHexCode("#9E957C").withOpacity(0.6),
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(15),
-                bottomRight: Radius.circular(15),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(1, 1),
-                  spreadRadius: 1,
-                  blurRadius: 1,
-                  color: Colors.grey.shade300,
-                )
-              ]
-            ),
-            child: Text(
-              widget.DepartmentName.toUpperCase(),
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-                fontSize: 15,
-                color: ColorFromHexCode("#FFFCF1"),
-                shadows: [
-                  Shadow(color: Colors.grey.shade900)
-                ]
+          ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                width: widget.DepartmentName.toTitleCase().length * 10 <= MediaQuery.of(context).size.width - 20 ? widget.DepartmentName.toTitleCase().length * 10 : MediaQuery.of(context).size.width - 20,
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: ColorFromHexCode("#E9DDA7").withOpacity(0.3),
+                  borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                child: Text(
+                  widget.DepartmentName.toTitleCase(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: Colors.grey[700],
+                  ),
+                ),
               ),
             ),
           ),
