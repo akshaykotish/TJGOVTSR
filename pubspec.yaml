@@ -67,9 +67,12 @@ flutter:
 
 
   fonts:
-    - family: SportsWorld
+    - family: Amatic_SC
       fonts:
-        - asset: assets/fonts/Sports_world/Sports World-Regular.ttf
+        - asset: assets/fonts/Amatic_SC/AmaticSC-Regular.ttf
+    - family: CAMPUS
+      fonts:
+        - asset: assets/fonts/CAMPUS/CAMPUS.ttf
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins/Poppins-Black.ttf

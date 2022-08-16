@@ -61,6 +61,7 @@ class RequiredDataLoading{
   static var AllDepartmentsList = <Widget>[];
   static var LovedJobs = <String>[];
   static var RequiredData = <String>[];
+  static var HotsCache = <String>[];
 
   static Future<void> init() async {
     JobDisplayManagement.jobstoshow.clear();
@@ -241,30 +242,34 @@ class RequiredDataLoading{
 
   static Future<void> LoadHotJobs()
   async {
-
-    JobDisplayManagement.ismoreloadingjobs = true;
-    var Jobs = await FirebaseFirestore.instance.collection("Logs").doc("Hots").get();
-    if(Jobs.exists && Jobs.data()!["Hots"] != null)
-      {
-        Iterable hots = (Jobs.data()!["Hots"] as List<dynamic>).reversed;
-        for (var p in hots) {
-          String path = p.toString();
-          var job = await FirebaseFirestore.instance.doc(path).get();
-          if(job.exists)
-            {
-              JobData jobData = JobData();
-              jobData.count = 50;
-              await jobData.LoadFromFireStoreValues(job);
-              JobDisplayManagement.jobstoshow.add(jobData);
-              JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
-              if(JobDisplayManagement.isloadingjobs == true)
-                {
-                  JobDisplayManagement.isloadingjobs = false;
-                }
-            }
+try {
+  JobDisplayManagement.ismoreloadingjobs = true;
+  var Jobs = await FirebaseFirestore.instance.collection("Logs")
+      .doc("Hots")
+      .get();
+  if (Jobs.exists && Jobs.data()!["Hots"] != null) {
+    Iterable hots = (Jobs.data()!["Hots"] as List<dynamic>).reversed;
+    for (var p in hots) {
+      String path = p.toString();
+      var job = await FirebaseFirestore.instance.doc(path).get();
+      if (job.exists) {
+        JobData jobData = JobData();
+        jobData.count = 50;
+        await jobData.LoadFromFireStoreValues(job);
+        JobDisplayManagement.jobstoshow.add(jobData);
+        JobDisplayManagement.jobstoshowstreamcontroller.add(
+            JobDisplayManagement.jobstoshow);
+        if (JobDisplayManagement.isloadingjobs == true) {
+          JobDisplayManagement.isloadingjobs = false;
         }
       }
-    JobDisplayManagement.ismoreloadingjobs = false;
+    }
+  }
+  JobDisplayManagement.ismoreloadingjobs = false;
+}
+catch(e) {
+  print(e);
+}
   }
 
 

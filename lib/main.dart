@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:governmentapp/Beauty/Home.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataPullers/ScrapperController.dart';
+import 'package:governmentapp/Encyclopedia/EncyclopediaRead.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'DataLoadingSystem/SearchAbleDataLoading.dart';
 
@@ -41,10 +42,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        fontFamily: 'Poppins',
+        fontFamily: 'EBGaramond',
         primarySwatch: Colors.blue,
       ),
-      home: const Home(),
+      home: const EncyclopediaRead(),
     );
   }
 }

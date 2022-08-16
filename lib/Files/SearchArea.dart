@@ -61,7 +61,7 @@ class _SearchAreaState extends State<SearchArea> {
                           ),
                         ),
                         const SizedBox(width: 20,),
-                        Text("Look at the jobs..", style: TextStyle(fontSize: 20, color: Colors.grey[500], fontWeight: FontWeight.w400, fontFamily: "Poppins"),),
+                        Text("Look at the jobs..", style: TextStyle(fontSize: 20, color: Colors.grey[500], fontWeight: FontWeight.w400, fontFamily: "EBGaramond"),),
                       ],
                     ),
                   ),

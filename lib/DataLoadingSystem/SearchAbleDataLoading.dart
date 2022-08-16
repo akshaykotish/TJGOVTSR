@@ -102,16 +102,22 @@ class SearchAbleDataLoading{
 
   static Future<void> LoadJobIndex() async {
     await LoadJobIndexCache();
-    var JobIndex = await FirebaseFirestore.instance.collection("Indexs").doc("Jobs").get();
-    if(JobIndex.exists) {
-      String ts = JobIndex.data()!["TimeStamp"];
-      if(ts != JobIndexTimestamp)
-        {
+    try {
+      var JobIndex = await FirebaseFirestore.instance.collection("Indexs").doc(
+          "Jobs").get();
+      if (JobIndex.exists) {
+        String ts = JobIndex.data()!["TimeStamp"];
+        if (ts != JobIndexTimestamp) {
           JobIndexTimestamp = ts;
           var c = await JobIndex.data()!["SearchAbleCache"];
           await (c != null ? SearchAbleCache = List<String>.from(c) : null);
           await Fire();
         }
+      }
+    }
+    catch(e)
+    {
+      print(e);
     }
   }
 

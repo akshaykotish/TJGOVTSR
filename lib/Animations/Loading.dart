@@ -20,10 +20,6 @@ class _LoadingAnimState extends State<LoadingAnim> {
             SkeltonCard(),
             SkeltonCard(),
             SizedBox(height: 20,),
-            SkeletonDeptCard(),
-            SkeltonCard(),
-            SkeltonCard(),
-            SizedBox(height: 20,),
           ],
         ),
       );

@@ -35,28 +35,28 @@ class _AnimatedFlipsState extends State<AnimatedFlips> {
 
   void StartAnimation()
   {
-    isrunning = true;
-    Timer.periodic(Duration(seconds: 5), (timer) {
-
-      if(angle == pi) {
-        setState(() {
-          angle = 0; //(angle + pi) % (2 * pi);
-          if(index == 2)
-          {
-            index = 0;
-          }
-          else{
-            index++;
-          }
-
-        });
-      }
-      else{
-        setState(() {
-          angle = (angle + pi) % (2 * pi);
-        });
-      }
-    });
+    try {
+      isrunning = true;
+      Timer.periodic(Duration(seconds: 5), (timer) {
+        if (angle == pi) {
+          setState(() {
+            angle = 0; //(angle + pi) % (2 * pi);
+            if (index == 2) {
+              index = 0;
+            }
+            else {
+              index++;
+            }
+          });
+        }
+        else {
+          setState(() {
+            angle = (angle + pi) % (2 * pi);
+          });
+        }
+      });
+    }
+    catch(e){}
   }
 
 
@@ -97,14 +97,14 @@ class _AnimatedFlipsState extends State<AnimatedFlips> {
                   child: Container(
                     alignment: Alignment.center,
                     child: isback == false ? Container(
-                        child: Text(strigs[index], style: TextStyle(fontFamily: "Poppins", fontSize: 12, color: ColorFromHexCode("#DADADA"), fontWeight: FontWeight.bold,)))
+                        child: Text(strigs[index], style: TextStyle(fontFamily: "Amatic_SC", fontSize: 17, color: ColorFromHexCode("#DADADA"), fontWeight: FontWeight.bold,)))
                         :
                     Container(
                       child: Transform(
                         alignment: Alignment.center,
                           transform: Matrix4.identity()
                             ..rotateX(pi),
-                          child: Text(strigs[index+1], style: TextStyle(fontFamily: "Poppins", fontSize: 12, color: ColorFromHexCode("#DADADA"), fontWeight: FontWeight.bold,),)),
+                          child: Text(strigs[index+1], style: TextStyle(fontFamily: "Amatic_SC", fontSize: 17, color: ColorFromHexCode("#DADADA"), fontWeight: FontWeight.bold,),)),
                     ),
                   ),
                 ));

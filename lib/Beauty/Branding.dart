@@ -30,10 +30,10 @@ class _BrandingState extends State<Branding> {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.only(top: 10),
-              child: Text("TrackJobs", style: TextStyle(fontFamily: "SportsWorld", fontSize: 30, color: ColorFromHexCode("#DBDBDB"), letterSpacing: 15),),
+              child: Text("TrackJobs", style: TextStyle(fontFamily: "CAMPUS", fontSize: 30, color: ColorFromHexCode("#DBDBDB"), letterSpacing: 15),),
             ),
-            SizedBox(height: 8,),
-            AnimatedFlips(),
+            const SizedBox(height: 8,),
+            const AnimatedFlips(),
           ],
         ),
       ),

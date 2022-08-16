@@ -67,7 +67,7 @@ class _FilterPageState extends State<FilterPage> {
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
-                        fontFamily: "Poppins"
+                        fontFamily: "EBGaramond"
                       ),
                     )
                 ),

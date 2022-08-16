@@ -78,6 +78,10 @@ class Result{
     int NetDataSize = Links.length;
     NewLastSavedSizes = LastSavedSizes;
 
+    if(NetDataSize == LastSavedSizes){
+      return;
+    }
+
     int l = 0;
     for(int i=(NetDataSize - LastSavedSizes) - 1; i>=0 /*&& l < 10*/; i--)
     {
