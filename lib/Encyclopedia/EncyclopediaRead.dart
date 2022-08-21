@@ -18,7 +18,10 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
 
   Future<void> Search()
   async {
+    EncylopediaDatas.encylopediaDatas.clear();
+
     if(textEditingController.text != "" && textEditingController.text != " " && textEditingController.text.isNotEmpty) {
+      EncylopediaDatas.SearchTitle = textEditingController.text;
       String url = "https://en.wikipedia.org/w/index.php?search=${textEditingController
           .text}&title=Special:Search&profile=advanced&fulltext=1&ns0=1";
       setState(() {
@@ -67,6 +70,9 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
         await MakeAResultBox(allLis[i].outerHtml);
         if(allLis.length - 1 == i)
           {
+            setState(() {
+              isloading = false;
+            });
             Navigator.push(context, MaterialPageRoute(builder: (context) => EncyclopediaResult()));
           }
       }

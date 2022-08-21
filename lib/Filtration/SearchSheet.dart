@@ -105,9 +105,24 @@ class _SearchSheetState extends State<SearchSheet> {
 
     for(int i=0; i<ToFindSearchSheetsData.length && _ToFindSearchSheetsDataShowWidget.length < 3; i++)
     {
+      String Departmentis = "";
+      String Jobis = "";
 
-      String Departmentis = await (ToFindSearchSheetsData[i].split(";").length == 4 ? ToFindSearchSheetsData[i].split(";")[1].toString() : ToFindSearchSheetsData[i]);
-      String Jobis = await (ToFindSearchSheetsData[i].split(";").length == 4 ? ToFindSearchSheetsData[i].split(";")[2].toString() : ToFindSearchSheetsData[i]);
+      var parts = ToFindSearchSheetsData[i].split(";");
+      if(parts.length == 3)
+        {
+          Departmentis = parts[1];
+          Jobis = parts[0];
+        }
+      else{
+        Departmentis = parts[2];
+        Jobis = parts[1];
+      }
+
+      if(Departmentis == "" || Jobis == "" || Departmentis == "UNKNOWN")
+        {
+          continue;
+        }
 
     if(ToFindSearchSheetsData[i].toLowerCase().contains(e.toString().toLowerCase()) && await !alreadyadded.contains(Departmentis))
       {

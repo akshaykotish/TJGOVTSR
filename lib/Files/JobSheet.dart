@@ -349,373 +349,377 @@ class _JobSheetState extends State<JobSheet> {
         image: DecorationImage(
           image: AssetImage(
             "./assets/branding/dbg.png",
-          )
+          ),
+          fit: BoxFit.fitWidth,
         )
       ),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              height: 25,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
+        filter: ImageFilter.blur(sigmaX: 35, sigmaY: 35),
+        child: Container(
+          color: Colors.white.withOpacity(0.1),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                height: 25,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                ),
+                child: Center(
+                  child: Icon(Icons.drag_handle, color: Colors.grey[400],),
                 ),
               ),
-              child: Center(
-                child: Icon(Icons.drag_handle, color: Colors.grey[400],),
-              ),
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height - 105,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      child: Container(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  padding: const EdgeInsets.only(
-                                    left: 15,
-                                    right: 15,
-                                    top: 15,
-                                  ),
-                                  child: Text(
-                                    widget.jobData.Title.toString(),
-                                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700,
-                                        color: Colors.grey[900]
+              Container(
+                height: MediaQuery.of(context).size.height - 105,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Container(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: const EdgeInsets.only(
+                                      left: 15,
+                                      right: 15,
+                                      top: 15,
                                     ),
-                                  )
-                              ),
-                              Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  padding: const EdgeInsets.only(
-                                    left: 15,
-                                    right: 15,
-                                  ),
-                                  child: Text(
-                                    widget.jobData.Department.toString(),
-                                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700,
-                                        color: Colors.blueAccent[200]
-                                    ),
-                                  )
-                              ),
-                              SizedBox(height: 10,),
-                              Container(
-                                padding: EdgeInsets.all(20),
-                                child: Row(
-                                  children: <Widget>[
-                                    GestureDetector(
-                                      onTap: (){
-                                        OnApplyJob();
-                                      },
-                                      child: Container(
-                                        width: 120,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                                          color: applybtntxt == "Apply" ? ColorFromHexCode("#F4F6F7") : ColorFromHexCode("#3498DB"),
-                                        ),
-                                        padding: const EdgeInsets.all(5),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                                Icons.task_alt,
-                                                color: applybtntxt == "Apply" ? ColorFromHexCode("#3498DB") : ColorFromHexCode("#F4F6F7")
-                                            ),
-                                            const SizedBox(width: 5,),
-                                            Text(applybtntxt, style: TextStyle(color: applybtntxt == "Apply" ? ColorFromHexCode("#3498DB") : ColorFromHexCode("#F4F6F7") , fontWeight: FontWeight.w500),)
-                                          ],
-                                        ),
-
+                                    child: Text(
+                                      widget.jobData.Title.toString(),
+                                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700,
+                                          color: Colors.grey[900]
                                       ),
-                                    ),
-
-                                    const SizedBox(width: 20,),
-
-                                    GestureDetector(
-                                      onTap: (){
-                                        OnLikeJob();
-                                      },
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                                          color: lovebtntxt == "Love" ? ColorFromHexCode("#F4F6F7") : ColorFromHexCode("#3498DB"),
-                                        ),
-                                        padding: const EdgeInsets.all(5),
-                                        child: Icon(
-                                            Icons.favorite,
-                                            color: lovebtntxt == "Love" ? ColorFromHexCode("#3498DB") : ColorFromHexCode("#F4F6F7")
-                                        ),
-                                      ),
-                                    ),
-
-                                    const SizedBox(width: 20,),
-
-                                    GestureDetector(
-                                      onTap: (){
-                                        OnNoticeClick();
-                                      },
-                                      child: Container(
-                                        width: 120,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                                          color: ColorFromHexCode("#F4F6F7"),
-                                        ),
-                                        padding: const EdgeInsets.all(5),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                                Icons.file_copy_sharp,
-                                                color: ColorFromHexCode("#3498DB")
-                                            ),
-                                            const SizedBox(width: 5,),
-                                            Text("Notice", style: TextStyle(color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.w500),)
-                                          ],
-                                        ),
-
-                                      ),
-                                    ),
-                                  ],
+                                    )
                                 ),
-                              ),
-
-                              GestureDetector(
-                                  onTap: () async {
-                                    String url = jobData.WebsiteLink;
-                                    if(await canLaunch(url))
-                                    {
-                                    await launch(url);
-                                    }
-                                    else{
-                                      print("Can't launch ${url}");
-                                    }
-                                  },
-                                  child: StylishBox(context, widget, "Website", widget.jobData.WebsiteLink, "assets/images/website.png")),
-                              StylishBox(context, widget, "Brief", widget.jobData.Short_Details == "" ? "Brief information not available" : widget.jobData.Short_Details.toString(), "assets/images/brief.png"),
-                              StylishBox(context, widget, "Total Post", widget.jobData.Total_Vacancies == "" ? "Brief information not available" : widget.jobData.Total_Vacancies.toString(), "assets/images/vacancies.png"),
-                              StylishBox(context, widget, "Location", widget.jobData.Location == "" ? "Location information not available" : widget.jobData.Location.toString(), "assets/images/location.png"),
-
-                              Container(
-                                  padding: EdgeInsets.all(20),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Stack(
-                                    children: <Widget>[
-
-                                      Container(
-                                          margin: const EdgeInsets.only(
-                                              left: 30
-                                          ),
-                                          width: MediaQuery.of(context).size.width,
-                                          padding: const EdgeInsets.only(
-                                              left: 30,
-                                              top: 20,
-                                              bottom: 20,
-                                              right: 20
-                                          ),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey.shade200,
-                                                  spreadRadius: 6,
-                                                  blurRadius: 13.0,
-                                                  offset:Offset(5, 5),
-                                                ),
-                                              ],
-                                              borderRadius: BorderRadius.circular(20)
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              HeaderTexts("Fees"),
-                                              Column(
-                                                children: All_Fees,
-                                              )
-                                            ],
-                                          )
+                                Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: const EdgeInsets.only(
+                                      left: 15,
+                                      right: 15,
+                                    ),
+                                    child: Text(
+                                      widget.jobData.Department.toString(),
+                                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700,
+                                          color: Colors.blueAccent[200]
                                       ),
-                                      Positioned(
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: AssetImage("./assets/images/fees.png"),
-                                                )
-                                            ),
-                                            width: 50,
-                                            height: 50,
-                                          )),
-                                    ],
-                                  )
-                              ),
-
-
-                              Container(
+                                    )
+                                ),
+                                SizedBox(height: 10,),
+                                Container(
                                   padding: EdgeInsets.all(20),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Stack(
+                                  child: Row(
                                     children: <Widget>[
-
-                                      Container(
-                                          margin: const EdgeInsets.only(
-                                              left: 30
-                                          ),
-                                          width: MediaQuery.of(context).size.width,
-                                          padding: const EdgeInsets.only(
-                                              left: 30,
-                                              top: 20,
-                                              bottom: 20,
-                                              right: 20
-                                          ),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey.shade200,
-                                                  spreadRadius: 6,
-                                                  blurRadius: 13.0,
-                                                  offset:Offset(5, 5),
-                                                ),
-                                              ],
-                                              borderRadius: BorderRadius.circular(20)
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: <Widget>[
-                                              HeaderTexts("Dates"),
-                                              Column(
-                                                children: All_Dates,
-                                              )
-                                            ],
-                                          )
-                                      ),
-                                      Positioned(
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            decoration: const BoxDecoration(
-                                                image: DecorationImage(
-                                                  image: AssetImage("./assets/images/date.png"),
-                                                )
-                                            ),
-                                            width: 50,
-                                            height: 50,
-                                          )),
-                                    ],
-                                  )
-                              ),
-
-
-                              const GreyLine(),
-
-                              Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  padding: const EdgeInsets.only(
-                                    left: 15,
-                                    right: 15,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      HeaderTexts("Vacancies"),
-                                      SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
+                                      GestureDetector(
+                                        onTap: (){
+                                          OnApplyJob();
+                                        },
                                         child: Container(
-                                          child: SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Row(
+                                          width: 120,
+                                          height: 50,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                            color: applybtntxt == "Apply" ? ColorFromHexCode("#F4F6F7") : ColorFromHexCode("#3498DB"),
+                                          ),
+                                          padding: const EdgeInsets.all(5),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                  Icons.task_alt,
+                                                  color: applybtntxt == "Apply" ? ColorFromHexCode("#3498DB") : ColorFromHexCode("#F4F6F7")
+                                              ),
+                                              const SizedBox(width: 5,),
+                                              Text(applybtntxt, style: TextStyle(color: applybtntxt == "Apply" ? ColorFromHexCode("#3498DB") : ColorFromHexCode("#F4F6F7") , fontWeight: FontWeight.w500),)
+                                            ],
+                                          ),
+
+                                        ),
+                                      ),
+
+                                      const SizedBox(width: 20,),
+
+                                      GestureDetector(
+                                        onTap: (){
+                                          OnLikeJob();
+                                        },
+                                        child: Container(
+                                          width: 50,
+                                          height: 50,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                            color: lovebtntxt == "Love" ? ColorFromHexCode("#F4F6F7") : ColorFromHexCode("#3498DB"),
+                                          ),
+                                          padding: const EdgeInsets.all(5),
+                                          child: Icon(
+                                              Icons.favorite,
+                                              color: lovebtntxt == "Love" ? ColorFromHexCode("#3498DB") : ColorFromHexCode("#F4F6F7")
+                                          ),
+                                        ),
+                                      ),
+
+                                      const SizedBox(width: 20,),
+
+                                      GestureDetector(
+                                        onTap: (){
+                                          OnNoticeClick();
+                                        },
+                                        child: Container(
+                                          width: 120,
+                                          height: 50,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                            color: ColorFromHexCode("#F4F6F7"),
+                                          ),
+                                          padding: const EdgeInsets.all(5),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                  Icons.file_copy_sharp,
+                                                  color: ColorFromHexCode("#3498DB")
+                                              ),
+                                              const SizedBox(width: 5,),
+                                              Text("Notice", style: TextStyle(color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.w500),)
+                                            ],
+                                          ),
+
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                GestureDetector(
+                                    onTap: () async {
+                                      String url = jobData.WebsiteLink;
+                                      if(await canLaunch(url))
+                                      {
+                                      await launch(url);
+                                      }
+                                      else{
+                                        print("Can't launch ${url}");
+                                      }
+                                    },
+                                    child: StylishBox(context, widget, "Website", widget.jobData.WebsiteLink, "assets/images/website.png")),
+                                StylishBox(context, widget, "Brief", widget.jobData.Short_Details == "" ? "Brief information not available" : widget.jobData.Short_Details.toString(), "assets/images/brief.png"),
+                                StylishBox(context, widget, "Total Post", widget.jobData.Total_Vacancies == "" ? "Brief information not available" : widget.jobData.Total_Vacancies.toString(), "assets/images/vacancies.png"),
+                                StylishBox(context, widget, "Location", widget.jobData.Location == "" ? "Location information not available" : widget.jobData.Location.toString(), "assets/images/location.png"),
+
+                                Container(
+                                    padding: EdgeInsets.all(20),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Stack(
+                                      children: <Widget>[
+
+                                        Container(
+                                            margin: const EdgeInsets.only(
+                                                left: 30
+                                            ),
+                                            width: MediaQuery.of(context).size.width,
+                                            padding: const EdgeInsets.only(
+                                                left: 30,
+                                                top: 20,
+                                                bottom: 20,
+                                                right: 20
+                                            ),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey.shade200,
+                                                    spreadRadius: 6,
+                                                    blurRadius: 13.0,
+                                                    offset:Offset(5, 5),
+                                                  ),
+                                                ],
+                                                borderRadius: BorderRadius.circular(20)
+                                            ),
+                                            child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               mainAxisAlignment: MainAxisAlignment.start,
-                                              children: All_Vacancies,
-                                            ),
-                                          ),
+                                              children: <Widget>[
+                                                HeaderTexts("Fees"),
+                                                Column(
+                                                  children: All_Fees,
+                                                )
+                                              ],
+                                            )
                                         ),
-                                      ),
-
-                                    ],
-                                  )
-                              ),
-
-                              const GreyLine(),
-
-                              Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  padding: const EdgeInsets.only(
-                                    left: 15,
-                                    right: 15,
-
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Row(
-                                        children: <Widget>[
-                                          HeaderTexts("How to Apply"),
-                                          SizedBox(width: 10,),
-                                          GestureDetector(
-                                            onTap: (){
-                                              OnNeedHelp();
-                                            },
+                                        Positioned(
                                             child: Container(
-                                              width: 120,
+                                              alignment: Alignment.center,
+                                              decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage("./assets/images/fees.png"),
+                                                  )
+                                              ),
+                                              width: 50,
                                               height: 50,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                color: ColorFromHexCode("#F4F6F7"),
-                                              ),
-                                              padding: const EdgeInsets.all(5),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Icon(
-                                                      Icons.task_alt,
-                                                      color: ColorFromHexCode("#3498DB")
-                                                  ),
-                                                  const SizedBox(width: 5,),
-                                                  Text("Need help?", style: TextStyle(color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.w500),)
-                                                ],
-                                              ),
+                                            )),
+                                      ],
+                                    )
+                                ),
 
+
+                                Container(
+                                    padding: EdgeInsets.all(20),
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Stack(
+                                      children: <Widget>[
+
+                                        Container(
+                                            margin: const EdgeInsets.only(
+                                                left: 30
+                                            ),
+                                            width: MediaQuery.of(context).size.width,
+                                            padding: const EdgeInsets.only(
+                                                left: 30,
+                                                top: 20,
+                                                bottom: 20,
+                                                right: 20
+                                            ),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey.shade200,
+                                                    spreadRadius: 6,
+                                                    blurRadius: 13.0,
+                                                    offset:Offset(5, 5),
+                                                  ),
+                                                ],
+                                                borderRadius: BorderRadius.circular(20)
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: <Widget>[
+                                                HeaderTexts("Dates"),
+                                                Column(
+                                                  children: All_Dates,
+                                                )
+                                              ],
+                                            )
+                                        ),
+                                        Positioned(
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              decoration: const BoxDecoration(
+                                                  image: DecorationImage(
+                                                    image: AssetImage("./assets/images/date.png"),
+                                                  )
+                                              ),
+                                              width: 50,
+                                              height: 50,
+                                            )),
+                                      ],
+                                    )
+                                ),
+
+
+                                const GreyLine(),
+
+                                Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: const EdgeInsets.only(
+                                      left: 15,
+                                      right: 15,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        HeaderTexts("Vacancies"),
+                                        SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Container(
+                                            child: SingleChildScrollView(
+                                              scrollDirection: Axis.horizontal,
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                children: All_Vacancies,
+                                              ),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                      Text(
-                                        widget.jobData.HowToApply == "" ? "How to Apply information not available" : widget.jobData.HowToApply.toString(),
-                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey.shade800
                                         ),
-                                      ),
-                                    ],
-                                  )
-                              ),
-                              SizedBox(height: 100,),
-                            ],
+
+                                      ],
+                                    )
+                                ),
+
+                                const GreyLine(),
+
+                                Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: const EdgeInsets.only(
+                                      left: 15,
+                                      right: 15,
+
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            HeaderTexts("How to Apply"),
+                                            SizedBox(width: 10,),
+                                            GestureDetector(
+                                              onTap: (){
+                                                OnNeedHelp();
+                                              },
+                                              child: Container(
+                                                width: 120,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                  color: ColorFromHexCode("#F4F6F7"),
+                                                ),
+                                                padding: const EdgeInsets.all(5),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                        Icons.task_alt,
+                                                        color: ColorFromHexCode("#3498DB")
+                                                    ),
+                                                    const SizedBox(width: 5,),
+                                                    Text("Need help?", style: TextStyle(color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.w500),)
+                                                  ],
+                                                ),
+
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Text(
+                                          widget.jobData.HowToApply == "" ? "How to Apply information not available" : widget.jobData.HowToApply.toString(),
+                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey.shade800
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                ),
+                                SizedBox(height: 100,),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

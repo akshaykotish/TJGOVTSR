@@ -795,7 +795,7 @@ class JobsFetcher {
         jobData.Location.toUpperCase() + "/" + DocumentID;
     String Title = jobData.Title;
     String Key = DocumentID;
-    String toStore = Key + ";" + Title + ";" + Path;
+    String toStore = Path  + ";" + jobData.Department+ ";" + jobData.Designation + ";" + jobData.Short_Details;
     (SearchAbleDataLoading.SearchAbleCache.contains(toStore) == false
         ? SearchAbleDataLoading.SearchAbleCache.add(toStore)
         : null);

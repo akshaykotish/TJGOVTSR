@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'EBGaramond',
         primarySwatch: Colors.blue,
       ),
-      home: const EncyclopediaRead(),
+      home: const Home(),
     );
   }
 }

@@ -144,7 +144,6 @@ class SearchAbleDataLoading{
   }
 
   static Future<void> FastestSearchSystem(List<String> searchkeywords) async {
-    try {
       JobDisplayManagement.jobstoshow.clear();
 
       if (searchkeywords == null || searchkeywords.isEmpty) {
@@ -161,6 +160,7 @@ class SearchAbleDataLoading{
 
       var RevSearchable = await SearchAbleCache.reversed;
       await Future.forEach(RevSearchable, (String JobString) async {
+        print("COUNT FOUNDS = here");
         if(JobDisplayManagement.jobstoshow.length >= 100)
           {
             JobDisplayManagement.ismoreloadingjobs = false;
@@ -180,26 +180,37 @@ class SearchAbleDataLoading{
               }
             });
 
+
                 JobData? jobData;
                 if (count != 0) {
-                  String path = JobString.split(";")[0];
-                  bool pc = path.contains("UNKNOWN");
-                  if(pc == false){
-                    jobData = await GetJobFromURL(path);
-                  }
-                  else{
-                    jobData = null;
-                  }
+
+                    String path = "";
+                    var parts = JobString.split(";");
+                    for (int a = 0; a < parts.length; a++) {
+                      if (parts[a]
+                          .split("/")
+                          .length == 4) {
+                        path = parts[a];
+                      }
+                    }
+
+                    if (path != "" &&  JobString.toLowerCase().contains("unknown") == false) {
+                      jobData = await GetJobFromURL(path);
+                    }
+                    else {
+                      jobData = null;
+                    }
                 }
 
             if (jobData != null) {
-                if(count >= keyword.length) {
-                  jobData.count = 3;
-                }
-                else{
-                  jobData.count = count;
-                }
+              if (count >= keyword.length) {
+                jobData.count = 3;
+              }
+              else {
+                jobData.count = count;
+              }
 
+              if (jobData.Department != "UNKNOWN") {
                 if (count >= 3) {
                   firstpriority.add(jobData);
                 }
@@ -212,22 +223,21 @@ class SearchAbleDataLoading{
 
                 print(JobDisplayManagement.ismoreloadingjobs);
 
-                if(count >= parts.length)
-                  {
-                    Flush(firstpriority, secondpriority, thirdpriority);
-                  }
-
-                  if (JobDisplayManagement.isloadingjobs == true) {
-                    JobDisplayManagement.isloadingjobs = false;
-                    JobDisplayManagement.ismoreloadingjobs = false;
-                  }
-
-                  if(JobDisplayManagement.jobstoshow.length >= 100)
-                    {
-                      JobDisplayManagement.ismoreloadingjobs = false;
-                      return;
-                    }
+                if (count >= parts.length) {
+                  Flush(firstpriority, secondpriority, thirdpriority);
                 }
+
+                if (JobDisplayManagement.isloadingjobs == true) {
+                  JobDisplayManagement.isloadingjobs = false;
+                  JobDisplayManagement.ismoreloadingjobs = false;
+                }
+
+                if (JobDisplayManagement.jobstoshow.length >= 100) {
+                  JobDisplayManagement.ismoreloadingjobs = false;
+                  return;
+                }
+              }
+            }
                 });
           });
 
@@ -236,11 +246,6 @@ class SearchAbleDataLoading{
       Flush(firstpriority, secondpriority, thirdpriority);
 
 
-    }
-    catch(e)
-    {
-      JobDisplayManagement.WhatToShow = "${searchkeywords.toString()} and ${SearchAbleCache.length} and ${e}";
-    }
   }
 
 

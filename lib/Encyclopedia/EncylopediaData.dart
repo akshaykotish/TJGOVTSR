@@ -1,10 +1,12 @@
 
 class EncylopediaDatas{
+  static String SearchTitle = "";
   static List<EncylopediaData> encylopediaDatas = <EncylopediaData>[];
 }
 
 
 class EncylopediaData{
+
   String Name = "";
   String URL = "";
   String Details = "";
