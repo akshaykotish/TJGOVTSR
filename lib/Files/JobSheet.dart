@@ -4,11 +4,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
+import 'package:governmentapp/Files/Loved.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/JobData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:zoom_widget/zoom_widget.dart';
+
 
 class JobSheet extends StatefulWidget {
   JobData jobData;
@@ -28,11 +30,22 @@ class _JobSheetState extends State<JobSheet> {
   var All_Vacancies = <Widget>[];
   var All_Dates = <Widget>[];
   var All_Fees = <Widget>[];
+  var All_Ages = <Widget>[];
+  var All_Centers = <Widget>[];
+  var All_HowTo = <Widget>[];
+  var All_Corrections = <Widget>[];
+
+
+  var Clicks = <Widget>[];
 
 
   void LoadDates(JobData jobData){
     var _All_Dates = <Widget>[];
 
+    _All_Dates.add(Padding(
+      padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
+      child: Text("Dates", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+    ));
     if(jobData.Important_Dates.length == 0)
       {
         _All_Dates.add(const Center(child:Text("Refresh to check important dates.")));
@@ -42,37 +55,13 @@ class _JobSheetState extends State<JobSheet> {
           jobData.Important_Dates.length; index++) {
         if (!jobData.Important_Dates.keys.elementAt(index).contains(
             "Credit")) {
-          _All_Dates.add(Container(
-            //color: index % 2 == 0 ? Colors.grey[100] : Colors.white,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  child: Text(
-                    jobData.Important_Dates.keys
-                        .elementAt(index), style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey.shade800),),
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width / 2.8,
-                ),
-                Container(
-                    alignment: Alignment.centerRight,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width / 3,
-                    child: Text(
-                      jobData.Important_Dates.values.elementAt(index),
-                      style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w400,),
-                      textAlign: TextAlign.end,)),
-              ],
-            ),
-          ));
+          _All_Dates.add(
+            Text(jobData.Important_Dates.keys.elementAt(index), style: TextStyle(fontWeight: FontWeight.w300,),),
+          );
+          _All_Dates.add(
+            Text(jobData.Important_Dates.values.elementAt(index), style: TextStyle(),),
+          );
+          _All_Dates.add(SizedBox(height: 10,));
         }
         setState(() {
           All_Dates = _All_Dates;
@@ -81,50 +70,195 @@ class _JobSheetState extends State<JobSheet> {
     }
   }
 
+
+
+  void LoadAges(JobData jobData){
+    var _All_Ages = <Widget>[];
+
+    _All_Ages.add(Padding(
+      padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
+      child: Text("Age Limits", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+    ));
+    if(jobData.AgeLimits.length == 0)
+    {
+      _All_Ages.add(const Center(child:Text("Refresh to check important dates.")));
+    }
+    else {
+      for (var index = 0; index <
+          jobData.AgeLimits.length; index++) {
+        if (!jobData.AgeLimits.keys.elementAt(index).contains(
+            "Credit")) {
+          _All_Ages.add(
+            Text(jobData.AgeLimits.keys.elementAt(index), style: TextStyle(fontWeight: FontWeight.w300,),),
+          );
+          _All_Ages.add(
+            Text(jobData.AgeLimits.values.elementAt(index), style: TextStyle(),),
+          );
+          _All_Ages.add(SizedBox(height: 10,));
+        }
+        setState(() {
+          All_Ages = _All_Ages;
+        });
+      }
+    }
+  }
+
+
+  void LoadCenters(JobData jobData){
+    var _All_Centers = <Widget>[];
+
+    _All_Centers.add(Padding(
+      padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
+      child: Text("Exam Centers", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+    ));
+    if(jobData.AgeLimits.length == 0)
+    {
+      _All_Centers.add(const Center(child:Text("Refresh to check important dates.")));
+    }
+    else {
+      for (var index = 0; index <
+          jobData.ExamCenters.length; index++) {
+        if (!jobData.ExamCenters.keys.elementAt(index).contains(
+            "Credit")) {
+          _All_Centers.add(
+            Text(jobData.ExamCenters.keys.elementAt(index), style: TextStyle(fontWeight: FontWeight.w300,),),
+          );
+          _All_Centers.add(
+            Text(jobData.ExamCenters.values.elementAt(index), style: TextStyle(),),
+          );
+          _All_Centers.add(SizedBox(height: 10,));
+        }
+        setState(() {
+          All_Centers = _All_Centers;
+        });
+      }
+    }
+  }
+
+
+  void LoadHowTo(JobData jobData){
+    var _All_HowTo = <Widget>[];
+
+    _All_HowTo.add(Padding(
+      padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
+      child: Text("How To Steps", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+    ));
+    if(jobData.AgeLimits.length == 0)
+    {
+      _All_HowTo.add(const Center(child:Text("Refresh to check important dates.")));
+    }
+    else {
+      for (var index = 0; index <
+          jobData.HowTo.length; index++) {
+          _All_HowTo.add(
+            Text(jobData.HowTo[index], style: TextStyle(),),
+          );
+          _All_HowTo.add(SizedBox(height: 10,));
+
+        setState(() {
+          All_HowTo = _All_HowTo;
+        });
+      }
+    }
+  }
+
+
+  void LoadCorrections(JobData jobData){
+    var _All_Corrections = <Widget>[];
+
+    _All_Corrections.add(Padding(
+      padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
+      child: Text("Corrections", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+    ));
+    if(jobData.Corrections.length == 0)
+    {
+      _All_Corrections.add(const Center(child:Text("Refresh to check important correction.")));
+    }
+    else {
+      for (var index = 0; index <
+          jobData.Corrections.length; index++) {
+        _All_Corrections.add(
+          Text(jobData.Corrections[index], style: TextStyle(),),
+        );
+        _All_Corrections.add(SizedBox(height: 10,));
+
+        setState(() {
+          All_Corrections = _All_Corrections;
+        });
+      }
+    }
+  }
+
+
   void LoadFees(JobData jobData){
     var _All_Fees = <Widget>[];
+
+    _All_Fees.add(Padding(
+      padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
+      child: Text("Fees", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+    ));
 
     for(int index =0; index <  jobData.ApplicationFees.keys.length; index++) {
       if (!jobData.ApplicationFees.keys.elementAt(index).contains(
           "Credit")) {
-        _All_Fees.add(Container(
-          //color: index % 2 == 0 ? Colors.grey[100] : Colors.white,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                child: Text(
-                  jobData.ApplicationFees.keys
-                      .elementAt(index), style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey.shade800),),
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width / 2.2,
-              ),
-              Container(
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width / 4 - 20,
-                child: Text(
-                  (jobData.ApplicationFees.values
-                      .elementAt(index) != ""
-                      ? "₹ "
-                      : "") +
-                      jobData.ApplicationFees
-                          .values.elementAt(index), style: const TextStyle(
-                  fontSize: 15, fontWeight: FontWeight.w400,),
-                  textAlign: TextAlign.end,),),
-            ],
-          ),
-        ));
+        _All_Fees.add(
+          Text(jobData.ApplicationFees.keys.elementAt(index), style: TextStyle(fontWeight: FontWeight.w300,),),
+        );
+
+        if(jobData.ApplicationFees.values.elementAt(index).toString().contains("/-")){
+          _All_Fees.add(
+            Text("₹ ${jobData.ApplicationFees.values.elementAt(index)}", style: TextStyle(),),
+          );
+        }
+        else{
+          _All_Fees.add(
+            Text(jobData.ApplicationFees.values.elementAt(index), style: TextStyle(),),
+          );
+        }
+
+        _All_Fees.add(SizedBox(height: 10,));
       }
       setState(() {
         All_Fees = _All_Fees;
       });
+    }
+  }
+
+  Future<void> LoadClicks() async
+  {
+    var _Clicks = <Widget>[];
+    for(int i=0; i<jobData.ButtonsName.length; i++) {
+      if (jobData.ButtonsName[i].toString().contains("Telegram")) {
+        continue;
+      }
+      else {
+        _Clicks.add(
+            GestureDetector(
+              onTap: () async {
+                if (await canLaunch(jobData.ButtonsURL[i])) {
+                  await launch(jobData.ButtonsURL[i]);
+                }
+                else {
+                  print("Can't launch ${jobData.ButtonsURL[i]}");
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Text(jobData.ButtonsName[i], style: TextStyle(
+                  fontSize: 12,
+                    color: Colors.grey[900],
+                    fontWeight: FontWeight.w500,
+                ),
+                ),
+              ),
+            )
+        );
+        if (i == jobData.ButtonsName.length - 1) {
+          setState(() {
+            Clicks = _Clicks;
+          });
+        }
+      }
     }
   }
 
@@ -134,99 +268,16 @@ class _JobSheetState extends State<JobSheet> {
 
     this.jobData = widget.jobData;
 
-    CurrentJob.currentjobStreamForVacanciesToCall = (JobData jobData) {
-
-      OnJobLoad();
+    CurrentJob.currentjobStreamForVacanciesToCall = (JobData jobData) async {
       this.jobData = jobData;
-
+        await OnJobLoad();
+        await LoadClicks();
         LoadDates(jobData);
         LoadFees(jobData);
-
-      var _All_Vacancies = <Widget>[];
-      jobData.VDetails.forEach((VDetail) {
-
-        var d = <Widget>[];
-        VDetail.datas.forEach((row) {
-          var cRow = <Widget>[];
-
-          int indx = 0;
-          row.data.forEach((txtvalues) {
-            if(txtvalues.toString().contains("Sarkari Result") || txtvalues.toString().contains("Click Here") || txtvalues.toString().contains("Apps") || txtvalues.toString().contains("Card") || txtvalues.toString().contains("google"))
-              {
-
-              }
-            else if(indx == 0){
-              if(indx < VDetail.headers.length) {
-                cRow.add(Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(VDetail.headers[indx], style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300, color: Colors.grey.shade500),)));
-              }
-              cRow.add(Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(txtvalues, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.grey.shade800),)));
-              indx++;
-            }
-            else{
-              if(indx < VDetail.headers.length) {
-                cRow.add(Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(VDetail.headers[indx], style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300, color: Colors.grey.shade500,),)));
-              }
-              cRow.add(Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(txtvalues, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400,), textAlign: TextAlign.start,),));
-              indx++;
-            }
-          });
-          d.add(Container(
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.all(20),
-            width: MediaQuery.of(context).size.width - 100,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade200,
-                    spreadRadius: 6,
-                    blurRadius: 13.0,
-                    offset:Offset(5, 5),
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(20)
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: cRow,
-            ),
-          ));
-
-          cRow.add(const SizedBox(height: 20,));
-        });
-
-        var c = Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text(VDetail.Title),
-            Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: d,
-              ),
-            )
-          ],
-        );
-
-        _All_Vacancies.add(c);
-
-        setState(() {
-          All_Vacancies = _All_Vacancies;
-        });
-      });
-
-
+        LoadAges(jobData);
+        LoadHowTo(jobData);
+        LoadCenters(jobData);
+        LoadCorrections(jobData);
     };
     super.initState();
   }
@@ -340,18 +391,15 @@ class _JobSheetState extends State<JobSheet> {
     }
   }
 
+  double zoomvalue = 500;
 
 
   @override
   Widget build(BuildContext context)  {
     return Container(
       decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(
-            "./assets/branding/dbg.png",
-          ),
-          fit: BoxFit.fitWidth,
-        )
+        image: DecorationImage(image: AssetImage("./assets/branding/dbg.png"),
+        fit: BoxFit.fill)
       ),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 35, sigmaY: 35),
@@ -375,11 +423,388 @@ class _JobSheetState extends State<JobSheet> {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height - 105,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height - 120,
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.5),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height - 120 - 50,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            // Container(
+                            //   width: MediaQuery.of(context).size.width,
+                            //   height: 180,
+                            //   decoration: const BoxDecoration(
+                            //     color: Colors.white,
+                            //     borderRadius: BorderRadius.all(Radius.circular(10)),
+                            //     image: DecorationImage(
+                            //       image: AssetImage("./assets/images/jobpage.jpg"),
+                            //       fit: BoxFit.contain,
+                            //     ),
+                            //   ),
+                            //   child: ClipRect(
+                            //     child: BackdropFilter(
+                            //     filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                            //     child: Container(
+                            //       decoration: BoxDecoration(
+                            //         color: Colors.white.withOpacity(0.1),
+                            //         borderRadius: BorderRadius.all(Radius.circular(15)),
+                            //       ),
+                            //     ),
+                            //     ),
+                            //   ),
+                            // ),
+                            SizedBox(height: 25,),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(10),
+                              child: Text(widget.jobData.Department.toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey[800],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 5,),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(10),
+                              child: Text("Information letter regarding vacancies in Government",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey[800],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 5,),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Text("Date: ${widget.jobData.LastUpdate}",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey[800],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Text("No.: ${widget.jobData.AdvertisementNumber.replaceAll("Short Details of Notification", "")}",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey[800],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20,),
+                            Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Text(widget.jobData.Designation.toString(),
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[800]
+                              ),
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Text(widget.jobData.Short_Details.toString(),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey[800]
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Text(
+                                "Location: ${widget.jobData.Location}".toString(),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey[800]
+                                ),
+                              ),
+                            ),
+                            widget.jobData.DocumentRequired != "" ? Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Text(
+                                "Document Required: ${widget.jobData.DocumentRequired}".toString(),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey[800]
+                                ),
+                              ),
+                            ):Container(),
+                            widget.jobData.Total_Vacancies != "" ? Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Text(
+                                "Total Vacancies: ${widget.jobData.Total_Vacancies}".toString(),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey[800]
+                                ),
+                              )
+                            ):Container(),
+                            widget.jobData.Total_Vacancies != "" ? Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Text(
+                                "Total Vacancies: ${widget.jobData.Total_Vacancies}".toString(),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey[800]
+                                ),
+                              )
+                            ) : Container(),
+                            widget.jobData.WebsiteLink != "" ? Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child:Text(
+                                "Website: ${widget.jobData.WebsiteLink}".toString(),
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.grey[800]
+                                ),
+                              )
+                            ) : Container(),
+
+                            SizedBox(height: 20,),
+                            jobData.Important_Dates.isNotEmpty ? Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: All_Dates,
+                              ),
+                            ) : Container(),
+
+                            SizedBox(height: 20,),
+                            jobData.ApplicationFees.isNotEmpty ? Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: All_Fees,
+                              ),
+                            ) : Container(),
+
+                            SizedBox(height: 20,),
+                            jobData.AgeLimits.isNotEmpty ? Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: All_Ages,
+                              ),
+                            ) : Container(),
+
+                            SizedBox(height: 20,),
+                            jobData.ExamCenters.isNotEmpty ? Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: All_Centers,
+                              ),
+                            ) : Container(),
+
+                            SizedBox(height: 20,),
+                            jobData.HowTo.isNotEmpty ? Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: All_HowTo,
+                              ),
+                            ) : Container(),
+
+
+                            SizedBox(height: 20,),
+                            jobData.Corrections.isNotEmpty ? Container(
+                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: All_Corrections,
+                              ),
+                            ) : Container(),
+
+
+                            SizedBox(height: 2000,),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10))
+                      ),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            GestureDetector(
+                              onTap: () async {
+                                OnLikeJob();
+                                setState(() {
+
+                                });
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.only(left: 15, right: 15),
+                                child: lovebtntxt == "Loved" ? Row(
+                                  children: [
+                                    Text( "Favourite", style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey[900],
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    ),
+                                    SizedBox(width: 5,),
+                                    Icon(Icons.check),
+                                  ],
+                                ) : Text( "Add to Favourite", style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[900],
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: Clicks,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class GreyLine extends StatelessWidget {
+  const GreyLine({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+      margin: const EdgeInsets.only(
+        left: 0,
+        top: 20,
+        bottom: 20,
+        right: 20,
+      ),
+      height: 5,
+      width: 250,
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(20),
+      ),
+    );
+  }
+}
+
+
+Widget HeaderTexts(String text){
+  return Text(text, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20,  color: Colors.black),);
+}
+
+
+Widget StylishBox(context, widget, String Header, String Content, String Img){
+  return Container(
+    padding: EdgeInsets.all(20),
+    width: MediaQuery.of(context).size.width,
+    child: Stack(
+      children: <Widget>[
+
+        Container(
+          margin: const EdgeInsets.only(
+            left: 30
+          ),
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.only(
+              left: 30,
+              top: 20,
+              bottom: 20,
+              right: 20
+            ),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.shade200,
+                    spreadRadius: 6,
+                    blurRadius: 13.0,
+                    offset:Offset(5, 5),
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(20)
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                HeaderTexts(Header),
+                Text(
+                  Content.toString(),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black,
+                  ),
+                ),
+              ],
+            )
+        ),
+        Positioned(
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(Img),
+                )
+              ),
+              width: 50,
+              height: 50,
+            )),
+      ],
+    )
+  );
+
+}
+
+/*
+
+Container(
                         child: Container(
                           child: SingleChildScrollView(
                             child: Column(
@@ -714,103 +1139,5 @@ class _JobSheetState extends State<JobSheet> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
-
-class GreyLine extends StatelessWidget {
-  const GreyLine({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return  Container(
-      margin: const EdgeInsets.only(
-        left: 0,
-        top: 20,
-        bottom: 20,
-        right: 20,
-      ),
-      height: 5,
-      width: 250,
-      decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(20),
-      ),
-    );
-  }
-}
-
-
-Widget HeaderTexts(String text){
-  return Text(text, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20,  color: Colors.black),);
-}
-
-
-Widget StylishBox(context, widget, String Header, String Content, String Img){
-  return Container(
-    padding: EdgeInsets.all(20),
-    width: MediaQuery.of(context).size.width,
-    child: Stack(
-      children: <Widget>[
-
-        Container(
-          margin: const EdgeInsets.only(
-            left: 30
-          ),
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.only(
-              left: 30,
-              top: 20,
-              bottom: 20,
-              right: 20
-            ),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade200,
-                    spreadRadius: 6,
-                    blurRadius: 13.0,
-                    offset:Offset(5, 5),
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(20)
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                HeaderTexts(Header),
-                Text(
-                  Content.toString(),
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black,
-                  ),
-                ),
-              ],
-            )
-        ),
-        Positioned(
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(Img),
-                )
-              ),
-              width: 50,
-              height: 50,
-            )),
-      ],
-    )
-  );
-
-}
+ */

@@ -35,11 +35,14 @@ class JobData {
   Map<String, dynamic> AgeLimits = new Map<String, dynamic>();
   List<dynamic> HowTo = <dynamic>[];
 
-  void GenerateKey()
+  Future<void> GenerateKey() async
   {
-    String DocumentID = Title.replaceAll("Online Form", "").replaceAll(
-      " ", "").replaceAll("\n", "").replaceAll("/", "").replaceAll(":", "");
-    Key =  DocumentID;
+    if(Title == "" && Designation != "")
+      {
+        Title = Designation;
+      }
+    Key =  Title.replaceAll("Online Form", "").replaceAll(
+        " ", "").replaceAll("\n", "").replaceAll("/", "").replaceAll(":", "");
   }
 
 
@@ -81,54 +84,60 @@ class JobData {
   }
 
   Future<void> fromJson(String json) async {
-    var data = jsonDecode(json);
-
-
     try {
-      vdetailsquery = data["vdetailsquery"];
-      //print("VDQ ${vdetailsquery}");
-      if (vdetailsquery != "") {
-        await LoadVDetails(vdetailsquery);
+      var data = jsonDecode(json);
+
+
+      try {
+        vdetailsquery = data["vdetailsquery"];
+        //print("VDQ ${vdetailsquery}");
+        if (vdetailsquery != "") {
+          await LoadVDetails(vdetailsquery);
+        }
       }
+      catch (e) {}
+
+      Key = data["Key"];
+      Department = data["Department"];
+      Title = data["Title"];
+      Short_Details = data["Short_Details"];
+      DocumentRequired = data["DocumentRequired"];
+      DataProviderUrl = data["DataProviderUrl"];
+      Important_Dates = jsonDecode(data["Important_Dates"]);
+      ApplicationFees = jsonDecode(data["ApplicationFees"]);
+      Total_Vacancies = data["Total_Vacancies"];
+
+      //List<dynamic> vdetails = jsonDecode(data["VDetails"]);
+
+      ////print("LENGTH: " + data["VDetails"].toString());
+      // vdetails.forEach((element) {
+      //   //print("EEE = " + element);
+      // });
+
+
+      HowToApply = data["HowToApply"];
+      ApplyLink = data["ApplyLink"];
+      NotificationLink = data["NotificationLink"];
+      WebsiteLink = data["WebsiteLink"];
+      url = data["url"];
+      Location = data["Location"];
+
+      ButtonsName = jsonDecode(data["ButtonsName"]);
+      ButtonsURL = jsonDecode(data["ButtonsURL"]);
+
+      Designation = data["Designation"]!;
+      LastUpdate = data["LastUpdate"]!;
+
+      AdvertisementNumber = data["AdvertisementNumber"];
+      ExamCenters = data["ExamCenters"]!;
+      Corrections = data["Corrections"]!;
+      AgeLimits = data["AgeLimits"]!;
+      HowTo = data["HowTo"]!;
     }
-    catch (e) {}
-
-    Key = data["Key"];
-    Department = data["Department"];
-    Title = data["Title"];
-    Short_Details = data["Short_Details"];
-    DocumentRequired = data["DocumentRequired"];
-    DataProviderUrl = data["DataProviderUrl"];
-    Important_Dates = jsonDecode(data["Important_Dates"]);
-    ApplicationFees = jsonDecode(data["ApplicationFees"]);
-    Total_Vacancies = data["Total_Vacancies"];
-
-    //List<dynamic> vdetails = jsonDecode(data["VDetails"]);
-
-    ////print("LENGTH: " + data["VDetails"].toString());
-    // vdetails.forEach((element) {
-    //   //print("EEE = " + element);
-    // });
-
-
-    HowToApply = data["HowToApply"];
-    ApplyLink = data["ApplyLink"];
-    NotificationLink = data["NotificationLink"];
-    WebsiteLink = data["WebsiteLink"];
-    url = data["url"];
-    Location = data["Location"];
-
-    ButtonsName = jsonDecode(data["ButtonsName"]);
-    ButtonsURL = jsonDecode(data["ButtonsURL"]);
-
-    Designation = data["Designation"];
-    LastUpdate = data["LastUpdate"];
-
-    AdvertisementNumber = data["AdvertisementNumber"];
-    ExamCenters = data["ExamCenters"];
-    Corrections = data["Corrections"];
-    AgeLimits = data["AgeLimits"];
-    HowTo = data["HowTo"];
+    catch(e)
+    {
+      print(e);
+    }
   }
 
   Future<void> LoadVDetails(String vdetailsqry) async {
@@ -293,7 +302,6 @@ class JobData {
     }
     catch(e)
     {
-      JobDisplayManagement.WhatToShow += "error is ${e}\n";
     }
   }
 

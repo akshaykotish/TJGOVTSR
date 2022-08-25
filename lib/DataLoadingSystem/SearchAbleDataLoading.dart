@@ -42,8 +42,6 @@ class SearchAbleDataLoading{
           {
             await Future.forEach(Jobs.docs, (job) async {
               String Path = "Jobs/" + Departments.docs[index].id + "/" + location + "/" + Jobs.docs[p].id;
-              String Title = Jobs.docs[p].data()["Title"];
-              String Key = Jobs.docs[p].id;
               String toStore = Path  + ";" + Jobs.docs[p].data()["Department"] + ";" + Jobs.docs[p].data()["Designation"] + ";" + Jobs.docs[p].data()["Short_Details"];
               if(!SearchAbleCache.contains(toStore)) {
                 SearchAbleCache.add(toStore);
@@ -123,7 +121,13 @@ class SearchAbleDataLoading{
 
   static Future<JobData> GetJobFromURL(String path)
   async {
-    var job = await FirebaseFirestore.instance.doc(path).get();
+    var job;
+    try {
+      job = await FirebaseFirestore.instance.doc(path).get();
+    }
+    catch(e){
+      print("${e} + ${path}");
+    }
     JobData jobData = JobData();
     await jobData.LoadFromFireStoreValues(job);
     return jobData;
@@ -135,15 +139,38 @@ class SearchAbleDataLoading{
     JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
   }
 
-  static Future<void> Flush(List<JobData> fp, List<JobData> sp, List<JobData> tp)
-  async {
-    JobDisplayManagement.jobstoshow.clear();
-    await AddToShow(fp);
-    await AddToShow(sp);
-    await AddToShow(tp);
+  static Future<void> FindAndAdd(String path, int count) async {
+    if(path.split("/").length == 4 && path.split("/")[3] != "") {
+      JobData jobData = await GetJobFromURL(path);
+      if (jobData.Department != "UNKNOWN" && jobData.Key != "UNKEY") {
+        jobData.count = count;
+        JobDisplayManagement.jobstoshow.add(jobData);
+        JobDisplayManagement.jobstoshowstreamcontroller.add(
+            JobDisplayManagement.jobstoshow);
+      }
+    }
+  }
+
+  static Future<void> LetsDisplayJobs(List<String> em,List<String> fp,List<String> sp,List<String> tp) async
+  {
+    em.forEach((element) {
+      FindAndAdd(element, 4);
+    });
+    fp.forEach((element) {
+      FindAndAdd(element, 3);
+    });
+    sp.forEach((element) {
+      FindAndAdd(element, 2);
+    });
+    tp.forEach((element) {
+      FindAndAdd(element, 1);
+    });
   }
 
   static Future<void> FastestSearchSystem(List<String> searchkeywords) async {
+      print("Start: " + DateTime.now().toString());
+      JobDisplayManagement.isloadingjobs = true;
+      JobDisplayManagement.ismoreloadingjobs = true;
       JobDisplayManagement.jobstoshow.clear();
 
       if (searchkeywords == null || searchkeywords.isEmpty) {
@@ -151,16 +178,16 @@ class SearchAbleDataLoading{
         return;
       }
 
-      List<JobData> firstpriority = <JobData>[];
-      List<JobData> secondpriority = <JobData>[];
-      List<JobData> thirdpriority = <JobData>[];
+      List<String> exactmatch = <String>[];
+      List<String> firstpriority = <String>[];
+      List<String> secondpriority = <String>[];
+      List<String> thirdpriority = <String>[];
 
       JobDisplayManagement.ismoreloadingjobs = true;
 
 
       var RevSearchable = await SearchAbleCache.reversed;
       await Future.forEach(RevSearchable, (String JobString) async {
-        print("COUNT FOUNDS = here");
         if(JobDisplayManagement.jobstoshow.length >= 100)
           {
             JobDisplayManagement.ismoreloadingjobs = false;
@@ -172,79 +199,54 @@ class SearchAbleDataLoading{
               return;
             }
             int count = 0;
-            List<String> parts = keyword.split(" ");
 
-            await Future.forEach(parts, (String key) {
-              if (JobString.toLowerCase().contains(key.toLowerCase())) {
-                count++;
+            var diffs = JobString.split(";");
+            String path = "";
+
+            if(diffs.length == 3)
+            {
+              path = diffs[2];
+            }
+            else{
+              path = diffs[0];
+            }
+
+            if(JobString.toLowerCase().contains(keyword.toLowerCase()))
+              {
+                exactmatch.add(path);
               }
-            });
-
-
-                JobData? jobData;
-                if (count != 0) {
-
-                    String path = "";
-                    var parts = JobString.split(";");
-                    for (int a = 0; a < parts.length; a++) {
-                      if (parts[a]
-                          .split("/")
-                          .length == 4) {
-                        path = parts[a];
-                      }
-                    }
-
-                    if (path != "" &&  JobString.toLowerCase().contains("unknown") == false) {
-                      jobData = await GetJobFromURL(path);
-                    }
-                    else {
-                      jobData = null;
-                    }
+            else {
+              List<String> parts = keyword.split(" ");
+              await Future.forEach(parts, (String key) {
+                if (JobString.toLowerCase().contains(key.toLowerCase())) {
+                  count++;
                 }
-
-            if (jobData != null) {
-              if (count >= keyword.length) {
-                jobData.count = 3;
+              });
+              
+              if(count >= 3)
+                {
+                  firstpriority.add(path);
+                }
+              else if(count >= 2)
+              {
+                secondpriority.add(path);
               }
-              else {
-                jobData.count = count;
-              }
-
-              if (jobData.Department != "UNKNOWN") {
-                if (count >= 3) {
-                  firstpriority.add(jobData);
-                }
-                else if (count == 2) {
-                  secondpriority.add(jobData);
-                }
-                else if (count == 1) {
-                  thirdpriority.add(jobData);
-                }
-
-                print(JobDisplayManagement.ismoreloadingjobs);
-
-                if (count >= parts.length) {
-                  Flush(firstpriority, secondpriority, thirdpriority);
-                }
-
-                if (JobDisplayManagement.isloadingjobs == true) {
-                  JobDisplayManagement.isloadingjobs = false;
-                  JobDisplayManagement.ismoreloadingjobs = false;
-                }
-
-                if (JobDisplayManagement.jobstoshow.length >= 100) {
-                  JobDisplayManagement.ismoreloadingjobs = false;
-                  return;
-                }
+              else if(count >= 1)
+              {
+                thirdpriority.add(path);
               }
             }
+
+
                 });
           });
 
-      JobDisplayManagement.ismoreloadingjobs = false;
-      JobDisplayManagement.jobstoshow.clear();
-      Flush(firstpriority, secondpriority, thirdpriority);
 
+      await LetsDisplayJobs(exactmatch, firstpriority, secondpriority, thirdpriority);
+
+      JobDisplayManagement.isloadingjobs = false;
+      JobDisplayManagement.ismoreloadingjobs = false;
+      print("End: " + DateTime.now().toString());
 
   }
 

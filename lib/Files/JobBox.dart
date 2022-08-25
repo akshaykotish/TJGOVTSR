@@ -81,11 +81,16 @@ class _JobBoxState extends State<JobBox> {
               image: AssetImage("./assets/icons/hot.png"),
             )
           ),)  : Icon(Icons.search, color: Colors.grey[400], size: 12,),
-      Text(widget.jobData.count >= 50 ? " Trending Job" : widget.jobData.count >= 2 ? "Result" : "Suggestion", style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.grey[400]),),
+      Text(widget.jobData.count >= 50 ? " Trending Job" : widget.jobData.count >= 3 ? "Result" : "Suggestion", style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.grey[400]),),
     ],
     ));
   }
 
+  @override
+  void initState() {
+    widget.jobData.Designation == "" ? widget.jobData.Designation = widget.jobData.Title : null;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +99,8 @@ class _JobBoxState extends State<JobBox> {
 
         if(CurrentJob.currentjobStreamToCall != null)
           {
-             CurrentJob.currentjobStreamToCall(widget.jobData);
+            widget.jobData.Designation == "" ? widget.jobData.Designation = widget.jobData.Title : null;
+            CurrentJob.currentjobStreamToCall(widget.jobData);
              CurrentJob.currentjobStreamForVacanciesToCall(widget.jobData);
           }
       },
@@ -137,7 +143,7 @@ class _JobBoxState extends State<JobBox> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(25),
                               ),
-                              child: Center(child: Text(widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").length > 4 ? widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").substring(0, 4) : widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", ""), style: TextStyle(fontSize: 20, color: Colors.grey[700], fontWeight: FontWeight.w600),))),
+                              child: Center(child: Text(widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").length > 4 ? widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").substring(0, 4) : widget.jobData.Designation == "" ? widget.jobData.Designation = widget.jobData.Title : widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", ""), style: TextStyle(fontSize: 20, color: Colors.grey[700], fontWeight: FontWeight.w600),))),
                               const SizedBox(width: 10,),
                               GetJobType(),
                         ],

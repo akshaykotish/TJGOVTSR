@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:governmentapp/Animations/Loading.dart';
 import 'package:governmentapp/Beauty/Home.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataPullers/ScrapperController.dart';
@@ -12,6 +14,8 @@ Future<void> main() async {
 
   await WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  FirebaseFirestore.instance.enableNetwork();
 
   await SearchAbleDataLoading.Execute().then((e){
       print("Writers Started");
@@ -39,13 +43,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        fontFamily: 'EBGaramond',
-        primarySwatch: Colors.blue,
-      ),
-      home: const Home(),
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          fontFamily: 'EBGaramond',
+          primarySwatch: Colors.blue,
+        ),
+        home:  WillPopScope(
+            onWillPop: () {
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                  builder: (context) => Home()), (Route route) => false);
+              return Future.value(true);
+            },
+            child: const Home()),
     );
   }
 }

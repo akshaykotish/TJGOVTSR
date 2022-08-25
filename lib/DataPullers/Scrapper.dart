@@ -419,7 +419,7 @@ class Scrapper{
     link = URL.replaceAll(" ", "");
     jobData.url = link;
     await ExtractData();
-    jobData.GenerateKey();
+    await jobData.GenerateKey();
     return jobData;
   }
 }

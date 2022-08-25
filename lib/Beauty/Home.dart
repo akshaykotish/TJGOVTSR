@@ -145,6 +145,7 @@ class _HomeState extends State<Home> {
                     // BannerForAds(),
                     ToolSection(),
                     JobBoxs(),
+                    SizedBox(height: 100,)
                   ],
                 ),
               ),

@@ -5,8 +5,6 @@ import 'dart:async';
 import '../JobData.dart';
 
 class JobDisplayManagement{
-  static String WhatToShow = "";
-
   static List<JobData> jobstoshow = <JobData>[];
 
   static StreamController<List<JobData>> jobstoshowstreamcontroller = StreamController<List<JobData>>();

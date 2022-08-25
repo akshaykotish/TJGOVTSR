@@ -66,7 +66,11 @@ class Syllabus{
 
 
   Future<void> UpdateSyllabusLastJobsSize() async {
-    FirebaseFirestore.instance.collection("Logs").doc("LastSavedSizes").update({"SyllabusLastSize" : NewLastSavedSizes});
+    if(NewLastSavedSizes != 0) {
+      FirebaseFirestore.instance.collection("Logs")
+          .doc("LastSavedSizes")
+          .update({"SyllabusLastSize": NewLastSavedSizes});
+    }
   }
 
 

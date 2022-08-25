@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:governmentapp/HexColors.dart';
 
 
 class LoadingAnim extends StatefulWidget {
@@ -101,18 +102,54 @@ class SkeltonCard extends StatelessWidget {
 
 
 
-class Skelton extends StatelessWidget {
+class Skelton extends StatefulWidget {
   const Skelton({Key? key, this.height, this.width}) : super(key: key);
 
   final double? height, width;
 
   @override
+  State<Skelton> createState() => _SkeltonState();
+}
+
+class _SkeltonState extends State<Skelton> with SingleTickerProviderStateMixin {
+
+  late AnimationController controller;
+  late Animation colorAnimation;
+  late Animation sizeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    //Colors.black.withOpacity(0.3)
+    controller =  AnimationController(vsync: this, duration: Duration(seconds: 3));
+    colorAnimation = ColorTween(begin: Colors.grey.withOpacity(0.3), end: ColorFromHexCode("#605E3F").withOpacity(0.6)).animate(controller);
+    sizeAnimation = Tween<double>(begin: 100.0, end: 200.0).animate(controller);
+    controller.forward();
+    controller.addListener(() {setState(() {});});
+    controller.addStatusListener((status) {
+      if(status == AnimationStatus.completed)
+        {
+          controller.reverse();
+        }
+      else if(status == AnimationStatus.dismissed){
+        controller.forward();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
-      width: width,
+      height: widget.height,
+      width: widget.width,
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.3),
+        color: colorAnimation.value,
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
     );

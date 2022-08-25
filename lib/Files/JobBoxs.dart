@@ -53,11 +53,11 @@ class _JobBoxsState extends State<JobBoxs> {
 
     int index = 0;
 
-    if(jobs.isEmpty)
+    if(jobs.isEmpty && JobDisplayManagement.isloadingjobs == false && JobDisplayManagement.ismoreloadingjobs == false)
       {
         _AllDepartmentsList.add(
           Container(
-            child: Text(JobDisplayManagement.WhatToShow, style: TextStyle(color: Colors.red),),
+            child: Center(child: const Text("Job Container is empty.", style: TextStyle(color: Colors.red),)),
           )
         );
       }
@@ -139,7 +139,7 @@ class _JobBoxsState extends State<JobBoxs> {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      child: JobDisplayManagement.isloadingjobs == true ?
+      child: JobDisplayManagement.isloadingjobs == true || JobDisplayManagement.ismoreloadingjobs == true ?
           SingleChildScrollView(child: LoadingAnim())
           :  Column(
         children:AllDepartmentsList,

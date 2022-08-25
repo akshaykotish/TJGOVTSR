@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../Files/Home.dart';
+import '../Beauty/Home.dart';
 
 class ChooseInterest extends StatefulWidget {
   const ChooseInterest({Key? key}) : super(key: key);

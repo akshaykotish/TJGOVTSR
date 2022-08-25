@@ -321,7 +321,6 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
 
 
   Future<void> OnProceed() async {
-
     //sub inspector haryana
     await Future.forEach(UknownSelectedDepartment, (String departments) async {
 
@@ -376,15 +375,19 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
       }
 
       print("Top 3 = " + topsearches3.length.toString());
-
-      await Future.forEach(topsearches3, (String res) async {
-        String dep =  await res.split(";")[0].toString().split("/")[1];
-        if(!topsearches.contains(dep))
-        {
-          topsearches.add(dep);
-          print("Selected Department :- " + res + " - Top 3");
-        }
-      });
+        await Future.forEach(topsearches3, (String res) async {
+          String dep = "";
+          if(res.split(";").length == 3) {
+            dep = res.split(";")[2].split("/")[1];
+          }
+          else{
+            dep = res.split(";")[1].toString();
+          }
+          if (!topsearches.contains(dep)) {
+            topsearches.add(dep);
+            print("Selected Department :- " + res + " - Top 3");
+          }
+        });
 
       topsearches.addAll(SelectedDepartment);
       SelectedDepartment = topsearches;
