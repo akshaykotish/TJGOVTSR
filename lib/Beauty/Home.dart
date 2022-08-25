@@ -2,10 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:governmentapp/Beauty/Banner.dart';
 import 'package:governmentapp/Beauty/Branding.dart';
-import 'package:governmentapp/Beauty/Buttons.dart';
-import 'package:governmentapp/Beauty/ShowSkeleton.dart';
 import 'package:governmentapp/Beauty/ToolSection.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
@@ -121,69 +118,77 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-            color: ColorFromHexCode("#E2E2E2"),
-            image: const DecorationImage(
-              image: AssetImage(
-                "./assets/branding/Background.png",
-              ),
-              fit: BoxFit.fill,
-            )
-        ),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
-                    Branding(),
-                    // BannerForAds(),
-                    ToolSection(),
-                    JobBoxs(),
-                    SizedBox(height: 100,)
-                  ],
+      body: RefreshIndicator(
+        onRefresh: (){
+          return Future.delayed(Duration(seconds: 1), (){
+            JobDisplayManagement.isloadingjobs = true;
+            RequiredDataLoading.Execute();
+          });
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              color: ColorFromHexCode("#E2E2E2"),
+              image: const DecorationImage(
+                image: AssetImage(
+                  "./assets/branding/Background.png",
+                ),
+                fit: BoxFit.fill,
+              )
+          ),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: <Widget>[
+              SingleChildScrollView(
+                child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const <Widget>[
+                      Branding(),
+                      // BannerForAds(),
+                      ToolSection(),
+                      JobBoxs(),
+                      SizedBox(height: 100,)
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: MediaQuery.of(context).size.height,
-              child: DraggableScrollableSheet(
-                  controller: draggableScrollableController,
-                  initialChildSize: initialchildsize,
-                  minChildSize: 0.0,
-                  maxChildSize: .9,
-                  builder: (BuildContext context, ScrollController scrollController) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: -const Offset(1, 1),
-                            blurRadius: 1,
-                            spreadRadius: 1,
-                            color: Colors.grey.shade300,
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: MediaQuery.of(context).size.height,
+                child: DraggableScrollableSheet(
+                    controller: draggableScrollableController,
+                    initialChildSize: initialchildsize,
+                    minChildSize: 0.0,
+                    maxChildSize: .9,
+                    builder: (BuildContext context, ScrollController scrollController) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
                           ),
-                        ],
-                      ),
-                      child: SingleChildScrollView(
-                          controller: scrollController,
-                          child: JobSheet(jobData: SheetjobData,)
-                      ),
-                    );
-                  }),
-            ),
-          ],
+                          boxShadow: [
+                            BoxShadow(
+                              offset: -const Offset(1, 1),
+                              blurRadius: 1,
+                              spreadRadius: 1,
+                              color: Colors.grey.shade300,
+                            ),
+                          ],
+                        ),
+                        child: SingleChildScrollView(
+                            controller: scrollController,
+                            child: JobSheet(jobData: SheetjobData,)
+                        ),
+                      );
+                    }),
+              ),
+            ],
+          ),
         ),
       ),
     );

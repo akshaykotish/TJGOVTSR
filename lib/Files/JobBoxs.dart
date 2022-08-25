@@ -62,6 +62,7 @@ class _JobBoxsState extends State<JobBoxs> {
         );
       }
 
+
     jobs.forEach((job) {
       index++;
       if (!_ToShowJobs.containsKey(job.Department)) {
@@ -139,7 +140,7 @@ class _JobBoxsState extends State<JobBoxs> {
   @override
   Widget build(BuildContext context) {
     return  Container(
-      child: JobDisplayManagement.isloadingjobs == true || JobDisplayManagement.ismoreloadingjobs == true ?
+      child: JobDisplayManagement.isloadingjobs == true || AllDepartmentsList.isEmpty ?
           SingleChildScrollView(child: LoadingAnim())
           :  Column(
         children:AllDepartmentsList,

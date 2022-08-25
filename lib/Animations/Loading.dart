@@ -122,7 +122,7 @@ class _SkeltonState extends State<Skelton> with SingleTickerProviderStateMixin {
     super.initState();
     //Colors.black.withOpacity(0.3)
     controller =  AnimationController(vsync: this, duration: Duration(seconds: 3));
-    colorAnimation = ColorTween(begin: Colors.grey.withOpacity(0.3), end: ColorFromHexCode("#605E3F").withOpacity(0.6)).animate(controller);
+    colorAnimation = ColorTween(begin: Colors.grey.withOpacity(0.3), end: Colors.grey[500]).animate(controller);
     sizeAnimation = Tween<double>(begin: 100.0, end: 200.0).animate(controller);
     controller.forward();
     controller.addListener(() {setState(() {});});
@@ -150,6 +150,11 @@ class _SkeltonState extends State<Skelton> with SingleTickerProviderStateMixin {
       width: widget.width,
       decoration: BoxDecoration(
         color: colorAnimation.value,
+        gradient: LinearGradient(
+        begin: Alignment.centerLeft,
+        end: Alignment.centerRight,
+        colors: colorAnimation.value == Colors.grey.withOpacity(0.3) ? [Colors.grey.withOpacity(0.3), Colors.grey.shade500] : [ Colors.grey.shade500, Colors.grey.withOpacity(0.3)],
+        ),
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
     );

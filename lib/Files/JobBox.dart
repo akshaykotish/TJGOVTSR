@@ -81,7 +81,7 @@ class _JobBoxState extends State<JobBox> {
               image: AssetImage("./assets/icons/hot.png"),
             )
           ),)  : Icon(Icons.search, color: Colors.grey[400], size: 12,),
-      Text(widget.jobData.count >= 50 ? " Trending Job" : widget.jobData.count >= 3 ? "Result" : "Suggestion", style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.grey[400]),),
+      Text(widget.jobData.count >= 50 ? " Trending Job" : widget.jobData.count == 78 ? "Favourite" : widget.jobData.count >= 3 ? "Result" : "Suggestion", style: TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Colors.grey[400]),),
     ],
     ));
   }

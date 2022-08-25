@@ -250,6 +250,12 @@ try {
   if (Jobs.exists && Jobs.data()!["Hots"] != null) {
     Iterable hots = (Jobs.data()!["Hots"] as List<dynamic>).reversed;
     for (var p in hots) {
+
+      if(JobDisplayManagement.ismoreloadingjobs)
+      {
+        JobDisplayManagement.ismoreloadingjobs = false;
+        JobDisplayManagement.isloadingjobs = false;
+      }
       String path = p.toString();
       var job = await FirebaseFirestore.instance.doc(path).get();
       if (job.exists) {
@@ -302,7 +308,7 @@ catch(e) {
           JobDisplayManagement.isloadingjobs = false;
         }
       JobData jobData = JobData();
-      print("LOVED" + lovedjob);
+      jobData.count = 78;
       await jobData.fromJson(lovedjob);
 
       JobDisplayManagement.isloadingjobs = false;

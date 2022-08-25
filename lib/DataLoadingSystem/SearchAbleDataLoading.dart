@@ -173,8 +173,9 @@ class SearchAbleDataLoading{
       JobDisplayManagement.ismoreloadingjobs = true;
       JobDisplayManagement.jobstoshow.clear();
 
-      if (searchkeywords == null || searchkeywords.isEmpty) {
-        JobDisplayManagement.ismoreloadingjobs = false;
+      if (searchkeywords == null || searchkeywords.isEmpty) {      JobDisplayManagement.isloadingjobs = true;
+      JobDisplayManagement.isloadingjobs = false;
+      JobDisplayManagement.ismoreloadingjobs = false;
         return;
       }
 
@@ -183,13 +184,13 @@ class SearchAbleDataLoading{
       List<String> secondpriority = <String>[];
       List<String> thirdpriority = <String>[];
 
-      JobDisplayManagement.ismoreloadingjobs = true;
 
 
       var RevSearchable = await SearchAbleCache.reversed;
       await Future.forEach(RevSearchable, (String JobString) async {
         if(JobDisplayManagement.jobstoshow.length >= 100)
           {
+            JobDisplayManagement.isloadingjobs = false;
             JobDisplayManagement.ismoreloadingjobs = false;
             return;
           }
@@ -236,8 +237,6 @@ class SearchAbleDataLoading{
                 thirdpriority.add(path);
               }
             }
-
-
                 });
           });
 
