@@ -114,15 +114,17 @@ class Skelton extends StatefulWidget {
 class _SkeltonState extends State<Skelton> with SingleTickerProviderStateMixin {
 
   late AnimationController controller;
-  late Animation colorAnimation;
+  late Animation colorAnimation1;
+  late Animation colorAnimation2;
   late Animation sizeAnimation;
 
   @override
   void initState() {
     super.initState();
     //Colors.black.withOpacity(0.3)
-    controller =  AnimationController(vsync: this, duration: Duration(seconds: 3));
-    colorAnimation = ColorTween(begin: Colors.grey.withOpacity(0.3), end: Colors.grey[500]).animate(controller);
+    controller =  AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    colorAnimation1 = ColorTween(begin: Colors.grey.withOpacity(0.3), end: Colors.grey[500]).animate(controller);
+    colorAnimation2 = ColorTween(begin: Colors.grey[500], end: Colors.grey.withOpacity(0.3)).animate(controller);
     sizeAnimation = Tween<double>(begin: 100.0, end: 200.0).animate(controller);
     controller.forward();
     controller.addListener(() {setState(() {});});
@@ -149,11 +151,14 @@ class _SkeltonState extends State<Skelton> with SingleTickerProviderStateMixin {
       height: widget.height,
       width: widget.width,
       decoration: BoxDecoration(
-        color: colorAnimation.value,
+        color: colorAnimation1.value,
         gradient: LinearGradient(
         begin: Alignment.centerLeft,
         end: Alignment.centerRight,
-        colors: colorAnimation.value == Colors.grey.withOpacity(0.3) ? [Colors.grey.withOpacity(0.3), Colors.grey.shade500] : [ Colors.grey.shade500, Colors.grey.withOpacity(0.3)],
+        colors: [
+          colorAnimation1.value,
+          colorAnimation2.value,
+        ],
         ),
         borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),

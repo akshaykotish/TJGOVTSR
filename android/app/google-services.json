@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:633423406728:android:94834c303bb81c9688213d",
+        "mobilesdk_app_id": "1:633423406728:android:e992f3f50bc7794a88213d",
         "android_client_info": {
-          "package_name": "akshaykotish.trackjobs.governmentapp"
+          "package_name": "akshaykotish.trackjobs.sarkarinaukri"
         }
       },
       "oauth_client": [
         {
-          "client_id": "633423406728-lpsa36sunfbdr4ni8222vke25irsd2ah.apps.googleusercontent.com",
+          "client_id": "633423406728-5ttf7v1p30e5gracqfg07h66e2u0rsr7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "akshaykotish.trackjobs.governmentapp",
+            "package_name": "akshaykotish.trackjobs.sarkarinaukri",
             "certificate_hash": "bd2c22e2236a59a83bac674aa371d220d6b3220b"
           }
         },

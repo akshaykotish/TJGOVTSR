@@ -24,7 +24,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
    <application
-        android:label="governmentapp"
+        android:label="TrackJobs Sarkari Naukri"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
        >

@@ -45,7 +45,7 @@ class LatestJobs{
   }
 
   Future<void> UpdateLatestJobsLastJobLink() async {
-     (await FirebaseFirestore.instance.collection("Logs").doc("LastSavedID").set({"LatestJobsLastLink" : NewLatestJobsLastLink}));
+    (await FirebaseFirestore.instance.collection("Logs").doc("LastSavedID").set({"LatestJobsLastLink" : NewLatestJobsLastLink}));
   }
 
 
@@ -58,15 +58,19 @@ class LatestJobs{
     catch(E){value = "0";}
 
     if(value != "null" && value != "")
-      {
-        return int.parse(value);
-      }
+    {
+      return int.parse(value);
+    }
     return 0;
   }
 
 
   Future<void> UpdateLatestJobsLastJobsSize() async {
-    FirebaseFirestore.instance.collection("Logs").doc("LastSavedSizes").update({"LatestJobsLastSize" : NewLastSavedSizes});
+    if(NewLastSavedSizes > 100) {
+      FirebaseFirestore.instance.collection("Logs")
+          .doc("LastSavedSizes")
+          .update({"LatestJobsLastSize": NewLastSavedSizes});
+    }
   }
 
 
@@ -78,32 +82,33 @@ class LatestJobs{
     int NetDataSize = Links.length;
     NewLastSavedSizes = LastSavedSizes;
 
+    print("Links Length: ${NetDataSize}");
     if(NetDataSize == LastSavedSizes){
       return;
     }
 
     int l = 0;
-    for(int i=(NetDataSize - LastSavedSizes) - 1; i>=0 /*&& l < 10*/; i--)
-      {
-        String link = Links[i].attributes["href"].toString();
+    for(int i=(NetDataSize - LastSavedSizes) - 1; i>0 /*&& l < 10*/; i--)
+    {
+      String link = Links[i].attributes["href"].toString();
 
-        Scrapper scrapper = Scrapper();
-        await scrapper.Start(link).then((JobData jobData) async {
-          await WriteToFirebase.WriteToJob(jobData);
-          await WriteToFirebase.WriteIndexToFirebase(jobData);
-          NewLastSavedSizes++;
-          await UpdateLatestJobsLastJobsSize();
-          print("NewLastSavedSizes ${NewLastSavedSizes}");
-        });
-        l++;
-      }
+      Scrapper scrapper = Scrapper();
+      await scrapper.Start(link).then((JobData jobData) async {
+        await WriteToFirebase.WriteToJob(jobData);
+        await WriteToFirebase.WriteIndexToFirebase(jobData);
+        NewLastSavedSizes++;
+        await UpdateLatestJobsLastJobsSize();
+        print("NewLastSavedSizes ${NewLastSavedSizes}");
+      });
+      l++;
+    }
 
   }
 
   Future<void> Execute() async {
     LastSavedSizes = await GetLatestJobsLastJobsSize();
     LatestJobsLastLink = await GetLatestJobsLastJobLink();
-    //String pagedata = await http.read(Uri.parse("https://www.sarkariresult.com/latestjob/"));
+    //String pagedata = await http.read(Uri.parse("https://www.sarkariLatestJobs.com/LatestJobs/"));
 
     Uri uri = Uri.parse("https://www.sarkariresult.com/latestjob/");
     var res = await http.get(uri);
@@ -129,6 +134,7 @@ class LatestJobs{
     catch(e){
       print(e);
     }
+
 
     //print(pagedata);
     await ReadLatestJobsURLs(pagedata).then((value){

@@ -113,43 +113,46 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
         int zbox = i;
 
         _SelectedDepartmentWidget.add(
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin:  const EdgeInsets.only(
-                left: 20,
-                top: 5,
-                bottom: 5,
-                right: 20,
-              ),
-              padding:  const EdgeInsets.all(15),
-              decoration:  BoxDecoration(
-                color: Colors.grey.shade100,
-                boxShadow: [
-                ],
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-              ),
-              child: Row(
-                children: <Widget>[
-                  Container(
-                      width:MediaQuery.of(context).size.width - 100,
-                      child: Text(SelectedDepartment[i],
-                        style: const TextStyle(
-                          color: Colors.black,
+            ClipRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin:  const EdgeInsets.only(
+                    left: 20,
+                    top: 5,
+                    bottom: 5,
+                    right: 20,
+                  ),
+                  padding:  const EdgeInsets.all(15),
+                  decoration:  BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                          width:MediaQuery.of(context).size.width - 100,
+                          child: Text(SelectedDepartment[i],
+                            style: const TextStyle(
+                              color: Colors.black,
+                            ),
+                          )
+                      ),
+                      Container(
+                        child: GestureDetector(
+                          onTap: (){
+                            RemoveItemFromSelectedDepartment(zbox);
+                          },
+                          child: const Icon(
+                            Icons.remove_circle_outline_rounded,
+                            color: Colors.red,
+                          ),
                         ),
                       )
+                    ],
                   ),
-                  Container(
-                    child: GestureDetector(
-                      onTap: (){
-                        RemoveItemFromSelectedDepartment(zbox);
-                      },
-                      child: const Icon(
-                        Icons.remove_circle_outline_rounded,
-                        color: Colors.red,
-                      ),
-                    ),
-                  )
-                ],
+                ),
               ),
             )
         );
@@ -213,14 +216,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.only(
-                    left: 20,
-                    top: 5,
-                    bottom: 5,
-                    right: 20,
-                  ),
                   padding: EdgeInsets.all(10),
-                  color: Colors.grey[200],
                   child: Text(Departmentis),
                 ),
               ),
@@ -309,7 +305,23 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
 
     //print(prefs.getStringList('UserDepartments'));
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseState()));
+    Navigator.push(context, PageRouteBuilder(
+        transitionDuration: const Duration(seconds: 1),
+        transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
+          const begin = Offset(1.5, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+        pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation){
+          return ChooseState();
+        }));
   }
 
   @override
@@ -402,103 +414,168 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 4,
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  const Text("Choose the Departments",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+      body: Container(
+        decoration: BoxDecoration(
+            color: ColorFromHexCode("#E2E2E2"),
+            image: const DecorationImage(
+              image: AssetImage(
+                "./assets/branding/Background.jpg",
+              ),
+              fit: BoxFit.fill,
+            )
+        ),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            color: Colors.grey.withOpacity(0.1),
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                      top: 70, left: 10, right: 10, bottom: 10,
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: TextField (
-                      controller: textEditingController,
-                      onChanged: (e){
-                        FindDepartment(e);
-                      },
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          labelText: 'Enter Department Name Here',
-                          labelStyle: TextStyle(
-                            color: Colors.grey.shade400,
+                    decoration: const BoxDecoration(
+                      borderRadius:  BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: ClipRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius:  BorderRadius.all(Radius.circular(15)),
+                            color: Colors.white.withOpacity(0.4),
                           ),
-                          hintText: 'UNION PUBLIC SERVICE COMMISSION'
+                          padding: const EdgeInsets.all(20),
+                          width: MediaQuery.of(context).size.width,
+                          height: 150,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Text("Write the Departments",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.grey.shade700
+                                ),
+                              ),
+                              SizedBox(height: 10,),
+                              Container(
+                                decoration: const BoxDecoration(
+                                  borderRadius:  BorderRadius.all(Radius.circular(15)),
+                                ),
+                                child: ClipRect(
+                                  child: BackdropFilter(
+                                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                                    child: Container(
+                                      padding: EdgeInsets.all(5),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.3),
+                                        borderRadius:  BorderRadius.all(Radius.circular(15)),                                        ),
+                                      width: MediaQuery.of(context).size.width,
+                                      child: TextField (
+                                        controller: textEditingController,
+                                        onChanged: (e){
+                                          FindDepartment(e);
+                                        },
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            labelText: 'bank, force, defence, upsc, ssc',
+                                            labelStyle: TextStyle(
+                                                color: Colors.grey.shade500,
+                                                fontWeight: FontWeight.w500
+                                            ),
+                                            hintText: 'Please spell correct',
+                                            hintStyle: TextStyle(
+                                                color: Colors.grey.shade600
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-
-                ],
-              ),
-            ),
-        ),
-          ),
-          Positioned(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height/1.5,
-            top: MediaQuery.of(context).size.height/4,
-            child: Container(
-              color: Colors.white,
-              height: MediaQuery.of(context).size.height/1.5,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: SelectedDepartmentWidget,
                 ),
-              ),
-            ),
-          ),
-          Positioned(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height/4,
-            top: MediaQuery.of(context).size.height/4 - 20,
-            child: Visibility(
-              visible: ShowHintBox,
-              child: Container(
-                height: MediaQuery.of(context).size.height/4,
-                color: Colors.white,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: ToFindDepartmentsShowWidget,
+                Positioned(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height/1.5,
+                  top: MediaQuery.of(context).size.height/3,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height/1.5,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: SelectedDepartmentWidget,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: 60,
-            child: GestureDetector(
-              onTap: (){
-                SaveSelectedDepartments();
-              },
-              child: Container(
-                color: Colors.grey[900],
-                child: const Center(child: Text(
-                    "Proceed",
-                  style: TextStyle(fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
+                Positioned(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height/3.8,
+                  top: 220,
+                  child: Visibility(
+                    visible: ShowHintBox,
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: ClipRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(0.4),
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                            ),
+                            padding: EdgeInsets.all(10),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: ToFindDepartmentsShowWidget,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                )),
-              ),
-            ),
-          )
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: 60,
+                  child: GestureDetector(
+                    onTap: (){
+                      SaveSelectedDepartments();
+                    },
+                    child: Container(
+                      color: Colors.grey[900],
+                      child: const Center(child: Text(
+                          "Proceed",
+                        style: TextStyle(fontSize: 18,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
+                    ),
+                  ),
+                )
     ]
+            ),
+          ),
+        ),
       ),
     );
   }

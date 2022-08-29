@@ -32,28 +32,39 @@ class _DepartmentBoxState extends State<DepartmentBox> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          SizedBox(height: 50,),
-          ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-              child: Container(
-                padding: EdgeInsets.all(10),
-                width: widget.DepartmentName.toTitleCase().length * 10 <= MediaQuery.of(context).size.width - 20 ? widget.DepartmentName.toTitleCase().length * 10 : MediaQuery.of(context).size.width - 20,
-                alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
-                  color: ColorFromHexCode("#E9DDA7").withOpacity(0.3),
-                  borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
+          Container(
+            width: widget.DepartmentName.toTitleCase().length * 10 <= MediaQuery.of(context).size.width - 20 ? widget.DepartmentName.toTitleCase().length * 10 : MediaQuery.of(context).size.width - 20,
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(1, 1),
+                  blurRadius: 6,
+                  spreadRadius: 5,
+                  color: Colors.white.withOpacity(0.1),
                 ),
-                child: Text(
-                  widget.DepartmentName.toTitleCase(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: Colors.grey[700],
-                  ),
+                BoxShadow(
+                  offset: Offset(1, 1),
+                  blurRadius: 6,
+                  spreadRadius: 5,
+                  color: Colors.grey.shade100.withOpacity(0.1),
+                ),
+              ],
+            ),
+            child: Container(
+              margin: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade500.withOpacity(0.1), width: 1),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                color: Colors.amberAccent.withOpacity(0.4),
+              ),
+              child: Text(
+                widget.DepartmentName.toTitleCase(),
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color: Colors.black.withOpacity(0.7),
                 ),
               ),
             ),
@@ -61,6 +72,7 @@ class _DepartmentBoxState extends State<DepartmentBox> {
           Column(
             children: widget.jobboxes,
           ),
+          SizedBox(height: 10,),
         ],
       ),
     );

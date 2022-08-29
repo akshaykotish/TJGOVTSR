@@ -4,12 +4,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
-import 'package:governmentapp/Files/Loved.dart';
-import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/JobData.dart';
+import 'package:governmentapp/VacancyDetails.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:zoom_widget/zoom_widget.dart';
 
 
 class JobSheet extends StatefulWidget {
@@ -34,6 +32,7 @@ class _JobSheetState extends State<JobSheet> {
   var All_Centers = <Widget>[];
   var All_HowTo = <Widget>[];
   var All_Corrections = <Widget>[];
+  var All_VDetails = <Widget>[];
 
 
   var Clicks = <Widget>[];
@@ -263,10 +262,70 @@ class _JobSheetState extends State<JobSheet> {
   }
 
 
+  void LoadVacancies(JobData jobData){
+    var _All_VDetails = <Widget>[];
+
+    _All_VDetails.add(Padding(
+      padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
+      child: Text("Vacancies", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+    ));
+
+    int indx = 0;
+    jobData.VDetails.forEach((VacancyDetails VDetail) {
+      var _VDetailBox = <Widget>[];
+      _VDetailBox.add(Text(VDetail.Title, style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),)); //Title
+      for(int i=0; i<VDetail.datas.length; i++) {
+        var _VDetailRow = <Widget>[];
+        for(int j=0; j<VDetail.datas[i].data.length; j++)
+          {
+            var _VDetailColumn = <Widget>[];
+            if(j < VDetail.headers.length)
+            {
+              _VDetailColumn.add(Text(VDetail.headers[j], style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w300, fontSize: 10),));
+            }
+            _VDetailColumn.add(Text(VDetail.datas[i].data[j]));
+            _VDetailColumn.add(const SizedBox(height: 1,));
+            _VDetailRow.add(Container(
+                padding: EdgeInsets.all(5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _VDetailColumn,)));
+          }
+        _VDetailBox.add(
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: _VDetailRow,
+              ),
+            )
+        );
+
+        _VDetailBox.add(const SizedBox(height: 5,));
+
+
+      }
+
+      _All_VDetails.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: _VDetailBox,));
+      _All_VDetails.add(const SizedBox(height: 10,));
+
+      if(indx == jobData.VDetails.length - 1)
+        {
+          setState(() {
+            All_VDetails = _All_VDetails;
+          });
+        }
+      indx++;
+    });
+  }
+
   @override
   void initState() {
 
-    this.jobData = widget.jobData;
+    jobData = widget.jobData;
 
     CurrentJob.currentjobStreamForVacanciesToCall = (JobData jobData) async {
       this.jobData = jobData;
@@ -278,6 +337,7 @@ class _JobSheetState extends State<JobSheet> {
         LoadHowTo(jobData);
         LoadCenters(jobData);
         LoadCorrections(jobData);
+        LoadVacancies(jobData);
     };
     super.initState();
   }
@@ -398,7 +458,7 @@ class _JobSheetState extends State<JobSheet> {
   Widget build(BuildContext context)  {
     return Container(
       decoration: const BoxDecoration(
-        image: DecorationImage(image: AssetImage("./assets/branding/dbg.png"),
+        image: DecorationImage(image: AssetImage("./assets/branding/dbg.jpg"),
         fit: BoxFit.fill)
       ),
       child: BackdropFilter(
@@ -492,7 +552,7 @@ class _JobSheetState extends State<JobSheet> {
                             SizedBox(height: 5,),
                             Container(
                               width: MediaQuery.of(context).size.width,
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Text("Date: ${widget.jobData.LastUpdate}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
@@ -504,7 +564,7 @@ class _JobSheetState extends State<JobSheet> {
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width,
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Text("No.: ${widget.jobData.AdvertisementNumber.replaceAll("Short Details of Notification", "")}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
@@ -514,9 +574,9 @@ class _JobSheetState extends State<JobSheet> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 20,),
+                            
                             Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Text(widget.jobData.Designation.toString(),
                               style: TextStyle(
                                 fontSize: 20,
@@ -526,7 +586,7 @@ class _JobSheetState extends State<JobSheet> {
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Text(widget.jobData.Short_Details.toString(),
                                 style: TextStyle(
                                     fontSize: 15,
@@ -535,7 +595,7 @@ class _JobSheetState extends State<JobSheet> {
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Text(
                                 "Location: ${widget.jobData.Location}".toString(),
                                 style: TextStyle(
@@ -545,7 +605,7 @@ class _JobSheetState extends State<JobSheet> {
                               ),
                             ),
                             widget.jobData.DocumentRequired != "" ? Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Text(
                                 "Document Required: ${widget.jobData.DocumentRequired}".toString(),
                                 style: TextStyle(
@@ -555,7 +615,7 @@ class _JobSheetState extends State<JobSheet> {
                               ),
                             ):Container(),
                             widget.jobData.Total_Vacancies != "" ? Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Text(
                                 "Total Vacancies: ${widget.jobData.Total_Vacancies}".toString(),
                                 style: TextStyle(
@@ -565,7 +625,7 @@ class _JobSheetState extends State<JobSheet> {
                               )
                             ):Container(),
                             widget.jobData.Total_Vacancies != "" ? Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Text(
                                 "Total Vacancies: ${widget.jobData.Total_Vacancies}".toString(),
                                 style: TextStyle(
@@ -575,7 +635,7 @@ class _JobSheetState extends State<JobSheet> {
                               )
                             ) : Container(),
                             widget.jobData.WebsiteLink != "" ? Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child:Text(
                                 "Website: ${widget.jobData.WebsiteLink}".toString(),
                                 style: TextStyle(
@@ -585,9 +645,9 @@ class _JobSheetState extends State<JobSheet> {
                               )
                             ) : Container(),
 
-                            SizedBox(height: 20,),
+                            
                             jobData.Important_Dates.isNotEmpty ? Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -595,9 +655,9 @@ class _JobSheetState extends State<JobSheet> {
                               ),
                             ) : Container(),
 
-                            SizedBox(height: 20,),
+                            
                             jobData.ApplicationFees.isNotEmpty ? Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -605,9 +665,9 @@ class _JobSheetState extends State<JobSheet> {
                               ),
                             ) : Container(),
 
-                            SizedBox(height: 20,),
+                            
                             jobData.AgeLimits.isNotEmpty ? Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -615,9 +675,9 @@ class _JobSheetState extends State<JobSheet> {
                               ),
                             ) : Container(),
 
-                            SizedBox(height: 20,),
+                            
                             jobData.ExamCenters.isNotEmpty ? Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -625,9 +685,9 @@ class _JobSheetState extends State<JobSheet> {
                               ),
                             ) : Container(),
 
-                            SizedBox(height: 20,),
+                            
                             jobData.HowTo.isNotEmpty ? Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -635,10 +695,8 @@ class _JobSheetState extends State<JobSheet> {
                               ),
                             ) : Container(),
 
-
-                            SizedBox(height: 20,),
                             jobData.Corrections.isNotEmpty ? Container(
-                              padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -647,7 +705,15 @@ class _JobSheetState extends State<JobSheet> {
                             ) : Container(),
 
 
-                            SizedBox(height: 2000,),
+                            jobData.VDetails.isNotEmpty ? Container(
+                              padding: const EdgeInsets.only(left: 10, top: 24, bottom: 4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: All_VDetails,
+                              ),
+                            ) : Container(),
+
                           ],
                         ),
                       ),

@@ -74,8 +74,8 @@ class _JobBoxState extends State<JobBox> {
     return Container(child: Row(
       children: <Widget>[
       widget.jobData.count >= 50 ? Container(
-        width: 20,
-          height: 20,
+        width: 15,
+          height: 15,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("./assets/icons/hot.png"),
@@ -86,93 +86,103 @@ class _JobBoxState extends State<JobBox> {
     ));
   }
 
+  bool opcity = false;
   @override
   void initState() {
     widget.jobData.Designation == "" ? widget.jobData.Designation = widget.jobData.Title : null;
     super.initState();
+
+    Future.delayed((Duration(seconds: 1)), (){
+      setState(() {
+        opcity = true;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return AnimatedOpacity(
+      opacity: opcity == true ? 1 : 0.1,
+      duration: Duration(microseconds: 1500),
+      child: GestureDetector(
+        onTap: () {
 
-        if(CurrentJob.currentjobStreamToCall != null)
-          {
-            widget.jobData.Designation == "" ? widget.jobData.Designation = widget.jobData.Title : null;
-            CurrentJob.currentjobStreamToCall(widget.jobData);
-             CurrentJob.currentjobStreamForVacanciesToCall(widget.jobData);
-          }
-      },
-      child: Container(
-        margin: const EdgeInsets.only(
-          left: 20,
-          top: 15,
-          bottom:5,
-        ),
-        decoration: const BoxDecoration(
-          borderRadius:  BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            topLeft: Radius.circular(20),
-          ),
-        ),
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          children: <Widget>[
-            ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.1),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      topLeft: Radius.circular(20),
-                    ),
-                  ),
-                  padding: EdgeInsets.all(10),
-                  alignment: Alignment.center,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                              Container(
-                            alignment: Alignment.centerLeft,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              child: Center(child: Text(widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").length > 4 ? widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").substring(0, 4) : widget.jobData.Designation == "" ? widget.jobData.Designation = widget.jobData.Title : widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", ""), style: TextStyle(fontSize: 20, color: Colors.grey[700], fontWeight: FontWeight.w600),))),
-                              const SizedBox(width: 10,),
-                              GetJobType(),
-                        ],
-                      ),
-                      const SizedBox(width: 20,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width - 50,
-                            child: Text(widget.jobData.Designation.length > 75 ? widget.jobData.Designation.substring(0, 75) + "..." : widget.jobData.Designation, style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                              color: widget.isClicked ? Colors.white : ColorFromHexCode("#2A2500"),
-                            ),),
-                          ),
-                          Text(widget.jobData.Short_Details.length > 30 ? widget.jobData.Short_Details.substring(0, 30) : widget.jobData.Short_Details, style: TextStyle(
-                              fontSize: 14,
-                            color:  widget.isClicked ? Colors.white60 : Colors.grey[700],
-                          ),),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
+          if(CurrentJob.currentjobStreamToCall != null)
+            {
+              widget.jobData.Designation == "" ? widget.jobData.Designation = widget.jobData.Title : null;
+              CurrentJob.currentjobStreamToCall(widget.jobData);
+               CurrentJob.currentjobStreamForVacanciesToCall(widget.jobData);
+            }
+        },
+        child: Container(
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.only(left: 10, top: 5, bottom: 5, right: 0),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [
+                ColorFromHexCode("#8F00FF").withOpacity(0.1),
+                ColorFromHexCode("#4B0082").withOpacity(0.1),
+                ColorFromHexCode("#0000FF").withOpacity(0.1),
+                ColorFromHexCode("#00FF00").withOpacity(0.1),
+                ColorFromHexCode("#FFFF00").withOpacity(0.1),
+                ColorFromHexCode("#FFA500").withOpacity(0.1),
+                ColorFromHexCode("#FF0000").withOpacity(0.1),
+              ],
             ),
-          ],
+            border: Border.all(color: Colors.grey.shade500.withOpacity(0.1), width: 1),
+            boxShadow: [
+              BoxShadow(
+                offset: Offset(2, 2),
+                blurRadius: 5,
+                spreadRadius: 5,
+                color: Colors.blue.shade200.withOpacity(0.1),
+
+              ),
+
+            ],
+            color: Colors.white70.withOpacity(.1),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
+            ),
+          ),
+          alignment: Alignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: Center(child: Text(widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").length > 4 ? widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").substring(0, 4) : widget.jobData.Designation == "" ? widget.jobData.Designation = widget.jobData.Title : widget.jobData.Department.toShortForm().replaceAll("(", "").replaceAll(")", ""),
+                        style: TextStyle(fontSize: 12, color: Colors.grey[700], fontWeight: FontWeight.w600),))),
+                  const SizedBox(width: 10,),
+                  GetJobType(),
+                ],
+              ),
+              const SizedBox(width: 20, height: 5,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width - 50,
+                    child: Text(widget.jobData.Designation.length > 108 ? widget.jobData.Designation.substring(0, 108) + "..." : widget.jobData.Designation, style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: widget.isClicked ? Colors.white : ColorFromHexCode("#2A2500"),
+                    ),),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

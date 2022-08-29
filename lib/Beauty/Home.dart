@@ -77,17 +77,30 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+
+
     JobDisplayManagement.isloadingjobs = true;
     RequiredDataLoading.Execute();
     draggableScrollableController = DraggableScrollableController();
 
     CurrentJob.currentjobStreamToCall = (value) {
+      print("JEJMFMKe");
       setState(() {
-        initialchildsize = .9;
-        print("AHSI");
-        draggableScrollableController.animateTo(0.9, duration: Duration(milliseconds: 500), curve: Curves.easeIn);
+        draggableScrollableController.animateTo(0.9, duration: Duration(milliseconds: 500), curve: Curves.easeInBack).then((value){
+          setState(() {
+            initialchildsize = .9;
+          });
+        });
         SheetjobData = value;
       });
+    };
+
+
+    CurrentJob.HideJobSheetDataStreamToCall = (){
+      print("ADD");
+      draggableScrollableController.animateTo(0.0, duration: Duration(milliseconds: 500), curve: Curves.easeOutBack).then((value){setState(() {
+        initialchildsize = 0;
+      });});
     };
 
     super.initState();
@@ -120,7 +133,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: (){
-          return Future.delayed(Duration(seconds: 1), (){
+          return Future.delayed(Duration(milliseconds: 1), (){
             JobDisplayManagement.isloadingjobs = true;
             RequiredDataLoading.Execute();
           });
@@ -130,7 +143,7 @@ class _HomeState extends State<Home> {
               color: ColorFromHexCode("#E2E2E2"),
               image: const DecorationImage(
                 image: AssetImage(
-                  "./assets/branding/Background.png",
+                  "./assets/branding/Background.jpg",
                 ),
                 fit: BoxFit.fill,
               )
@@ -142,15 +155,18 @@ class _HomeState extends State<Home> {
               SingleChildScrollView(
                 child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
-                      Branding(),
-                      // BannerForAds(),
-                      ToolSection(),
-                      JobBoxs(),
-                      SizedBox(height: 100,)
-                    ],
+                  child: Container(
+                    color: Colors.white.withOpacity(0.1),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const <Widget>[
+                        Branding(),
+                        // BannerForAds(),
+                        ToolSection(),
+                        JobBoxs(),
+                        SizedBox(height: 100,)
+                      ],
+                    ),
                   ),
                 ),
               ),

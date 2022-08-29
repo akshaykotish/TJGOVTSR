@@ -39,7 +39,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   double AnimatedDrawer = 400;
 
   bool PositionedSearchArea_Visible = false;
-  ScrollController scrollController = new ScrollController();
 
 
   StreamController<List<JobData>> jobdatacontroller = StreamController<List<JobData>>();
@@ -99,47 +98,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       };
 
       super.initState();
-//      GetJobData();
-    scrollController.addListener(() {
-
-      if(scrollController.offset.ceil() > 250)
-        {
-          setState(() {
-            PositionedSearchArea_Visible = true;
-          });
-        }
-      else{
-        setState(() {
-          PositionedSearchArea_Visible = false;
-        });
-      }
-    });
-
-
-      //WidgetsBinding.instance?.addPostFrameCallback((_) => Animate());
-
     }
 
-
-    void Animate(){
-      _animationController = AnimationController(
-        vsync: this,
-        duration: Duration(seconds: 3),
-      );
-
-
-      _animation = Tween(begin: 100.0, end: MediaQuery.of(context).size.height.toDouble()).animate(_animationController);
-
-
-      _animationController.addStatusListener((AnimationStatus status) {
-        setState(() {
-          AnimatedDrawer = _animation.value;
-        });
-        if (status == AnimationStatus.completed) {
-
-        }
-      });
-    }
 
   @override
   void dispose() {
@@ -157,7 +117,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         child: Stack(
           children: <Widget>[
             SingleChildScrollView(
-              controller: scrollController,
               child: Column(
                 children: <Widget>[
                   Visibility(visible: !PositionedSearchArea_Visible ,child: SearchArea()),
@@ -168,40 +127,42 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       alignment: Alignment.center,
-                      child: Column(
-                        children: <Widget>[
-                          JobDisplayManagement.ismoreloadingjobs == true ? Column(
-                            children: <Widget>[
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 250,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const <Widget>[
-                                      SkeletonDeptCard(),
-                                      SkeltonCard(),
-                                      SizedBox(height: 20,),
-                                    ],
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            JobDisplayManagement.ismoreloadingjobs == true ? Column(
+                              children: <Widget>[
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 250,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: const <Widget>[
+                                        SkeletonDeptCard(),
+                                        SkeltonCard(),
+                                        SizedBox(height: 20,),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
 
-                              Container(
-                                child: Image.asset("assets/images/loading.gif"),
-                                width: 100,
-                                height: 50,
-                              ),
-                            ],
-                          ) : Container(),
-                          SizedBox(height: 10,),
-                        ],
+                                Container(
+                                  child: Image.asset("assets/images/loading.gif"),
+                                  width: 100,
+                                  height: 50,
+                                ),
+                              ],
+                            ) : Container(),
+                            SizedBox(height: 10,),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  const JobBoxs(),
+                  SingleChildScrollView(child: JobBoxs()),
                   SizedBox(height: 10,),
                   JobDisplayManagement.ismoreloadingjobs == false ? Container(
                       width: MediaQuery.of(context).size.width,

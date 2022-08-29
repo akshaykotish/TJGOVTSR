@@ -25,23 +25,39 @@ class _ButtonsState extends State<Buttons> {
               height: 80,
               margin: EdgeInsets.all(5),
               decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
                   image: DecorationImage(
-                    image: AssetImage("./assets/branding/favouritebtn.png"),
+                    image: AssetImage("./assets/branding/favouritebtn.jpg"),
                   )
               ),
             ),
           ),
           GestureDetector(
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => EncyclopediaRead()));
+              Navigator.push(context, PageRouteBuilder(
+                  transitionDuration: const Duration(seconds: 3),
+                  transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
+
+                    animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);
+
+                    return ScaleTransition(
+                      scale: animation,
+                      alignment: Alignment.center,
+                      child: child,
+                    );
+                  },
+                  pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation){
+                    return EncyclopediaRead();
+                  }));
             },
             child: Container(
               width: 80,
               height: 80,
               margin: EdgeInsets.all(5),
               decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
                   image: DecorationImage(
-                    image: AssetImage("./assets/branding/encycolpediabtn.png"),
+                    image: AssetImage("./assets/branding/encycolpediabtn.jpg"),
                   )
               ),
             ),
@@ -51,8 +67,9 @@ class _ButtonsState extends State<Buttons> {
             height: 80,
             margin: EdgeInsets.all(5),
             decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(15)),
                 image: DecorationImage(
-                  image: AssetImage("./assets/branding/materialbtn.png"),
+                  image: AssetImage("./assets/branding/materialbtn.jpg"),
                 )
             ),
           ),
@@ -61,8 +78,9 @@ class _ButtonsState extends State<Buttons> {
             height: 80,
             margin: EdgeInsets.all(5),
             decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
                 image: DecorationImage(
-                  image: AssetImage("./assets/branding/gkbutton.png"),
+                  image: AssetImage("./assets/branding/gkbutton.jpg"),
                 )
             ),
           ),

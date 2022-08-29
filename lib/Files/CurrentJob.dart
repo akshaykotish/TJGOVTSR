@@ -24,7 +24,21 @@ class CurrentJob{
   static late Function lovedjobDataStreamToCall;
 
 
+  static StreamController<String> HideJobSheetData = StreamController<String>();
+  static Stream HideJobSheetStream = HideJobSheetData.stream;
+  static late Function HideJobSheetDataStreamToCall;
+
   static void Listen(){
+
+
+    HideJobSheetStream.listen((event) {
+      if(HideJobSheetDataStreamToCall != null)
+      {
+        print("Listening");
+        HideJobSheetDataStreamToCall();
+      }
+    });
+
     currentjobStream.listen((event) async {
       print("CAlled1");
       if(currentjobStreamToCall != null)
@@ -47,10 +61,11 @@ class CurrentJob{
 
     lovedjobDataStream.listen((event) {
       if(lovedjobDataStreamToCall != null)
-        {
-          lovedjobDataStreamToCall();
-        }
+      {
+        lovedjobDataStreamToCall();
+      }
     });
+
   }
 
 

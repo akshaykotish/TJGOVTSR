@@ -285,7 +285,7 @@ catch(e) {
 
       if(UserDepartments.isNotEmpty) {
         RequiredData.isEmpty ?
-        await DownloadRequiredData() : LoadCachedRequiredData();
+        DownloadRequiredData() : LoadCachedRequiredData();
 
         JobDisplayManagement.HideJobsLoading();
         JobDisplayManagement.isloadingjobs = false;
@@ -293,7 +293,7 @@ catch(e) {
         print("Hurry! We did it.... ${JobDisplayManagement.jobstoshow.length}");
       }
       else{
-       await LoadHotJobs();
+        LoadHotJobs();
       }
   }
 

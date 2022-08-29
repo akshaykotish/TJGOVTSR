@@ -57,10 +57,25 @@ class _JobBoxsState extends State<JobBoxs> {
       {
         _AllDepartmentsList.add(
           Container(
-            child: Center(child: const Text("Job Container is empty.", style: TextStyle(color: Colors.red),)),
+            child: const Center(child: Text("Job Container is empty.", style: TextStyle(color: Colors.red),)),
           )
         );
       }
+    else{
+      _AllDepartmentsList.add(
+          Container(
+            padding: EdgeInsets.all(10),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "About ${JobDisplayManagement.jobstoshow.length} results.",
+              textAlign: TextAlign.start,
+              style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500 ),
+
+            ),
+          )
+      );
+      _AllDepartmentsList.add(SizedBox(height: 10,));
+    }
 
 
     jobs.forEach((job) {

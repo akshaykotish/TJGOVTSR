@@ -140,6 +140,9 @@ class _SearchSheetState extends State<SearchSheet> {
       String Departmentis = "";
       String Jobis = "";
 
+
+      String path = ToFindSearchSheetsData[i].split(";").length == 3 ? ToFindSearchSheetsData[i].split(";")[2] : ToFindSearchSheetsData[i].split(";")[0];
+
       var parts = ToFindSearchSheetsData[i].split(";");
       if(parts.length == 3)
         {
@@ -163,6 +166,8 @@ class _SearchSheetState extends State<SearchSheet> {
             onTap: (){
               SelectedSearchWord.add(Departmentis);
 
+              JobDisplayManagement.searchpathes.add(path);
+
               LoadSelectedSearchWord();
 
               textEditingController.text = "";
@@ -183,6 +188,7 @@ class _SearchSheetState extends State<SearchSheet> {
             onTap: (){
               SelectedSearchWord.add(Jobis);
 
+              JobDisplayManagement.searchpathes.add(path);
               LoadSelectedSearchWord();
 
               textEditingController.text = "";
@@ -317,7 +323,7 @@ class _SearchSheetState extends State<SearchSheet> {
             color: ColorFromHexCode("#E2E2E2"),
             image: const DecorationImage(
               image: AssetImage(
-                "./assets/branding/Background.png",
+                "./assets/branding/Background.jpg",
               ),
               fit: BoxFit.fill,
             )

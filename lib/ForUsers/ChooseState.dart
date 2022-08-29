@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:governmentapp/ForUsers/ChooseInterest.dart';
+import 'package:governmentapp/HexColors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseState extends StatefulWidget {
@@ -164,14 +165,7 @@ class _ChooseStateState extends State<ChooseState> {
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
-          margin: const EdgeInsets.only(
-            left: 20,
-            top: 5,
-            bottom: 5,
-            right: 20,
-          ),
           padding: EdgeInsets.all(10),
-          color: Colors.grey[200],
           child: Text(e.toString()),
         ),
       ),
@@ -205,7 +199,23 @@ class _ChooseStateState extends State<ChooseState> {
 
     //print(prefs.getStringList('UserDepartments'));
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseInterest()));
+    Navigator.push(context, PageRouteBuilder(
+        transitionDuration: const Duration(seconds: 1),
+        transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
+          const begin = Offset(1.5, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.ease;
+
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+        pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation){
+          return ChooseInterest();
+        }));
   }
 
   @override
@@ -218,99 +228,168 @@ class _ChooseStateState extends State<ChooseState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height / 4,
-                child: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      const Text("Choose the States",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+      body: Container(
+        decoration: BoxDecoration(
+            color: ColorFromHexCode("#E2E2E2"),
+            image: const DecorationImage(
+              image: AssetImage(
+                "./assets/branding/Background.jpg",
+              ),
+              fit: BoxFit.fill,
+            )
+        ),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            color: Colors.grey.withOpacity(0.1),
+            child: Stack(
+                children: <Widget>[
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                        top: 70, left: 10, right: 10, bottom: 10,
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: TextField (
-                          controller: textEditingController,
-                          onChanged: (e){
-                            FindState(e);
-                          },
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              labelText: 'Enter State Name Here',
-                              labelStyle: TextStyle(
-                                color: Colors.grey.shade400,
-                              ),
-                              hintText: 'Haryana'
+                      decoration: const BoxDecoration(
+                        borderRadius:  BorderRadius.all(Radius.circular(15)),
+                      ),
+                      child: ClipRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:  BorderRadius.all(Radius.circular(15)),
+                              color: Colors.white.withOpacity(0.4),
+                            ),
+                            padding: const EdgeInsets.all(20),
+                            width: MediaQuery.of(context).size.width,
+                            height: 150,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Text("Write the State Keyword",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey.shade700
+                                  ),
+                                ),
+                                SizedBox(height: 10,),
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    borderRadius:  BorderRadius.all(Radius.circular(15)),
+                                  ),
+                                  child: ClipRect(
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                                      child: Container(
+                                        padding: EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.3),
+                                          borderRadius:  BorderRadius.all(Radius.circular(15)),                                        ),
+                                        width: MediaQuery.of(context).size.width,
+                                        child: TextField (
+                                          controller: textEditingController,
+                                          onChanged: (e){
+                                            FindState(e);
+                                          },
+                                          decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              labelText: 'haryana, punjab, delhi, bihar',
+                                              labelStyle: TextStyle(
+                                                  color: Colors.grey.shade500,
+                                                  fontWeight: FontWeight.w500
+                                              ),
+                                              hintText: 'Please spell correct',
+                                              hintStyle: TextStyle(
+                                                  color: Colors.grey.shade600
+                                              )
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            ),
                           ),
                         ),
                       ),
-
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/4,
-              top: MediaQuery.of(context).size.height/4,
-              child: Container(
-                child: Column(
-                  children: SelectedStateWidget,
-                ),
-              ),
-            ),
-            Positioned(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height/4,
-              top: MediaQuery.of(context).size.height/4 - 20,
-              child: Visibility(
-                visible: ShowHintBox,
-                child: Container(
-                  height: MediaQuery.of(context).size.height/4,
-                  color: Colors.white,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: ToFindStatesShowWidget,
                     ),
                   ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: 60,
-              child: GestureDetector(
-                onTap: (){
-                  SaveSelectedState();
-                },
-                child: Container(
-                  color: Colors.grey[900],
-                  child: const Center(child: Text(
-                    "Proceed",
-                    style: TextStyle(fontSize: 18,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
+                  Positioned(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height/1.5,
+                    top: MediaQuery.of(context).size.height/3,
+                    child: Container(
+                      height: MediaQuery.of(context).size.height/1.5,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: SelectedStateWidget,
+                        ),
+                      ),
                     ),
-                  )),
-                ),
-              ),
-            )
-          ]
+                  ),
+                  Positioned(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height/3.8,
+                    top: 220,
+                    child: Visibility(
+                      visible: ShowHintBox,
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: ClipRect(
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.4),
+                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                              ),
+                              padding: EdgeInsets.all(10),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: ToFindStatesShowWidget,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: 60,
+                    child: GestureDetector(
+                      onTap: (){
+                        SaveSelectedState();
+                      },
+                      child: Container(
+                        color: Colors.grey[900],
+                        child: const Center(child: Text(
+                          "Proceed",
+                          style: TextStyle(fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )),
+                      ),
+                    ),
+                  )
+                ]
+            ),
+          ),
+        ),
       ),
     );
   }

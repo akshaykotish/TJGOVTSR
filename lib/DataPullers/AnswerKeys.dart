@@ -66,7 +66,11 @@ class AnswerKeys{
 
 
   Future<void> UpdateAnswerKeysLastJobsSize() async {
-    FirebaseFirestore.instance.collection("Logs").doc("LastSavedSizes").update({"AnswerKeysLastSize" : NewLastSavedSizes});
+    if(NewLastSavedSizes > 100) {
+      FirebaseFirestore.instance.collection("Logs")
+          .doc("LastSavedSizes")
+          .update({"AnswerKeysLastSize": NewLastSavedSizes});
+    }
   }
 
 
@@ -84,7 +88,7 @@ class AnswerKeys{
     }
 
     int l = 0;
-    for(int i=(NetDataSize - LastSavedSizes) - 1; i>=0 /*&& l < 10*/; i--)
+    for(int i=(NetDataSize - LastSavedSizes) - 1; i>0 /*&& l < 10*/; i--)
     {
       String link = Links[i].attributes["href"].toString();
 

@@ -7,6 +7,8 @@ import '../JobData.dart';
 class JobDisplayManagement{
   static List<JobData> jobstoshow = <JobData>[];
 
+  static List<String> searchpathes = <String>[];
+
   static StreamController<List<JobData>> jobstoshowstreamcontroller = StreamController<List<JobData>>();
   static Stream jobstoshowstream = jobstoshowstreamcontroller.stream;
   static late Function jobstoshowstreamToCall;
