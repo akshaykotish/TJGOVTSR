@@ -77,10 +77,9 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-
+    RequiredDataLoading.Execute();
 
     JobDisplayManagement.isloadingjobs = true;
-    RequiredDataLoading.Execute();
     draggableScrollableController = DraggableScrollableController();
 
     CurrentJob.currentjobStreamToCall = (value) {

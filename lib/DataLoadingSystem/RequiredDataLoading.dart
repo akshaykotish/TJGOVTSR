@@ -225,9 +225,10 @@ class RequiredDataLoading{
     JobDisplayManagement.ismoreloadingjobs = true;
     RequiredData.forEach((job) async {
       JobData jobData = JobData();
+      print(job);
       await jobData.fromJson(job);
 
-      if(JobDisplayManagement.ismoreloadingjobs)
+      if(JobDisplayManagement.isloadingjobs || JobDisplayManagement.ismoreloadingjobs)
       {
         JobDisplayManagement.ismoreloadingjobs = false;
         JobDisplayManagement.isloadingjobs = false;
@@ -235,6 +236,7 @@ class RequiredDataLoading{
       JobDisplayManagement.jobstoshow.add(jobData);
       JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
 
+      print(JobDisplayManagement.jobstoshow.length);
     });
     JobDisplayManagement.ismoreloadingjobs = false;
     JobDisplayManagement.isloadingjobs = false;
@@ -242,6 +244,7 @@ class RequiredDataLoading{
 
   static Future<void> LoadHotJobs()
   async {
+    print("Loading Hot Jobs Started");
 try {
   JobDisplayManagement.ismoreloadingjobs = true;
   var Jobs = await FirebaseFirestore.instance.collection("Logs")
@@ -257,16 +260,18 @@ try {
         JobDisplayManagement.isloadingjobs = false;
       }
       String path = p.toString();
-      var job = await FirebaseFirestore.instance.doc(path).get();
-      if (job.exists) {
-        JobData jobData = JobData();
-        jobData.count = 50;
-        await jobData.LoadFromFireStoreValues(job);
-        JobDisplayManagement.jobstoshow.add(jobData);
-        JobDisplayManagement.jobstoshowstreamcontroller.add(
-            JobDisplayManagement.jobstoshow);
-        if (JobDisplayManagement.isloadingjobs == true) {
-          JobDisplayManagement.isloadingjobs = false;
+      if(path.split("/").length == 4 && path.split("/")[0] != "" && path.split("/")[1] != "" && path.split("/")[2] != "" && path.split("/")[3] != "") {
+        var job = await FirebaseFirestore.instance.doc(path).get();
+        if (job.exists) {
+          JobData jobData = JobData();
+          jobData.count = 50;
+          await jobData.LoadFromFireStoreValues(job);
+          JobDisplayManagement.jobstoshow.add(jobData);
+          JobDisplayManagement.jobstoshowstreamcontroller.add(
+              JobDisplayManagement.jobstoshow);
+          if (JobDisplayManagement.isloadingjobs == true) {
+            JobDisplayManagement.isloadingjobs = false;
+          }
         }
       }
     }
@@ -285,7 +290,7 @@ catch(e) {
 
       if(UserDepartments.isNotEmpty) {
         RequiredData.isEmpty ?
-        DownloadRequiredData() : LoadCachedRequiredData();
+        await DownloadRequiredData() : LoadCachedRequiredData();
 
         JobDisplayManagement.HideJobsLoading();
         JobDisplayManagement.isloadingjobs = false;
@@ -293,7 +298,8 @@ catch(e) {
         print("Hurry! We did it.... ${JobDisplayManagement.jobstoshow.length}");
       }
       else{
-        LoadHotJobs();
+        print("Loading Hot Jobs");
+        await LoadHotJobs();
       }
   }
 

@@ -36,12 +36,10 @@ class _JobBoxsState extends State<JobBoxs> {
 
   Future<void> LoadPrefs() async {
     final prefs = await SharedPreferences.getInstance();
-    print("Loading Pref Run1");
     UserDepartments = (await prefs.getStringList('UserDepartments'))!;
     UserStates = (await prefs.getStringList('UserStates'))!;
     UserIntrests = (await prefs.getStringList('UserInterest'))!;
     LovedJobs = (await prefs.getStringList('lovedjobs'))!;
-    print("Loading Pref Run2");
   }
 
 
@@ -94,8 +92,11 @@ class _JobBoxsState extends State<JobBoxs> {
           _AllDepartmentsList.add(DepartmentBox(DepartmentName: key, jobboxes: value));
 
           setState(() {
+            JobDisplayManagement.isloadingjobs = false;
+            JobDisplayManagement.ismoreloadingjobs = false;
             AllDepartmentsList = _AllDepartmentsList;
           });
+
         });
       }
     });
@@ -120,7 +121,6 @@ class _JobBoxsState extends State<JobBoxs> {
       JobDisplayManagement.jobstoshow.clear();
       JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
 
-      print("CALELD SEARCH");
 
       JobDisplayManagement.isloadingjobs = true;
       await SearchAbleDataLoading.FastestSearchSystem(search);

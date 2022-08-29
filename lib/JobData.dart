@@ -129,10 +129,10 @@ class JobData {
       LastUpdate = data["LastUpdate"]!;
 
       AdvertisementNumber = data["AdvertisementNumber"];
-      ExamCenters = data["ExamCenters"]!;
-      Corrections = data["Corrections"]!;
-      AgeLimits = data["AgeLimits"]!;
-      HowTo = data["HowTo"]!;
+      ExamCenters = data["ExamCenters"] != null ? data["ExamCenters"] : Map<String, dynamic>();
+      Corrections = data["Corrections"] != null ? data["Corrections"] : <dynamic>[];
+      AgeLimits = data["AgeLimits"] != null ? data["AgeLimits"] : Map<String, dynamic>();
+      HowTo = data["HowTo"] != null ? data["HowTo"] : <dynamic>[];
     }
     catch(e)
     {
