@@ -189,7 +189,7 @@ class SearchAbleDataLoading{
   }
 
   static Future<void> FastestSearchSystem(List<String> searchkeywords) async {
-    var ReversedSearchAbleCache = SearchAbleCache.reversed;
+    List<String> ReversedSearchAbleCache = List.from(SearchAbleCache.reversed);
     if(searchkeywords == null)
       {
         return;
@@ -225,22 +225,22 @@ class SearchAbleDataLoading{
           }
       }
 
-    int maxvalue = SearchAbleCache.length~/4;
+    int maxvalue = ReversedSearchAbleCache.length~/4;
     for(int i = 0; i <maxvalue; i++)
       {
 
-        int a = (SearchAbleCache.length - i - 1); // 1000 - 1 = 999 i.e. 748 <= a <= 999
-        int b = SearchAbleCache.length~/2 - i - 1; //500 - 1 = 499 i.e. 249 <= b <= 499
-        int c = SearchAbleCache.length~/2 + i; //500 = 500 i.e. 500 <= c <= 749
+        int a = (ReversedSearchAbleCache.length - i - 1); // 1000 - 1 = 999 i.e. 748 <= a <= 999
+        int b = ReversedSearchAbleCache.length~/2 - i - 1; //500 - 1 = 499 i.e. 249 <= b <= 499
+        int c = ReversedSearchAbleCache.length~/2 + i; //500 = 500 i.e. 500 <= c <= 749
 
-        String JobString_i = SearchAbleCache[i].toLowerCase();
-        String JobString_a = SearchAbleCache[a].toLowerCase();
-        String JobString_b = SearchAbleCache[b].toLowerCase();
-        String JobString_c = SearchAbleCache[c].toLowerCase();
+        String JobString_i = ReversedSearchAbleCache[i].toLowerCase();
+        String JobString_a = ReversedSearchAbleCache[a].toLowerCase();
+        String JobString_b = ReversedSearchAbleCache[b].toLowerCase();
+        String JobString_c = ReversedSearchAbleCache[c].toLowerCase();
 
 
         if(i == 0 || i == maxvalue - 1) {
-          print("${i} => ${a}, ${b}, ${c} and ${SearchAbleCache.length / 4}");
+          print("${i} => ${a}, ${b}, ${c} and ${ReversedSearchAbleCache.length / 4}");
         }
 
 
@@ -251,7 +251,7 @@ class SearchAbleDataLoading{
 
           if(JobString_i.contains(searchkeywords[j]) || (Keys.length >= 2 && JobString_i.contains(Keys[0]) && JobString_a.contains(Keys[1])))
           {
-            String path = SearchAbleCache[i].split(";").length == 3 ? SearchAbleCache[i].split(";")[2] : SearchAbleCache[i].split(";")[0];
+            String path = ReversedSearchAbleCache[i].split(";").length == 3 ? ReversedSearchAbleCache[i].split(";")[2] : ReversedSearchAbleCache[i].split(";")[0];
             if(!JobisAlreadyAdded.contains(path)) {
               FindAndAdd(path, 4);
               JobisAlreadyAdded.add(path);
@@ -260,7 +260,7 @@ class SearchAbleDataLoading{
           }
           else if(JobString_a.contains(searchkeywords[j]) || (Keys.length >= 2 && JobString_a.contains(Keys[0]) && JobString_a.contains(Keys[1])))
           {
-            String path = SearchAbleCache[a].split(";").length == 3 ? SearchAbleCache[a].split(";")[2] : SearchAbleCache[a].split(";")[0];
+            String path = ReversedSearchAbleCache[a].split(";").length == 3 ? ReversedSearchAbleCache[a].split(";")[2] : ReversedSearchAbleCache[a].split(";")[0];
             if(!JobisAlreadyAdded.contains(path)) {
               FindAndAdd(path, 4);
               JobisAlreadyAdded.add(path);
@@ -269,7 +269,7 @@ class SearchAbleDataLoading{
           }
           else if(JobString_b.contains(searchkeywords[j]) || (Keys.length >= 2 && JobString_b.contains(Keys[0]) && JobString_b.contains(Keys[1])))
           {
-            String path = SearchAbleCache[b].split(";").length == 3 ? SearchAbleCache[b].split(";")[2] : SearchAbleCache[b].split(";")[0];
+            String path = ReversedSearchAbleCache[b].split(";").length == 3 ? ReversedSearchAbleCache[b].split(";")[2] : ReversedSearchAbleCache[b].split(";")[0];
             if(!JobisAlreadyAdded.contains(path)) {
               FindAndAdd(path, 4);
               JobisAlreadyAdded.add(path);
@@ -278,7 +278,7 @@ class SearchAbleDataLoading{
           }
           else if(JobString_c.contains(searchkeywords[j]) || (Keys.length >= 2 && JobString_c.contains(Keys[0]) && JobString_c.contains(Keys[1])))
           {
-            String path = SearchAbleCache[c].split(";").length == 3 ? SearchAbleCache[c].split(";")[2] : SearchAbleCache[c].split(";")[0];
+            String path = ReversedSearchAbleCache[c].split(";").length == 3 ? ReversedSearchAbleCache[c].split(";")[2] : ReversedSearchAbleCache[c].split(";")[0];
             if(!JobisAlreadyAdded.contains(path)) {
               FindAndAdd(path, 4);
               JobisAlreadyAdded.add(path);
@@ -324,7 +324,7 @@ class SearchAbleDataLoading{
             }
           }
         }
-        if(i == SearchAbleCache.length/4 && SuggestionsJobs.isNotEmpty) {
+        if(i == ReversedSearchAbleCache.length/4 && SuggestionsJobs.isNotEmpty) {
           LetsDisplayJobs(SuggestionsJobs);
           JobDisplayManagement.ismoreloadingjobs = false;
         }
