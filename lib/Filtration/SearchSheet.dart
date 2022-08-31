@@ -29,7 +29,6 @@ class _SearchSheetState extends State<SearchSheet> {
 
   void RemoveItemFromSelectedSearchWord(var zbox)
   {
-    print(zbox);
 
     if(SelectedSearchWord.length > zbox) {
       SelectedSearchWord.removeAt(zbox);
@@ -219,7 +218,7 @@ class _SearchSheetState extends State<SearchSheet> {
   void LoadAllSearchSheetsData(){
     // FirebaseFirestore.instance.collection("Jobs").snapshots().listen((event) {
     //   event.docs.forEach((element) {
-    //     //print(element.id);
+    //
     //     ToFindSearchSheetsData.add(element.id);
     //   });
     // });
@@ -292,7 +291,6 @@ class _SearchSheetState extends State<SearchSheet> {
         });
 
         if(k3 != "") {
-          print("First 3 = " + topsearches3.length.toString());
           await Future.forEach(topsearches2, (String dpt){
             if(dpt.toLowerCase().contains(k3.toLowerCase()))
             {
@@ -388,7 +386,7 @@ class _SearchSheetState extends State<SearchSheet> {
                                           },
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
-                                              labelText: 'Your Search Keyword',
+                                              labelText: 'navy 2022',
                                               labelStyle: TextStyle(
                                                 color: Colors.grey.shade500,
                                                 fontWeight: FontWeight.w500

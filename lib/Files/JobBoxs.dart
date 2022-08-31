@@ -51,7 +51,7 @@ class _JobBoxsState extends State<JobBoxs> {
 
     int index = 0;
 
-    if(jobs.isEmpty && JobDisplayManagement.isloadingjobs == false && JobDisplayManagement.ismoreloadingjobs == false)
+    if(JobDisplayManagement.jobstoshow.isEmpty && JobDisplayManagement.isloadingjobs == false && JobDisplayManagement.ismoreloadingjobs == false)
       {
         _AllDepartmentsList.add(
           Container(
@@ -60,19 +60,43 @@ class _JobBoxsState extends State<JobBoxs> {
         );
       }
     else{
-      _AllDepartmentsList.add(
-          Container(
-            padding: EdgeInsets.all(10),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "About ${JobDisplayManagement.jobstoshow.length} results.",
-              textAlign: TextAlign.start,
-              style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.w500 ),
+      if(JobDisplayManagement.jobstoshow.isEmpty)
+        {
+          _AllDepartmentsList.add(
+              Container(
+                padding: EdgeInsets.all(10),
+                alignment: Alignment.centerLeft,
+                child: const Text(
+                  "Jobs are loading. Please wait...",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500),
 
-            ),
-          )
-      );
-      _AllDepartmentsList.add(SizedBox(height: 10,));
+                ),
+              )
+          );
+          _AllDepartmentsList.add(
+            SkeltonCard(),
+          );
+        }
+      else {
+        _AllDepartmentsList.add(
+            Container(
+              padding: EdgeInsets.all(10),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "About ${JobDisplayManagement.jobstoshow.length} results.",
+                textAlign: TextAlign.start,
+                style: const TextStyle(color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500),
+
+              ),
+            )
+        );
+        _AllDepartmentsList.add(SizedBox(height: 10,));
+      }
     }
 
 
@@ -154,11 +178,19 @@ class _JobBoxsState extends State<JobBoxs> {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      child: JobDisplayManagement.isloadingjobs == true || AllDepartmentsList.isEmpty ?
-          SingleChildScrollView(child: LoadingAnim())
-          :  Column(
-        children:AllDepartmentsList,
+    return  RefreshIndicator(
+      onRefresh: (){
+        return Future.delayed(const Duration(milliseconds: 1), (){
+          JobDisplayManagement.isloadingjobs = true;
+          RequiredDataLoading.Execute();
+        });
+      },
+      child: Container(
+        child: JobDisplayManagement.isloadingjobs == true || AllDepartmentsList.isEmpty ?
+            SingleChildScrollView(child: LoadingAnim())
+            :  Column(
+          children:AllDepartmentsList,
+        ),
       ),
     );
   }

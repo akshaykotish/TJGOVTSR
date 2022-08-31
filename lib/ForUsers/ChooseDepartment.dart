@@ -306,7 +306,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
     //print(prefs.getStringList('UserDepartments'));
 
     Navigator.push(context, PageRouteBuilder(
-        transitionDuration: const Duration(seconds: 1),
+        transitionDuration: const Duration(milliseconds: 300),
         transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
           const begin = Offset(1.5, 0.0);
           const end = Offset.zero;
@@ -484,7 +484,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                                         },
                                         decoration: InputDecoration(
                                             border: InputBorder.none,
-                                            labelText: 'bank, force, defence, upsc, ssc',
+                                            labelText: 'bank, force, defence, upsc, ssc, bihar',
                                             labelStyle: TextStyle(
                                                 color: Colors.grey.shade500,
                                                 fontWeight: FontWeight.w500

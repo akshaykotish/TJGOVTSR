@@ -18,6 +18,8 @@ class _AnimatedFlipsState extends State<AnimatedFlips> {
   bool isback = false;
   double angle = 0;
 
+  late Timer _timer;
+
   int index = 0;
   var strigs = [
     "Change the world by being yourself",
@@ -38,6 +40,7 @@ class _AnimatedFlipsState extends State<AnimatedFlips> {
     try {
       isrunning = true;
       Timer.periodic(Duration(seconds: 5), (timer) {
+        _timer = timer;
         if (angle == pi) {
           setState(() {
             angle = 0; //(angle + pi) % (2 * pi);
@@ -64,6 +67,13 @@ class _AnimatedFlipsState extends State<AnimatedFlips> {
   void initState() {
     isrunning == false ? StartAnimation() : null;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+
   }
 
 

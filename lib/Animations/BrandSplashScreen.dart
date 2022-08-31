@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/Beauty/Home.dart';
 import 'package:governmentapp/HexColors.dart';
+import 'package:governmentapp/User/Login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BrandSplashScreen extends StatefulWidget {
   const BrandSplashScreen({Key? key}) : super(key: key);
@@ -97,7 +99,9 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
     bttcontroller.addStatusListener((status) {
       if(status == AnimationStatus.completed)
       {
-        BackgroundBlurAnimation();
+        if(!islogin) {
+          BackgroundBlurAnimation();
+        }
       }
     });
   }
@@ -137,7 +141,7 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
 
   void LoadHomePage(){
     Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(
-        transitionDuration: const Duration(seconds: 3),
+        transitionDuration: const Duration(milliseconds: 300),
         transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
           return FadeTransition(
             opacity: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: animation, curve: Curves.fastOutSlowIn)),
@@ -150,9 +154,27 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
     );
   }
 
+  static bool islogin = true;
+  Future<void> LoadProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? Contact = prefs.getString("LoginContact");
+    if(Contact != null)
+      {
+        print("Contact is " + Contact);
+        setState(() {
+          islogin = false;
+        });
+      }
+    else{
+      setState(() {
+        islogin = true;
+      });
+    }
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
+    LoadProfile();
     super.initState();
     InitializeAnimations();
     OpacityAnimation();
@@ -162,68 +184,73 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-            color: ColorFromHexCode("#E2E2E2"),
-            image: const DecorationImage(
-              image: AssetImage(
-                "./assets/branding/Background.jpg",
-              ),
-              fit: BoxFit.fill,
-            )
-        ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: bbAnimation.value, sigmaY: bbAnimation.value),
-          child: Stack(
-            children: <Widget>[
-              Positioned(
-                top: bttAnimation.value,
-                left: 10,
-                child: Opacity(
-                  opacity: opacityAnimation.value,
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width - 20,
-                    height: 90,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      image: DecorationImage(
-                        image: AssetImage("./assets/branding/BrandingBackground.jpg"),
-                        fit: BoxFit.fill,
+      body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+              color: ColorFromHexCode("#E2E2E2"),
+              image: const DecorationImage(
+                image: AssetImage(
+                  "./assets/branding/Background.jpg",
+                ),
+                fit: BoxFit.fill,
+              )
+          ),
+          child: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: bbAnimation.value, sigmaY: bbAnimation.value),
+              child: Container(
+                color: Colors.grey.withOpacity(0.1),
+                child: Stack(
+                  children: <Widget>[
+                    Positioned(
+                      top: 180,
+                      child: Opacity(
+                        opacity: attsyAnimation.value,
+                        child: islogin ? Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 800,
+                          child: SingleChildScrollView(child: LoginArea()),
+                        ) :
+                          Container(
+                          child: Text("Akshay Kotish"),
+                ),
                       ),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          child: Text("TrackJobs".substring(0, double.parse(textAnimation.value.toString()).toInt()), style: TextStyle(fontFamily: "CAMPUS", fontSize: 25, color: ColorFromHexCode("#DBDBDB"), letterSpacing: 15),),
-                        ),
-                      ],
+
+                    Positioned(
+                      top: bttAnimation.value,
+                      left: 10,
+                      child: Opacity(
+                        opacity: opacityAnimation.value,
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          width: MediaQuery.of(context).size.width - 20,
+                          height: 90,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            image: DecorationImage(
+                              image: AssetImage("./assets/branding/BrandingBackground.jpg"),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                child: Text("TrackJobs".substring(0, double.parse(textAnimation.value.toString()).toInt()), style: TextStyle(fontFamily: "CAMPUS", fontSize: 25, color: ColorFromHexCode("#DBDBDB"), letterSpacing: 15),),
+                              ),
+                            ],
+                          ),
+                        )
+                        ,
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
-              Positioned(
-                top: 500,
-                left: 10,
-                child: Opacity(
-                  opacity: attsyAnimation.value,
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const <Widget>[
-                        Text("Always Together To Serve Nation"),
-                        Text("Made by Akshay Kotish & Co."),
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
+            ),
           ),
         ),
       ),

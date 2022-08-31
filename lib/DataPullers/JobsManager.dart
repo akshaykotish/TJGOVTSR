@@ -136,16 +136,12 @@ class JobsManager{
         CacheJobs = cj;
       }
 
-    print("LO");
     if(CacheJobs !=null && CacheJobs.isNotEmpty)
       {
-        print("OL");
         CacheJobs.forEach((job) async {
           JobData jobData = new JobData();
           jobData.fromJson(job);
           jobs.add(jobData);
-
-          print(jobData.Department);
 
           var isOkay= await CheckUserIntrest(jobData);
           if ((UserDepartments.toString().toLowerCase().contains(jobData.Department.toLowerCase()) || UserDepartments.length == 0) && (UserStates.toString().toLowerCase().contains(jobData.Location.toLowerCase()) || UserStates.length == 0) && isOkay) {
@@ -224,26 +220,11 @@ class JobsManager{
 
   static Future<void> LoadJobsData() async {
 
-      print("Prefs Load Start");
       await LoadPrefs();
-      print("Prefs Loaded");
       await LoadSavedKeysJobs();
-      print("Saved Keys Loaded");
       await LoadCacheJobs();
-      print("Saved Cache Loaded");
       await LoadDataFromCache();
-      print("Cache Data Loaded");
 
-
-      if(KeysCache.toString().toLowerCase().contains("bank"))
-        {
-          print("STATE BANK YESSSS ${KeysCache.length}");
-        }
-      else{
-        print("STATE BANK NOOOOOO ${KeysCache.length}");
-      }
-
-      //print("KeysCache:- " + KeysCache.length.toString());
       var _AllDepartmentsList = <Widget>[];
       Map<String, List<JobBox>> _ToShowJobs = new Map<String, List<JobBox>>();
 
@@ -276,7 +257,6 @@ class JobsManager{
           catch (e) {}
 
           for (var job in Jobs.docs) {
-            //////print("R");
             String key = job.id;
             if (!KeysCache.contains(key)) {
               ////print("Loaded from Database ${key}");

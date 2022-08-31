@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:governmentapp/AdFile.dart';
 import 'package:governmentapp/Beauty/Branding.dart';
 import 'package:governmentapp/Beauty/ToolSection.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
@@ -77,13 +78,11 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    RequiredDataLoading.Execute();
 
     JobDisplayManagement.isloadingjobs = true;
     draggableScrollableController = DraggableScrollableController();
 
     CurrentJob.currentjobStreamToCall = (value) {
-      print("JEJMFMKe");
       setState(() {
         draggableScrollableController.animateTo(0.9, duration: Duration(milliseconds: 500), curve: Curves.easeInBack).then((value){
           setState(() {
@@ -96,7 +95,6 @@ class _HomeState extends State<Home> {
 
 
     CurrentJob.HideJobSheetDataStreamToCall = (){
-      print("ADD");
       draggableScrollableController.animateTo(0.0, duration: Duration(milliseconds: 500), curve: Curves.easeOutBack).then((value){setState(() {
         initialchildsize = 0;
       });});
@@ -119,6 +117,7 @@ class _HomeState extends State<Home> {
       }
     });
 
+    RequiredDataLoading.Execute();
   }
 
   @override
@@ -132,7 +131,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: (){
-          return Future.delayed(Duration(milliseconds: 1), (){
+          return Future.delayed(const Duration(milliseconds: 1), (){
             JobDisplayManagement.isloadingjobs = true;
             RequiredDataLoading.Execute();
           });

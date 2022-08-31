@@ -66,7 +66,7 @@ class AnswerKeys{
 
 
   Future<void> UpdateAnswerKeysLastJobsSize() async {
-    if(NewLastSavedSizes > 100) {
+    if(NewLastSavedSizes > LastSavedSizes) {
       FirebaseFirestore.instance.collection("Logs")
           .doc("LastSavedSizes")
           .update({"AnswerKeysLastSize": NewLastSavedSizes});
@@ -98,7 +98,6 @@ class AnswerKeys{
         await WriteToFirebase.WriteIndexToFirebase(jobData);
         NewLastSavedSizes++;
         await UpdateAnswerKeysLastJobsSize();
-        print("NewLastSavedSizes ${NewLastSavedSizes}");
       });
       l++;
     }
@@ -137,7 +136,6 @@ class AnswerKeys{
 
     //print(pagedata);
     await ReadAnswerKeysURLs(pagedata).then((value){
-      print("After");
     });
   }
 }

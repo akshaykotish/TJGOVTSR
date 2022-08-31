@@ -200,7 +200,7 @@ class _ChooseStateState extends State<ChooseState> {
     //print(prefs.getStringList('UserDepartments'));
 
     Navigator.push(context, PageRouteBuilder(
-        transitionDuration: const Duration(seconds: 1),
+        transitionDuration: const Duration(milliseconds: 300),
         transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
           const begin = Offset(1.5, 0.0);
           const end = Offset.zero;

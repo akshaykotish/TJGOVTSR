@@ -246,19 +246,15 @@ class Pull{
 
     if(OldVacancyDetails.data.length < vdd.data.length)
       {
-        print("A");
         for(int l=OldVacancyDetails.data.length; l<vdd.data.length; l++)
           {
-            print("PD" + vdd.data[l]);
             OldVacancyDetails.data.add(vdd.data[l]);
           }
       }
     else if(OldVacancyDetails.data.length > vdd.data.length)
       {
-        print("B");
         for(int l=vdd.data.length; l<OldVacancyDetails.data.length; l++)
         {
-          print("PD" + OldVacancyDetails.data[l]);
           vdd.data.add(OldVacancyDetails.data[l]);
         }
       }

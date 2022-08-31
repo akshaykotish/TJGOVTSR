@@ -219,7 +219,7 @@ class _ChooseInterestState extends State<ChooseInterest> {
     //print(prefs.getStringList('UserDepartments'));
 
     Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(
-        transitionDuration: const Duration(seconds: 1),
+        transitionDuration: const Duration(milliseconds: 300),
         transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
           const begin = Offset(0.0, 1.0);
           const end = Offset.zero;

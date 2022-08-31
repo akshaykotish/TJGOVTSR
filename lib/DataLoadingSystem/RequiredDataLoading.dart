@@ -145,7 +145,6 @@ class RequiredDataLoading{
       JobData jobData = JobData();
       await jobData.LoadFromFireStoreValues(job);
 
-      print("Fired" + jobData.Title);
 
       if(JobDisplayManagement.ismoreloadingjobs)
         {
@@ -169,7 +168,6 @@ class RequiredDataLoading{
   }
 
   static Future<void> DownloadRequiredData() async {
-    print("Loaded from Web");
 
     var Reference = FirebaseFirestore.instance;
 
@@ -177,7 +175,6 @@ class RequiredDataLoading{
 
     JobDisplayManagement.ismoreloadingjobs = true;
     await Future.forEach(Paths, (String path) async {
-      print(path);
       if(path.split("/").length == 3) {
         var RequiredJobs = await Reference.collection(path).get();
 
@@ -192,7 +189,6 @@ class RequiredDataLoading{
           }
           else {
             await Future.forEach(UserIntrests, (String intrest) {
-              print("Looking for ${intrest}");
               if (job.data()["Designation"].toString().toLowerCase().contains(
                   intrest.toLowerCase()) ||
                   job.data()["Short_Details"].toString().toLowerCase().contains(
@@ -245,42 +241,44 @@ class RequiredDataLoading{
   static Future<void> LoadHotJobs()
   async {
     print("Loading Hot Jobs Started");
-try {
-  JobDisplayManagement.ismoreloadingjobs = true;
-  var Jobs = await FirebaseFirestore.instance.collection("Logs")
-      .doc("Hots")
-      .get();
-  if (Jobs.exists && Jobs.data()!["Hots"] != null) {
-    Iterable hots = (Jobs.data()!["Hots"] as List<dynamic>).reversed;
-    for (var p in hots) {
 
-      if(JobDisplayManagement.ismoreloadingjobs)
-      {
-        JobDisplayManagement.ismoreloadingjobs = false;
-        JobDisplayManagement.isloadingjobs = false;
-      }
-      String path = p.toString();
-      if(path.split("/").length == 4 && path.split("/")[0] != "" && path.split("/")[1] != "" && path.split("/")[2] != "" && path.split("/")[3] != "") {
-        var job = await FirebaseFirestore.instance.doc(path).get();
-        if (job.exists) {
-          JobData jobData = JobData();
-          jobData.count = 50;
-          await jobData.LoadFromFireStoreValues(job);
-          JobDisplayManagement.jobstoshow.add(jobData);
-          JobDisplayManagement.jobstoshowstreamcontroller.add(
-              JobDisplayManagement.jobstoshow);
-          if (JobDisplayManagement.isloadingjobs == true) {
-            JobDisplayManagement.isloadingjobs = false;
+    List<String> pathadded = <String>[];
+      try {
+        JobDisplayManagement.jobstoshow.clear();
+        JobDisplayManagement.ismoreloadingjobs = true;
+
+        var HotJobs;
+
+          print(DateTime.now());
+          HotJobs = await FirebaseFirestore.instance.collection("Logs").doc("Hots").get();
+          print(DateTime.now().toString());
+
+        List<dynamic> jobs = HotJobs.data()!["Hots"];
+        for(int i=jobs.length - 1; i>=0; i--)
+          {
+            if(JobDisplayManagement.isloadingjobs)
+            {
+              JobDisplayManagement.isloadingjobs = false;
+            }
+
+            String path = jobs[i].toString();
+            if(pathadded.contains(path) == false && path.split("/").length == 4 && path.split("/")[0] != "" && path.split("/")[1] != "" && path.split("/")[2] != "" && path.split("/")[3] != "")
+              {
+                pathadded.add(path);
+                print(i);
+                var job = await FirebaseFirestore.instance.doc(path).get();
+                JobData jobData = JobData();
+                jobData.count = 50;
+                await jobData.LoadFromFireStoreValues(job);
+                JobDisplayManagement.jobstoshow.add(jobData);
+                JobDisplayManagement.jobstoshowstreamcontroller.add(
+                    JobDisplayManagement.jobstoshow);
+              }
           }
-        }
       }
-    }
-  }
-  JobDisplayManagement.ismoreloadingjobs = false;
-}
-catch(e) {
-  print(e);
-}
+      catch(e) {
+        print(e);
+      }
   }
 
 
@@ -290,7 +288,7 @@ catch(e) {
 
       if(UserDepartments.isNotEmpty) {
         RequiredData.isEmpty ?
-        await DownloadRequiredData() : LoadCachedRequiredData();
+        DownloadRequiredData() : LoadCachedRequiredData();
 
         JobDisplayManagement.HideJobsLoading();
         JobDisplayManagement.isloadingjobs = false;
@@ -299,7 +297,7 @@ catch(e) {
       }
       else{
         print("Loading Hot Jobs");
-        await LoadHotJobs();
+        LoadHotJobs();
       }
   }
 

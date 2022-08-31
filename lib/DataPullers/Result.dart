@@ -66,7 +66,7 @@ class Result{
 
 
   Future<void> UpdateResultLastJobsSize() async {
-    if(NewLastSavedSizes > 100) {
+    if(NewLastSavedSizes > LastSavedSizes) {
       FirebaseFirestore.instance.collection("Logs")
           .doc("LastSavedSizes")
           .update({"ResultLastSize": NewLastSavedSizes});
@@ -97,7 +97,6 @@ class Result{
         await WriteToFirebase.WriteIndexToFirebase(jobData);
         NewLastSavedSizes++;
         await UpdateResultLastJobsSize();
-        print("NewLastSavedSizes ${NewLastSavedSizes}");
       });
       l++;
     }
@@ -134,10 +133,8 @@ class Result{
       print(e);
     }
 
-
-    //print(pagedata);
     await ReadResultURLs(pagedata).then((value){
-      print("After");
+
     });
   }
 }

@@ -35,7 +35,7 @@ class _ButtonsState extends State<Buttons> {
           GestureDetector(
             onTap: (){
               Navigator.push(context, PageRouteBuilder(
-                  transitionDuration: const Duration(seconds: 3),
+                  transitionDuration: const Duration(milliseconds: 300),
                   transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
 
                     animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);

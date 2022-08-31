@@ -66,7 +66,7 @@ class AdmitCards{
 
 
   Future<void> UpdateAdmitCardsLastJobsSize() async {
-    if(NewLastSavedSizes > 100) {
+    if(NewLastSavedSizes > LastSavedSizes) {
       FirebaseFirestore.instance.collection("Logs")
           .doc("LastSavedSizes")
           .update({"AdmitCardsLastSize": NewLastSavedSizes});
@@ -97,7 +97,6 @@ class AdmitCards{
         await WriteToFirebase.WriteIndexToFirebase(jobData);
         NewLastSavedSizes++;
         await UpdateAdmitCardsLastJobsSize();
-        print("NewLastSavedSizes ${NewLastSavedSizes}");
       });
       l++;
     }
@@ -134,7 +133,6 @@ class AdmitCards{
     }
    // print("PageData = ${pagedata}");
     await ReadAdmitCardsURLs(pagedata).then((value){
-      print("After");
     });
   }
 }

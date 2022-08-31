@@ -29,26 +29,31 @@ class _SearchAreaState extends State<SearchArea> with
   void initState() {
     // TODO: implement initState
     super.initState();
+try {
+  controller = AnimationController(vsync: this, duration: Duration(seconds: 1));
+  colorAnimation1 = ColorTween(
+      begin: Colors.grey.withOpacity(0.7), end: Colors.white.withOpacity(0.5))
+      .animate(controller);
+  colorAnimation2 = ColorTween(
+      begin: Colors.white.withOpacity(0.5), end: Colors.grey.withOpacity(0.7))
+      .animate(controller);
+  controller.forward();
+  controller.addListener(() {
+    setState(() {
 
-    controller =  AnimationController(vsync: this, duration: Duration(seconds: 1));
-    colorAnimation1 = ColorTween(begin: Colors.grey.withOpacity(0.7), end: Colors.white.withOpacity(0.5)).animate(controller);
-    colorAnimation2 = ColorTween(begin:  Colors.white.withOpacity(0.5), end: Colors.grey.withOpacity(0.7)).animate(controller);
-    controller.forward();
-    controller.addListener(() {
-      setState(() {
-
-      });
     });
+  });
 
-    controller.addStatusListener((status) {
-      if(status == AnimationStatus.completed)
-      {
-        controller.reverse();
-      }
-      else if(status == AnimationStatus.dismissed){
-        controller.forward();
-      }
-    });
+  controller.addStatusListener((status) {
+    if (status == AnimationStatus.completed) {
+      controller.reverse();
+    }
+    else if (status == AnimationStatus.dismissed) {
+      controller.forward();
+    }
+  });
+}
+catch(e){}
   }
 
   @override
@@ -87,7 +92,7 @@ class _SearchAreaState extends State<SearchArea> with
                       JobDisplayManagement.ismoreloadingjobs = true;
                       JobDisplayManagement.jobstoshow.clear();
                       var ToSearches = await Navigator.push(context, PageRouteBuilder(
-                          transitionDuration: const Duration(seconds: 3),
+                          transitionDuration: const Duration(milliseconds: 500),
                           transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
 
                             animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);

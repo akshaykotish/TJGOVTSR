@@ -129,7 +129,6 @@ class SearchAbleDataLoading{
       print("${e} + ${path}");
     }
     JobData jobData = JobData();
-    print("DDPPTT: ${jobData.Department}");
     await jobData.LoadFromFireStoreValues(job);
     return jobData;
   }
@@ -142,11 +141,8 @@ class SearchAbleDataLoading{
 
 
   static Future<void> FindAndAdd(String path, int count) async {
-    print("Here is path ${path}");
     if(path.split("/").length == 4 && path.split("/")[0] != "" && path.split("/")[1] != "" && path.split("/")[2] != "" && path.split("/")[3] != "") {
-      print("It is");
       JobData jobData = await GetJobFromURL(path);
-      print("Dep = ${jobData.Department}");
       if (jobData.Department != "UNKNOWN" && jobData.Key != "UNKEY") {
         jobData.count = count;
         JobDisplayManagement.jobstoshow.add(jobData);
@@ -168,7 +164,6 @@ class SearchAbleDataLoading{
     String key2 = searchkeyword.split(" ").length >= 2 ? searchkeyword.split(" ")[1].toLowerCase() : "zzzxxxyyy";
     String key3 = searchkeyword.split(" ").length >= 3 ? searchkeyword.split(" ")[2].toLowerCase() : "zzzxxxyyy";
 
-    print("KEYS: ${key1} ${key2} ${key3}");
 
     if(JobString.toLowerCase().contains(key1.toLowerCase()) && JobString.toLowerCase().contains(key2.toLowerCase()) && JobString.toLowerCase().contains(key3.toLowerCase()))
     {

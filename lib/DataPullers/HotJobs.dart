@@ -20,14 +20,12 @@ class HotJobs{
       print(e);
     }
 
-    print(Hots.length);
 
     if(Hots.length >= 30) {
       Hots.removeRange(0, Hots.length - 29);
     }
 
     Hots.add(path);
-    print(path + " " + Hots.length.toString());
     if(Hots.length == 1)
       {
         await FirebaseFirestore.instance.collection("Logs").doc("Hots").set({
