@@ -7,6 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HotJobs{
 
+  static bool isfirstjobloaded = false;
+
   static var Hots = <dynamic>[];
 
   static Future<void> UpdateHotJobs(String path) async {

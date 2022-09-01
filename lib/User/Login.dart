@@ -311,7 +311,7 @@ class _LoginAreaState extends State<LoginArea> {
                             FirebaseFirestore.instance.collection("Users").doc(
                                 res.user!.phoneNumber.toString()).update({
                               "UserName": fullname.text,
-                              "Contact": contact.text,
+                              "Contact": res.user!.phoneNumber,
                               "Lat":position.latitude,
                               "Long": position.longitude,
                               "Address": adrs,
@@ -321,7 +321,7 @@ class _LoginAreaState extends State<LoginArea> {
 
 
                           final prefs = await SharedPreferences.getInstance();
-                          prefs.setString("LoginContact", contact.text);
+                          prefs.setString("LoginContact", res.user!.phoneNumber.toString());
                           prefs.setString("LoginName", fullname.text);
 
                           loadingind = false;

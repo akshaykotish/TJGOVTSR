@@ -12,11 +12,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchAbleDataLoading{
 
+  static List<String> JobisAlreadyAdded = <String>[];
+
   static List<String> SearchAbleCache = <String>[];
   static List<String> SearchAbleDepartmentsOnlyCache = <String>[];
   static String JobIndexTimestamp = "";
 
   static Future<void> SaveForSearching() async {
+
 
     var Reference = FirebaseFirestore.instance;
 
@@ -140,22 +143,32 @@ class SearchAbleDataLoading{
   }
 
 
-  static Future<void> FindAndAdd(String path, int count) async {
+  static Future<void> FindAndAdd(String path, int count, bool currentyear) async {
     if(path.split("/").length == 4 && path.split("/")[0] != "" && path.split("/")[1] != "" && path.split("/")[2] != "" && path.split("/")[3] != "") {
       JobData jobData = await GetJobFromURL(path);
       if (jobData.Department != "UNKNOWN" && jobData.Key != "UNKEY") {
-        jobData.count = count;
-        JobDisplayManagement.jobstoshow.add(jobData);
-        JobDisplayManagement.jobstoshowstreamcontroller.add(
-            JobDisplayManagement.jobstoshow);
+
+        if(currentyear) {
+          jobData.count = count;
+          JobDisplayManagement.jobstoshow.add(jobData);
+          JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
+        }
+        else{
+          JobDisplayManagement.previousyearsjobstoshow.add(jobData);
+        }
       }
     }
   }
 
   static Future<void> LetsDisplayJobs(List<String> tp) async
   {
-    tp.forEach((element) {
-      FindAndAdd(element, 1);
+    int ycurrent = DateTime.now().year;
+    tp.forEach((element) async {
+      bool isyear = false;
+      if(element.contains(ycurrent.toString()) || element.contains((ycurrent+1).toString())){
+        isyear = true;
+      }
+      await FindAndAdd(element, 1, isyear);
     });
   }
 
@@ -191,6 +204,8 @@ class SearchAbleDataLoading{
       }
 
     JobDisplayManagement.jobstoshow.clear();
+    JobDisplayManagement.previousyearsjobstoshow.clear();
+
     JobDisplayManagement.isloadingjobs =   true;
     JobDisplayManagement.ismoreloadingjobs = true;
     JobDisplayManagement.jobstoshowstreamcontroller.add(JobDisplayManagement.jobstoshow);
@@ -199,14 +214,17 @@ class SearchAbleDataLoading{
     List<String> suggestions = <String>[];
 
     List<String> SuggestionsJobs = <String>[];
-    List<String> JobisAlreadyAdded = <String>[];
-
+    JobisAlreadyAdded = <String>[];
+    int ycurrent = DateTime.now().year;
 
     for(int i=0; i<JobDisplayManagement.searchpathes.length; i++)
     {
+      print(JobDisplayManagement.searchpathes[i]);
+
       if(!SuggestionsJobs.contains(JobDisplayManagement.searchpathes[i])) {
+
         JobDisplayManagement.isloadingjobs = false;
-        FindAndAdd(JobDisplayManagement.searchpathes[i], 4);
+        FindAndAdd(JobDisplayManagement.searchpathes[i], 4, true);
         SuggestionsJobs.add(JobDisplayManagement.searchpathes[i]);
       }
     }
@@ -248,7 +266,11 @@ class SearchAbleDataLoading{
           {
             String path = ReversedSearchAbleCache[i].split(";").length == 3 ? ReversedSearchAbleCache[i].split(";")[2] : ReversedSearchAbleCache[i].split(";")[0];
             if(!JobisAlreadyAdded.contains(path)) {
-              FindAndAdd(path, 4);
+              bool isyear = false;
+              if(ReversedSearchAbleCache[i].contains(ycurrent.toString()) || ReversedSearchAbleCache[i].contains((ycurrent+1).toString())){
+                isyear = true;
+              }
+              FindAndAdd(path, 4, isyear);
               JobisAlreadyAdded.add(path);
               JobDisplayManagement.isloadingjobs = false;
             }
@@ -257,7 +279,11 @@ class SearchAbleDataLoading{
           {
             String path = ReversedSearchAbleCache[a].split(";").length == 3 ? ReversedSearchAbleCache[a].split(";")[2] : ReversedSearchAbleCache[a].split(";")[0];
             if(!JobisAlreadyAdded.contains(path)) {
-              FindAndAdd(path, 4);
+              bool isyear = false;
+              if(ReversedSearchAbleCache[a].contains(ycurrent.toString()) || ReversedSearchAbleCache[a].contains((ycurrent+1).toString())){
+                isyear = true;
+              }
+              FindAndAdd(path, 4, isyear);
               JobisAlreadyAdded.add(path);
               JobDisplayManagement.isloadingjobs = false;
             }
@@ -266,7 +292,11 @@ class SearchAbleDataLoading{
           {
             String path = ReversedSearchAbleCache[b].split(";").length == 3 ? ReversedSearchAbleCache[b].split(";")[2] : ReversedSearchAbleCache[b].split(";")[0];
             if(!JobisAlreadyAdded.contains(path)) {
-              FindAndAdd(path, 4);
+              bool isyear = false;
+              if(ReversedSearchAbleCache[b].contains(ycurrent.toString()) || ReversedSearchAbleCache[b].contains((ycurrent+1).toString())){
+                isyear = true;
+              }
+              FindAndAdd(path, 4, isyear);
               JobisAlreadyAdded.add(path);
               JobDisplayManagement.isloadingjobs = false;
             }
@@ -275,7 +305,11 @@ class SearchAbleDataLoading{
           {
             String path = ReversedSearchAbleCache[c].split(";").length == 3 ? ReversedSearchAbleCache[c].split(";")[2] : ReversedSearchAbleCache[c].split(";")[0];
             if(!JobisAlreadyAdded.contains(path)) {
-              FindAndAdd(path, 4);
+              bool isyear = false;
+              if(ReversedSearchAbleCache[c].contains(ycurrent.toString()) || ReversedSearchAbleCache[c].contains((ycurrent+1).toString())){
+                isyear = true;
+              }
+              FindAndAdd(path, 4, isyear);
               JobisAlreadyAdded.add(path);
               JobDisplayManagement.isloadingjobs = false;
             }
@@ -319,9 +353,10 @@ class SearchAbleDataLoading{
             }
           }
         }
-        if(i == ReversedSearchAbleCache.length/4 && SuggestionsJobs.isNotEmpty) {
+        if(i == (maxvalue/4).toInt() -1 && SuggestionsJobs.isNotEmpty) {
           LetsDisplayJobs(SuggestionsJobs);
           JobDisplayManagement.ismoreloadingjobs = false;
+
         }
 
       }

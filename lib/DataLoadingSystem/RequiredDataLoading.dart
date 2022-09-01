@@ -10,6 +10,8 @@ import 'package:governmentapp/DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:governmentapp/JobData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../DataPullers/HotJobs.dart';
+
 class RequiredDataLoading{
 
 
@@ -100,7 +102,7 @@ class RequiredDataLoading{
           Paths.add("Jobs/" + department + "/INDIA");
         }
       else{
-        await Future.forEach(UserStates, (String location) {
+        await Future.forEach(UserStates, (String location) async {
           Paths.add("Jobs/" + department + "/" + location.toUpperCase());
         });
       }
@@ -196,6 +198,10 @@ class RequiredDataLoading{
                   job.data()["Title"].toString().toLowerCase().contains(
                       intrest.toLowerCase()) ||
                   job.data()["Short_Details"].toString().toLowerCase().contains(
+                      intrest.toLowerCase()) ||
+                  job.data()["Designation"].toString().toLowerCase().contains(
+                      intrest.toLowerCase()) ||
+                  job.data()["AgeLimits"].toString().toLowerCase().contains(
                       intrest.toLowerCase())) {
                 istoadd = true;
               }
@@ -242,18 +248,14 @@ class RequiredDataLoading{
   async {
     print("Loading Hot Jobs Started");
 
-    List<String> pathadded = <String>[];
-      try {
+        List<String> pathadded = <String>[];
         JobDisplayManagement.jobstoshow.clear();
         JobDisplayManagement.ismoreloadingjobs = true;
 
-        var HotJobs;
+        var hotJobs;
+        hotJobs = await FirebaseFirestore.instance.collection("Logs").doc("Hots").get();
 
-          print(DateTime.now());
-          HotJobs = await FirebaseFirestore.instance.collection("Logs").doc("Hots").get();
-          print(DateTime.now().toString());
-
-        List<dynamic> jobs = HotJobs.data()!["Hots"];
+        List<dynamic> jobs = hotJobs.data()!["Hots"];
         for(int i=jobs.length - 1; i>=0; i--)
           {
             if(JobDisplayManagement.isloadingjobs)
@@ -271,14 +273,15 @@ class RequiredDataLoading{
                 jobData.count = 50;
                 await jobData.LoadFromFireStoreValues(job);
                 JobDisplayManagement.jobstoshow.add(jobData);
-                JobDisplayManagement.jobstoshowstreamcontroller.add(
-                    JobDisplayManagement.jobstoshow);
+                if(i % 5 == 0 || i == 0) {
+                  if(HotJobs.isfirstjobloaded == true) {
+                    JobDisplayManagement.jobstoshowstreamcontroller.add(
+                        JobDisplayManagement.jobstoshow);
+                  }
+                }
               }
           }
-      }
-      catch(e) {
-        print(e);
-      }
+
   }
 
 
@@ -297,7 +300,17 @@ class RequiredDataLoading{
       }
       else{
         print("Loading Hot Jobs");
-        LoadHotJobs();
+
+        if(HotJobs.isfirstjobloaded) {
+          LoadHotJobs();
+        }
+        if(!HotJobs.isfirstjobloaded)
+        {
+          HotJobs.isfirstjobloaded = true;
+
+          JobDisplayManagement.jobstoshowstreamcontroller.add(
+              JobDisplayManagement.jobstoshow);
+        }
       }
   }
 

@@ -9,6 +9,7 @@ import 'package:governmentapp/Beauty/DummyCheck.dart';
 import 'package:governmentapp/Beauty/Home.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
+import 'package:governmentapp/DataPullers/MaterialsPusher.dart';
 import 'package:governmentapp/DataPullers/ScrapperController.dart';
 import 'package:governmentapp/Encyclopedia/EncyclopediaRead.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
@@ -18,20 +19,24 @@ import 'DataLoadingSystem/SearchAbleDataLoading.dart';
 
 Future<void> RequiredLoads() async {
 
+  MaterialPusher.Execute();
+
   await TJSNInterstitialAd.AdManager();
 
-  await SearchAbleDataLoading.Execute().then((e){
+  await SearchAbleDataLoading.Execute().then((e) {
     print("Writers Started");
     ScrapperController scrapperController = ScrapperController();
     scrapperController.Execute();
   });
 
 
-  CurrentJob.Listen();
+  await CurrentJob.Listen();
 
   JobDisplayManagement.isloadingjobs = true;
-   JobDisplayManagement.Execute();
 
+  await JobDisplayManagement.Execute();
+
+  await RequiredDataLoading.LoadHotJobs();
 }
 
 Future<void> main() async {

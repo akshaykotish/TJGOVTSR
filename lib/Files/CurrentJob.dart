@@ -28,7 +28,7 @@ class CurrentJob{
   static Stream HideJobSheetStream = HideJobSheetData.stream;
   static late Function HideJobSheetDataStreamToCall;
 
-  static void Listen(){
+  static Future<void> Listen() async {
 
 
     HideJobSheetStream.listen((event) {

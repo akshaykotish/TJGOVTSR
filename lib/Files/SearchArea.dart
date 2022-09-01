@@ -7,6 +7,7 @@ import 'package:governmentapp/Filtration/FilterPage.dart';
 import 'package:governmentapp/Filtration/SearchSheet.dart';
 import 'package:governmentapp/ForUsers/ChooseDepartment.dart';
 import 'package:governmentapp/HexColors.dart';
+import 'package:governmentapp/User/WriteALog.dart';
 
 class SearchArea extends StatefulWidget {
   const SearchArea({Key? key}) : super(key: key);
@@ -76,99 +77,103 @@ catch(e){}
                 ),
               borderRadius: const BorderRadius.all(Radius.circular(15))
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.only(
-                    top: 10,
-                    left: 20,
-                    bottom: 10,
-                    right: 20,
+            child: Container(
+              margin: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                color: Colors.grey.shade100.withOpacity(0.1),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      left: 20,
+                      bottom: 10,
+                      right: 20,
+                    ),
+                    child: GestureDetector(
+                      onTap: () async {
+                        JobDisplayManagement.isloadingjobs = true;
+                        JobDisplayManagement.ismoreloadingjobs = true;
+                        JobDisplayManagement.jobstoshow.clear();
+                        var ToSearches = await Navigator.push(context, PageRouteBuilder(
+                            transitionDuration: const Duration(milliseconds: 300),
+                            transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
+
+                              animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);
+
+                              return ScaleTransition(
+                                scale: animation,
+                                alignment: Alignment.center,
+                                child: child,
+                              );
+                            },
+                            pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation){
+                              return SearchSheet();
+                            }));
+                        print("ToSearches: " + ToSearches.toString());
+                        WriteALog.Write("Search Run", ToSearches.toString(), DateTime.now().toString());
+                        CurrentJob.CurrentSearchData.add(ToSearches);
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            width: 30,
+                            height: 30,
+                            child: Icon(Icons.search, size: 25,),
+                          ),
+                          const SizedBox(width: 20,),
+                          Text("Search your job", style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500, fontFamily: "EBGaramond"),),
+                        ],
+                      ),
+                    ),
                   ),
-                  child: GestureDetector(
-                    onTap: () async {
-                      JobDisplayManagement.isloadingjobs = true;
-                      JobDisplayManagement.ismoreloadingjobs = true;
-                      JobDisplayManagement.jobstoshow.clear();
-                      var ToSearches = await Navigator.push(context, PageRouteBuilder(
-                          transitionDuration: const Duration(milliseconds: 500),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, PageRouteBuilder(
+                          transitionDuration: const Duration(milliseconds: 300),
                           transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
+                            const begin = Offset(1, 0.0);
+                            const end = Offset.zero;
+                            const curve = Curves.ease;
 
-                            animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);
+                            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
-                            return ScaleTransition(
-                              scale: animation,
-                              alignment: Alignment.center,
+                            return SlideTransition(
+                              position: animation.drive(tween),
                               child: child,
                             );
                           },
                           pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation){
-                            return SearchSheet();
+                            return ChooseDepartment();
                           }));
-                      print("ToSearches: " + ToSearches.toString());
-                      CurrentJob.CurrentSearchData.add(ToSearches);
                     },
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Center(
+                        child: Container(
                           width: 30,
                           height: 30,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("./assets/icons/search.png"),
-                            )
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade100.withOpacity(0.2),
+                              shape: BoxShape.circle
                           ),
-                        ),
-                        const SizedBox(width: 20,),
-                        Text("Search your job", style: TextStyle(fontSize: 20, color: Colors.grey[600], fontWeight: FontWeight.w500, fontFamily: "EBGaramond"),),
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, PageRouteBuilder(
-                        transitionDuration: const Duration(seconds: 1),
-                        transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
-                          const begin = Offset(1, 0.0);
-                          const end = Offset.zero;
-                          const curve = Curves.ease;
-
-                          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-                          return SlideTransition(
-                            position: animation.drive(tween),
-                            child: child,
-                          );
-                        },
-                        pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation){
-                          return ChooseDepartment();
-                        }));
-                  },
-                  child: Container(
-                    width: 60,
-                    height: 60,
-                    padding: EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Center(
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("./assets/icons/filter-results-button.png"),
-                            )
+                          child: Icon(Icons.work, size: 25,),
                         ),
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

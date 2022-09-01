@@ -6,6 +6,7 @@ import '../JobData.dart';
 
 class JobDisplayManagement{
   static List<JobData> jobstoshow = <JobData>[];
+  static List<JobData> previousyearsjobstoshow = <JobData>[];
 
   static List<String> searchpathes = <String>[];
 
@@ -33,7 +34,7 @@ class JobDisplayManagement{
   }
 
 
-  static void Execute()
+  static Future<void> Execute() async
   {
     init();
   }

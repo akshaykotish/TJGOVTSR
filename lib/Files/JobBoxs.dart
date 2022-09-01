@@ -42,9 +42,14 @@ class _JobBoxsState extends State<JobBoxs> {
     LovedJobs = (await prefs.getStringList('lovedjobs'))!;
   }
 
-
-  void DisplayJobs(List<JobData> jobs)
+  void AddThisJob(var Job)
   {
+
+  }
+
+
+  Future<void> DisplayJobs(List<JobData> jobs)
+  async {
     AllDepartmentsList.clear();
     var _AllDepartmentsList = <Widget>[];
     Map<String, List<JobBox>> _ToShowJobs = Map<String, List<JobBox>>();
@@ -53,18 +58,40 @@ class _JobBoxsState extends State<JobBoxs> {
 
     if(JobDisplayManagement.jobstoshow.isEmpty && JobDisplayManagement.isloadingjobs == false && JobDisplayManagement.ismoreloadingjobs == false)
       {
-        _AllDepartmentsList.add(
-          Container(
-            child: const Center(child: Text("Job Container is empty.", style: TextStyle(color: Colors.red),)),
-          )
-        );
+        _AllDepartmentsList.add(SkeltonCard());
+        Timer(Duration(seconds: 2), () {
+          if(JobDisplayManagement.jobstoshow.length + JobDisplayManagement.previousyearsjobstoshow.length == 0) {
+            _AllDepartmentsList.clear();
+            _AllDepartmentsList.add(
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      const Center(child: Text("Job Container is empty.",
+                        style: TextStyle(color: Colors.red),)),
+                      GestureDetector(
+                        onTap: () {
+                          RequiredDataLoading.Execute();
+                        },
+                        child: Container(
+                          child: Icon(Icons.home_filled),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+            );
+          }
+        });
+
       }
     else{
       if(JobDisplayManagement.jobstoshow.isEmpty)
         {
           _AllDepartmentsList.add(
               Container(
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(20),
                 alignment: Alignment.centerLeft,
                 child: const Text(
                   "Jobs are loading. Please wait...",
@@ -83,21 +110,35 @@ class _JobBoxsState extends State<JobBoxs> {
       else {
         _AllDepartmentsList.add(
             Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.all(20),
               alignment: Alignment.centerLeft,
-              child: Text(
-                "About ${JobDisplayManagement.jobstoshow.length} results.",
-                textAlign: TextAlign.start,
-                style: const TextStyle(color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "About ${JobDisplayManagement.jobstoshow.length + JobDisplayManagement.previousyearsjobstoshow.length} results.",
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(color: Colors.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500),
 
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      RequiredDataLoading.Execute();
+                    },
+                    child: Container(
+                      child: Icon(Icons.home_filled),
+                    ),
+                  )
+                ],
               ),
             )
         );
         _AllDepartmentsList.add(SizedBox(height: 10,));
       }
     }
+
 
 
     jobs.forEach((job) {
@@ -124,6 +165,32 @@ class _JobBoxsState extends State<JobBoxs> {
         });
       }
     });
+
+    JobDisplayManagement.previousyearsjobstoshow.forEach((job) {
+      index++;
+      if (!_ToShowJobs.containsKey(job.Department)) {
+        _ToShowJobs[job.Department] = <JobBox>[];
+      }
+
+      _ToShowJobs[job.Department]!.add(
+          JobBox(isClicked: false, jobData: job));
+
+
+      if(index == jobs.length)
+      {
+        _ToShowJobs.forEach((key, value) {
+          _AllDepartmentsList.add(DepartmentBox(DepartmentName: key, jobboxes: value));
+
+          setState(() {
+            JobDisplayManagement.isloadingjobs = false;
+            JobDisplayManagement.ismoreloadingjobs = false;
+            AllDepartmentsList = _AllDepartmentsList;
+          });
+
+        });
+      }
+    });
+
 
     setState(() {
       AllDepartmentsList = _AllDepartmentsList;

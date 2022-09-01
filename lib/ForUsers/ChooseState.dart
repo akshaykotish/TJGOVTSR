@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:governmentapp/Beauty/Home.dart';
 import 'package:governmentapp/ForUsers/ChooseInterest.dart';
 import 'package:governmentapp/HexColors.dart';
+import 'package:governmentapp/User/WriteALog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseState extends StatefulWidget {
@@ -198,11 +200,32 @@ class _ChooseStateState extends State<ChooseState> {
     await prefs.setStringList("RequiredData", []);
 
     //print(prefs.getStringList('UserDepartments'));
+    //
+    // Navigator.push(context, PageRouteBuilder(
+    //     transitionDuration: const Duration(milliseconds: 300),
+    //     transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
+    //       const begin = Offset(1.5, 0.0);
+    //       const end = Offset.zero;
+    //       const curve = Curves.ease;
+    //
+    //       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+    //
+    //       return SlideTransition(
+    //         position: animation.drive(tween),
+    //         child: child,
+    //       );
+    //     },
+    //     pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation){
+    //       return ChooseInterest();
+    //     }));
 
-    Navigator.push(context, PageRouteBuilder(
+
+    WriteALog.Write("New Location", SelectedState.toString(), DateTime.now().toString());
+
+    Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 300),
         transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
-          const begin = Offset(1.5, 0.0);
+          const begin = Offset(0.0, 1.0);
           const end = Offset.zero;
           const curve = Curves.ease;
 
@@ -214,8 +237,9 @@ class _ChooseStateState extends State<ChooseState> {
           );
         },
         pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation){
-          return ChooseInterest();
-        }));
+          return Home();
+        }), (Route route) => false
+    );
   }
 
   @override
@@ -270,7 +294,7 @@ class _ChooseStateState extends State<ChooseState> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
-                                Text("Write the State Keyword",
+                                Text("Confirm the Loaction",
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -377,7 +401,7 @@ class _ChooseStateState extends State<ChooseState> {
                       child: Container(
                         color: Colors.grey[900],
                         child: const Center(child: Text(
-                          "Proceed",
+                          "Confirm",
                           style: TextStyle(fontSize: 18,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,

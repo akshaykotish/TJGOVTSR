@@ -7,11 +7,13 @@ import 'package:governmentapp/Beauty/Branding.dart';
 import 'package:governmentapp/Beauty/ToolSection.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
+import 'package:governmentapp/DataPullers/HotJobs.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Files/JobBoxs.dart';
 import 'package:governmentapp/Files/JobSheet.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/JobData.dart';
+import 'package:governmentapp/User/WriteALog.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -78,7 +80,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-
+    WriteALog.Write("App Opened", "Normal Login", DateTime.now().toString());
     JobDisplayManagement.isloadingjobs = true;
     draggableScrollableController = DraggableScrollableController();
 
@@ -117,7 +119,9 @@ class _HomeState extends State<Home> {
       }
     });
 
-    RequiredDataLoading.Execute();
+
+      RequiredDataLoading.Execute();
+
   }
 
   @override

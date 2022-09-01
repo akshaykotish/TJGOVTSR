@@ -6,6 +6,7 @@ import 'package:governmentapp/DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
 import 'package:governmentapp/ForUsers/ChooseState.dart';
 import 'package:governmentapp/HexColors.dart';
+import 'package:governmentapp/User/WriteALog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseDepartment extends StatefulWidget {
@@ -305,6 +306,8 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
 
     //print(prefs.getStringList('UserDepartments'));
 
+    WriteALog.Write("New Choices", SelectedDepartment.toString(), DateTime.now().toString());
+
     Navigator.push(context, PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 300),
         transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
@@ -456,7 +459,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Text("Write the Departments",
+                              Text("Write the Choice",
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
