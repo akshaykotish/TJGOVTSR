@@ -75,6 +75,20 @@ class _JobBoxsState extends State<JobBoxs> {
                           RequiredDataLoading.Execute();
                         },
                         child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade400.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(2, 2),
+                                  color: Colors.grey.shade400.withOpacity(0.2),
+                                  blurRadius: 3,
+                                  spreadRadius: 4,
+                                )
+                              ]
+                          ),
                           child: Icon(Icons.home_filled),
                         ),
                       )
@@ -128,6 +142,21 @@ class _JobBoxsState extends State<JobBoxs> {
                       RequiredDataLoading.Execute();
                     },
                     child: Container(
+
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade400.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(2, 2),
+                              color: Colors.grey.shade400.withOpacity(0.2),
+                              blurRadius: 3,
+                              spreadRadius: 4,
+                            )
+                          ]
+                      ),
                       child: Icon(Icons.home_filled),
                     ),
                   )

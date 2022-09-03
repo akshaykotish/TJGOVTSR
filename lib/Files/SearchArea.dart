@@ -161,13 +161,21 @@ catch(e){}
                       ),
                       child: Center(
                         child: Container(
-                          width: 30,
-                          height: 30,
+                          width: 100,
+                          height: 100,
                           decoration: BoxDecoration(
-                              color: Colors.grey.shade100.withOpacity(0.2),
-                              shape: BoxShape.circle
+                              color: Colors.grey.shade400.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(2, 2),
+                                  color: Colors.grey.shade400.withOpacity(0.2),
+                                  blurRadius: 3,
+                                  spreadRadius: 4,
+                                )
+                              ]
                           ),
-                          child: Icon(Icons.work, size: 25,),
+                          child: const Icon(Icons.work, size: 25,),
                         ),
                       ),
                     ),

@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TJSNInterstitialAd
 {
@@ -43,14 +44,27 @@ class TJSNInterstitialAd
         ));
   }
 
-  static Future<void> AdManager() async {
+  static Future<void> LoadAnAd() async {
 
-    Timer.periodic(
-      const Duration(minutes: 2),
-         (timer) async {
-          await init();
-        }
-    );
+
+    final prefs = await SharedPreferences.getInstance();
+    String? AdsEnable = prefs.getString("AdsEnable");
+    if(AdsEnable == "TRUE") {
+      await init();
+    }
+  }
+
+  static Future<void> AdManager() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? AdsEnable = prefs.getString("AdsEnable");
+    if(AdsEnable == "TRUE") {
+      Timer.periodic(
+          const Duration(minutes: 2),
+              (timer) async {
+            await init();
+          }
+      );
+    }
   }
 }
 

@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/Beauty/Home.dart';
 import 'package:governmentapp/HexColors.dart';
+import 'package:governmentapp/Materials/MaterialData.dart';
 import 'package:governmentapp/User/Login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -156,10 +158,38 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
 
   static bool islogin = true;
   Future<void> LoadProfile() async {
+
+
     final prefs = await SharedPreferences.getInstance();
     String? Contact = prefs.getString("LoginContact");
+    String? AdsEnable = prefs.getString("AdsEnable");
     if(Contact != null)
       {
+        prefs.setString("AdsEnable", "TRUE");
+        print("Ads enabled");
+        var User = await FirebaseFirestore.instance.collection("Users").doc(
+            Contact).get();
+          String? Expiry = User.data()!["Expiry"];
+          if(Expiry != null) {
+            print("Expiry ${Expiry}");
+            DateTime expiryDate = DateTime.parse(Expiry);
+            print("Expiry => ${!expiryDate
+                .difference(DateTime.now())
+                .isNegative}");
+            if (!expiryDate
+                .difference(DateTime.now())
+                .isNegative) {
+
+              prefs.setString("AdsEnable", "FALSE");
+              print("Ads disabled");
+
+            }
+            else{
+              prefs.setString("AdsEnable", "TRUE");
+              print("Ads enabled");
+            }
+          }
+
         print("Contact is " + Contact);
         setState(() {
           islogin = false;
@@ -174,6 +204,7 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
 
   @override
   void initState() {
+    MaterialDatas.GetData();
     LoadProfile();
     super.initState();
     InitializeAnimations();

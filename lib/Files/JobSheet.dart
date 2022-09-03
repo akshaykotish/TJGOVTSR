@@ -321,7 +321,7 @@ class _JobSheetState extends State<JobSheet> {
       _All_VDetails.add(Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: _VDetailBox,));
-      _All_VDetails.add(const SizedBox(height: 10,));
+      _All_VDetails.add(const SizedBox(height: 5,));
 
       if(indx == jobData.VDetails.length - 1)
         {

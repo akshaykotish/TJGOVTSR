@@ -246,7 +246,6 @@ class RequiredDataLoading{
 
   static Future<void> LoadHotJobs()
   async {
-    print("Loading Hot Jobs Started");
 
         List<String> pathadded = <String>[];
         JobDisplayManagement.jobstoshow.clear();
@@ -267,7 +266,6 @@ class RequiredDataLoading{
             if(pathadded.contains(path) == false && path.split("/").length == 4 && path.split("/")[0] != "" && path.split("/")[1] != "" && path.split("/")[2] != "" && path.split("/")[3] != "")
               {
                 pathadded.add(path);
-                print(i);
                 var job = await FirebaseFirestore.instance.doc(path).get();
                 JobData jobData = JobData();
                 jobData.count = 50;
@@ -287,7 +285,6 @@ class RequiredDataLoading{
 
   static Future<void> Execute() async {
     await init();
-    print("Required Caches are = ${UserDepartments.length}");
 
       if(UserDepartments.isNotEmpty) {
         RequiredData.isEmpty ?
@@ -296,10 +293,8 @@ class RequiredDataLoading{
         JobDisplayManagement.HideJobsLoading();
         JobDisplayManagement.isloadingjobs = false;
 
-        print("Hurry! We did it.... ${JobDisplayManagement.jobstoshow.length}");
       }
       else{
-        print("Loading Hot Jobs");
 
         if(HotJobs.isfirstjobloaded) {
           LoadHotJobs();

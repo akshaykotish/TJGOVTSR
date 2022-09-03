@@ -246,48 +246,54 @@ class JobData {
       var ref = FirebaseFirestore.instance;
 
       if(job != null && job.data() != null) {
-        Title = job.data()!["Title"].toString();
-        Department = job.data()["Department"].toString();
-        url = job.data()["URL"].toString();
-        Total_Vacancies = job.data()["Total_Vacancies"].toString();
-        WebsiteLink = job.data()["WebsiteLink"].toString();
-        Location = job.data()["Location"].toString();
-        ApplicationFees = job.data()["ApplicationFees"];
-        Important_Dates = job.data()["Important_Dates"];
-        HowToApply = job.data()["HowToApply"].toString();
-        Key = job.id;
-        ApplyLink = job.data()["ApplyLink"].toString();
-        WebsiteLink = job.data()["WebsiteLink"].toString();
-        NotificationLink = job.data()["NotificationLink"].toString();
+        try {
+          Title = job.data()!["Title"].toString();
+          Department = job.data()["Department"].toString();
+          url = job.data()["URL"].toString();
+          Total_Vacancies = job.data()["Total_Vacancies"].toString();
+          WebsiteLink = job.data()["WebsiteLink"].toString();
+          Location = job.data()["Location"].toString();
+          ApplicationFees = job.data()["ApplicationFees"];
+          Important_Dates = job.data()["Important_Dates"];
+          HowToApply = job.data()["HowToApply"].toString();
+          Key = job.id;
+          ApplyLink = job.data()["ApplyLink"].toString();
+          WebsiteLink = job.data()["WebsiteLink"].toString();
+          NotificationLink = job.data()["NotificationLink"].toString();
 
-        Short_Details =
-            job.data()["Short_Details"].toString().replaceAll(
-                "Short Details of Notification", "");
-
-
-        if (Short_Details.replaceAll(
-            "Short Details of Notification", "") == "" ||
-            Short_Details.replaceAll(
-                "Short Details of Notification", "") == "\n") {
           Short_Details =
-              job.data()["Total_Vacancies"].toString().replaceAll(
-                  "Vacancy Details Total : ", "");
+              job.data()["Short_Details"].toString().replaceAll(
+                  "Short Details of Notification", "");
+
+
+          if (Short_Details.replaceAll(
+              "Short Details of Notification", "") == "" ||
+              Short_Details.replaceAll(
+                  "Short Details of Notification", "") == "\n") {
+            Short_Details =
+                job.data()["Total_Vacancies"].toString().replaceAll(
+                    "Vacancy Details Total : ", "");
+          }
+
+          ButtonsName = job.data()["ButtonsName"] ?? List<dynamic>;
+          ButtonsURL = job.data()["ButtonsURL"] ?? List<dynamic>;
+
+          Designation = job.data()["Designation"].toString();
+          LastUpdate = job.data()["LastUpdate"].toString();
+
+
+          AdvertisementNumber = job.data()["AdvertisementNumber"].toString();
+          ExamCenters = job.data()["ExamCenters"];
+          Corrections = job.data()["Corrections"];
+          AgeLimits = job.data()["AgeLimits"];
+          HowTo = job.data()["HowTo"];
+
+          await LoadingVDetails(job, ref);
         }
-
-        ButtonsName = job.data()["ButtonsName"];
-        ButtonsURL = job.data()["ButtonsURL"];
-
-        Designation = job.data()["Designation"].toString();
-        LastUpdate = job.data()["LastUpdate"].toString();
-
-
-        AdvertisementNumber = job.data()["AdvertisementNumber"].toString();
-        ExamCenters = job.data()["ExamCenters"];
-        Corrections = job.data()["Corrections"];
-        AgeLimits = job.data()["AgeLimits"];
-        HowTo = job.data()["HowTo"];
-
-        await LoadingVDetails(job, ref);
+        catch(e)
+        {
+          print("Error: $e");
+        }
       }
 
   }

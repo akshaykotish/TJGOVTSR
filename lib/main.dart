@@ -15,7 +15,7 @@ import 'package:governmentapp/Encyclopedia/EncyclopediaRead.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/User/Login.dart';
 import 'DataLoadingSystem/SearchAbleDataLoading.dart';
-
+import 'package:http/http.dart' as http;
 
 Future<void> RequiredLoads() async {
 
@@ -24,7 +24,6 @@ Future<void> RequiredLoads() async {
   await TJSNInterstitialAd.AdManager();
 
   await SearchAbleDataLoading.Execute().then((e) {
-    print("Writers Started");
     ScrapperController scrapperController = ScrapperController();
     scrapperController.Execute();
   });
@@ -41,6 +40,7 @@ Future<void> RequiredLoads() async {
 
 Future<void> main() async {
 
+  print("TESTINGURL = " + "https://drive.google.com/file/d/1zCVEgm624VTzZnfFmkiZ0tTBXKIlQa6d/view?usp=sharing");
   await WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
   await Firebase.initializeApp();
@@ -65,15 +65,54 @@ class MyApp extends StatelessWidget {
         ),
         home:  WillPopScope(
             onWillPop: () {
-              print("CAlled");
               CurrentJob.HideJobSheetData.add("a");
-
               Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                   builder: (context) => Home()), (Route route) => false);
               return Future.value(true);
             },
             child: BrandSplashScreen()),
+    );
+  }
+}
+
+
+class Tempor extends StatefulWidget {
+  const Tempor({Key? key}) : super(key: key);
+
+  @override
+  State<Tempor> createState() => _TemporState();
+}
+
+class _TemporState extends State<Tempor> {
+
+  String value = "";
+
+  Future<void> Load() async {
+    var temp = await http.read(Uri.parse("https://nitin-gupta.com/all-most-importance-pdf-collection-in-hindi-and-english-for-all-competitive-exams/"));
+    setState(() {
+      value = temp;
+    });
+  }
+
+  @override
+  void initState() {
+    Load();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: SingleChildScrollView(
+          child: Container(
+            child: Text(value),
+          ),
+        ),
+      ),
     );
   }
 }

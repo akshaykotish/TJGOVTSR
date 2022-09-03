@@ -99,7 +99,6 @@ class _LoginAreaState extends State<LoginArea> {
             });
           },
           codeSent: (String verificationId, int? resendToken) async {
-            print("Code Sent");
             String smsCode = otp.text;
             VerificationID = verificationId;
             setState(() {
@@ -132,7 +131,6 @@ class _LoginAreaState extends State<LoginArea> {
   void initState() {
 
     Permission.location.request().then((value){
-      print("Location is ${value}");
       _determinePosition().then((Position value) async {
         position = value;
         print(position.toString());
@@ -323,6 +321,27 @@ class _LoginAreaState extends State<LoginArea> {
                           final prefs = await SharedPreferences.getInstance();
                           prefs.setString("LoginContact", res.user!.phoneNumber.toString());
                           prefs.setString("LoginName", fullname.text);
+                          prefs.setString("AdsEnable", "TRUE");
+                          print("Ads enabled");
+
+                          var User = await FirebaseFirestore.instance.collection("Users").doc(
+                              res.user!.phoneNumber.toString()).get();
+                          String? Expiry = User.data()!["Expiry"];
+                          if(Expiry != null) {
+                            DateTime expiryDate = DateTime.parse(Expiry);
+                            if (!expiryDate
+                                .difference(DateTime.now())
+                                .isNegative) {
+
+                              prefs.setString("AdsEnable", "FALSE");
+                              print("Ads disabled");
+
+                            }
+                            else{
+                              prefs.setString("AdsEnable", "TRUE");
+                              print("Ads enabled");
+                            }
+                          }
 
                           loadingind = false;
                           Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(

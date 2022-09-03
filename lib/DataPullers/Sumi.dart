@@ -11,8 +11,6 @@ class Sumi{
     var url = Uri.parse(uurl);
     String pagedata = await http.read(url);
     var document = parse(pagedata);
-    print("Finded" + url.toString());
-
   }
 
 
