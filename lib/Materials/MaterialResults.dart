@@ -24,9 +24,9 @@ class _MaterialResultState extends State<MaterialResult> {
 
   Future<void> LoadSearchResult() async {
     var _SearchResults = <Widget>[];
-    MaterialDatas.searchmaterialDatas.forEach((MaterialData materialData) {
+    MaterialDatas.searchmaterialDatas.forEach((MaterialData materialData) async {
 
-      if(materialData.URL != null && materialData.URL != "" && materialData.URL != "null") {
+      if(materialData.URL != null && materialData.URL != "" && materialData.URL != "null" && await canLaunch(materialData.URL)) {
         String Title = materialData.Name.replaceAll("à", "").replaceAll("¤", "").replaceAll("¸", "").replaceAll("", "").replaceAll("¥", "").replaceAll("", "").replaceAll("", "").replaceAll("", "").replaceAll("¤²", "");
         
         _SearchResults.add(
@@ -51,7 +51,6 @@ class _MaterialResultState extends State<MaterialResult> {
                       blurRadius: 5,
                       spreadRadius: 5,
                       color: Colors.blue.shade200.withOpacity(0.1),
-
                     ),
 
                   ],

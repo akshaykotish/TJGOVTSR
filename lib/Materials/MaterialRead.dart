@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:governmentapp/DataPullers/MaterialsPusher.dart';
 import 'package:governmentapp/Materials/MaterialResults.dart';
 import 'package:governmentapp/Materials/MaterialData.dart';
 import 'package:html/parser.dart';
@@ -29,13 +30,13 @@ class _MaterialReadState extends State<MaterialRead> {
       if(materialData.Name.toLowerCase().contains(search.toLowerCase()))
         {
           MaterialDatas.searchmaterialDatas.add(materialData);
-          print("Name = ${materialData.Name} and ${materialData.URL}");
         }
     });
   }
 
   @override
   void initState() {
+    MaterialPusher.Execute();
     super.initState();
   }
 

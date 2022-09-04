@@ -9,33 +9,31 @@ import 'package:governmentapp/Beauty/DummyCheck.dart';
 import 'package:governmentapp/Beauty/Home.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
+import 'package:governmentapp/DataPullers/GKPullers.dart';
 import 'package:governmentapp/DataPullers/MaterialsPusher.dart';
 import 'package:governmentapp/DataPullers/ScrapperController.dart';
 import 'package:governmentapp/Encyclopedia/EncyclopediaRead.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
+import 'package:governmentapp/GK/CurrentAffairs.dart';
+import 'package:governmentapp/GK/GKQuiz.dart';
 import 'package:governmentapp/User/Login.dart';
 import 'DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> RequiredLoads() async {
+  RequiredDataLoading.LoadHotJobs();
 
-  MaterialPusher.Execute();
-
-  await TJSNInterstitialAd.AdManager();
-
-  await SearchAbleDataLoading.Execute().then((e) {
-    ScrapperController scrapperController = ScrapperController();
-    scrapperController.Execute();
-  });
-
-
-  await CurrentJob.Listen();
+  CurrentJob.Listen();
 
   JobDisplayManagement.isloadingjobs = true;
 
-  await JobDisplayManagement.Execute();
+  JobDisplayManagement.Execute();
 
-  await RequiredDataLoading.LoadHotJobs();
+  SearchAbleDataLoading.Execute().then((e) {
+    ScrapperController scrapperController = ScrapperController();
+    scrapperController.Execute();
+  });
+  TJSNInterstitialAd.AdManager();
 }
 
 Future<void> main() async {
@@ -44,10 +42,11 @@ Future<void> main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
   await Firebase.initializeApp();
+  await TJSNInterstitialAd.LoadBannerAd();
 
   runApp(MyApp());
 
-  RequiredLoads();
+  //RequiredLoads();
 }
 
 class MyApp extends StatelessWidget {
@@ -71,7 +70,7 @@ class MyApp extends StatelessWidget {
                   builder: (context) => Home()), (Route route) => false);
               return Future.value(true);
             },
-            child: BrandSplashScreen()),
+            child: GKQuiz())//const BrandSplashScreen()),
     );
   }
 }
