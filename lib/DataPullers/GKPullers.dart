@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 class GKPullers{
   static void Execute(){
+    print("GK Executing...");
     GKToday.Start();
     GKTodayQuiz.Start();
   }
@@ -135,6 +136,7 @@ class GKToday{
     var Timings = await FirebaseFirestore.instance.collection("Logs").doc("GKDates").get();
     var Time = Timings.exists ? Timings.data()!["GKNEWS"] : "";
 
+
     if(Time != "${DateTime
         .now()
         .year}-${DateTime
@@ -142,6 +144,7 @@ class GKToday{
         .month}-${DateTime
         .now()
         .day}") {
+      print("Loading Current Affairs");
       await LoadCurrentAffairs();
     }
   }

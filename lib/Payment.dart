@@ -105,7 +105,6 @@ class _PaymentPageState extends State<PaymentPage> {
         'prefill': {
           'name': '$Name',
           'contact': '$Contact',
-          'email': 'akshaykotish@gmail.com'
         }
       };
 

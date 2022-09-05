@@ -5,8 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:geocoder2/geocoder2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Beauty/Home.dart';
 
@@ -135,9 +136,9 @@ class _LoginAreaState extends State<LoginArea> {
         position = value;
         print(position.toString());
 
-        address = await Geocoder.local.findAddressesFromCoordinates(Coordinates(position.latitude, position.longitude));
-        print("Address ${address.first.addressLine}");
-        adrs = address.first.addressLine;
+        //address = await Geocoder2.getDataFromCoordinates(Coordinates(position.latitude, position.longitude), googleMapApiKey: '');
+        //print("Address ${address.first.addressLine}");
+        adrs = "${position.latitude} and ${position.longitude}";// = address.first.addressLine;
       });
     });
 
@@ -344,6 +345,7 @@ class _LoginAreaState extends State<LoginArea> {
                           }
 
                           loadingind = false;
+
                           Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(
                               transitionDuration: const Duration(milliseconds: 300),
                               transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
@@ -363,9 +365,6 @@ class _LoginAreaState extends State<LoginArea> {
                         catch(e)
                         {
                           print("Wrong code");
-                          setState(() {
-                            otptxt = "(Incorrect OTP, try again.)";
-                          });
                         }
                       },
                       child: Container(

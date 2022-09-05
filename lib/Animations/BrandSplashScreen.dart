@@ -39,25 +39,33 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
   late AnimationController attsycontroller;
   late Animation attsyAnimation;
 
-  void InitializeAnimations()
-  {
-    opacitycontroller = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+  Future<void> InitializeAnimations()
+  async {
+    print("islogin yoyo $islogin");
+
+    opacitycontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(opacitycontroller);
+    print("A");
 
-    textcontroller = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    textcontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     textAnimation = Tween<double>(begin: 0.0, end: 9.0).animate(textcontroller);
+    print("B");
 
-
-    bttcontroller = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    bttcontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     bttAnimation = Tween<double>(begin: 400.0, end: 50.0).animate(bttcontroller);
+    print("C");
 
-
-    bbcontroller = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    bbcontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     bbAnimation = Tween<double>(begin: 0.0, end: 10.0).animate(bttcontroller);
+    print("D");
 
-
-    attsycontroller = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    attsycontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     attsyAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(bttcontroller);
+    print("E");
+
+    await LoadProfile();
+    OpacityAnimation();
+
   }
 
   void OpacityAnimation(){
@@ -142,8 +150,9 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
   }
 
   void LoadHomePage(){
+    print("LoadHomePage");
     Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(
-        transitionDuration: const Duration(milliseconds: 300),
+        transitionDuration: const Duration(milliseconds: 500),
         transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
           return FadeTransition(
             opacity: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: animation, curve: Curves.fastOutSlowIn)),
@@ -158,8 +167,6 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
 
   static bool islogin = true;
   Future<void> LoadProfile() async {
-
-
     final prefs = await SharedPreferences.getInstance();
     String? Contact = prefs.getString("LoginContact");
     String? AdsEnable = prefs.getString("AdsEnable");
@@ -204,11 +211,9 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
 
   @override
   void initState() {
-    MaterialDatas.GetData();
-    LoadProfile();
+    InitializeAnimations().then((value){
+    });
     super.initState();
-    InitializeAnimations();
-    OpacityAnimation();
   }
 
 
@@ -245,11 +250,90 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                           child: SingleChildScrollView(child: LoginArea()),
                         ) :
                           Container(
-                          child: Text("Akshay Kotish"),
+                            width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height - 200,
+                          child:
+                          Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Container(
+                                    child: Text(
+                                      "LKS",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 40,
+                                        color: Colors.grey.shade900.withOpacity(0.1),
+                                        letterSpacing: 30,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height:10,),
+                                  Container(
+                                    child: Text(
+                                      "Brand Signature",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 10,
+                                        color: Colors.grey.shade900.withOpacity(0.1),
+                                        letterSpacing:4.5,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height:150,),
+                                  Opacity(
+                                    opacity: 0.4,
+                                    child: Container(
+                                      width: 200,
+                                      height: 50,
+                                      decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage("./assets/branding/flute.png"),
+                                        )
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      "Love My God, MK & AB",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 10,
+                                        color: Colors.grey.shade500.withOpacity(0.2),
+                                        letterSpacing: 5,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height:50,),
+                                  Container(
+                                    child: Text(
+                                      "An Akshay Kotish & Co. Product",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12,
+                                        color: Colors.grey.shade800,
+                                        letterSpacing: 2,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height:10,),
+                                  Container(
+                                    child: Text(
+                                      "Made for India",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 10,
+                                        color: Colors.grey.shade600,
+                                        letterSpacing: 5,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              )
+                          ),
                 ),
                       ),
                     ),
-
                     Positioned(
                       top: bttAnimation.value,
                       left: 10,

@@ -10,6 +10,8 @@ import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/JobData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'JobDisplayManagement.dart';
+
 class SearchAbleDataLoading{
 
   static List<String> JobisAlreadyAdded = <String>[];

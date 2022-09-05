@@ -74,6 +74,11 @@ class _MaterialResultState extends State<MaterialResult> {
                       fontSize: 14,
                       color: Colors.grey[900],
                     ),),
+                    Text("Source: ${materialData.Source}", style: TextStyle(
+                      fontWeight: FontWeight.w200,
+                      fontSize: 10,
+                      color: Colors.grey[500],
+                    ),),
                   ],
                 ),
               ),
@@ -185,7 +190,7 @@ class _MaterialResultState extends State<MaterialResult> {
               Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(20),
-                child: Text("Some documents may need sign in.", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey.shade300), textAlign: TextAlign.start,),
+                child: Text("All the documents are scrapped from Internet. Some documents may need sign in.", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey.shade300), textAlign: TextAlign.start,),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,

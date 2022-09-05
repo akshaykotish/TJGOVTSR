@@ -50,18 +50,10 @@ class LatestJobs{
 
 
   Future<int> GetLatestJobsLastJobsSize() async {
-    String value = "0";
-    try {
-      value = (await FirebaseFirestore.instance.collection("Logs").doc(
-          "LastSavedSizes").get()).data()!["LatestJobsLastSize"].toString();
-    }
-    catch(E){value = "0";}
 
-    if(value != "null" && value != "")
-    {
-      return int.parse(value);
-    }
-    return 0;
+    int value =  (await FirebaseFirestore.instance.collection("Logs").doc(
+          "LastSavedSizes").get()).data()!["LatestJobsLastSize"];
+    return value;
   }
 
 

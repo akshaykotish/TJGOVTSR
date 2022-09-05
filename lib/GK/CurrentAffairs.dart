@@ -5,6 +5,7 @@ import 'package:governmentapp/AdFile.dart';
 import 'package:governmentapp/DataPullers/GKPullers.dart';
 import 'package:governmentapp/GK/GKPage.dart';
 import 'package:governmentapp/GK/GKQuiz.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class CurrentAffairs extends StatefulWidget {
@@ -17,6 +18,7 @@ class CurrentAffairs extends StatefulWidget {
 class _CurrentAffairsState extends State<CurrentAffairs> {
 
   var GKs = <Widget>[];
+  PageController pageController = PageController();
 
   Future<void> LoadCurrentAffairs() async {
     var _GKs = <Widget>[];
@@ -24,7 +26,7 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
     var CurrentAffairs = await FirebaseFirestore.instance.collection("GKToday").get();
     CurrentAffairs.docs.forEach((element) {
       if(element.exists) {
-        print("Loading ${element.id}");
+        print("Loading ${element.id}"   );
         GKTodayData gktoday = GKTodayData(element.data()["Heading"].toString(), element.data()["Date"].toString(), element.data()["Image"].toString(), element.data()["Content"].toString(), element.data()["URL"].toString());
         _GKs.add(
           GKPage(gkTodayData: gktoday),
@@ -38,11 +40,47 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
 
 
   }
+  
+  int loadPI = 0;
+
+  Future<void> LoadPageIndex()
+  async {
+    final prefs = await SharedPreferences.getInstance();
+    loadPI = prefs.getInt("LastCAPage")!;
+
+    pageController.animateToPage(loadPI, duration: Duration(milliseconds: 300,), curve: Curves.bounceIn);
+  }
+
+  Future<void> SavePageIndex(int e) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt("LastCAPage", e);
+
+    print("GO TO FLOW ${e}");
+  }
+
+
+  Container LoadADWidget()
+  {
+//    TJSNInterstitialAd.LoadBannerAd2();
+    TJSNInterstitialAd.myBanner.load();
+    return Container(
+      child: AdWidget(
+        ad: TJSNInterstitialAd.myBanner,
+      ),
+      width: TJSNInterstitialAd.myBanner.size.width.toDouble(),
+      height: TJSNInterstitialAd.myBanner.size.height.toDouble(),
+    );
+  }
+
 
   @override
   void initState() {
+    //LoadPageIndex();
     GKPullers.Execute();
     LoadCurrentAffairs();
+    // pageController.addListener(() {
+    //   SavePageIndex(pageController.page!.toInt());
+    // });
     super.initState();
   }
 
@@ -58,6 +96,7 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
                 right: 0,
                 bottom: 120,
                 child: PageView(
+                  controller: pageController,
                   scrollDirection: Axis.vertical,
                   allowImplicitScrolling: true,
                   children: GKs,
@@ -97,13 +136,7 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
                                 }));
                           },
                         ),
-                        Container(
-                          child: AdWidget(
-                            ad: TJSNInterstitialAd.myBanner,
-                          ),
-                          width: TJSNInterstitialAd.myBanner.size.width.toDouble(),
-                          height: TJSNInterstitialAd.myBanner.size.height.toDouble(),
-                        )
+                        LoadADWidget(),
                       ],
                     ),
               ),

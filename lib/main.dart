@@ -16,14 +16,14 @@ import 'package:governmentapp/Encyclopedia/EncyclopediaRead.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/GK/CurrentAffairs.dart';
 import 'package:governmentapp/GK/GKQuiz.dart';
+import 'package:governmentapp/Materials/MaterialData.dart';
 import 'package:governmentapp/User/Login.dart';
 import 'DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> RequiredLoads() async {
-  RequiredDataLoading.LoadHotJobs();
 
-  CurrentJob.Listen();
+  await CurrentJob.Listen();
 
   JobDisplayManagement.isloadingjobs = true;
 
@@ -33,7 +33,10 @@ Future<void> RequiredLoads() async {
     ScrapperController scrapperController = ScrapperController();
     scrapperController.Execute();
   });
+
+  RequiredDataLoading.LoadHotJobs();
   TJSNInterstitialAd.AdManager();
+  MaterialDatas.GetData();
 }
 
 Future<void> main() async {
@@ -46,7 +49,7 @@ Future<void> main() async {
 
   runApp(MyApp());
 
-  //RequiredLoads();
+  RequiredLoads();
 }
 
 class MyApp extends StatelessWidget {
@@ -70,7 +73,7 @@ class MyApp extends StatelessWidget {
                   builder: (context) => Home()), (Route route) => false);
               return Future.value(true);
             },
-            child: GKQuiz())//const BrandSplashScreen()),
+            child: const BrandSplashScreen()),
     );
   }
 }
