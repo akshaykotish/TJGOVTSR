@@ -102,10 +102,9 @@ class _HomeState extends State<Home> {
   void initState() {
     GoAdFree();
     WriteALog.Write("App Opened", "Normal Login", DateTime.now().toString());
-    JobDisplayManagement.isloadingjobs = true;
     draggableScrollableController = DraggableScrollableController();
 
-    CurrentJob.currentjobStreamToCall = (value) {
+    CurrentJob.currentjobStreamToCall = (JobData value) {
       setState(() {
         draggableScrollableController.animateTo(0.9, duration: Duration(milliseconds: 500), curve: Curves.easeInBack).then((value){
           setState(() {
@@ -116,6 +115,11 @@ class _HomeState extends State<Home> {
       });
     };
 
+    scrollController.addListener(() {
+      setState(() {
+
+      });
+    });
 
     CurrentJob.HideJobSheetDataStreamToCall = (){
       draggableScrollableController.animateTo(0.0, duration: Duration(milliseconds: 500), curve: Curves.easeOutBack).then((value){setState(() {
@@ -141,7 +145,6 @@ class _HomeState extends State<Home> {
     });
 
 
-      RequiredDataLoading.Execute();
 
   }
 
@@ -165,7 +168,6 @@ class _HomeState extends State<Home> {
         body: RefreshIndicator(
           onRefresh: (){
             return Future.delayed(const Duration(milliseconds: 1), (){
-              JobDisplayManagement.isloadingjobs = true;
               RequiredDataLoading.Execute();
             });
           },

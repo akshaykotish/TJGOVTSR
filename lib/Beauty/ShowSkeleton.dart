@@ -12,7 +12,7 @@ class ShowSkeleton extends StatefulWidget {
 class _ShowSkeletonState extends State<ShowSkeleton> {
   @override
   Widget build(BuildContext context) {
-    return JobDisplayManagement.ismoreloadingjobs == true ? Column(
+    return Column(
         children: <Widget>[
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -30,6 +30,6 @@ class _ShowSkeletonState extends State<ShowSkeleton> {
             ),
           ),
         ],
-      ) : Container();
+      );
   }
 }

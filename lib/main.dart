@@ -7,6 +7,7 @@ import 'package:governmentapp/Animations/BrandSplashScreen.dart';
 import 'package:governmentapp/Animations/Loading.dart';
 import 'package:governmentapp/Beauty/DummyCheck.dart';
 import 'package:governmentapp/Beauty/Home.dart';
+import 'package:governmentapp/DataLoadingSystem/FilterIndex.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/DataPullers/GKPullers.dart';
@@ -24,24 +25,22 @@ import 'package:http/http.dart' as http;
 Future<void> RequiredLoads() async {
 
   await CurrentJob.Listen();
-
-  JobDisplayManagement.isloadingjobs = true;
-
   JobDisplayManagement.Execute();
+  //
+  // SearchAbleDataLoading.Execute().then((e) {
+  //   ScrapperController scrapperController = ScrapperController();
+  //   scrapperController.Execute();
+  // });
+  //
+  // RequiredDataLoading.LoadHotJobs();
+  // TJSNInterstitialAd.AdManager();
+  // MaterialDatas.GetData();
 
-  SearchAbleDataLoading.Execute().then((e) {
-    ScrapperController scrapperController = ScrapperController();
-    scrapperController.Execute();
-  });
-
-  RequiredDataLoading.LoadHotJobs();
-  TJSNInterstitialAd.AdManager();
-  MaterialDatas.GetData();
+  ScrapperController scrapperController = ScrapperController();
+  scrapperController.Execute();
 }
 
 Future<void> main() async {
-
-  print("TESTINGURL = " + "https://drive.google.com/file/d/1zCVEgm624VTzZnfFmkiZ0tTBXKIlQa6d/view?usp=sharing");
   await WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
   await Firebase.initializeApp();
@@ -49,6 +48,7 @@ Future<void> main() async {
 
   runApp(MyApp());
 
+  //FilterIndexes.RemoveOlds();
   RequiredLoads();
 }
 

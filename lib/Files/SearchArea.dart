@@ -1,12 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
-import 'package:governmentapp/Filtration/FilterPage.dart';
 import 'package:governmentapp/Filtration/SearchSheet.dart';
 import 'package:governmentapp/ForUsers/ChooseDepartment.dart';
-import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/User/WriteALog.dart';
 
 class SearchArea extends StatefulWidget {
@@ -95,9 +92,6 @@ catch(e){}
                     ),
                     child: GestureDetector(
                       onTap: () async {
-                        JobDisplayManagement.isloadingjobs = true;
-                        JobDisplayManagement.ismoreloadingjobs = true;
-                        JobDisplayManagement.jobstoshow.clear();
                         var ToSearches = await Navigator.push(context, PageRouteBuilder(
                             transitionDuration: const Duration(milliseconds: 300),
                             transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){

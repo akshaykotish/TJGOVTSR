@@ -26,6 +26,9 @@ class WriteToFirebase{
       if (jobData.Location.isEmpty || jobData.Location == "") {
         jobData.Location = "INDIA";
       }
+      jobData.path =  FirebaseFirestore.instance.collection("Jobs").doc(
+          jobData.Department).collection(jobData.Location.toUpperCase()).doc(
+          jobData.Key).path;
       await FirebaseFirestore.instance.collection("Jobs").doc(jobData.Department).set({"LastUpdate": DateTime.now().toString()});
       await FirebaseFirestore.instance.collection("Jobs").doc(
           jobData.Department).collection(jobData.Location.toUpperCase()).doc(
@@ -88,10 +91,18 @@ class WriteToFirebase{
   static Future<void> WriteIndexToFirebase(JobData jobData) async {
     try {
       await SearchAbleDataLoading.LoadJobIndex();
-      String Path = "Jobs/" + jobData.Department + "/" + jobData.Location.toUpperCase() + "/" + jobData.Key;
-      await HotJobs.UpdateHotJobs(Path);
+      String Path = "";
+      if(jobData.path != "") {
+        Path = jobData.path;
+      }
+      else{
+        Path = "Jobs/${jobData.Department}/${jobData.Location}/${jobData.Key}";
+      }
       String toStore = Path + ";" + jobData.Department + ";" +
           jobData.Designation + ";" + jobData.Short_Details;
+
+      await HotJobs.UpdateHotJobs(toStore);
+
       (SearchAbleDataLoading.SearchAbleCache.contains(toStore) == false
           ? SearchAbleDataLoading.SearchAbleCache.add(toStore)
           : null);

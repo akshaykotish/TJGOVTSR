@@ -263,7 +263,7 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                                       style: TextStyle(
                                         fontWeight: FontWeight.w800,
                                         fontSize: 40,
-                                        color: Colors.grey.shade900.withOpacity(0.1),
+                                        color: Colors.grey.shade900.withOpacity(0.5),
                                         letterSpacing: 30,
                                       ),
                                     ),

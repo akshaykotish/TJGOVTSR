@@ -165,7 +165,7 @@ class _SearchSheetState extends State<SearchSheet> {
             onTap: (){
               SelectedSearchWord.add(Departmentis);
 
-              JobDisplayManagement.searchpathes.add(path);
+              JobDisplayManagement.SEARCHEDPATHS.add(path);
 
               LoadSelectedSearchWord();
 
@@ -187,7 +187,7 @@ class _SearchSheetState extends State<SearchSheet> {
             onTap: (){
               SelectedSearchWord.add(Jobis);
 
-              JobDisplayManagement.searchpathes.add(path);
+              JobDisplayManagement.SEARCHEDPATHS.add(path);
               LoadSelectedSearchWord();
 
               textEditingController.text = "";
@@ -235,8 +235,6 @@ class _SearchSheetState extends State<SearchSheet> {
 
   Future<void> SaveSelectedSearchSheetsData() async {
 
-    JobDisplayManagement.isloadingjobs = true;
-
     if(textEditingController.text != null && textEditingController.text != "") {
       SelectedSearchWord.add(textEditingController.text);
     }
@@ -258,7 +256,6 @@ class _SearchSheetState extends State<SearchSheet> {
 
   @override
   void initState() {
-    JobDisplayManagement.isloadingjobs = true;
     LoadAllInterest();
     LoadAllSearchSheetsData();
     super.initState();

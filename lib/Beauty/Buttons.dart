@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
+import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/Encyclopedia/EncyclopediaRead.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/GK/CurrentAffairs.dart';
@@ -20,7 +22,7 @@ class _ButtonsState extends State<Buttons> {
         children: <Widget>[
           GestureDetector(
             onTap: (){
-              CurrentJob.LovedJobsData.add("Loved");
+              RequiredDataLoading.LoadLikedJobs();
             },
             child: Container(
               width: 80,

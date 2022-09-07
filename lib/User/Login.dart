@@ -91,7 +91,9 @@ class _LoginAreaState extends State<LoginArea> {
           phoneNumber: "+91${e}",
           verificationCompleted: (PhoneAuthCredential credential) async {
             var res = await auth.signInWithCredential(credential);
+            SaveAndLoad(res);
             print(res.user);
+
           },
           verificationFailed: (FirebaseAuthException e) {
             print(e.code);
@@ -108,13 +110,11 @@ class _LoginAreaState extends State<LoginArea> {
               loadingind = false;
               otptxt = "OTP Sent.";
             });
-          },
-          timeout: const Duration(seconds: 120),
-          codeAutoRetrievalTimeout: (String verificationId) {
+          }, codeAutoRetrievalTimeout: (String verificationId) {
             setState(() {
-              otptxt = "Something went wrong, try again to write contact.";
+              otptxt = "OTP expired.";
             });
-          },
+        },
         );
       }
     else{
@@ -126,6 +126,98 @@ class _LoginAreaState extends State<LoginArea> {
 
   late Position position;
 
+  Future<void> SaveAndLoad(res) async {
+    var user = await FirebaseFirestore.instance.collection("Users").doc(
+        res.user!.phoneNumber.toString()).get();
+    if (!user.exists) {
+      FirebaseFirestore.instance.collection("Users").doc(
+          res.user!.phoneNumber.toString()).set({
+        "UserName": fullname.text,
+        "Contact": contact.text,
+        "Lat": position.latitude,
+        "Long": position.longitude,
+        "Address": adrs,
+        "LoginTime:": DateTime.now().toString(),
+      });
+    }
+    else {
+      FirebaseFirestore.instance.collection("Users").doc(
+          res.user!.phoneNumber.toString()).update({
+        "UserName": fullname.text,
+        "Contact": res.user!.phoneNumber,
+        "Lat": position.latitude,
+        "Long": position.longitude,
+        "Address": adrs,
+        "LoginTime:": DateTime.now().toString(),
+      });
+    }
+
+
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString("LoginContact", res.user!.phoneNumber.toString());
+    prefs.setString("LoginName", fullname.text);
+    prefs.setString("AdsEnable", "TRUE");
+    print("Ads enabled");
+
+    var User = await FirebaseFirestore.instance.collection("Users").doc(
+        res.user!.phoneNumber.toString()).get();
+    String? Expiry = User.data()!["Expiry"];
+    if (Expiry != null) {
+      DateTime expiryDate = DateTime.parse(Expiry);
+      if (!expiryDate
+          .difference(DateTime.now())
+          .isNegative) {
+        prefs.setString("AdsEnable", "FALSE");
+        print("Ads disabled");
+      }
+      else {
+        prefs.setString("AdsEnable", "TRUE");
+        print("Ads enabled");
+      }
+    }
+
+    loadingind = false;
+
+    Navigator.pop(context);
+    Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(
+        transitionDuration: const Duration(milliseconds: 300),
+        transitionsBuilder: (BuildContext context,
+            Animation<double> animation, Animation<double> secAnimation,
+            Widget child) {
+          return FadeTransition(
+            opacity: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+                parent: animation, curve: Curves.fastOutSlowIn)),
+            child: child,
+          );
+        },
+        pageBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secAnimation) {
+          return Home();
+        }), (Route route) => false
+    );
+    setState(() {
+      otptxt = "Great Success.";
+    });
+  }
+
+  Future<void> Login() async {
+    try {
+      loadingind = true;
+      FirebaseAuth auth = FirebaseAuth.instance;
+      PhoneAuthCredential credential = PhoneAuthProvider
+          .credential(
+          verificationId: VerificationID, smsCode: otp.text);
+      var res = await auth.signInWithCredential(credential);
+      res.user!.updateDisplayName(fullname.text);
+      print("REady ${res.user}");
+      SaveAndLoad(res);
+    }
+    catch(e){
+      setState(() {
+        otptxt = e.toString();
+      });
+    }
+  }
 
 
   @override
@@ -143,6 +235,12 @@ class _LoginAreaState extends State<LoginArea> {
     });
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+
+    super.dispose();
   }
 
   @override
@@ -256,7 +354,10 @@ class _LoginAreaState extends State<LoginArea> {
                         keyboardType: TextInputType.number,
                         controller: otp,
                         onChanged: (e){
-
+                          if(e.length == 6)
+                            {
+                              Login();
+                            }
                         },
                         inputFormatters: [LengthLimitingTextInputFormatter(6)],
                         decoration: InputDecoration(
@@ -285,91 +386,11 @@ class _LoginAreaState extends State<LoginArea> {
                     duration: Duration(milliseconds: 300),
                     child: GestureDetector(
                       onTap: () async {
-                        try {
-                          loadingind = true;
-                          FirebaseAuth auth = FirebaseAuth.instance;
-                          PhoneAuthCredential credential = PhoneAuthProvider
-                              .credential(
-                              verificationId: VerificationID, smsCode: otp.text);
-                          var res = await auth.signInWithCredential(credential);
-                          res.user!.updateDisplayName(fullname.text);
-                          print("REady ${res.user}");
-                          var user = await FirebaseFirestore.instance.collection("Users").doc(res.user!.phoneNumber.toString()).get();
-                          if(!user.exists) {
-                            FirebaseFirestore.instance.collection("Users").doc(
-                                res.user!.phoneNumber.toString()).set({
-                              "UserName": fullname.text,
-                              "Contact": contact.text,
-                              "Lat":position.latitude,
-                              "Long": position.longitude,
-                              "Address": adrs,
-                              "LoginTime:": DateTime.now().toString(),
-                            });
-                          }
-                          else{
-                            FirebaseFirestore.instance.collection("Users").doc(
-                                res.user!.phoneNumber.toString()).update({
-                              "UserName": fullname.text,
-                              "Contact": res.user!.phoneNumber,
-                              "Lat":position.latitude,
-                              "Long": position.longitude,
-                              "Address": adrs,
-                              "LoginTime:": DateTime.now().toString(),
-                            });
-                          }
-
-
-                          final prefs = await SharedPreferences.getInstance();
-                          prefs.setString("LoginContact", res.user!.phoneNumber.toString());
-                          prefs.setString("LoginName", fullname.text);
-                          prefs.setString("AdsEnable", "TRUE");
-                          print("Ads enabled");
-
-                          var User = await FirebaseFirestore.instance.collection("Users").doc(
-                              res.user!.phoneNumber.toString()).get();
-                          String? Expiry = User.data()!["Expiry"];
-                          if(Expiry != null) {
-                            DateTime expiryDate = DateTime.parse(Expiry);
-                            if (!expiryDate
-                                .difference(DateTime.now())
-                                .isNegative) {
-
-                              prefs.setString("AdsEnable", "FALSE");
-                              print("Ads disabled");
-
-                            }
-                            else{
-                              prefs.setString("AdsEnable", "TRUE");
-                              print("Ads enabled");
-                            }
-                          }
-
-                          loadingind = false;
-
-                          Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(
-                              transitionDuration: const Duration(milliseconds: 300),
-                              transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
-                                return FadeTransition(
-                                  opacity: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: animation, curve: Curves.fastOutSlowIn)),
-                                  child: child,
-                                );
-                              },
-                              pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation){
-                                return Home();
-                              }), (Route route) => false
-                          );
-                          setState(() {
-                            otptxt = "Great Success.";
-                          });
-                        }
-                        catch(e)
-                        {
-                          print("Wrong code");
-                        }
+                        Login();
                       },
                       child: Container(
                         margin: EdgeInsets.all(10),
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(15),
                         decoration: BoxDecoration(
                           color: Colors.grey[800]
                         ),

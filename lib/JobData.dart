@@ -8,6 +8,7 @@ class JobData {
 
   int count = 0;
 
+  String path = "";
   String Key = "UNKEY";
   String Department = "UNKNOWN";
   String Title = "";

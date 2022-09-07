@@ -21,6 +21,8 @@ class JobSheet extends StatefulWidget {
 
 class _JobSheetState extends State<JobSheet> {
 
+  ScrollController scrollController = ScrollController();
+
   String applybtntxt = "Apply";
   String lovebtntxt = "Love";
   String noticebtntxt = "Notice";
@@ -235,6 +237,10 @@ class _JobSheetState extends State<JobSheet> {
         _Clicks.add(
             GestureDetector(
               onTap: () async {
+                if(jobData.ButtonsName[i].toString().toLowerCase().contains("apply"))
+                  {
+                    WriteALog.Write("Job Applied Click", jobData.path, DateTime.now().toIso8601String());
+                  }
                 if (await canLaunch(jobData.ButtonsURL[i])) {
                   await launch(jobData.ButtonsURL[i]);
                 }
@@ -339,6 +345,11 @@ class _JobSheetState extends State<JobSheet> {
     jobData = widget.jobData;
 
     CurrentJob.currentjobStreamForVacanciesToCall = (JobData jobData) async {
+      scrollController.animateTo(0, duration: Duration(milliseconds: 600), curve: Curves.bounceIn);
+      scrollController.addListener(() {
+        setState(() {
+
+        });});
       this.jobData = jobData;
         WriteALog.Write("Job Viewed", jobData.Key, DateTime.now().toString());
         await OnJobLoad();
@@ -355,26 +366,10 @@ class _JobSheetState extends State<JobSheet> {
   }
 
   Future<void> OnJobLoad() async {
-
-    String jobString = await jsonEncode(await jobData.toJson());
-
     final prefs = await SharedPreferences.getInstance();
-    List<String>? appliedjobs = prefs.getStringList('appliedjobs');
-
-    if(appliedjobs != null && appliedjobs.contains(jobData.Key)){
-      setState(() {
-        applybtntxt = "Applied";
-      });
-    }
-    else{
-      setState(() {
-        applybtntxt = "Apply";
-      });
-    }
-
     List<String>? lovedjobs = prefs.getStringList('lovedjobs');
 
-    if(lovedjobs != null && lovedjobs.contains(jobString)){
+    if(lovedjobs != null && lovedjobs.contains(jobData.path)){
       setState(() {
         lovebtntxt = "Loved";
       });
@@ -419,32 +414,22 @@ class _JobSheetState extends State<JobSheet> {
     final prefs = await SharedPreferences.getInstance();
     List<String>? lovedjobs = prefs.getStringList('lovedjobs');
 
-    lovedjobs ??= <String>[];
+    lovedjobs == null ? lovedjobs = <String>[] : null;
 
-    String jobString = await jsonEncode(await jobData.toJson());
-    print(jobString);
-
-    if(!lovedjobs.contains(jobString))
-    {
-      lovedjobs.add(jobString);
-      WriteALog.Write("Job Liked", jobData.Key, DateTime.now().toString());
-
+    if(!lovedjobs.contains(jobData.path)) {
+      lovedjobs.add(jobData.path);
       setState(() {
         lovebtntxt = "Loved";
       });
     }
     else{
-      lovedjobs.remove(jobString);
-      WriteALog.Write("Job Unliked", jobData.Key, DateTime.now().toString());
-
+      lovedjobs.remove(jobData.path);
       setState(() {
         lovebtntxt = "Love";
       });
     }
-    await prefs.setStringList('lovedjobs', lovedjobs);
-    RequiredDataLoading.LoadLovedCache();
 
-    print("APlly");
+    prefs.setStringList('lovedjobs', lovedjobs);
   }
 
   void OnNoticeClick() async {
@@ -510,6 +495,7 @@ class _JobSheetState extends State<JobSheet> {
                       height: MediaQuery.of(context).size.height - 120 - 50,
                       padding: EdgeInsets.all(20),
                       child: SingleChildScrollView(
+                        controller: scrollController,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
