@@ -111,9 +111,11 @@ class _LoginAreaState extends State<LoginArea> {
               otptxt = "OTP Sent.";
             });
           }, codeAutoRetrievalTimeout: (String verificationId) {
-            setState(() {
-              otptxt = "OTP expired.";
-            });
+            try {
+              setState(() {
+                otptxt = "OTP expired.";
+              });
+            }catch(e){print(e);}
         },
         );
       }
@@ -124,7 +126,7 @@ class _LoginAreaState extends State<LoginArea> {
     }
   }
 
-  late Position position;
+  Position position = Position(longitude: 0, latitude: 0, timestamp: DateTime.now(), accuracy: 1, altitude: 1, heading: 1, speed: 1, speedAccuracy: 1);
 
   Future<void> SaveAndLoad(res) async {
     var user = await FirebaseFirestore.instance.collection("Users").doc(

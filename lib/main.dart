@@ -26,15 +26,14 @@ Future<void> RequiredLoads() async {
 
   await CurrentJob.Listen();
   JobDisplayManagement.Execute();
-  //
-  // SearchAbleDataLoading.Execute().then((e) {
-  //   ScrapperController scrapperController = ScrapperController();
-  //   scrapperController.Execute();
-  // });
-  //
-  // RequiredDataLoading.LoadHotJobs();
-  // TJSNInterstitialAd.AdManager();
-  // MaterialDatas.GetData();
+
+   SearchAbleDataLoading.Execute().then((e) {
+     ScrapperController scrapperController = ScrapperController();
+     scrapperController.Execute();
+   });
+
+   TJSNInterstitialAd.AdManager();
+   MaterialDatas.GetData();
 
   ScrapperController scrapperController = ScrapperController();
   scrapperController.Execute();
@@ -73,7 +72,7 @@ class MyApp extends StatelessWidget {
                   builder: (context) => Home()), (Route route) => false);
               return Future.value(true);
             },
-            child: const BrandSplashScreen()),
+            child: BrandSplashScreen()),
     );
   }
 }

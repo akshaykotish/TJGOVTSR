@@ -15,7 +15,7 @@ class TJSNInterstitialAd
   static Future<void> LoadBannerAd() async {
     myBanner = await BannerAd(
       adUnitId: 'ca-app-pub-3701741585114162/4270225689',
-      size: AdSize.fullBanner,
+      size: AdSize.banner,
       request: AdRequest(),
       listener: BannerAdListener(
         // Called when an ad is successfully received.
@@ -49,7 +49,7 @@ class TJSNInterstitialAd
     myBanner2 = await BannerAd(
       //ca-app-pub-3701741585114162/4270225689
       adUnitId: 'ca-app-pub-3701741585114162/3797552586',
-      size: AdSize.fullBanner,
+      size: AdSize.banner,
       request: AdRequest(),
       listener: BannerAdListener(
         // Called when an ad is successfully received.

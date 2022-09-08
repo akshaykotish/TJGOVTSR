@@ -32,9 +32,9 @@ class _JobBoxsState extends State<JobBoxs> {
     if(jobs.isEmpty)
       {
         _AllDepartments.add(ShowSkeleton());
-        Timer(Duration(seconds: 15), (){
+        Timer(Duration(seconds: 5), (){
           print("Ended");
-          if(jobs.isEmpty)
+          if(AllDepartments.length <= 1)
             {
               _AllDepartments.add(Text("Empty"));
               setState(() {

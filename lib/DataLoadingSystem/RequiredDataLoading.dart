@@ -127,7 +127,8 @@ class RequiredDataLoading{
   }
 
 
-  static void LoadLikedJobs(){
+  static Future<void> LoadLikedJobs() async {
+    await init();
     JobDisplayManagement.WhichShowing = 4;
     JobDisplayManagement.FAVJOBSC.add(JobDisplayManagement.FAVJOBS);
 
@@ -137,7 +138,7 @@ class RequiredDataLoading{
             {
               if(element.toString().contains(LovedJobs[i]))
                 {
-                  JobDisplayManagement.FAVJOBS.add(JobDisplayData(element));
+                  JobDisplayManagement.FAVJOBS.add(JobDisplayData(element, 4));
                   JobDisplayManagement.FAVJOBSC.add(JobDisplayManagement.FAVJOBS);
                 }
             }

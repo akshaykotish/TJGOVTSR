@@ -158,8 +158,9 @@ catch(e){}
                           width: 100,
                           height: 100,
                           decoration: BoxDecoration(
-                              color: Colors.grey.shade400.withOpacity(0.1),
+                              color: Colors.grey.shade400.withOpacity(0.5),
                               shape: BoxShape.circle,
+                              border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1),
                               boxShadow: [
                                 BoxShadow(
                                   offset: Offset(2, 2),

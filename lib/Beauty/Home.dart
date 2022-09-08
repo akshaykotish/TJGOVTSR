@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/AdFile.dart';
 import 'package:governmentapp/Beauty/Branding.dart';
+import 'package:governmentapp/Beauty/EaseButtons.dart';
 import 'package:governmentapp/Beauty/ToolSection.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
@@ -197,6 +198,7 @@ class _HomeState extends State<Home> {
                           // BannerForAds(),
                           const ToolSection(),
                           Container(child: isToGoAdFree ? PaymentPage() : null),
+                          EaseButtons(),
                           const JobBoxs(),
                           const SizedBox(height: 100,)
                         ],

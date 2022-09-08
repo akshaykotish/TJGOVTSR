@@ -26,11 +26,20 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
     var CurrentAffairs = await FirebaseFirestore.instance.collection("GKToday").get();
     CurrentAffairs.docs.forEach((element) {
       if(element.exists) {
-        print("Loading ${element.id}"   );
-        GKTodayData gktoday = GKTodayData(element.data()["Heading"].toString(), element.data()["Date"].toString(), element.data()["Image"].toString(), element.data()["Content"].toString(), element.data()["URL"].toString());
-        _GKs.add(
-          GKPage(gkTodayData: gktoday),
-        );
+        if(element.data()["Heading"].toString().contains("Current Affairs") || element.data()["Heading"].toString().contains("Headlines")){
+
+        }else {
+          print("Loading ${element.id}");
+          GKTodayData gktoday = GKTodayData(
+              element.data()["Heading"].toString(),
+              element.data()["Date"].toString(),
+              element.data()["Image"].toString(),
+              element.data()["Content"].toString(),
+              element.data()["URL"].toString());
+          _GKs.add(
+            GKPage(gkTodayData: gktoday),
+          );
+        }
 
         setState(() {
           GKs = _GKs;
@@ -136,7 +145,9 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
                                 }));
                           },
                         ),
-                        LoadADWidget(),
+                        Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: LoadADWidget()),
                       ],
                     ),
               ),

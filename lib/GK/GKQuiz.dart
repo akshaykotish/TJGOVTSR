@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,6 +33,8 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
 
   Future<void> SubmitAnswer(String Question, String UserAnswer, String Answer, String Hint, int ia, int x) async {
     controller.forward();
+
+    print(isadded.toString() + " " + Quizes.length.toString());
 
     if(isadded > 0) {
       Timer(Duration(milliseconds: 500), () {
@@ -85,18 +88,13 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
     _Quizes.add(
         Container(
           padding: EdgeInsets.all(20),
-          margin: EdgeInsets.only(top: 200, bottom: 200, left: 10, right: 10),
           decoration: BoxDecoration(
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.shade600,
-                offset: Offset(2, 2),
-                blurRadius: 5,
-                spreadRadius: 5
-              )
-            ]
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            image: DecorationImage(
+              image: AssetImage("./assets/branding/sn.png",),
+              alignment: Alignment.topCenter,
+            )
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,7 +112,7 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
                   SubmitAnswer(Q, O[0], A, H, abc, 1);
                 },
                 child: Container(
-                  width: MediaQuery.of(context).size.width-50,
+                  width: MediaQuery.of(context).size.width-100,
                   decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.1),
                       border: Border.all(color: Colors.grey.shade400, width: 1),
@@ -192,32 +190,43 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
     //_Quizes = <Widget>[];
     //_Quizes.add(Container(child: Center(child: Text("Quiz Over", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500,),),)));
 
+    var rnd = Random();
+    int rndm = rnd.nextInt(10);
     String ThisMonth = DateTime.now().month.toString() + DateTime.now().year.toString();
     var quizes = await FirebaseFirestore.instance.collection("GKTodayQuiz").doc(ThisMonth).collection("Questions").get();
     quizes.docs.forEach((quiz) async {
-      QuizContainer(quiz.data()["Question"].toString(), quiz.data()["Options"], quiz.data()["Answer"].toString(), quiz.data()["Hint"].toString());
-    });
+      rndm = rnd.nextInt(10);
+      if(rndm == 6 || rndm == 9 || rndm == 3) {
+        QuizContainer(
+            quiz.data()["Question"].toString(), quiz.data()["Options"],
+            quiz.data()["Answer"].toString(), quiz.data()["Hint"].toString());
+      }
+      });
     setState(() {
       Quizes = _Quizes;
     });
   }
 
-  Container LoadADWidget()
-  {
-//    TJSNInterstitialAd.LoadBannerAd2();
+  Container AdCntnr = Container();
+  Future<void> LoadADWidget()
+  async {
+    await TJSNInterstitialAd.LoadBannerAd2();
   TJSNInterstitialAd.myBanner2.load();
-    return Container(
+    AdCntnr = Container(
       child: AdWidget(
         ad: TJSNInterstitialAd.myBanner2,
       ),
       width: TJSNInterstitialAd.myBanner2.size.width.toDouble(),
       height: TJSNInterstitialAd.myBanner2.size.height.toDouble(),
     );
+    setState(() {
+
+    });
   }
 
   @override
   void initState() {
-    TJSNInterstitialAd.LoadBannerAd2();
+    LoadADWidget();
 
     controller =  AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     opacityanim = Tween<double>(begin: 1.0, end: 0.0).animate(controller);
@@ -285,7 +294,8 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: LoadADWidget()
+                child: Container(
+                    child: AdCntnr)
             )
           ],
         ),

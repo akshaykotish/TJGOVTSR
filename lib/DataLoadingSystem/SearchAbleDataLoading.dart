@@ -194,6 +194,7 @@ class SearchAbleDataLoading{
 
 
     List<String> ReversedSearchAbleCache = List.from(SearchAbleCache.reversed);
+    print(ReversedSearchAbleCache.length);
     if(searchkeywords == null)
       {
         return;
@@ -318,7 +319,14 @@ class SearchAbleDataLoading{
           }
         }
         if(i == (maxvalue -1) && SuggestionsJobs.isNotEmpty) {
-          LetsDisplayJobs(SuggestionsJobs);
+          if(JobDisplayManagement.SEARCHJOBS.length < 10) {
+            if(SuggestionsJobs.length > 10) {
+              LetsDisplayJobs(SuggestionsJobs.sublist(0, 10));
+            }
+            else{
+              LetsDisplayJobs(SuggestionsJobs);
+            }
+          }
         }
 
       }

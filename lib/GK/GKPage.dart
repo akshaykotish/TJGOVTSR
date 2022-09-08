@@ -41,9 +41,6 @@ class _GKPageState extends State<GKPage> {
             ,
       Container(
       padding: const EdgeInsets.only(left: 25, right: 25, top: 5),
-      child: Text(widget.gkTodayData.Date, style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15, ),)),
-      Container(
-      padding: const EdgeInsets.only(left: 25, right: 25, top: 5),
       child: Text(widget.gkTodayData.Content.length > 300 ? widget.gkTodayData.Content.substring(0, 300) + "..." : widget.gkTodayData.Content, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18, ),)),
           ],
         ),
