@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:governmentapp/AdFile.dart';
 import 'package:governmentapp/Animations/BrandSplashScreen.dart';
@@ -59,11 +60,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          fontFamily: 'EBGaramond',
-          primarySwatch: Colors.blue,
-        ),
         home:  WillPopScope(
             onWillPop: () {
               CurrentJob.HideJobSheetData.add("a");

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/Beauty/Home.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/Materials/MaterialData.dart';
@@ -345,16 +346,19 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                           height: 90,
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(15)),
-                            image: DecorationImage(
-                              image: AssetImage("./assets/branding/BrandingBackground.jpg"),
-                              fit: BoxFit.fill,
-                            ),
                           ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
-                                child: Text("TrackJobs".substring(0, double.parse(textAnimation.value.toString()).toInt()), style: TextStyle(fontFamily: "CAMPUS", fontSize: 25, color: ColorFromHexCode("#DBDBDB"), letterSpacing: 15),),
+                                child: Text("TrackJobs".substring(0, double.parse(textAnimation.value.toString()).toInt()), style: GoogleFonts.msMadi(
+                                  fontSize: 65,
+                                  color: Colors.brown.shade100,
+                                  fontWeight: FontWeight.bold,
+                                    shadows: [
+                                      Shadow(color: Colors.brown.shade900, offset: Offset(1, 1), blurRadius: 1),
+                                      Shadow(color: Colors.brown.shade900, offset: Offset(1, 1), blurRadius: 1),
+                                    ]),),
                               ),
                             ],
                           ),

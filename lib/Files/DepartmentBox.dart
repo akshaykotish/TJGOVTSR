@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/Files/JobBox.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/JobData.dart';
@@ -52,19 +53,20 @@ class _DepartmentBoxState extends State<DepartmentBox> {
               ],
             ),
             child: Container(
-              margin: const EdgeInsets.all(5),
+              margin: const EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 30),
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey.shade500.withOpacity(0.1), width: 1),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
-                color: Colors.amberAccent.withOpacity(0.4),
+                color: ColorFromHexCode("#383C39").withOpacity(0.8),
               ),
               child: Text(
-                widget.DepartmentName.toTitleCase(),
-                style: TextStyle(
+                  widget.DepartmentName.length > 50 ? widget.DepartmentName.substring(0, 50).toTitleCase().replaceAll("\n", "") + "..." :
+                widget.DepartmentName.toTitleCase().replaceAll("\n", ""),
+                style: GoogleFonts.yantramanav(
                   fontWeight: FontWeight.w500,
                   fontSize: 12,
-                  color: Colors.black.withOpacity(0.7),
+                  color: Colors.white.withOpacity(0.8),
                 ),
               ),
             ),

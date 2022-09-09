@@ -186,7 +186,9 @@ class _EncyclopediaResultState extends State<EncyclopediaResult> {
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.all(10),
                         child: TextField (
-
+                            onSubmitted: (e){
+                              Search();
+                            },
                           controller: textEditingController,
                           onChanged: (e){
 

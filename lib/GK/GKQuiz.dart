@@ -19,6 +19,8 @@ class GKQuiz extends StatefulWidget {
 
 class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
 
+  int correct = 0;
+  int noofques = 0;
   int index = 0;
   var Quizes = <Widget>[];
   var _Quizes = <Widget>[];
@@ -34,8 +36,6 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
   Future<void> SubmitAnswer(String Question, String UserAnswer, String Answer, String Hint, int ia, int x) async {
     controller.forward();
 
-    print(isadded.toString() + " " + Quizes.length.toString());
-
     if(isadded > 0) {
       Timer(Duration(milliseconds: 500), () {
         if(Quizes.length > 0) {
@@ -47,6 +47,14 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
     }
 
     if (!Questions.contains(Question)) {
+      if(UserAnswer == Answer)
+      {
+        correct++;
+        setState(() {
+
+        });
+      }
+
       Questions.add(Question);
       UserAnswers.add(UserAnswer);
       Answers.add(Answer);
@@ -54,6 +62,7 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
     }
 
     if (isadded <= 0) {
+      isadded--;
       print("Come here");
       await TJSNInterstitialAd.LoadAnAd();
       Navigator.push(context, PageRouteBuilder(
@@ -85,6 +94,7 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
 
   Future<void> QuizContainer(String Q, List<dynamic> O, String A, String H) async {
     isadded++;
+    noofques++;
     _Quizes.add(
         Container(
           padding: EdgeInsets.all(20),
@@ -195,8 +205,8 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
     String ThisMonth = DateTime.now().month.toString() + DateTime.now().year.toString();
     var quizes = await FirebaseFirestore.instance.collection("GKTodayQuiz").doc(ThisMonth).collection("Questions").get();
     quizes.docs.forEach((quiz) async {
-      rndm = rnd.nextInt(10);
-      if(rndm == 6 || rndm == 9 || rndm == 3) {
+      rndm = rnd.nextInt(20);
+      if(rndm == 9 &&  Quizes.length <= 10 && _Quizes.length <= 10) {
         QuizContainer(
             quiz.data()["Question"].toString(), quiz.data()["Options"],
             quiz.data()["Answer"].toString(), quiz.data()["Hint"].toString());
@@ -284,6 +294,12 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
         height: MediaQuery.of(context).size.height,
         child: Stack(
           children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              alignment: Alignment.center,
+              child: Text("Best Wishes! If you like this app, share with friends."),
+            ),
             Opacity(
               opacity: opacityanim.value,
               child: Stack(
@@ -296,7 +312,24 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
                 right: 0,
                 child: Container(
                     child: AdCntnr)
-            )
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 50,
+                child: Container(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.grey.shade200,
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Attempted: ${noofques - isadded-1}/${noofques}", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),),
+                      Text("Correct: ${correct}/${noofques}", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),),
+                    ],
+                  ),
+            ))
           ],
         ),
       ),

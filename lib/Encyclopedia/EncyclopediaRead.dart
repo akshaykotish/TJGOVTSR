@@ -137,7 +137,9 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(10),
                 child: TextField (
-
+                  onSubmitted: (e){
+                    Search();
+                  },
                   controller: textEditingController,
                   onChanged: (e){
 

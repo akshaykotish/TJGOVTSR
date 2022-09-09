@@ -27,7 +27,9 @@ class HotJobs{
       Hots.removeRange(0, Hots.length - 29);
     }
 
-    Hots.add(path);
+    if(!Hots.contains(path)) {
+      Hots.add(path);
+    }
     if(Hots.length == 1)
       {
         await FirebaseFirestore.instance.collection("Logs").doc("Hots").set({

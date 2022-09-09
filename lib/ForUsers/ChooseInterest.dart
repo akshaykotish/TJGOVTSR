@@ -313,6 +313,9 @@ class _ChooseInterestState extends State<ChooseInterest> {
                                           borderRadius:  BorderRadius.all(Radius.circular(15)),                                        ),
                                         width: MediaQuery.of(context).size.width,
                                         child: TextField (
+                                          onSubmitted: (e){
+                                            SaveSelectedInterest();
+                                          },
                                           controller: textEditingController,
                                           onChanged: (e){
                                             FindInterest(e);

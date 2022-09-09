@@ -198,6 +198,32 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
             continue;
           }
 
+
+        _ToFindDepartmentsShowWidget.add(
+          GestureDetector(
+            onTap: (){
+              SelectedDepartment.add(e.toString());
+              AddStateToSelectedState(FindLocation(e.toString()));
+
+              if(!UknownSelectedDepartment.contains(e))
+              {
+                UknownSelectedDepartment.add(e);
+              }
+
+              LoadSelectedDepartment();
+              textEditingController.text = "";
+              setState(() {
+                ShowHintBox = false;
+              });
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.all(10),
+              child: Text(e.toString()),
+            ),
+          ),
+        );
+
         if(ToFindDepartments[i].toLowerCase().contains(e.toString().toLowerCase()) && await !alreadyadded.contains(Departmentis))
           {
             isexsists = true;
@@ -226,37 +252,6 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
 
       }
 
-    _ToFindDepartmentsShowWidget.add(
-      GestureDetector(
-        onTap: (){
-          SelectedDepartment.add(e.toString());
-          AddStateToSelectedState(FindLocation(e.toString()));
-
-          if(!UknownSelectedDepartment.contains(e))
-          {
-            UknownSelectedDepartment.add(e);
-          }
-
-          LoadSelectedDepartment();
-          textEditingController.text = "";
-          setState(() {
-            ShowHintBox = false;
-          });
-        },
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          margin: const EdgeInsets.only(
-            left: 20,
-            top: 5,
-            bottom: 5,
-            right: 20,
-          ),
-          padding: EdgeInsets.all(10),
-          color: Colors.grey[200],
-          child: Text(e.toString()),
-        ),
-      ),
-    );
 
     setState(() {
       ToFindDepartmentsShowWidget = _ToFindDepartmentsShowWidget;
@@ -481,6 +476,9 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                                         borderRadius:  BorderRadius.all(Radius.circular(15)),                                        ),
                                       width: MediaQuery.of(context).size.width,
                                       child: TextField (
+                                        onSubmitted: (e){
+                                          SaveSelectedDepartments();
+                                        },
                                         controller: textEditingController,
                                         onChanged: (e){
                                           FindDepartment(e);

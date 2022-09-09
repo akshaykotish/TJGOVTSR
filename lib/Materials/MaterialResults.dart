@@ -26,8 +26,8 @@ class _MaterialResultState extends State<MaterialResult> {
     var _SearchResults = <Widget>[];
     MaterialDatas.searchmaterialDatas.forEach((MaterialData materialData) async {
 
-      if(materialData.URL != null && materialData.URL != "" && materialData.URL != "null" && await canLaunch(materialData.URL)) {
-        String Title = materialData.Name.replaceAll("à", "").replaceAll("¤", "").replaceAll("¸", "").replaceAll("", "").replaceAll("¥", "").replaceAll("", "").replaceAll("", "").replaceAll("", "").replaceAll("¤²", "");
+      if(materialData.URL != null && materialData.Name != "" && await canLaunch(materialData.URL) && !materialData.Name.contains("Forgot") && !materialData.Name.contains("ExamForo") && !materialData.Name.contains("Comments") && materialData.Name != "" && materialData.Name != " ") {
+        String Title = materialData.Name;
         
         _SearchResults.add(
             GestureDetector(
@@ -40,47 +40,37 @@ class _MaterialResultState extends State<MaterialResult> {
                   print("Can't launch ${materialData.URL}");
                 }
               },
-              child: Container(
-                margin: const EdgeInsets.only(top: 10, bottom: 10),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Colors.grey.shade500.withOpacity(0.1), width: 1),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(2, 2),
-                      blurRadius: 5,
-                      spreadRadius: 5,
-                      color: Colors.blue.shade200.withOpacity(0.1),
+              child: Row(
+                children: <Widget>[
+                  const Icon(Icons.picture_as_pdf_sharp, size: 25,),
+                  SizedBox(width: 5,),
+                  Container(
+                    width: MediaQuery.of(context).size.width - 100,
+                    margin: const EdgeInsets.only(top: 5, bottom: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.white70.withOpacity(.1),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
-
-                  ],
-                  color: Colors.white70.withOpacity(.1),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                ),
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      MaterialDatas.SearchTitle.toUpperCase(), style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 10,
-                      color: Colors.grey[600],
-                    ),),
-                    SizedBox(width: 10,),
-                    Text(Title == "" ? "My " +
-                        MaterialDatas.SearchTitle.toString() : Title, style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      color: Colors.grey[900],
-                    ),),
-                    Text("Source: ${materialData.Source}", style: TextStyle(
-                      fontWeight: FontWeight.w200,
-                      fontSize: 10,
-                      color: Colors.grey[500],
-                    ),),
-                  ],
-                ),
+                    padding: EdgeInsets.all(5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(width: 10,),
+                        Text(Title == "" ? "My " +
+                            MaterialDatas.SearchTitle.toString() : Title, style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                          color: Colors.grey[900],
+                        ),),
+                        Text("Source: ${materialData.Source}", style: TextStyle(
+                          fontWeight: FontWeight.w200,
+                          fontSize: 7,
+                          color: Colors.grey[200],
+                        ),),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             )
         );
@@ -114,6 +104,7 @@ class _MaterialResultState extends State<MaterialResult> {
 
   @override
   void initState() {
+    textEditingController.text = MaterialDatas.SearchTitle;
     LoadSearchResult();
     super.initState();
   }
@@ -160,7 +151,9 @@ class _MaterialResultState extends State<MaterialResult> {
                         padding: const EdgeInsets.all(10),
                         margin: const EdgeInsets.all(10),
                         child: TextField (
-
+                          onSubmitted: (e){
+                            Search();
+                          },
                           controller: textEditingController,
                           onChanged: (e){
 

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/HexColors.dart';
 
 
@@ -107,14 +108,14 @@ class _AnimatedFlipsState extends State<AnimatedFlips> {
                   child: Container(
                     alignment: Alignment.center,
                     child: isback == false ? Container(
-                        child: Text(strigs[index], style: TextStyle(fontFamily: "Amatic_SC", fontSize: 17, color: ColorFromHexCode("#DADADA"), fontWeight: FontWeight.bold,)))
+                        child: Text(strigs[index], style:  GoogleFonts.staatliches(fontSize: 18, color: ColorFromHexCode("#DADADA"), fontWeight: FontWeight.w400, letterSpacing: 1)))
                         :
                     Container(
                       child: Transform(
                         alignment: Alignment.center,
                           transform: Matrix4.identity()
                             ..rotateX(pi),
-                          child: Text(strigs[index+1], style: TextStyle(fontFamily: "Amatic_SC", fontSize: 17, color: ColorFromHexCode("#DADADA"), fontWeight: FontWeight.bold,),)),
+                          child: Text(strigs[index+1], style: GoogleFonts.staatliches(fontSize: 18, color: ColorFromHexCode("#DADADA"), fontWeight: FontWeight.w400, letterSpacing: 1),)),
                     ),
                   ),
                 ));

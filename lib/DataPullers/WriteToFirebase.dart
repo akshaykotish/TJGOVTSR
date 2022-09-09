@@ -101,7 +101,7 @@ class WriteToFirebase{
       String toStore = Path + ";" + jobData.Department + ";" +
           jobData.Designation + ";" + jobData.Short_Details;
 
-      await HotJobs.UpdateHotJobs(toStore);
+      HotJobs.UpdateHotJobs(toStore);
 
       (SearchAbleDataLoading.SearchAbleCache.contains(toStore) == false
           ? SearchAbleDataLoading.SearchAbleCache.add(toStore)

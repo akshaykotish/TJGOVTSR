@@ -20,6 +20,8 @@ class SearchAbleDataLoading{
   static List<String> SearchAbleDepartmentsOnlyCache = <String>[];
   static String JobIndexTimestamp = "";
 
+  static List<JobDisplayData> beforeyears = <JobDisplayData>[];
+
   static Future<void> SaveForSearching() async {
 
 
@@ -147,10 +149,18 @@ class SearchAbleDataLoading{
 
 
   static Future<void> FindAndAdd(String JobString, int count) async {
-    JobDisplayManagement.SEARCHJOBS.add(JobDisplayData(JobString, count));
-    JobDisplayManagement.ISLoading = false;
-    JobDisplayManagement.IsMoreLoading = false;
-    JobDisplayManagement.SEARCHJOBSC.add(JobDisplayManagement.SEARCHJOBS);
+    String currentyear = DateTime.now().year.toString();
+    String nextyear = (DateTime.now().year+1).toString();
+
+    if(JobString.contains(currentyear) || JobString.contains(nextyear)) {
+      JobDisplayManagement.SEARCHJOBS.add(JobDisplayData(JobString, count));
+      JobDisplayManagement.ISLoading = false;
+      JobDisplayManagement.IsMoreLoading = false;
+      JobDisplayManagement.SEARCHJOBSC.add(JobDisplayManagement.SEARCHJOBS);
+    }
+    else{
+      beforeyears.add(JobDisplayData(JobString, count));
+    }
   }
 
   static Future<void> LetsDisplayJobs(List<String> tp) async
@@ -327,6 +337,8 @@ class SearchAbleDataLoading{
               LetsDisplayJobs(SuggestionsJobs);
             }
           }
+          JobDisplayManagement.SEARCHJOBS.addAll(beforeyears);
+          JobDisplayManagement.SEARCHJOBSC.add(JobDisplayManagement.SEARCHJOBS);
         }
 
       }

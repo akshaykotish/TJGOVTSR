@@ -25,8 +25,8 @@ class _ButtonsState extends State<Buttons> {
               RequiredDataLoading.LoadLikedJobs();
             },
             child: Container(
-              width: 80,
-              height: 80,
+              width: 60,
+              height: 60,
               margin: EdgeInsets.all(5),
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -55,8 +55,8 @@ class _ButtonsState extends State<Buttons> {
                   }));
             },
             child: Container(
-              width: 80,
-              height: 80,
+              width: 60,
+              height: 60,
               margin: EdgeInsets.all(5),
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -85,8 +85,8 @@ class _ButtonsState extends State<Buttons> {
                   }));
             },
             child: Container(
-              width: 80,
-              height: 80,
+              width: 60,
+              height: 60,
               margin: EdgeInsets.all(5),
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -115,8 +115,8 @@ class _ButtonsState extends State<Buttons> {
                   }));
             },
             child: Container(
-              width: 80,
-              height: 80,
+              width: 60,
+              height: 60,
               margin: EdgeInsets.all(5),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(15)),

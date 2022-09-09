@@ -1,13 +1,16 @@
 import 'dart:core';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 import 'package:governmentapp/JobData.dart';
+import 'package:governmentapp/Notifcations.dart';
 
 class JobDisplayDatas{
   static List<JobDisplayData> jobDisplayDatas = <JobDisplayData>[];
 }
 
 
-class JobDisplayData{
+class JobDisplayData {
   String Designation = "";
   int Count = 0;
   String Department = "";
@@ -15,9 +18,33 @@ class JobDisplayData{
   String JobString = "";
   late JobData jobData;
 
-  void LoadFromSearchString(String jobString)
-  {
+  void LoadFromSearchString(String jobString) {
     JobString = jobString;
+  }
+
+  Future<void> CheckForNotifications() async {
+    var Job = await FirebaseFirestore.instance.doc(Path).get();
+    var Dates = Job.exists ? Job.data()!["Important_Dates"] as Map<String, dynamic> : null;
+
+    if(Dates != null){
+      for (var key in Dates.keys) {
+        var parts = Dates[key].toString().split("/");
+        if(parts == 3)
+          {
+            int day = int.parse(parts[0]);
+            int month = int.parse(parts[1]);
+            int year = int.parse(parts[2]);
+
+            DateTime dateTime = DateTime.now();
+
+            if(day == dateTime.day && month == dateTime.month && year == dateTime.year)
+              {
+                Notifications.notifications.add("${Designation}'s ${key}");
+              }
+          }
+      }
+    }
+
   }
 
   JobDisplayData(String jobString, [this.Count = 0])
@@ -31,13 +58,22 @@ class JobDisplayData{
       {
         Department = Parts[2].split("/")[1];
         Designation = Parts[1];
+        int l = Designation.indexOf("Online Form");
+        if(l>=0) {
+          Designation = Designation.substring(0, l);
+        }
         Path = Parts[2];
 
       }
     else{
       Department = Parts[1];
       Designation = Parts[2];
+      int l = Designation.indexOf("Online Form");
+      if(l >= 0) {
+        Designation = Designation.substring(0, l);
+      }
       Path = Parts[0];
     }
+    CheckForNotifications();
   }
 }

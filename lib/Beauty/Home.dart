@@ -198,7 +198,7 @@ class _HomeState extends State<Home> {
                           // BannerForAds(),
                           const ToolSection(),
                           Container(child: isToGoAdFree ? PaymentPage() : null),
-                          EaseButtons(),
+                          const EaseButtons(),
                           const JobBoxs(),
                           const SizedBox(height: 100,)
                         ],

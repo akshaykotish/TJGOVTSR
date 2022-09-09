@@ -1,9 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Filtration/SearchSheet.dart';
 import 'package:governmentapp/ForUsers/ChooseDepartment.dart';
+import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/User/WriteALog.dart';
 
 class SearchArea extends StatefulWidget {
@@ -78,7 +80,15 @@ catch(e){}
               margin: EdgeInsets.all(5),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(15)),
-                color: Colors.grey.shade100.withOpacity(0.1),
+                color: Colors.white.withOpacity(0.4),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.shade400,
+                    offset: Offset(2, 2),
+                    blurRadius: 2,
+                    spreadRadius: 2,
+                  )
+                ]
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,10 +128,10 @@ catch(e){}
                           Container(
                             width: 30,
                             height: 30,
-                            child: Icon(Icons.search, size: 25,),
+                            child: Icon(Icons.search, size: 25, color: ColorFromHexCode("#383C39"),),
                           ),
                           const SizedBox(width: 20,),
-                          Text("Search your job", style: TextStyle(fontSize: 16, color: Colors.black, fontWeight: FontWeight.w500, fontFamily: "EBGaramond"),),
+                          Text("Search your job", style: GoogleFonts.yantramanav(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w400,),),
                         ],
                       ),
                     ),
@@ -170,7 +180,7 @@ catch(e){}
                                 )
                               ]
                           ),
-                          child: const Icon(Icons.work, size: 25,),
+                          child: Icon(Icons.work, size: 25, color: ColorFromHexCode("#383C39"),),
                         ),
                       ),
                     ),

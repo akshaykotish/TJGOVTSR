@@ -316,6 +316,9 @@ class _ChooseStateState extends State<ChooseState> {
                                           borderRadius:  BorderRadius.all(Radius.circular(15)),                                        ),
                                         width: MediaQuery.of(context).size.width,
                                         child: TextField (
+                                            onSubmitted: (e){
+                                              SaveSelectedState();
+                                            },
                                           controller: textEditingController,
                                           onChanged: (e){
                                             FindState(e);

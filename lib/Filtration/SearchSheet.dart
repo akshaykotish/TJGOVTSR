@@ -377,13 +377,16 @@ class _SearchSheetState extends State<SearchSheet> {
                                           borderRadius:  BorderRadius.all(Radius.circular(15)),                                        ),
                                         width: MediaQuery.of(context).size.width,
                                         child: TextField (
+                                          onSubmitted: (e){
+                                            SaveSelectedSearchSheetsData();
+                                          },
                                           controller: textEditingController,
                                           onChanged: (e){
                                             FindSearchWord(e);
                                           },
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
-                                              labelText: 'navy 2022',
+                                              labelText: 'bank po, airforce, navy, clerk',
                                               labelStyle: TextStyle(
                                                 color: Colors.grey.shade500,
                                                 fontWeight: FontWeight.w500

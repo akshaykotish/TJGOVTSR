@@ -73,7 +73,9 @@ class _MaterialReadState extends State<MaterialRead> {
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(10),
                 child: TextField (
-
+                  onSubmitted: (e){
+                    Search();
+                  },
                   controller: textEditingController,
                   onChanged: (e){
 
