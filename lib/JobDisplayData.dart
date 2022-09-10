@@ -29,22 +29,23 @@ class JobDisplayData {
     if(Dates != null){
       for (var key in Dates.keys) {
         var parts = Dates[key].toString().split("/");
-        if(parts == 3)
+
+        if(parts.length == 3)
+        {
+          int day = int.parse(parts[0]);
+          int month = int.parse(parts[1]);
+          int year = int.parse(parts[2]);
+
+          DateTime dateTime = DateTime.now();
+
+          if(day == dateTime.day && month == dateTime.month && year == dateTime.year)
           {
-            int day = int.parse(parts[0]);
-            int month = int.parse(parts[1]);
-            int year = int.parse(parts[2]);
-
-            DateTime dateTime = DateTime.now();
-
-            if(day == dateTime.day && month == dateTime.month && year == dateTime.year)
-              {
-                Notifications.notifications.add("${Designation}'s ${key}");
-              }
+            Notifications.notifications.add("${Designation}'s ${key}");
+            Notifications.NOTIFJOBSC.add(Notifications.notifications);
           }
+        }
       }
     }
-
   }
 
   JobDisplayData(String jobString, [this.Count = 0])

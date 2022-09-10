@@ -298,7 +298,12 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               alignment: Alignment.center,
-              child: Text("Best Wishes! If you like this app, share with friends."),
+              child: Text("Best Wishes! If you like this app, share with friends.",
+              style: TextStyle(
+                color: Colors.grey.shade300,
+                fontWeight: FontWeight.bold,
+              ),
+              ),
             ),
             Opacity(
               opacity: opacityanim.value,

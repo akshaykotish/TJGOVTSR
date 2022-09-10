@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:governmentapp/Beauty/Home.dart';
+import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/ForUsers/ChooseInterest.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/User/WriteALog.dart';
@@ -221,6 +222,7 @@ class _ChooseStateState extends State<ChooseState> {
 
 
     WriteALog.Write("New Location", SelectedState.toString(), DateTime.now().toString());
+    RequiredDataLoading.Execute();
 
     Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 300),

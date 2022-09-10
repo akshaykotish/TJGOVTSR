@@ -155,7 +155,7 @@ class RequiredDataLoading{
           .doc("Hots")
           .get();
       if (Hots.exists) {
-        var HotJobs = Hots.data()!["Hots"] as List<dynamic>;
+        var HotJobs = (Hots.data()!["Hots"] as List<dynamic>).reversed;
         for (var value in HotJobs) {
           String JobString = value.toString();
           JobDisplayManagement.HOTJOBS.add(JobDisplayData(JobString, 50));
@@ -169,19 +169,29 @@ class RequiredDataLoading{
     }
   }
 
-  static void LoadLovedCache(){
+  static Future<void> LoadLikedNotifications() async {
 
-  }
+    if (Indexs.isNotEmpty) {
+      for (var element in Indexs) {
+        for(int i=0; i < LovedJobs.length; i++)
+        {
+          if(element.toString().contains(LovedJobs[i]))
+          {
+            var jobData = JobData();
+            jobData = await RequiredDataLoading.LoadJobFromPath(LovedJobs[i], jobData);
+            await jobData.CheckForNotifications();
 
-
-  static void LoadLovedJobs(){
-
+          }
+        }
+      }
+    }
   }
 
 
   static Future<void> Execute() async {
     await LoadIndexs();
     await init();
+    await LoadLikedNotifications();
 
     if(UserDepartments.isNotEmpty)
       {

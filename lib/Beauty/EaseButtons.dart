@@ -56,11 +56,11 @@ class _EaseButtonsState extends State<EaseButtons> with TickerProviderStateMixin
           height: 40,
           padding: const EdgeInsets.only(left: 20, top: 10),
           child: Text(
-            JobDisplayManagement.WhichShowing <= 1 ? "Trending Jobs: ${JobDisplayManagement.HOTJOBS.length}" :
-            JobDisplayManagement.WhichShowing <= 2 ? "Chosen Jobs: ${JobDisplayManagement.CHOOSEJOBS.length}" :
-            JobDisplayManagement.WhichShowing <= 3 ? "Searched Results: ${JobDisplayManagement.SEARCHJOBS.length}" :
-            JobDisplayManagement.WhichShowing <= 4 ? "Favourite Jobs: ${JobDisplayManagement.FAVJOBS.length}" :
-            "No Result Found",
+            JobDisplayManagement.WhichShowing == 1 ? "Trending Jobs: ${JobDisplayManagement.HOTJOBS.length}" :
+            JobDisplayManagement.WhichShowing == 2 ? "Chosen Jobs: ${JobDisplayManagement.CHOOSEJOBS.length}" :
+            JobDisplayManagement.WhichShowing == 3 ? "Searched Results: ${JobDisplayManagement.SEARCHJOBS.length}" :
+            JobDisplayManagement.WhichShowing == 4 ? "Favourite Jobs: ${JobDisplayManagement.FAVJOBS.length}" :
+            "",
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 15,
@@ -92,14 +92,21 @@ class _EaseButtonsState extends State<EaseButtons> with TickerProviderStateMixin
                   Positioned(
                     right: 50,
                     child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.deepOrange.withOpacity(0.8),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                        boxShadow: [
+                          BoxShadow(color: Colors.grey.shade400, offset: Offset(1,1), spreadRadius: 2, blurRadius: 2,)
+                        ]
+                      ),
                       width: 80,
                       padding: EdgeInsets.all(8),
                       child: Text(Showis,
                       textAlign: TextAlign.center
-                      , style: TextStyle(
+                      , style: const TextStyle(
                           fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.grey[700],
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -112,7 +119,7 @@ class _EaseButtonsState extends State<EaseButtons> with TickerProviderStateMixin
                     height: 30,
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1),
+                        border: Border.all(color: Colors.deepOrange.withOpacity(0.8), width: 3),
                         boxShadow: [
                           BoxShadow(
                             offset: Offset(2, 2),
@@ -122,7 +129,7 @@ class _EaseButtonsState extends State<EaseButtons> with TickerProviderStateMixin
                           )
                         ]
                     ),
-                    child: animation.value < 80 ? Icon(Icons.work, size: 15,) :
+                    child: animation.value < 80 ? Icon(Icons.work, size: 15, color: Colors.grey.shade800,) :
                     SizedBox(
                       width: 15,
                       height: 15,

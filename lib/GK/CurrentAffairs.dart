@@ -125,15 +125,13 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
                             padding: EdgeInsets.all(15),
                             color: Colors.grey[900],
                             width: MediaQuery.of(context).size.width,
-                            child: Text("Give a Quiz on Current Affairs.", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300, color: Colors.white), textAlign: TextAlign.center,),
+                            child: const Text("Give a Quiz on Current Affairs.", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white), textAlign: TextAlign.center,),
                           ),
                           onTap: (){
                             Navigator.push(context, PageRouteBuilder(
                                 transitionDuration: const Duration(milliseconds: 300),
                                 transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
-
                                   animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);
-
                                   return ScaleTransition(
                                     scale: animation,
                                     alignment: Alignment.center,

@@ -7,6 +7,8 @@ import 'package:governmentapp/DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Files/DepartmentBox.dart';
 import 'package:governmentapp/Files/JobBox.dart';
+import 'package:governmentapp/ForUsers/ChooseDepartment.dart';
+import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/JobDisplayData.dart';
 
 import '../JobDisplayData.dart';
@@ -36,7 +38,64 @@ class _JobBoxsState extends State<JobBoxs> {
           print("Ended");
           if(AllDepartments.length <= 1)
             {
-              _AllDepartments.add(Text("Empty"));
+              _AllDepartments.clear();
+              _AllDepartments.add(Center(child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(height: 20,),
+                  Text("Required Results Not Available.",
+                  style: TextStyle(fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                    color: Colors.grey.shade700
+                  ),),
+                  SizedBox(height: 10,),
+                  Text("Click the icon below to find some more jobs.",
+                    style: TextStyle(fontWeight: FontWeight.w200,
+                      fontSize: 12,
+                      color: Colors.grey.shade400
+                  ),),
+                  SizedBox(height: 5,),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, PageRouteBuilder(
+                          transitionDuration: const Duration(milliseconds: 300),
+                          transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
+                            const begin = Offset(1, 0.0);
+                            const end = Offset.zero;
+                            const curve = Curves.ease;
+
+                            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+                            return SlideTransition(
+                              position: animation.drive(tween),
+                              child: child,
+                            );
+                          },
+                          pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation){
+                            return const ChooseDepartment();
+                          }));
+                    },
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.grey.shade400.withOpacity(0.5),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.grey.withOpacity(0.2), width: 1),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(2, 2),
+                              color: Colors.grey.shade400.withOpacity(0.2),
+                              blurRadius: 3,
+                              spreadRadius: 4,
+                            )
+                          ]
+                      ),
+                      child: Icon(Icons.work, size: 25, color: ColorFromHexCode("#383C39"),),
+                    ),
+                  ),
+                ],
+              )));
               setState(() {
                 AllDepartments = _AllDepartments;
               });
@@ -111,7 +170,7 @@ class _JobBoxsState extends State<JobBoxs> {
     };
 
     CurrentJob.lovedjobDataStreamToCall = () async {
-      RequiredDataLoading.LoadLovedJobs();
+      RequiredDataLoading.LoadLikedJobs();
     };
   }
 

@@ -87,7 +87,7 @@ class Syllabus{
     }
 
     int l = 0;
-    for(int i=(NetDataSize - LastSavedSizes) - 1; i>0 /*&& l < 10*/; i--)
+    for(int i=(NetDataSize - LastSavedSizes) - 1; i>=0 /*&& l < 10*/; i--)
     {
       String link = Links[i].attributes["href"].toString();
 

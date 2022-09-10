@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/Beauty/Buttons.dart';
 import 'package:governmentapp/Files/AnimatedFlips.dart';
+import 'package:governmentapp/Files/JobBox.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/Notifcations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Branding extends StatefulWidget {
@@ -39,12 +41,16 @@ class _BrandingState extends State<Branding> with
   bool notifshow = false;
   String notiftext = "";
 
+  bool andmore = true;
 
   @override
   void initState() {
 
     Notifications.NOTIFJOBSF = (notifs){
-
+      if(andmore == false) {
+        andmore = true;
+        notifscontroller.forward();
+      }
     };
     // TODO: implement initState
     super.initState();
@@ -62,8 +68,8 @@ class _BrandingState extends State<Branding> with
     loadflipsAnimation = Tween<double>(begin: 150, end: 70.0).animate(loadflipscontroller);
     loadflipcolorAnimation = ColorTween(begin: ColorFromHexCode("#383C39").withOpacity(1), end: ColorFromHexCode("#383C39").withOpacity(0.1)).animate(loadflipscontroller);
 
-    notifscontroller =  AnimationController(vsync: this, duration: Duration(seconds: 1));
-    notifsAnimation = Tween<double>(begin: 150, end: 190.0).animate(notifscontroller);
+    notifscontroller =  AnimationController(vsync: this, duration: Duration(milliseconds: 800));
+    notifsAnimation = Tween<double>(begin: 150, end: 240.0).animate(notifscontroller);
 
     controller.addListener(() {
       setState(() {
@@ -108,7 +114,11 @@ class _BrandingState extends State<Branding> with
       if(status == AnimationStatus.completed)
         {
           if(Notifications.notifications.length != 0) {
-            Timer(Duration(seconds: 10), () {
+            setState(() {
+              ijk = true;
+            });
+            Timer(Duration(seconds: 6), () {
+              notifshow = false;
               notifscontroller.forward();
             });
           }
@@ -122,21 +132,77 @@ class _BrandingState extends State<Branding> with
     });
 
     notifscontroller.addStatusListener((status) {
-      if(status == AnimationStatus.completed)
+      if(status == AnimationStatus.reverse){
+        print("ADI");
+        if(notifshow)
         {
-          if(notifshow)
-            {
-              notifshow = false;
-              Timer(Duration(seconds: 10), ()=>notifscontroller.reverse());
-            }
-          else{
+          print("AFJNF");
+          notiftext = "";
+          notifshow = false;
+
+          if(Notifications.notifcs < Notifications.notifications.length) {
+            Timer(Duration(seconds: 6), () {
+              notifscontroller.forward();
+            });
+          }
+        }
+        else{
+          andmore = false;
+        }
+      }
+      if(status == AnimationStatus.completed || status == AnimationStatus.forward)
+        {
+          if(!notifshow) {
             notifshow = true;
             notiftext = Notifications.notifications[Notifications.notifcs];
+            setState(() {});
             Notifications.notifcs++;
-            Timer(Duration(seconds: 10), ()=>notifscontroller.reverse());
+            if(Notifications.notifcs <= Notifications.notifications.length) {
+              Timer(Duration(seconds: 6), () {
+                notiftext = "";
+                setState(() {});
+                notifscontroller.reverse();
+              });
+            }
+          }
+          else{
+            andmore = false;
           }
         }
     });
+
+    HelloMessage();
+  }
+
+  Future<void> HelloMessage() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? Contact = prefs.getString("LoginContact");
+    String? Name = prefs.getString("LoginName");
+
+    if(Name != null && Name != "") {
+      Notifications.notifications.add("Hello ${Name}");
+      Notifications.NOTIFJOBSC.add(Notifications.notifications);
+
+      Notifications.notifications.add("${Name}, Hope you are doing well?");
+      Notifications.NOTIFJOBSC.add(Notifications.notifications);
+    }
+    else{
+      Notifications.notifications.add("Hello ${Contact}");
+      Notifications.NOTIFJOBSC.add(Notifications.notifications);
+
+      Notifications.notifications.add("${Name}, Hope you are doing well.");
+      Notifications.NOTIFJOBSC.add(Notifications.notifications);
+    }
+  }
+
+  @override
+  void dispose() {
+    notifscontroller.dispose();
+    controller.dispose();
+    removetextcontroller.dispose();
+    loadflipscontroller.dispose();
+    notifscontroller.dispose();
+    super.dispose();
   }
 
   @override
@@ -183,8 +249,38 @@ class _BrandingState extends State<Branding> with
                         duration: Duration(milliseconds: 600),
                         opacity: efg ? 1 : 0,
                         child: Buttons()) : Container(),
-                    notifshow ? Container(
-                      child: Text(notiftext),
+                    notifshow ? AnimatedOpacity(
+                      opacity: notifshow ? 1 : 0,
+                      duration: Duration(milliseconds: 600),
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              width: 15,
+                              height: 15,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("./assets/branding/smile.png")
+                                )
+                              ),
+                            ),
+                            SizedBox(height: 5,),
+                            Container(
+                              width: MediaQuery.of(context).size.width - 50,
+                              alignment: Alignment.center,
+                              child: Text(notiftext.toTitleCase(),
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.hindSiliguri(
+                                fontSize: notiftext.length < 50 ? 16 : 10,
+                                color: ColorFromHexCode("#FFBB00"),
+                                fontWeight: FontWeight.w700
+                              ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ) : Container(),
                   ],
                 )) : Container()),

@@ -101,9 +101,7 @@ class _ButtonsState extends State<Buttons> {
               Navigator.push(context, PageRouteBuilder(
                   transitionDuration: const Duration(milliseconds: 300),
                   transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
-
                     animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);
-
                     return ScaleTransition(
                       scale: animation,
                       alignment: Alignment.center,

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
+import 'package:governmentapp/Notifcations.dart';
 import 'package:governmentapp/VacancyDetails.dart';
 
 class JobData {
@@ -296,6 +297,33 @@ class JobData {
           print("Error: $e");
         }
       }
+
+  }
+
+
+  Future<void> CheckForNotifications() async {
+    var Dates = Important_Dates;
+
+    if(Dates != null){
+      for (var key in Dates.keys) {
+        var parts = Dates[key].toString().split("/");
+
+        if(parts.length == 3)
+        {
+          int day = int.parse(parts[0]);
+          int month = int.parse(parts[1]);
+          int year = int.parse(parts[2]);
+
+          DateTime dateTime = DateTime.now();
+
+          if(day == dateTime.day && month == dateTime.month && year == dateTime.year)
+          {
+            Notifications.notifications.add("${Designation}'s ${key}");
+            Notifications.NOTIFJOBSC.add(Notifications.notifications);
+          }
+        }
+      }
+    }
 
   }
 

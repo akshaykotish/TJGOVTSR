@@ -217,6 +217,19 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
     super.initState();
   }
 
+  @override
+  void dispose() {
+    try {
+      controller.dispose();
+      opacitycontroller.dispose();
+      textcontroller.dispose();
+      bttcontroller.dispose();
+      bbcontroller.dispose();
+      attsycontroller.dispose();
+    }
+    catch(e){print(e);}
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -343,7 +356,7 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                         child: Container(
                           padding: EdgeInsets.all(10),
                           width: MediaQuery.of(context).size.width - 20,
-                          height: 90,
+                          height: 120,
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(15)),
                           ),

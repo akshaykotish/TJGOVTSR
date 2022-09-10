@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -131,22 +132,26 @@ class _PaymentPageState extends State<PaymentPage> {
       onTap: (){
         RazorPay();
       },
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.only(top: 15, bottom: 5),
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.7),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(Header,
-              style: TextStyle(fontFamily: "CAMPUS", fontSize: 20, color: Colors.white, fontWeight: FontWeight.w400),
-            ),
-          ],
+      child: Visibility(
+        visible: Header == "" ? false : true,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          margin: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.7),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                Header,
+                style: GoogleFonts.poppins(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
         ),
       ),
     );

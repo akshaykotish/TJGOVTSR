@@ -118,6 +118,9 @@ catch(e){}
                               return SearchSheet();
                             }));
                         print("ToSearches: " + ToSearches.toString());
+                        setState(() {
+
+                        });
                         WriteALog.Write("Search Run", ToSearches.toString(), DateTime.now().toString());
                         CurrentJob.CurrentSearchData.add(ToSearches);
                       },
