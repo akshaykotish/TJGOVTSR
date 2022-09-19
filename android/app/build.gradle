@@ -94,5 +94,6 @@ dependencies {
         exclude module: "play-services-safetynet"
     }
     implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.google.firebase:firebase-appcheck-safetynet:16.0.1'
 
 }

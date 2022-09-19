@@ -174,10 +174,39 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
 
   Future<void> FindDepartment(e) async {
 
+
+
     print("E" + e.toString()
     );
     var _ToFindDepartmentsShowWidget = <Widget>[];
     var alreadyadded = <String>[];
+
+
+    _ToFindDepartmentsShowWidget.add(
+      GestureDetector(
+        onTap: (){
+          SelectedDepartment.add(e.toString());
+          AddStateToSelectedState(FindLocation(e.toString()));
+
+          if(!UknownSelectedDepartment.contains(e))
+          {
+            UknownSelectedDepartment.add(e);
+          }
+
+          LoadSelectedDepartment();
+          textEditingController.text = "";
+          setState(() {
+            ShowHintBox = false;
+          });
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.all(10),
+          child: Text(e.toString()),
+        ),
+      ),
+    );
+
 
     bool isexsists = false;
     for(int i=0; i<ToFindDepartments.length && _ToFindDepartmentsShowWidget.length < 10; i++)
@@ -197,32 +226,6 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
           {
             continue;
           }
-
-
-        _ToFindDepartmentsShowWidget.add(
-          GestureDetector(
-            onTap: (){
-              SelectedDepartment.add(e.toString());
-              AddStateToSelectedState(FindLocation(e.toString()));
-
-              if(!UknownSelectedDepartment.contains(e))
-              {
-                UknownSelectedDepartment.add(e);
-              }
-
-              LoadSelectedDepartment();
-              textEditingController.text = "";
-              setState(() {
-                ShowHintBox = false;
-              });
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(10),
-              child: Text(e.toString()),
-            ),
-          ),
-        );
 
         if(ToFindDepartments[i].toLowerCase().contains(e.toString().toLowerCase()) && await !alreadyadded.contains(Departmentis))
           {

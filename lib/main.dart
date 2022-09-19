@@ -12,6 +12,7 @@ import 'package:governmentapp/DataLoadingSystem/FilterIndex.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/DataPullers/GKPullers.dart';
+import 'package:governmentapp/DataPullers/MakeIndexAgain.dart';
 import 'package:governmentapp/DataPullers/MaterialsPusher.dart';
 import 'package:governmentapp/DataPullers/ScrapperController.dart';
 import 'package:governmentapp/Encyclopedia/EncyclopediaRead.dart';
@@ -48,6 +49,7 @@ Future<void> main() async {
 
   runApp(MyApp());
 
+  //MakeIndexAgain.Execute();
   //FilterIndexes.RemoveOlds();
   RequiredLoads();
 }

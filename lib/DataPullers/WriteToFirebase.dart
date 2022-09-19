@@ -103,11 +103,13 @@ class WriteToFirebase{
 
       HotJobs.UpdateHotJobs(toStore);
 
+      print("SAVING TO INDEX BEFORE ${jobData.Title} ${jobData.Designation} ${SearchAbleDataLoading.SearchAbleCache.length}");
       (SearchAbleDataLoading.SearchAbleCache.contains(toStore) == false
           ? SearchAbleDataLoading.SearchAbleCache.add(toStore)
           : null);
-      await SearchAbleDataLoading.Fire();
+      print("SAVING TO INDEX AFTER ${jobData.Title} ${jobData.Designation} ${SearchAbleDataLoading.SearchAbleCache.length}");
       await SearchAbleDataLoading.JobIndexSaveToFirebase();
+      await SearchAbleDataLoading.Fire();
       print("New Job Added ${jobData.Key} and Length = " + SearchAbleDataLoading.SearchAbleCache.length.toString());
     }
     catch(e){

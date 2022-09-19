@@ -66,6 +66,7 @@ class SearchAbleDataLoading{
 
   static Future<void> JobIndexSaveToFirebase() async {
     if(SearchAbleCache.length != 0) {
+      print("Writing to Firebase");
       await FirebaseFirestore.instance.collection("Indexs").doc("Jobs").set({
         "SearchAbleCache": SearchAbleCache,
         "TimeStamp": DateTime.now().toString(),

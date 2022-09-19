@@ -34,7 +34,7 @@ class JobDisplayData {
         {
           int day = int.parse(parts[0]);
           int month = int.parse(parts[1]);
-          int year = int.parse(parts[2]);
+          int year = int.parse(parts[2].substring(0, 4));
 
           DateTime dateTime = DateTime.now();
 

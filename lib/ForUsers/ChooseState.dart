@@ -126,6 +126,23 @@ class _ChooseStateState extends State<ChooseState> {
   void FindState(e){
     var _ToFindStatesShowWidget = <Widget>[];
 
+    _ToFindStatesShowWidget.add(
+      GestureDetector(
+        onTap: (){
+          SelectedState.add(e.toString());
+          LoadSelectedState();
+          textEditingController.text = "";
+          setState(() {
+            ShowHintBox = false;
+          });
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.all(10),
+          child: Text(e.toString()),
+        ),
+      ),
+    );
     for(int i=0; i<ToFindStates.length; i++)
     {
       if(ToFindStates[i].toLowerCase().contains(e.toString().toLowerCase()))
@@ -156,23 +173,6 @@ class _ChooseStateState extends State<ChooseState> {
         );
       }
     }
-    _ToFindStatesShowWidget.add(
-      GestureDetector(
-        onTap: (){
-          SelectedState.add(e.toString());
-          LoadSelectedState();
-          textEditingController.text = "";
-          setState(() {
-            ShowHintBox = false;
-          });
-        },
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.all(10),
-          child: Text(e.toString()),
-        ),
-      ),
-    );
 
     setState(() {
       ToFindStatesShowWidget = _ToFindStatesShowWidget;
