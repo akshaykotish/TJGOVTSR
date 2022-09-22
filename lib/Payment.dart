@@ -78,7 +78,7 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    print("Payment Failded:- " + response.toString());
+    print("Payment Failed:- " + response.toString());
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -99,7 +99,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
     if(Contact != null && Contact != "") {
       var options = {
-        'key': 'rzp_test_4Fc9bi9Pxineed',
+        'key': 'rzp_live_h6o6VAlRxuQK16',
         'amount': Payment,
         'name': 'Akshay Lakshay Kotish Private Limited',
         'description': 'TJ Sarkari Naukri Ad Free Subscription.',

@@ -119,11 +119,6 @@ class _LoginAreaState extends State<LoginArea> {
         },
         );
       }
-    else{
-      setState(() {
-        otptxt = "Invalid Contact.";
-      });
-    }
   }
 
   Position position = Position(longitude: 0, latitude: 0, timestamp: DateTime.now(), accuracy: 1, altitude: 1, heading: 1, speed: 1, speedAccuracy: 1);
@@ -159,7 +154,6 @@ class _LoginAreaState extends State<LoginArea> {
     prefs.setString("LoginContact", res.user!.phoneNumber.toString());
     prefs.setString("LoginName", fullname.text);
     prefs.setString("AdsEnable", "TRUE");
-    print("Ads enabled");
 
     var User = await FirebaseFirestore.instance.collection("Users").doc(
         res.user!.phoneNumber.toString()).get();
@@ -255,21 +249,31 @@ class _LoginAreaState extends State<LoginArea> {
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
             alignment: Alignment.centerLeft,
-            margin: EdgeInsets.all(30),
-            padding: EdgeInsets.all(20),
+            margin: EdgeInsets.all(40),
+            padding: EdgeInsets.all(30),
             decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.3),
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              color: Colors.white.withOpacity(0.8),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(2, 2),
+                  blurRadius: 4,
+                  spreadRadius: 1,
+                  color: Colors.grey.shade400,
+                )
+              ]
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Text("Login", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),),
-                const SizedBox(height: 10,),
-                Text("${otptxt}", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.red),),
+                Text("Join TJ's", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: Colors.grey.shade800,),),
+                Text("Sarkari Naukri", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 30, color: Colors.grey.shade800,),),
+                Text("No worry, Your privacy is out top most priority.", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 10, color: Colors.grey.shade800,),),
+                const SizedBox(height: 15,),
+                Text("${otptxt}", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black),),
                 const SizedBox(height: 20,),
-                const Text("Full Name"),
+//                const Text("Full Name"),
                 Container(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   margin: EdgeInsets.only(top: 10,),
@@ -299,7 +303,7 @@ class _LoginAreaState extends State<LoginArea> {
                   ),
                 ),
                 SizedBox(height: 20,),
-                const Text("Contact"),
+//                const Text("Contact"),
                 Container(
                   padding: EdgeInsets.only(left: 10, right: 10),
                   margin: EdgeInsets.only(top: 10,),

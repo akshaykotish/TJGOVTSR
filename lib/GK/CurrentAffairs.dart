@@ -70,14 +70,15 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
 
   Container LoadADWidget()
   {
-//    TJSNInterstitialAd.LoadBannerAd2();
+    TJSNInterstitialAd.LoadBannerAd();
     TJSNInterstitialAd.myBanner.load();
     return Container(
+      color: Colors.white,
       child: AdWidget(
         ad: TJSNInterstitialAd.myBanner,
       ),
-      width: TJSNInterstitialAd.myBanner.size.width.toDouble(),
-      height: TJSNInterstitialAd.myBanner.size.height.toDouble(),
+      width: 300,
+      height: 100,
     );
   }
 
@@ -115,7 +116,7 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  height: 110,
+                  height: 150,
                   child: Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -144,7 +145,9 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
                           },
                         ),
                         Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: 320,
+                            height: 50,
+                            color: Colors.white,
                             child: LoadADWidget()),
                       ],
                     ),

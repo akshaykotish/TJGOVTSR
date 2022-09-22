@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:governmentapp/AdFile.dart';
 import 'package:governmentapp/Encyclopedia/EncyclopediaResults.dart';
 import 'package:governmentapp/Encyclopedia/EncylopediaData.dart';
 import 'package:html/parser.dart';
@@ -104,6 +106,27 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
     print("Name = ${aName} and URL = ${aURL} and Details = ${Details}");
   }
 
+  Container LoadADWidget()
+  {
+    TJSNInterstitialAd.LoadEncyclopedia();
+    TJSNInterstitialAd.myBanner.load();
+    return Container(
+      color: Colors.white,
+      child: AdWidget(
+        ad: TJSNInterstitialAd.Encyclopedia,
+      ),
+      width: 320,
+      height: 100,
+    );
+  }
+
+
+  @override
+  void initState() {
+    TJSNInterstitialAd.LoadEncyclopedia();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -174,6 +197,15 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
                 padding: const EdgeInsets.all(20),
                 child: isloading ? CircularProgressIndicator() : null,
               ),
+              Container(
+                height: 50,
+                width: 50,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(20),
+                child: isloading ? CircularProgressIndicator() : null,
+              ),
+              Container(
+                  child: LoadADWidget())
             ],
           ),
         ),

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:governmentapp/AdFile.dart';
 import 'package:governmentapp/DataPullers/MaterialsPusher.dart';
 import 'package:governmentapp/Materials/MaterialResults.dart';
 import 'package:governmentapp/Materials/MaterialData.dart';
@@ -34,8 +36,25 @@ class _MaterialReadState extends State<MaterialRead> {
     });
   }
 
+
+  Container LoadADWidget()
+  {
+    TJSNInterstitialAd.LoadEncyclopedia();
+    TJSNInterstitialAd.myBanner.load();
+    return Container(
+      color: Colors.white,
+      child: AdWidget(
+        ad: TJSNInterstitialAd.Encyclopedia,
+      ),
+      width: 320,
+      height: 100,
+    );
+  }
+
+
   @override
   void initState() {
+    TJSNInterstitialAd.LoadMaterial();
     MaterialPusher.Execute();
     super.initState();
   }
@@ -128,6 +147,8 @@ class _MaterialReadState extends State<MaterialRead> {
                 padding: const EdgeInsets.all(20),
                 child: isloading ? CircularProgressIndicator() : null,
               ),
+              Container(
+                  child: LoadADWidget())
             ],
           ),
         ),

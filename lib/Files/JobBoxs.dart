@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:governmentapp/AdFile.dart';
 import 'package:governmentapp/Beauty/ShowSkeleton.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
@@ -10,7 +11,8 @@ import 'package:governmentapp/Files/JobBox.dart';
 import 'package:governmentapp/ForUsers/ChooseDepartment.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/JobDisplayData.dart';
-
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../JobDisplayData.dart';
 
 
@@ -24,10 +26,17 @@ class JobBoxs extends StatefulWidget {
 
 class _JobBoxsState extends State<JobBoxs> {
 
+  late AdWidget adWidget1;
+  late AdWidget adWidget2;
+  late AdWidget adWidget3;
+
   Map<String, List<JobBox>> _ToShowJobs = Map<String, List<JobBox>>();
   var AllDepartments = <Widget>[];
 
-  void Display(List<JobDisplayData> jobs){
+  int counts = 0;
+  Future<void> Display(List<JobDisplayData> jobs) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? AdsEnable = prefs.getString("AdsEnable");
     var _AllDepartments = <Widget>[];
     _AllDepartments.clear();
     AllDepartments.clear();
@@ -102,8 +111,8 @@ class _JobBoxsState extends State<JobBoxs> {
             }
         });
       }
-    else{
-      if(JobDisplayManagement.IsMoreLoading == true) {
+    else {
+      if (JobDisplayManagement.IsMoreLoading == true) {
         _AllDepartments.add(ShowSkeleton());
       }
       _ToShowJobs.clear();
@@ -115,12 +124,35 @@ class _JobBoxsState extends State<JobBoxs> {
         _ToShowJobs[job.Department]!.add(
             JobBox(isClicked: false, jobDisplayData: job));
       }
-      _ToShowJobs.forEach((key, value) {
-        _AllDepartments.add(DepartmentBox(DepartmentName: key, jobboxes: value));
-        setState(() {
-          AllDepartments = _AllDepartments;
-        });
 
+      counts = 0;
+      _ToShowJobs.forEach((key, value) async {
+        if (counts == 3 || counts == 6 || counts == 9)  {
+          if(AdsEnable == "TRUE") {
+            _AllDepartments.add(
+                Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(width: 2, color: Colors.white),
+                  ),
+                  child: counts == 3 ? adWidget1 :
+                      counts == 6 ? adWidget2 :
+                      adWidget3,
+                  width: 300,
+                  height: 250,
+                )
+            );
+          }
+        }
+        else{
+          _AllDepartments.add(
+              DepartmentBox(DepartmentName: key, jobboxes: value));
+          setState(() {
+            AllDepartments = _AllDepartments;
+          });
+        }
+        counts++;
       });
     }
 
@@ -129,8 +161,29 @@ class _JobBoxsState extends State<JobBoxs> {
     });
   }
 
+  Future<void> LoadAds() async {
+    await TJSNInterstitialAd.LoadJobBoxs1();
+    TJSNInterstitialAd.JobBoxs1.load();
+    adWidget1 = AdWidget(
+        ad: TJSNInterstitialAd.JobBoxs1
+    );
+
+    await TJSNInterstitialAd.LoadJobBoxs2();
+    TJSNInterstitialAd.JobBoxs2.load();
+    adWidget2 = AdWidget(
+        ad: TJSNInterstitialAd.JobBoxs2
+    );
+
+    await TJSNInterstitialAd.LoadJobBoxs3();
+    TJSNInterstitialAd.JobBoxs3.load();
+    adWidget3 = AdWidget(
+        ad: TJSNInterstitialAd.JobBoxs3
+    );
+  }
+
   void InitFunctions()
   {
+    LoadAds();
     JobDisplayManagement.HOTJOBSF = (List<JobDisplayData> list){
       if(JobDisplayManagement.WhichShowing == 1)
         {

@@ -86,9 +86,9 @@ class _JobBoxState extends State<JobBox> with TickerProviderStateMixin {
             image: DecorationImage(
               image: AssetImage("./assets/icons/hot.png"),
             )
-          ),)  : Icon(Icons.search, color: Colors.grey[400], size: 12,),
+          ),)  : Icon(Icons.search, color: Colors.grey[400], size: 5,),
       Text(widget.jobDisplayData.Count == 50 ? " Trending Job" : widget.jobDisplayData.Count == 78 ? "Favourite" : widget.jobDisplayData.Count >= 3 ? "Result" : "Suggestion",
-        style: GoogleFonts.yantramanav(fontSize: 13, fontWeight: FontWeight.w500, color: Colors.grey[600]),),
+        style: GoogleFonts.yantramanav(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.grey[600]),),
     ],
     ));
   }
@@ -136,12 +136,12 @@ class _JobBoxState extends State<JobBox> with TickerProviderStateMixin {
           padding: EdgeInsets.all(15),
           margin: EdgeInsets.only(left: 20, top: 5, bottom: 5, right: 0),
           decoration: BoxDecoration(
-            color: ColorFromHexCode("#383C39").withOpacity(0.1),
+            color: Colors.white.withOpacity(0.3),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(10),
               bottomLeft: Radius.circular(10),
             ),
-            border: Border.all(color: ColorFromHexCode("#383C39").withOpacity(0.0), width: 1),
+            border: Border.all(color: Colors.white.withOpacity(0.5), width: 4),
           ),
           alignment: Alignment.center,
           child: Column(
@@ -156,7 +156,7 @@ class _JobBoxState extends State<JobBox> with TickerProviderStateMixin {
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Center(child: Text(widget.jobDisplayData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").length > 4 ? widget.jobDisplayData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").substring(0, 4) : widget.jobDisplayData.Department.toShortForm().replaceAll("(", "").replaceAll(")", ""),
-                        style: GoogleFonts.yantramanav(fontSize: 14, color: Colors.grey[700], fontWeight: FontWeight.w700),))),
+                        style: GoogleFonts.yantramanav(fontSize: 10, color: Colors.grey[700], fontWeight: FontWeight.w700),))),
                   const SizedBox(width: 10,),
                   GetJobType(),
                 ],
@@ -168,10 +168,11 @@ class _JobBoxState extends State<JobBox> with TickerProviderStateMixin {
                 children: <Widget>[
                   Container(
                     width: MediaQuery.of(context).size.width - 50,
+                    height: 40,
                     child: Text(widget.jobDisplayData.Designation.length > 118 ? widget.jobDisplayData.Designation.substring(0, 118).replaceAll("Online", "").replaceAll("Form", "") + "..." : widget.jobDisplayData.Designation.replaceAll("Online", "").replaceAll("Form", ""),
                       style: GoogleFonts.yantramanav(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
                       color: Colors.grey[800],
                     ),),
                   ),

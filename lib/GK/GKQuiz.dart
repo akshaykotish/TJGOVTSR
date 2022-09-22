@@ -101,15 +101,12 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            image: DecorationImage(
-              image: AssetImage("./assets/branding/sn.png",),
-              alignment: Alignment.topCenter,
-            )
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              SizedBox(height: 50,),
               Text(Q,
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20,),
               ),
@@ -316,12 +313,14 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
                 left: 0,
                 right: 0,
                 child: Container(
-                    child: AdCntnr)
+                  height: 250,
+                    child: AdCntnr
+                )
             ),
             Positioned(
               left: 0,
               right: 0,
-              bottom: 50,
+              bottom: 250,
                 child: Container(
                   height: 50,
                   width: MediaQuery.of(context).size.width,
@@ -331,7 +330,7 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Attempted: ${noofques - isadded-1}/${noofques}", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),),
-                      Text("Correct: ${correct}/${noofques}", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),),
+                      Text("Correct: ${correct}/${noofques - isadded-1}", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),),
                     ],
                   ),
             ))
