@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/DataPullers/GKPullers.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -37,11 +38,11 @@ class _GKPageState extends State<GKPage> {
             ),
             Container(
                 padding: const EdgeInsets.only(left: 25, right: 25, top: 20),
-                child: Text(widget.gkTodayData.Heading, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25, ),))
+                child: Text(widget.gkTodayData.Heading, style: GoogleFonts.quicksand(fontWeight: FontWeight.w600, fontSize: 25, ),))
             ,
       Container(
       padding: const EdgeInsets.only(left: 25, right: 25, top: 5),
-      child: Text(widget.gkTodayData.Content.length > 300 ? widget.gkTodayData.Content.substring(0, 300) + "..." : widget.gkTodayData.Content, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18, ),)),
+      child: Text(widget.gkTodayData.Content.length > 300 ? widget.gkTodayData.Content.substring(0, 300) + "..." : widget.gkTodayData.Content, style: GoogleFonts.quicksand(fontWeight: FontWeight.w400, fontSize: 18, ),)),
           ],
         ),
       ),

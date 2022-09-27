@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:governmentapp/AdFile.dart';
 import 'package:governmentapp/Encyclopedia/EncyclopediaResults.dart';
@@ -106,24 +107,24 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
     print("Name = ${aName} and URL = ${aURL} and Details = ${Details}");
   }
 
-  Container LoadADWidget()
-  {
-    TJSNInterstitialAd.LoadEncyclopedia();
-    TJSNInterstitialAd.myBanner.load();
-    return Container(
-      color: Colors.white,
-      child: AdWidget(
-        ad: TJSNInterstitialAd.Encyclopedia,
-      ),
+  Container adCntnr = Container();
+  Future<void> LoadADWidget()
+  async {
+    await TJSNInterstitialAd.LoadEncyclopedia();
+    adCntnr = Container(
+      child: TJSNInterstitialAd.adWidget4,
       width: 320,
       height: 100,
     );
+    setState(() {
+
+    });
   }
 
 
   @override
   void initState() {
-    TJSNInterstitialAd.LoadEncyclopedia();
+    LoadADWidget();
     super.initState();
   }
 
@@ -148,7 +149,7 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
                 ),
               ),
               const SizedBox(height: 20,),
-              const Text("Encyclopedia", style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),),
+              Text("Encyclopedia", style: GoogleFonts.quicksand(fontSize: 25, fontWeight: FontWeight.w700),),
               const SizedBox(height: 20,),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -187,7 +188,7 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
                   ),
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(20),
-                  child: Text("Search", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey[400]),),
+                  child: Text("Search", style: GoogleFonts.quicksand(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey[400]),),
                 ),
               ),
               Container(
@@ -198,14 +199,7 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
                 child: isloading ? CircularProgressIndicator() : null,
               ),
               Container(
-                height: 50,
-                width: 50,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(20),
-                child: isloading ? CircularProgressIndicator() : null,
-              ),
-              Container(
-                  child: LoadADWidget())
+                  child: adCntnr)
             ],
           ),
         ),

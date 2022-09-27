@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 
@@ -22,6 +23,13 @@ class _EaseButtonsState extends State<EaseButtons> with TickerProviderStateMixin
   void initState() {
     animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 100));
     animation = Tween<double>(begin: 20, end: 130).animate(animationController);
+
+    JobDisplayManagement.EASEBTNF = (String msg)
+    {
+      setState(() {
+
+      });
+    };
 
     super.initState();
     animationController.addListener(() {
@@ -61,7 +69,7 @@ class _EaseButtonsState extends State<EaseButtons> with TickerProviderStateMixin
             JobDisplayManagement.WhichShowing == 3 ? "Searched Results: ${JobDisplayManagement.SEARCHJOBS.length}" :
             JobDisplayManagement.WhichShowing == 4 ? "Favourite Jobs: ${JobDisplayManagement.FAVJOBS.length}" :
             "",
-            style: TextStyle(
+            style: GoogleFonts.quicksand(
               fontWeight: FontWeight.w600,
               fontSize: 15,
               color: Colors.grey[900]
@@ -103,7 +111,7 @@ class _EaseButtonsState extends State<EaseButtons> with TickerProviderStateMixin
                       padding: EdgeInsets.all(8),
                       child: Text(Showis,
                       textAlign: TextAlign.center
-                      , style: const TextStyle(
+                      , style: GoogleFonts.quicksand(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: Colors.white,

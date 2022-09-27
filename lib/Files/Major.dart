@@ -52,7 +52,7 @@
 //                               Icons.work_outline_outlined,
 //                             ),
 //                             SizedBox(width: 5,),
-//                             Text("Jobs", style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),)
+//                             Text("Jobs", style: GoogleFonts.quicksand(fontWeight: FontWeight.w600, color: Colors.white),)
 //                           ],
 //                         ),
 //                       ),
@@ -65,7 +65,7 @@
 //                               Icons.spa_outlined,
 //                             ),
 //                             SizedBox(width: 5,),
-//                             Text("Results", style: TextStyle(fontWeight: FontWeight.w600),)
+//                             Text("Results", style: GoogleFonts.quicksand(fontWeight: FontWeight.w600),)
 //                           ],
 //                         ),
 //                       ),
@@ -78,7 +78,7 @@
 //                               Icons.badge_outlined,
 //                             ),
 //                             SizedBox(width: 5,),
-//                             Text("Admits", style: TextStyle(fontWeight: FontWeight.w600),)
+//                             Text("Admits", style: GoogleFonts.quicksand(fontWeight: FontWeight.w600),)
 //                           ],
 //                         ),
 //                       ),

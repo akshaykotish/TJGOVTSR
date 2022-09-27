@@ -15,234 +15,281 @@ class TJSNInterstitialAd
   static late BannerAd JobBoxs2;
   static late BannerAd JobBoxs3;
   static late BannerAd Encyclopedia;
+  static late BannerAd MaterialAd;
+
+  static bool AdsEnabled = true;
+
+
+  static var adWidget1;
+  static var adWidget2;
+  static var adWidget3;
+
+  static var adWidget4;
+  static var adWidget5;
+
+
+  static var adWidget6;
+  static var adWidget7;
+
 
 
   static Future<void> LoadBannerAd() async {
-    myBanner = await BannerAd(
-      adUnitId: 'ca-app-pub-3701741585114162/3797552586',
-      size: AdSize.banner,
-      request: AdRequest(),
-      listener: BannerAdListener(
-        // Called when an ad is successfully received.
-        onAdLoaded: (Ad ad) {
-          print('Ad loaded.');
-          myBanner.load();
-        },
-        // Called when an ad request failed.
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {
-          // Dispose the ad here to free resources.
-          ad.dispose();
-          print('Ad failed to load: $error');
-        },
-        // Called when an ad opens an overlay that covers the screen.
-        onAdOpened: (Ad ad) => print('Ad opened.'),
-        // Called when an ad removes an overlay that covers the screen.
-        onAdClosed: (Ad ad) => print('Ad closed.'),
-        // Called when an impression occurs on the ad.
-        onAdImpression: (Ad ad) => print('Ad impression.'),
-      ),
-    );
-    final prefs = await SharedPreferences.getInstance();
-    String? AdsEnable = prefs.getString("AdsEnable");
-    if(AdsEnable == "TRUE") {
-      myBanner.load();
+    if(AdsEnabled) {
+      print("AMDKMSKD");
+      myBanner = BannerAd(
+        adUnitId: 'ca-app-pub-3701741585114162/3797552586',
+        size: AdSize.banner,
+        request: AdRequest(),
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) async {
+            print('LoadBannerAd loaded.');
+            await myBanner.load();
+            adWidget6 = AdWidget(ad: myBanner);
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('LoadBannerAd failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+      );
+      print("Banner AD");
+      await myBanner.load();
+      adWidget6 = AdWidget(
+          ad: myBanner
+      );
     }
   }
 
 
   static Future<void> LoadBannerAd2() async {
-    myBanner2 = await BannerAd(
-      adUnitId: 'ca-app-pub-3701741585114162/4270225689',
-      size: AdSize.mediumRectangle,
-      request: AdRequest(),
-      listener: BannerAdListener(
-        // Called when an ad is successfully received.
-        onAdLoaded: (Ad ad) {
-          print('Ad loaded.');
-          myBanner2.load();
-        },
-        // Called when an ad request failed.
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {
-          // Dispose the ad here to free resources.
-          ad.dispose();
-          print('Ad failed to load: $error');
-        },
-        // Called when an ad opens an overlay that covers the screen.
-        onAdOpened: (Ad ad) => print('Ad opened.'),
-        // Called when an ad removes an overlay that covers the screen.
-        onAdClosed: (Ad ad) => print('Ad closed.'),
-        // Called when an impression occurs on the ad.
-        onAdImpression: (Ad ad) => print('Ad impression.'),
-      ),
-    );
-    final prefs = await SharedPreferences.getInstance();
-    String? AdsEnable = prefs.getString("AdsEnable");
-    if(AdsEnable == "TRUE") {
-      myBanner2.load();
+    if(AdsEnabled) {
+      myBanner2 = BannerAd(
+        adUnitId: 'ca-app-pub-3701741585114162/4270225689',
+        size: AdSize.mediumRectangle,
+        request: AdRequest(),
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) async {
+            print('LoadBannerAd2 loaded.');
+            await myBanner2.load();
+            adWidget7 = AdWidget(ad: myBanner2);
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('LoadBannerAd2 failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+      );
+      print("Quiz AD");
+      await myBanner2.load();
+      adWidget7 = AdWidget(
+          ad: myBanner2
+      );
     }
   }
 
   static Future<void> LoadJobBoxs1() async {
-    JobBoxs1 = await BannerAd(
-      adUnitId: 'ca-app-pub-3701741585114162/6132005649',
-      size: AdSize.mediumRectangle,
-      request: AdRequest(),
-      listener: BannerAdListener(
-        // Called when an ad is successfully received.
-        onAdLoaded: (Ad ad) {
-          print('Ad loaded.');
-          JobBoxs1.load();
-        },
-        // Called when an ad request failed.
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {
-          // Dispose the ad here to free resources.
-          ad.dispose();
-          print('Ad failed to load: $error');
-        },
-        // Called when an ad opens an overlay that covers the screen.
-        onAdOpened: (Ad ad) => print('Ad opened.'),
-        // Called when an ad removes an overlay that covers the screen.
-        onAdClosed: (Ad ad) => print('Ad closed.'),
-        // Called when an impression occurs on the ad.
-        onAdImpression: (Ad ad) => print('Ad impression.'),
-      ),
-    );
-    final prefs = await SharedPreferences.getInstance();
-    String? AdsEnable = prefs.getString("AdsEnable");
-    if(AdsEnable == "TRUE") {
-      JobBoxs1.load();
+    if(AdsEnabled) {
+      JobBoxs1 = BannerAd(
+        adUnitId: 'ca-app-pub-3701741585114162/6132005649',
+        size: AdSize.mediumRectangle,
+        request: AdRequest(),
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) async {
+            print('LoadJobBoxs1 loaded.');
+            await JobBoxs1.load();
+            adWidget1 = AdWidget(
+                ad: JobBoxs1
+            );
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('LoadJobBoxs1 failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+      );
+      print("JobBox1 AD");
+      await JobBoxs1.load();
+      adWidget1 = AdWidget(
+          ad: JobBoxs1
+      );
     }
   }
 
 
   static Future<void> LoadJobBoxs2() async {
-    JobBoxs2 = await BannerAd(
-      adUnitId: 'ca-app-pub-3701741585114162/6271853860',
-      size: AdSize.mediumRectangle,
-      request: AdRequest(),
-      listener: BannerAdListener(
-        // Called when an ad is successfully received.
-        onAdLoaded: (Ad ad) {
-          print('Ad loaded.');
-          JobBoxs2.load();
-        },
-        // Called when an ad request failed.
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {
-          // Dispose the ad here to free resources.
-          ad.dispose();
-          print('Ad failed to load: $error');
-        },
-        // Called when an ad opens an overlay that covers the screen.
-        onAdOpened: (Ad ad) => print('Ad opened.'),
-        // Called when an ad removes an overlay that covers the screen.
-        onAdClosed: (Ad ad) => print('Ad closed.'),
-        // Called when an impression occurs on the ad.
-        onAdImpression: (Ad ad) => print('Ad impression.'),
-      ),
-    );
-    final prefs = await SharedPreferences.getInstance();
-    String? AdsEnable = prefs.getString("AdsEnable");
-    if(AdsEnable == "TRUE") {
-      JobBoxs2.load();
+    if(AdsEnabled) {
+      JobBoxs2 = BannerAd(
+        adUnitId: 'ca-app-pub-3701741585114162/6271853860',
+        size: AdSize.mediumRectangle,
+        request: AdRequest(),
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) async {
+            print('LoadJobBoxs2 loaded2.');
+            await JobBoxs2.load();
+            adWidget2 = AdWidget(
+                ad: JobBoxs2
+            );
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('LoadJobBoxs2 failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+      );
+      print("JobBox2 AD");
+      await JobBoxs2.load();
+      adWidget2 = AdWidget(
+          ad: JobBoxs2
+      );
     }
   }
 
 
   static Future<void> LoadJobBoxs3() async {
+    if(AdsEnabled){
     JobBoxs3 = await BannerAd(
-      adUnitId: 'ca-app-pub-3701741585114162/3438393693',
-      size: AdSize.mediumRectangle,
-      request: AdRequest(),
-      listener: BannerAdListener(
-        // Called when an ad is successfully received.
-        onAdLoaded: (Ad ad) {
-          print('Ad loaded.');
-          JobBoxs3.load();
-        },
-        // Called when an ad request failed.
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {
-          // Dispose the ad here to free resources.
-          ad.dispose();
-          print('Ad failed to load: $error');
-        },
-        // Called when an ad opens an overlay that covers the screen.
-        onAdOpened: (Ad ad) => print('Ad opened.'),
-        // Called when an ad removes an overlay that covers the screen.
-        onAdClosed: (Ad ad) => print('Ad closed.'),
-        // Called when an impression occurs on the ad.
-        onAdImpression: (Ad ad) => print('Ad impression.'),
-      ),
-    );
-    final prefs = await SharedPreferences.getInstance();
-    String? AdsEnable = prefs.getString("AdsEnable");
-    if(AdsEnable == "TRUE") {
-      JobBoxs3.load();
+          adUnitId: 'ca-app-pub-3701741585114162/3438393693',
+          size: AdSize.mediumRectangle,
+          request: const AdRequest(),
+          listener: BannerAdListener(
+            onAdLoaded: (Ad ad) async {
+              print("LoadJobBoxs3 JOB Ad Loaded");
+              await JobBoxs3.load();
+              adWidget3 = AdWidget(
+                  ad: JobBoxs3
+              );
+            },
+            // Called when an ad request failed.
+            onAdFailedToLoad: (Ad ad, LoadAdError error) {
+              // Dispose the ad here to free resources.
+              ad.dispose();
+              print('LoadJobBoxs3 failed to load: $error');
+            },
+            // Called when an ad opens an overlay that covers the screen.
+            onAdOpened: (Ad ad) => print('Ad3 opened.'),
+            // Called when an ad removes an overlay that covers the screen.
+            onAdClosed: (Ad ad) => print('Ad3 closed.'),
+            // Called when an impression occurs on the ad.
+            onAdImpression: (Ad ad) => print('Ad3 impression.'),
+          ),
+        );
+        print("JobBox3 AD");
+        await JobBoxs3.load();
+        adWidget3 = AdWidget(
+            ad: JobBoxs3
+        );
     }
   }
 
 
   static Future<void> LoadEncyclopedia() async {
-    Encyclopedia = await BannerAd(
-      adUnitId: 'ca-app-pub-3701741585114162/7553732677',
-      size: AdSize.largeBanner,
-      request: AdRequest(),
-      listener: BannerAdListener(
-        // Called when an ad is successfully received.
-        onAdLoaded: (Ad ad) {
-          print('Ad loaded.');
-          Encyclopedia.load();
-        },
-        // Called when an ad request failed.
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {
-          // Dispose the ad here to free resources.
-          ad.dispose();
-          print('Ad failed to load: $error');
-        },
-        // Called when an ad opens an overlay that covers the screen.
-        onAdOpened: (Ad ad) => print('Ad opened.'),
-        // Called when an ad removes an overlay that covers the screen.
-        onAdClosed: (Ad ad) => print('Ad closed.'),
-        // Called when an impression occurs on the ad.
-        onAdImpression: (Ad ad) => print('Ad impression.'),
-      ),
-    );
-    final prefs = await SharedPreferences.getInstance();
-    String? AdsEnable = prefs.getString("AdsEnable");
-    if(AdsEnable == "TRUE") {
-      Encyclopedia.load();
+    if(AdsEnabled) {
+      Encyclopedia = BannerAd(
+        adUnitId: 'ca-app-pub-3701741585114162/7553732677',
+        size: AdSize.largeBanner,
+        request: AdRequest(),
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) async {
+            print('LoadEncyclopedia loaded.');
+            await Encyclopedia.load();
+            adWidget4 = AdWidget(
+                ad: Encyclopedia
+            );
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('LoadEncyclopedia failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+      );
+      print("Encyclopedia AD");
+      await Encyclopedia.load();
+      adWidget4 = AdWidget(
+          ad: Encyclopedia
+      );
     }
   }
 
 
   static Future<void> LoadMaterial() async {
-    Encyclopedia = await BannerAd(
-      adUnitId: 'ca-app-pub-3701741585114162/1630773412',
-      size: AdSize.largeBanner,
-      request: AdRequest(),
-      listener: BannerAdListener(
-        // Called when an ad is successfully received.
-        onAdLoaded: (Ad ad) {
-          print('Ad loaded.');
-          Encyclopedia.load();
-        },
-        // Called when an ad request failed.
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {
-          // Dispose the ad here to free resources.
-          ad.dispose();
-          print('Ad failed to load: $error');
-        },
-        // Called when an ad opens an overlay that covers the screen.
-        onAdOpened: (Ad ad) => print('Ad opened.'),
-        // Called when an ad removes an overlay that covers the screen.
-        onAdClosed: (Ad ad) => print('Ad closed.'),
-        // Called when an impression occurs on the ad.
-        onAdImpression: (Ad ad) => print('Ad impression.'),
-      ),
-    );
-    final prefs = await SharedPreferences.getInstance();
-    String? AdsEnable = prefs.getString("AdsEnable");
-    if(AdsEnable == "TRUE") {
-      Encyclopedia.load();
+    if(AdsEnabled) {
+      MaterialAd = BannerAd(
+        adUnitId: 'ca-app-pub-3701741585114162/1630773412',
+        size: AdSize.largeBanner,
+        request: AdRequest(),
+        listener: BannerAdListener(
+          // Called when an ad is successfully received.
+          onAdLoaded: (Ad ad) async {
+            print('LoadMaterial loaded.');
+            await MaterialAd.load();
+            adWidget5 = AdWidget(
+                ad: MaterialAd
+            );
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('LoadMaterial failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad impression.'),
+        ),
+      );
+      print("Material AD");
+      await MaterialAd.load();
+      adWidget5 = AdWidget(
+          ad: MaterialAd
+      );
     }
   }
 
@@ -278,28 +325,31 @@ class TJSNInterstitialAd
             print('InterstitialAd failed to load: $error');
           },
         ));
-
-
-
   }
 
   static Future<void> LoadAnAd() async {
+    if(AdsEnabled == "TRUE") {
+      await init();
+    }
+  }
+
+  static Future<void> IsAdEnabled() async {
     final prefs = await SharedPreferences.getInstance();
     String? AdsEnable = prefs.getString("AdsEnable");
-    if(AdsEnable == "TRUE") {
-      await init();
+    if(AdsEnable == "TRUE")
+      {
+        AdsEnabled = true;
+      }
+    else{
+      AdsEnabled = false;
     }
   }
 
 
 
   static Future<void> AdManager() async {
-    await LoadBannerAd();
-    await LoadBannerAd2();
-    await LoadJobBoxs1();
-    await LoadJobBoxs2();
+    await IsAdEnabled();
     await LoadJobBoxs3();
-    await LoadEncyclopedia();
 
     final prefs = await SharedPreferences.getInstance();
     String? AdsEnable = prefs.getString("AdsEnable");

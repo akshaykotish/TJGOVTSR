@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/HexColors.dart';
@@ -30,7 +31,7 @@ class _HeaderState extends State<Header> {
             width: 220,
             height: 60,
             padding: EdgeInsets.all(10),
-            child: const Center(child: Text("#BornToProud", style: TextStyle(fontFamily: "EBGaramond", fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black),)),
+            child: Center(child: Text("#BornToProud", style: GoogleFonts.quicksand(fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black),)),
           ),
 
       GestureDetector(

@@ -31,6 +31,10 @@ class JobDisplayManagement{
   static Stream FAVJOBSS = FAVJOBSC.stream;
   static late Function FAVJOBSF;
 
+  static StreamController<String> EASEBTNC = StreamController<String>();
+  static Stream EASEBTNS = EASEBTNC.stream;
+  static late Function EASEBTNF;
+
   static bool ISLoading = false;
   static bool IsMoreLoading = false;
 
@@ -46,6 +50,9 @@ class JobDisplayManagement{
     });
     FAVJOBSS.listen((event) async {
       FAVJOBSF(event);
+    });
+    EASEBTNS.listen((event) async {
+      EASEBTNF(event);
     });
   }
 

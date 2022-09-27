@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/AdFile.dart';
 import 'package:governmentapp/Encyclopedia/EncyclopediaSearch.dart';
 import 'package:governmentapp/Encyclopedia/EncylopediaData.dart';
@@ -57,12 +58,12 @@ class _MaterialResultState extends State<MaterialResult> {
                       children: <Widget>[
                         SizedBox(width: 10,),
                         Text(Title == "" ? "My " +
-                            MaterialDatas.SearchTitle.toString() : Title, style: TextStyle(
+                            MaterialDatas.SearchTitle.toString() : Title, style: GoogleFonts.quicksand(
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
                           color: Colors.grey[900],
                         ),),
-                        Text("Source: ${materialData.Source}", style: TextStyle(
+                        Text("Source: ${materialData.Source}", style: GoogleFonts.quicksand(
                           fontWeight: FontWeight.w200,
                           fontSize: 7,
                           color: Colors.grey[200],
@@ -183,7 +184,7 @@ class _MaterialResultState extends State<MaterialResult> {
               Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(20),
-                child: Text("All the documents are scrapped from Internet. Some documents may need sign in.", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey.shade300), textAlign: TextAlign.start,),
+                child: Text("All the documents are scrapped from Internet. Some documents may need sign in.", style: GoogleFonts.quicksand(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey.shade300), textAlign: TextAlign.start,),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,

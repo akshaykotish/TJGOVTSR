@@ -88,7 +88,7 @@ class _JobBoxState extends State<JobBox> with TickerProviderStateMixin {
             )
           ),)  : Icon(Icons.search, color: Colors.grey[400], size: 5,),
       Text(widget.jobDisplayData.Count == 50 ? " Trending Job" : widget.jobDisplayData.Count == 78 ? "Favourite" : widget.jobDisplayData.Count >= 3 ? "Result" : "Suggestion",
-        style: GoogleFonts.yantramanav(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.grey[600]),),
+        style: GoogleFonts.quicksand(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.grey[600]),),
     ],
     ));
   }
@@ -129,26 +129,41 @@ class _JobBoxState extends State<JobBox> with TickerProviderStateMixin {
             CurrentJob.currentjobStreamForVacanciesToCall(jobData);
             animationController.reverse();
           });
-
-
         },
         child: Container(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(10),
+          height: 70,
           margin: EdgeInsets.only(left: 20, top: 5, bottom: 5, right: 0),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.3),
             borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              bottomLeft: Radius.circular(10),
+              topLeft: Radius.circular(15),
+              bottomLeft: Radius.circular(15),
             ),
-            border: Border.all(color: Colors.white.withOpacity(0.5), width: 4),
+            color: ColorFromHexCode("#FFFCF5"),
+//            border: Border.all(color: ColorFromHexCode("#FFBB00"), width: 1)
+          boxShadow: [
+            BoxShadow(
+              offset: -Offset(3, 3),
+              blurRadius: 5,
+              spreadRadius: 1,
+              color: Colors.grey.shade200,
+            ),
+            BoxShadow(
+              offset: Offset(3, 3),
+              blurRadius: 5,
+              spreadRadius: 1,
+              color: Colors.grey.shade200,
+            ),
+          ]
           ),
           alignment: Alignment.center,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Container(
                       alignment: Alignment.centerLeft,
@@ -156,7 +171,7 @@ class _JobBoxState extends State<JobBox> with TickerProviderStateMixin {
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Center(child: Text(widget.jobDisplayData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").length > 4 ? widget.jobDisplayData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").substring(0, 4) : widget.jobDisplayData.Department.toShortForm().replaceAll("(", "").replaceAll(")", ""),
-                        style: GoogleFonts.yantramanav(fontSize: 10, color: Colors.grey[700], fontWeight: FontWeight.w700),))),
+                        style: GoogleFonts.quicksand(fontSize: 12, color: Colors.grey[700], fontWeight: FontWeight.w700),))),
                   const SizedBox(width: 10,),
                   GetJobType(),
                 ],
@@ -168,17 +183,28 @@ class _JobBoxState extends State<JobBox> with TickerProviderStateMixin {
                 children: <Widget>[
                   Container(
                     width: MediaQuery.of(context).size.width - 50,
-                    height: 40,
-                    child: Text(widget.jobDisplayData.Designation.length > 118 ? widget.jobDisplayData.Designation.substring(0, 118).replaceAll("Online", "").replaceAll("Form", "") + "..." : widget.jobDisplayData.Designation.replaceAll("Online", "").replaceAll("Form", ""),
-                      style: GoogleFonts.yantramanav(
+                    child: Text(widget.jobDisplayData.Designation.length > 40 ? widget.jobDisplayData.Designation.substring(0, 40).replaceAll("Online", "").replaceAll("Form", "") + "..." : widget.jobDisplayData.Designation.replaceAll("Online", "").replaceAll("Form", ""),
+                      style: GoogleFonts.quicksand(
                       fontSize: 15,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.grey[800],
+                      fontWeight: FontWeight.w500,
+                        color: ColorFromHexCode("#202B22"),
+                        shadows:<Shadow>[
+                          Shadow(
+                            color: Colors.grey.shade200,
+                            offset: Offset(4,4),
+                            blurRadius: 4,
+                          ),
+                          Shadow(
+                            color: Colors.grey.shade200,
+                            offset: Offset(2,2),
+                            blurRadius: 3,
+                          ),
+                        ],
                     ),),
                   ),
                 ],
               ),
-              const SizedBox(height: 5,),
+              const SizedBox(height: 3,),
               Container(
                 width: animation.value,
                 height: 2,

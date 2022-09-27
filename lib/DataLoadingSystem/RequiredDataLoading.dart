@@ -148,7 +148,6 @@ class RequiredDataLoading{
 
   static Future<void> LoadHotJobs() async {
     JobDisplayManagement.WhichShowing = 1;
-    print("HOTJOBS Loading...");
     if(JobDisplayManagement.HOTJOBS.isEmpty) {
       JobDisplayManagement.HOTJOBSC.add(JobDisplayManagement.HOTJOBS);
       var Hots = await FirebaseFirestore.instance.collection("Logs")
@@ -160,7 +159,6 @@ class RequiredDataLoading{
           String JobString = value.toString();
           JobDisplayManagement.HOTJOBS.add(JobDisplayData(JobString, 50));
           JobDisplayManagement.HOTJOBSC.add(JobDisplayManagement.HOTJOBS);
-          print(JobDisplayManagement.HOTJOBS.length);
         }
       }
     }

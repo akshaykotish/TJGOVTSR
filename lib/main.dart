@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,12 +20,14 @@ import 'package:governmentapp/Encyclopedia/EncyclopediaRead.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/GK/CurrentAffairs.dart';
 import 'package:governmentapp/GK/GKQuiz.dart';
+import 'package:governmentapp/Graphics/PostGraphic.dart';
 import 'package:governmentapp/Materials/MaterialData.dart';
 import 'package:governmentapp/User/Login.dart';
 import 'DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> RequiredLoads() async {
+  await TJSNInterstitialAd.AdManager();
 
   await CurrentJob.Listen();
   JobDisplayManagement.Execute();
@@ -34,17 +37,19 @@ Future<void> RequiredLoads() async {
      scrapperController.Execute();
    });
 
-   TJSNInterstitialAd.AdManager();
    MaterialDatas.GetData();
 
   ScrapperController scrapperController = ScrapperController();
   scrapperController.Execute();
+
+  await GetTheIMage.getUiImage("./assets/branding/graphicbg.png", 1080, 1080);
 }
 
 Future<void> main() async {
-  await WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await MobileAds.instance.initialize();
   await Firebase.initializeApp();
+  await FirebaseAppCheck.instance.activate();
   await TJSNInterstitialAd.LoadBannerAd();
 
   runApp(MyApp());
@@ -76,44 +81,31 @@ class MyApp extends StatelessWidget {
 }
 
 
-class Tempor extends StatefulWidget {
-  const Tempor({Key? key}) : super(key: key);
+class PW extends StatefulWidget {
+  const PW({Key? key}) : super(key: key);
 
   @override
-  State<Tempor> createState() => _TemporState();
+  State<PW> createState() => _PWState();
 }
 
-class _TemporState extends State<Tempor> {
-
-  String value = "";
-
-  Future<void> Load() async {
-    var temp = await http.read(Uri.parse("https://nitin-gupta.com/all-most-importance-pdf-collection-in-hindi-and-english-for-all-competitive-exams/"));
-    setState(() {
-      value = temp;
-    });
-  }
-
-  @override
-  void initState() {
-    Load();
-    super.initState();
-  }
-
+class _PWState extends State<PW> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: SingleChildScrollView(
-          child: Container(
-            child: Text(value),
+        child: CustomPaint(
+          painter: PostGraphic(
+            PostName: 'Allahabad University Admission 2020 Result',
+            Department: "Allahabad University Admission 2020 Result",
+            Location: "INDIA",
+            AboutJob: "Allahabad University AU CRET Admti Card 2021;10 January 2021 | 10:53 AM",
+            UpdateDate: "Today",
+            UpdateName: "Testing",
           ),
         ),
       ),
     );
   }
 }
-
-

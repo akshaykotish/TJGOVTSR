@@ -134,7 +134,7 @@ catch(e){}
                             child: Icon(Icons.search, size: 25, color: ColorFromHexCode("#383C39"),),
                           ),
                           const SizedBox(width: 20,),
-                          Text("Search your job", style: GoogleFonts.yantramanav(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w400,),),
+                          Text("Search your job", style: GoogleFonts.quicksand(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w400,),),
                         ],
                       ),
                     ),

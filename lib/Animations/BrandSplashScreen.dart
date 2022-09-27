@@ -42,31 +42,23 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
 
   Future<void> InitializeAnimations()
   async {
-    print("islogin yoyo $islogin");
-
     opacitycontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(opacitycontroller);
-    print("A");
 
     textcontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     textAnimation = Tween<double>(begin: 0.0, end: 9.0).animate(textcontroller);
-    print("B");
 
     bttcontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     bttAnimation = Tween<double>(begin: 400.0, end: 50.0).animate(bttcontroller);
-    print("C");
 
     bbcontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     bbAnimation = Tween<double>(begin: 0.0, end: 10.0).animate(bttcontroller);
-    print("D");
 
     attsycontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     attsyAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(bttcontroller);
-    print("E");
 
     await LoadProfile();
     OpacityAnimation();
-
   }
 
   void OpacityAnimation(){
@@ -274,7 +266,7 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                                   Container(
                                     child: Text(
                                       "LKS",
-                                      style: TextStyle(
+                                      style: GoogleFonts.quicksand(
                                         fontWeight: FontWeight.w800,
                                         fontSize: 40,
                                         color: Colors.grey.shade900.withOpacity(0.5),
@@ -286,7 +278,7 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                                   Container(
                                     child: Text(
                                       "Brand Signature",
-                                      style: TextStyle(
+                                      style: GoogleFonts.quicksand(
                                         fontWeight: FontWeight.w800,
                                         fontSize: 10,
                                         color: Colors.grey.shade900.withOpacity(0.1),
@@ -310,7 +302,7 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                                   Container(
                                     child: Text(
                                       "Love My God, MK & AB",
-                                      style: TextStyle(
+                                      style: GoogleFonts.quicksand(
                                         fontWeight: FontWeight.w800,
                                         fontSize: 10,
                                         color: Colors.grey.shade500.withOpacity(0.2),
@@ -322,7 +314,7 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                                   Container(
                                     child: Text(
                                       "An Akshay Kotish & Co. Product",
-                                      style: TextStyle(
+                                      style: GoogleFonts.quicksand(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 12,
                                         color: Colors.grey.shade800,
@@ -334,7 +326,7 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                                   Container(
                                     child: Text(
                                       "Made for India",
-                                      style: TextStyle(
+                                      style: GoogleFonts.quicksand(
                                         fontWeight: FontWeight.w300,
                                         fontSize: 10,
                                         color: Colors.grey.shade600,
@@ -364,13 +356,13 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
-                                child: Text("TrackJobs".substring(0, double.parse(textAnimation.value.toString()).toInt()), style: GoogleFonts.msMadi(
-                                  fontSize: 65,
-                                  color: Colors.brown.shade100,
-                                  fontWeight: FontWeight.bold,
+                                child: Text("TrackJobs".substring(0, double.parse(textAnimation.value.toString()).toInt()), style: GoogleFonts.sacramento(
+                                  fontSize: 55,
+                                    color: ColorFromHexCode("#383C39"),
+                                    fontWeight: FontWeight.w800,
                                     shadows: [
-                                      Shadow(color: Colors.brown.shade900, offset: Offset(1, 1), blurRadius: 1),
-                                      Shadow(color: Colors.brown.shade900, offset: Offset(1, 1), blurRadius: 1),
+                                      Shadow(color: Colors.grey.shade100, offset: Offset(1, 1), blurRadius: 4),
+                                      Shadow(color: Colors.grey.shade100, offset: Offset(1, 1), blurRadius: 4),
                                     ]),),
                               ),
                             ],

@@ -126,6 +126,9 @@ class _HomeState extends State<Home> {
       draggableScrollableController.animateTo(0.0, duration: Duration(milliseconds: 500), curve: Curves.easeOutBack).then((value){setState(() {
         initialchildsize = 0;
       });});
+      setState(() {
+
+      });
     };
 
     super.initState();
@@ -172,17 +175,17 @@ class _HomeState extends State<Home> {
           onRefresh: (){
             return Future.delayed(const Duration(milliseconds: 1), (){
               RequiredDataLoading.Execute();
+
             });
           },
           child: Container(
-            decoration: BoxDecoration(
-                color: ColorFromHexCode("#E2E2E2"),
-                image: const DecorationImage(
-                  image: AssetImage(
-                    "./assets/branding/Background.jpg",
-                  ),
-                  fit: BoxFit.fill,
-                )
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                "./assets/branding/Background.jpg",
+                ),
+                fit: BoxFit.fill,
+              ),
             ),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -190,9 +193,9 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 SingleChildScrollView(
                   child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                     child: Container(
-                      color: Colors.white.withOpacity(0.1),
+                      color: ColorFromHexCode("#E7E7E7").withOpacity(0.2),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[

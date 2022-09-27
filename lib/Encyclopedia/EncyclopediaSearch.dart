@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 
@@ -62,7 +63,7 @@ class _EncylopediaSearchState extends State<EncylopediaSearch> {
     _AllContents.add(Container(
         margin: EdgeInsets.only(top: 50),
         child: Container(
-            child: Text(Title.toString(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30,),))));
+            child: Text(Title.toString(), style: GoogleFonts.quicksand(fontWeight: FontWeight.bold, fontSize: 30,),))));
 
     var my = elements?.getElementsByClassName("mw-parser-output")[0].children;
     if(my != null) {
@@ -72,25 +73,25 @@ class _EncylopediaSearchState extends State<EncylopediaSearch> {
 
         if(my[i].localName == "p") {
           _AllContents.add(Text(
-            cntnt, style: TextStyle(fontSize: 20,),
+            cntnt, style: GoogleFonts.quicksand(fontSize: 20,),
           ));
         }
         else if(my[i].localName == "h2")
           {
             _AllContents.add(Text(
-              cntnt, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+              cntnt, style: GoogleFonts.quicksand(fontSize: 24, fontWeight: FontWeight.w700),
             ));
           }
         else if(my[i].localName == "h3")
           {
             _AllContents.add(Text(
-              cntnt, style: const  TextStyle(fontSize: 25, fontWeight: FontWeight.w700),
+              cntnt, style: GoogleFonts.quicksand(fontSize: 25, fontWeight: FontWeight.w700),
             ));
           }
         else if(my[i].localName == "h4")
         {
           _AllContents.add(Text(
-            cntnt, style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+            cntnt, style: GoogleFonts.quicksand(fontSize: 26, fontWeight: FontWeight.bold),
           ));
         }
         else if(my[i].localName == "div" && my[i].classes.contains("thumb"))

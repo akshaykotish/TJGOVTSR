@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:governmentapp/AdFile.dart';
 import 'package:governmentapp/GK/GKQuizScore.dart';
@@ -102,16 +103,17 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
+          height: TJSNInterstitialAd.adWidget7 != null ? MediaQuery.of(context).size.height - 250 - 100 : MediaQuery.of(context).size.height - 250,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               SizedBox(height: 50,),
               Text(Q,
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20,),
+              style: GoogleFonts.quicksand(fontWeight: FontWeight.w700, fontSize: 20,),
               ),
               SizedBox(height: 20,),
-              Text("Click on your answer: ", style: TextStyle(fontSize: 12),),
+              Text("Click on your answer: ", style: GoogleFonts.quicksand(fontSize: 12),),
               SizedBox(height: 5,),
               GestureDetector(
                 onTap: (){
@@ -128,7 +130,7 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
                   ),
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.all(5),
-                  child: Text(O[0], style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
+                  child: Text(O[0], style: GoogleFonts.quicksand(fontSize: 15, fontWeight: FontWeight.w500),),
                 ),
               ),
               GestureDetector(
@@ -146,7 +148,7 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
                   ),
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.all(5),
-                  child: Text(O[1], style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
+                  child: Text(O[1], style: GoogleFonts.quicksand(fontSize: 15, fontWeight: FontWeight.w500),),
                 ),
               ),
               GestureDetector(
@@ -164,7 +166,7 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
                   ),
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.all(5),
-                  child: Text(O[2], style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
+                  child: Text(O[2], style: GoogleFonts.quicksand(fontSize: 15, fontWeight: FontWeight.w500),),
                 ),
               ),
               GestureDetector(
@@ -181,7 +183,7 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
                   ),
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.all(5),
-                  child: Text(O[3], style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
+                  child: Text(O[3], style: GoogleFonts.quicksand(fontSize: 15, fontWeight: FontWeight.w500),),
                 ),
               ),
             ],
@@ -195,7 +197,7 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
 
   Future<void> LoadQuiz() async {
     //_Quizes = <Widget>[];
-    //_Quizes.add(Container(child: Center(child: Text("Quiz Over", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500,),),)));
+    //_Quizes.add(Container(child: Center(child: Text("Quiz Over", style: GoogleFonts.quicksand(fontSize: 20, fontWeight: FontWeight.w500,),),)));
 
     var rnd = Random();
     int rndm = rnd.nextInt(10);
@@ -218,7 +220,6 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
   Future<void> LoadADWidget()
   async {
     await TJSNInterstitialAd.LoadBannerAd2();
-  TJSNInterstitialAd.myBanner2.load();
     AdCntnr = Container(
       child: AdWidget(
         ad: TJSNInterstitialAd.myBanner2,
@@ -292,11 +293,12 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
         child: Stack(
           children: <Widget>[
             Container(
+              color: Colors.white,
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               alignment: Alignment.center,
               child: Text("Best Wishes! If you like this app, share with friends.",
-              style: TextStyle(
+              style: GoogleFonts.quicksand(
                 color: Colors.grey.shade300,
                 fontWeight: FontWeight.bold,
               ),
@@ -312,15 +314,16 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: Container(
-                  height: 250,
+                child:  TJSNInterstitialAd.AdsEnabled ? Container(
+                  height:  TJSNInterstitialAd.adWidget7 != null ? 250 : 0,
+                    width: 100,
                     child: AdCntnr
-                )
+                ) : Container()
             ),
             Positioned(
               left: 0,
               right: 0,
-              bottom: 250,
+              bottom: TJSNInterstitialAd.adWidget7 != null ? 250 : 0,
                 child: Container(
                   height: 50,
                   width: MediaQuery.of(context).size.width,
@@ -329,8 +332,8 @@ class _GKQuizState extends State<GKQuiz> with TickerProviderStateMixin {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Attempted: ${noofques - isadded-1}/${noofques}", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),),
-                      Text("Correct: ${correct}/${noofques - isadded-1}", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),),
+                      Text("Attempted: ${noofques - isadded-1}/${noofques}", style: GoogleFonts.quicksand(fontSize: 14, fontWeight: FontWeight.w600),),
+                      Text("Correct: ${correct}/${noofques - isadded-1}", style: GoogleFonts.quicksand(fontSize: 14, fontWeight: FontWeight.w600),),
                     ],
                   ),
             ))

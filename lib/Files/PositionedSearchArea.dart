@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Filtration/FilterPage.dart';
 import 'package:governmentapp/Filtration/SearchSheet.dart';
@@ -76,7 +77,7 @@ class _PositionedSearchAreaState extends State<PositionedSearchArea> {
                   children: <Widget>[
                     Icon(Icons.search, color: Colors.grey[900], size: 30,),
                     SizedBox(width: 20,),
-                    Text("Search for a job...", style: TextStyle(fontSize: 18, color: Colors.grey[800]),),
+                    Text("Search for a job...", style: GoogleFonts.quicksand(fontSize: 18, color: Colors.grey[800]),),
                   ],
                 ),
               ),

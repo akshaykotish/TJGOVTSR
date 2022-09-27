@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
@@ -66,7 +67,7 @@ class _SearchSheetState extends State<SearchSheet> {
                     Container(
                         width:MediaQuery.of(context).size.width - 100,
                         child: Text(SelectedSearchWord[i],
-                          style: TextStyle(
+                          style: GoogleFonts.quicksand(
                             color: Colors.grey[600],
                             fontWeight: FontWeight.w500
                           ),
@@ -129,7 +130,7 @@ class _SearchSheetState extends State<SearchSheet> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(10),
-          child: Text(e.toString(), style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.w500),),
+          child: Text(e.toString(), style: GoogleFonts.quicksand(color: Colors.grey[600], fontWeight: FontWeight.w500),),
         ),
       ),
     );
@@ -177,7 +178,7 @@ class _SearchSheetState extends State<SearchSheet> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(10),
-              child: Text(Departmentis, style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.w500),),
+              child: Text(Departmentis, style: GoogleFonts.quicksand(color: Colors.grey[600], fontWeight: FontWeight.w500),),
             ),
           ),
         );
@@ -198,7 +199,7 @@ class _SearchSheetState extends State<SearchSheet> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(10),
-              child: Text(Jobis, style: TextStyle(color: Colors.grey[600], fontWeight: FontWeight.w500),),
+              child: Text(Jobis, style: GoogleFonts.quicksand(color: Colors.grey[600], fontWeight: FontWeight.w500),),
             ),
           ),
         );
@@ -356,7 +357,7 @@ class _SearchSheetState extends State<SearchSheet> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text("Write the search keyword",
-                                  style: TextStyle(
+                                  style: GoogleFonts.quicksand(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey.shade700
@@ -387,12 +388,12 @@ class _SearchSheetState extends State<SearchSheet> {
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
                                               labelText: 'bank po, airforce, navy, clerk',
-                                              labelStyle: TextStyle(
+                                              labelStyle: GoogleFonts.quicksand(
                                                 color: Colors.grey.shade500,
                                                 fontWeight: FontWeight.w500
                                               ),
                                               hintText: 'Please spell correct',
-                                            hintStyle: TextStyle(
+                                            hintStyle: GoogleFonts.quicksand(
                                               color: Colors.grey.shade600
                                             )
                                           ),
@@ -464,9 +465,9 @@ class _SearchSheetState extends State<SearchSheet> {
                       },
                       child: Container(
                         color: Colors.grey[900],
-                        child: const Center(child: Text(
+                        child: Center(child: Text(
                           "Apply",
-                          style: TextStyle(fontSize: 18,
+                          style: GoogleFonts.quicksand(fontSize: 18,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
                           ),

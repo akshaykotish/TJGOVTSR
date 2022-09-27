@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/JobData.dart';
@@ -46,7 +47,7 @@ class _JobSheetState extends State<JobSheet> {
 
     _All_Dates.add(Padding(
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      child: Text("Dates", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+      child: Text("Dates", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
     ));
     if(jobData.Important_Dates.length == 0)
       {
@@ -58,10 +59,10 @@ class _JobSheetState extends State<JobSheet> {
         if (!jobData.Important_Dates.keys.elementAt(index).contains(
             "Credit")) {
           _All_Dates.add(
-            Text(jobData.Important_Dates.keys.elementAt(index), style: TextStyle(fontWeight: FontWeight.w300,),),
+            Text(jobData.Important_Dates.keys.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w300,),),
           );
           _All_Dates.add(
-            Text(jobData.Important_Dates.values.elementAt(index), style: TextStyle(fontWeight: FontWeight.w400,),),
+            Text(jobData.Important_Dates.values.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
           );
           _All_Dates.add(SizedBox(height: 15,));
         }
@@ -79,7 +80,7 @@ class _JobSheetState extends State<JobSheet> {
 
     _All_Ages.add(Padding(
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      child: Text("Age Limits", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+      child: Text("Age Limits", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
     ));
     if(jobData.AgeLimits.length == 0)
     {
@@ -91,10 +92,10 @@ class _JobSheetState extends State<JobSheet> {
         if (!jobData.AgeLimits.keys.elementAt(index).contains(
             "Credit")) {
           _All_Ages.add(
-            Text(jobData.AgeLimits.keys.elementAt(index), style: TextStyle(fontWeight: FontWeight.w300,),),
+            Text(jobData.AgeLimits.keys.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w300,),),
           );
           _All_Ages.add(
-            Text(jobData.AgeLimits.values.elementAt(index), style: TextStyle(fontWeight: FontWeight.w400,),),
+            Text(jobData.AgeLimits.values.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
           );
           _All_Ages.add(SizedBox(height: 15,));
         }
@@ -111,7 +112,7 @@ class _JobSheetState extends State<JobSheet> {
 
     _All_Centers.add(Padding(
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      child: Text("Exam Centers", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+      child: Text("Exam Centers", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
     ));
     if(jobData.AgeLimits.length == 0)
     {
@@ -123,10 +124,10 @@ class _JobSheetState extends State<JobSheet> {
         if (!jobData.ExamCenters.keys.elementAt(index).contains(
             "Credit")) {
           _All_Centers.add(
-            Text(jobData.ExamCenters.keys.elementAt(index), style: TextStyle(fontWeight: FontWeight.w300,),),
+            Text(jobData.ExamCenters.keys.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w300,),),
           );
           _All_Centers.add(
-            Text(jobData.ExamCenters.values.elementAt(index), style: TextStyle(fontWeight: FontWeight.w400,),),
+            Text(jobData.ExamCenters.values.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
           );
           _All_Centers.add(SizedBox(height: 15,));
         }
@@ -143,7 +144,7 @@ class _JobSheetState extends State<JobSheet> {
 
     _All_HowTo.add(Padding(
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      child: Text("How To Steps", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+      child: Text("How To Steps", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
     ));
     if(jobData.AgeLimits.length == 0)
     {
@@ -153,7 +154,7 @@ class _JobSheetState extends State<JobSheet> {
       for (var index = 0; index <
           jobData.HowTo.length; index++) {
           _All_HowTo.add(
-            Text(jobData.HowTo[index], style: TextStyle(fontWeight: FontWeight.w400,),),
+            Text(jobData.HowTo[index], style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
           );
           _All_HowTo.add(SizedBox(height: 15,));
 
@@ -170,7 +171,7 @@ class _JobSheetState extends State<JobSheet> {
 
     _All_Corrections.add(Padding(
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      child: Text("Corrections", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+      child: Text("Corrections", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
     ));
     if(jobData.Corrections.length == 0)
     {
@@ -180,7 +181,7 @@ class _JobSheetState extends State<JobSheet> {
       for (var index = 0; index <
           jobData.Corrections.length; index++) {
         _All_Corrections.add(
-          Text(jobData.Corrections[index], style: TextStyle(fontWeight: FontWeight.w400,),),
+          Text(jobData.Corrections[index], style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
         );
         _All_Corrections.add(SizedBox(height: 15,));
 
@@ -197,24 +198,24 @@ class _JobSheetState extends State<JobSheet> {
 
     _All_Fees.add(Padding(
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      child: Text("Fees", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+      child: Text("Fees", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
     ));
 
     for(int index =0; index <  jobData.ApplicationFees.keys.length; index++) {
       if (!jobData.ApplicationFees.keys.elementAt(index).contains(
           "Credit")) {
         _All_Fees.add(
-          Text(jobData.ApplicationFees.keys.elementAt(index), style: TextStyle(fontWeight: FontWeight.w300,),),
+          Text(jobData.ApplicationFees.keys.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w300,),),
         );
 
         if(jobData.ApplicationFees.values.elementAt(index).toString().contains("/-")){
           _All_Fees.add(
-            Text("₹ ${jobData.ApplicationFees.values.elementAt(index)}", style: TextStyle(fontWeight: FontWeight.w400,),),
+            Text("₹ ${jobData.ApplicationFees.values.elementAt(index)}", style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
           );
         }
         else{
           _All_Fees.add(
-            Text(jobData.ApplicationFees.values.elementAt(index), style: TextStyle(fontWeight: FontWeight.w400,),),
+            Text(jobData.ApplicationFees.values.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
           );
         }
 
@@ -250,7 +251,7 @@ class _JobSheetState extends State<JobSheet> {
               },
               child: Container(
                 padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Text(jobData.ButtonsName[i], style: TextStyle(
+                child: Text(jobData.ButtonsName[i], style: GoogleFonts.quicksand(
                   fontSize: 12,
                     color: Colors.grey[900],
                     fontWeight: FontWeight.w500,
@@ -276,8 +277,8 @@ class _JobSheetState extends State<JobSheet> {
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
       child: Row(
         children: [
-          Text("Vacancies", style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),),
-          Text(" (Data Generated by Computer)", style: TextStyle(fontSize: 10),)
+          Text("Vacancies", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+          Text(" (Data Generated by Computer)", style: GoogleFonts.quicksand(fontSize: 10),)
         ],
       ),
     ));
@@ -285,7 +286,7 @@ class _JobSheetState extends State<JobSheet> {
     int indx = 0;
     jobData.VDetails.forEach((VacancyDetails VDetail) {
       var _VDetailBox = <Widget>[];
-      _VDetailBox.add(Text(VDetail.Title, style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w600),)); //Title
+      _VDetailBox.add(Text(VDetail.Title, style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),)); //Title
       for(int i=0; i<VDetail.datas.length; i++) {
         var _VDetailRow = <Widget>[];
         for(int j=0; j<VDetail.datas[i].data.length; j++)
@@ -293,7 +294,7 @@ class _JobSheetState extends State<JobSheet> {
             var _VDetailColumn = <Widget>[];
             if(j < VDetail.headers.length)
             {
-              _VDetailColumn.add(Text(VDetail.headers[j], style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w300, fontSize: 10),));
+              _VDetailColumn.add(Text(VDetail.headers[j], style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w300, fontSize: 10),));
             }
             _VDetailColumn.add(Text(VDetail.datas[i].data[j]));
             _VDetailColumn.add(const SizedBox(height: 1,));
@@ -506,7 +507,7 @@ class _JobSheetState extends State<JobSheet> {
                               padding: EdgeInsets.all(10),
                               child: Text(widget.jobData.Department.toString(),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.grey[800],
@@ -516,7 +517,7 @@ class _JobSheetState extends State<JobSheet> {
                             Container(
                               child: Text(widget.jobData.Designation.toString(),
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: GoogleFonts.quicksand(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.grey[800]
@@ -528,7 +529,7 @@ class _JobSheetState extends State<JobSheet> {
                               width: MediaQuery.of(context).size.width,
                               child: Text("Date: ${widget.jobData.LastUpdate}",
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: GoogleFonts.quicksand(
                                   fontSize: 14,
                                   color: Colors.grey[700],
                                 ),
@@ -538,7 +539,7 @@ class _JobSheetState extends State<JobSheet> {
                               width: MediaQuery.of(context).size.width,
                               child: Text("No.: ${widget.jobData.AdvertisementNumber.replaceAll("Short Details of Notification", "")}",
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: GoogleFonts.quicksand(
                                   fontSize: 14,
                                   color: Colors.grey[700],
                                 ),
@@ -547,7 +548,7 @@ class _JobSheetState extends State<JobSheet> {
                             Container(
                               child: Text(
                                 "Location: ${widget.jobData.Location}".toString(),
-                                style: TextStyle(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 14,
                                     color: Colors.grey[700]
                                 ),
@@ -565,7 +566,7 @@ class _JobSheetState extends State<JobSheet> {
                               child: Container(
                                   child:Text(
                                     "Website: ${widget.jobData.WebsiteLink}".toString(),
-                                    style: TextStyle(
+                                    style: GoogleFonts.quicksand(
                                         fontSize: 14,
                                         color: Colors.grey[700]
                                     ),
@@ -577,9 +578,9 @@ class _JobSheetState extends State<JobSheet> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text("Brief", style: TextStyle(fontWeight: FontWeight.w500),),
+                                  Text("Brief", style: GoogleFonts.quicksand(fontWeight: FontWeight.w500),),
                                   Text(widget.jobData.Short_Details.toString(),
-                                    style: TextStyle(
+                                    style: GoogleFonts.quicksand(
                                         fontSize: 14,
                                         color: Colors.grey[700]
                                     ),
@@ -591,7 +592,7 @@ class _JobSheetState extends State<JobSheet> {
                               margin: EdgeInsets.only(top: 30),
                               child: Text(
                                 "Document Required: ${widget.jobData.DocumentRequired}".toString(),
-                                style: TextStyle(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 14,
                                     color: Colors.grey[700]
                                 ),
@@ -601,7 +602,7 @@ class _JobSheetState extends State<JobSheet> {
                                 margin: EdgeInsets.only(top: 30),
                                 child: Text(
                                 "Total Vacancies: ${widget.jobData.Total_Vacancies}".toString(),
-                                style: TextStyle(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 15,
                                     color: Colors.grey[800]
                                 ),
@@ -611,7 +612,7 @@ class _JobSheetState extends State<JobSheet> {
                                 margin: EdgeInsets.only(top: 30),
                                 child: Text(
                                 "Total Vacancies: ${widget.jobData.Total_Vacancies}".toString(),
-                                style: TextStyle(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 15,
                                     color: Colors.grey[800]
                                 ),
@@ -715,7 +716,7 @@ class _JobSheetState extends State<JobSheet> {
                                 padding: const EdgeInsets.only(left: 15, right: 15),
                                 child: lovebtntxt == "Loved" ? Row(
                                   children: [
-                                    Text( "Favourite", style: TextStyle(
+                                    Text( "Favourite", style: GoogleFonts.quicksand(
                                       fontSize: 12,
                                       color: Colors.grey[900],
                                       fontWeight: FontWeight.w500,
@@ -724,7 +725,7 @@ class _JobSheetState extends State<JobSheet> {
                                     SizedBox(width: 5,),
                                     Icon(Icons.check),
                                   ],
-                                ) : Text( "Add to Favourite", style: TextStyle(
+                                ) : Text( "Add to Favourite", style: GoogleFonts.quicksand(
                                   fontSize: 12,
                                   color: Colors.grey[900],
                                   fontWeight: FontWeight.w500,
@@ -777,7 +778,7 @@ class GreyLine extends StatelessWidget {
 
 
 Widget HeaderTexts(String text){
-  return Text(text, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20,  color: Colors.black),);
+  return Text(text, style: GoogleFonts.quicksand(fontWeight: FontWeight.w600, fontSize: 20,  color: Colors.black),);
 }
 
 
@@ -818,7 +819,7 @@ Widget StylishBox(context, widget, String Header, String Content, String Img){
                 HeaderTexts(Header),
                 Text(
                   Content.toString(),
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black,
+                  style: GoogleFonts.quicksand(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black,
                   ),
                 ),
               ],
@@ -857,7 +858,7 @@ Container(
                                     ),
                                     child: Text(
                                       widget.jobData.Title.toString(),
-                                      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700,
+                                      style: GoogleFonts.quicksand(fontSize: 25, fontWeight: FontWeight.w700,
                                           color: Colors.grey[900]
                                       ),
                                     )
@@ -870,7 +871,7 @@ Container(
                                     ),
                                     child: Text(
                                       widget.jobData.Department.toString(),
-                                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700,
+                                      style: GoogleFonts.quicksand(fontSize: 12, fontWeight: FontWeight.w700,
                                           color: Colors.blueAccent[200]
                                       ),
                                     )
@@ -900,7 +901,7 @@ Container(
                                                   color: applybtntxt == "Apply" ? ColorFromHexCode("#3498DB") : ColorFromHexCode("#F4F6F7")
                                               ),
                                               const SizedBox(width: 5,),
-                                              Text(applybtntxt, style: TextStyle(color: applybtntxt == "Apply" ? ColorFromHexCode("#3498DB") : ColorFromHexCode("#F4F6F7") , fontWeight: FontWeight.w500),)
+                                              Text(applybtntxt, style: GoogleFonts.quicksand(color: applybtntxt == "Apply" ? ColorFromHexCode("#3498DB") : ColorFromHexCode("#F4F6F7") , fontWeight: FontWeight.w500),)
                                             ],
                                           ),
 
@@ -950,7 +951,7 @@ Container(
                                                   color: ColorFromHexCode("#3498DB")
                                               ),
                                               const SizedBox(width: 5,),
-                                              Text("Notice", style: TextStyle(color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.w500),)
+                                              Text("Notice", style: GoogleFonts.quicksand(color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.w500),)
                                             ],
                                           ),
 
@@ -1156,7 +1157,7 @@ Container(
                                                         color: ColorFromHexCode("#3498DB")
                                                     ),
                                                     const SizedBox(width: 5,),
-                                                    Text("Need help?", style: TextStyle(color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.w500),)
+                                                    Text("Need help?", style: GoogleFonts.quicksand(color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.w500),)
                                                   ],
                                                 ),
 
@@ -1166,7 +1167,7 @@ Container(
                                         ),
                                         Text(
                                           widget.jobData.HowToApply == "" ? "How to Apply information not available" : widget.jobData.HowToApply.toString(),
-                                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey.shade800
+                                          style: GoogleFonts.quicksand(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey.shade800
                                           ),
                                         ),
                                       ],

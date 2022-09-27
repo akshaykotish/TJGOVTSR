@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:governmentapp/Beauty/Buttons.dart';
 import 'package:governmentapp/Files/AnimatedFlips.dart';
+import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Files/JobBox.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,65 +56,78 @@ class _BrandingState extends State<Branding> with
     // TODO: implement initState
     super.initState();
 
-    controller =  AnimationController(vsync: this, duration: Duration(seconds: 2));
+    controller =
+        AnimationController(vsync: this, duration: Duration(seconds: 2));
     sizeAnimation = Tween<double>(begin: 40.0, end: 50.0).animate(controller);
     controller.forward();
-    Timer(Duration(seconds: 3), ()=>controller.reverse());
+    Timer(Duration(seconds: 3), () => controller.reverse());
 
 
-    removetextcontroller =  AnimationController(vsync: this, duration: Duration(seconds: 2));
-    removetextAnimation = Tween<double>(begin: 9, end: 0.0).animate(removetextcontroller);
+    removetextcontroller =
+        AnimationController(vsync: this, duration: Duration(seconds: 2));
+    removetextAnimation =
+        Tween<double>(begin: 9, end: 0.0).animate(removetextcontroller);
 
-    loadflipscontroller =  AnimationController(vsync: this, duration: Duration(milliseconds: 300));
-    loadflipsAnimation = Tween<double>(begin: 150, end: 70.0).animate(loadflipscontroller);
-    loadflipcolorAnimation = ColorTween(begin: ColorFromHexCode("#383C39").withOpacity(1), end: ColorFromHexCode("#383C39").withOpacity(0.1)).animate(loadflipscontroller);
+    loadflipscontroller = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 300));
+    loadflipsAnimation =
+        Tween<double>(begin: 150, end: 70.0).animate(loadflipscontroller);
+    loadflipcolorAnimation = ColorTween(
+        begin: ColorFromHexCode("#383C39").withOpacity(1),
+        end: ColorFromHexCode("#383C39").withOpacity(0.1)).animate(
+        loadflipscontroller);
 
-    notifscontroller =  AnimationController(vsync: this, duration: Duration(milliseconds: 800));
-    notifsAnimation = Tween<double>(begin: 150, end: 240.0).animate(notifscontroller);
+    notifscontroller = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 800));
+    notifsAnimation =
+        Tween<double>(begin: 150, end: 240.0).animate(notifscontroller);
 
-    controller.addListener(() {
-      setState(() {
+    if(CurrentJob.HomeButtonsAlreadyLoaded == false) {
+      CurrentJob.HomeButtonsAlreadyLoaded = true;
+      
+      controller.addListener(() {
+        setState(() {
 
+        });
       });
-    });
 
-    controller.addStatusListener((status) {
-      if(status == AnimationStatus.completed)
-        {
-          Timer(Duration(seconds: 3), ()=>removetextcontroller.forward());
+      controller.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          Timer(Duration(seconds: 3), () => removetextcontroller.forward());
         }
-    });
-
-    removetextcontroller.addListener(() {
-      setState(() {
-
       });
-    });
 
-    removetextcontroller.addStatusListener((status) {
-      if(status == AnimationStatus.completed)
-        {
+      removetextcontroller.addListener(() {
+        setState(() {
+
+        });
+      });
+
+      removetextcontroller.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
           print("FTTFTF");
           setState(() {
             abc = false;
           });
           loadflipscontroller.forward();
-          Timer(Duration(milliseconds: 550), (){loadflipscontroller.reverse(); setState(() {
-            efg = true;
-          });});
+          Timer(Duration(milliseconds: 550), () {
+            loadflipscontroller.reverse();
+            setState(() {
+              efg = true;
+            });
+          });
         }
-    });
-
-    loadflipscontroller.addListener(() {
-      setState(() {
-
       });
-    });
 
-    loadflipscontroller.addStatusListener((status) {
-      if(status == AnimationStatus.completed)
-        {
-          if(Notifications.notifications.length != 0) {
+      loadflipscontroller.addListener(() {
+        setState(() {
+
+        });
+      });
+
+      loadflipscontroller.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          if (Notifications.notifications.length != 0) {
             setState(() {
               ijk = true;
             });
@@ -123,41 +137,40 @@ class _BrandingState extends State<Branding> with
             });
           }
         }
-    });
-
-    notifscontroller.addListener(() {
-      setState(() {
-
       });
-    });
 
-    notifscontroller.addStatusListener((status) {
-      if(status == AnimationStatus.reverse){
-        print("ADI");
-        if(notifshow)
-        {
-          print("AFJNF");
-          notiftext = "";
-          notifshow = false;
+      notifscontroller.addListener(() {
+        setState(() {
 
-          if(Notifications.notifcs < Notifications.notifications.length) {
-            Timer(Duration(seconds: 6), () {
-              notifscontroller.forward();
-            });
+        });
+      });
+
+      notifscontroller.addStatusListener((status) {
+        if (status == AnimationStatus.reverse) {
+          print("ADI");
+          if (notifshow) {
+            print("AFJNF");
+            notiftext = "";
+            notifshow = false;
+
+            if (Notifications.notifcs < Notifications.notifications.length) {
+              Timer(Duration(seconds: 6), () {
+                notifscontroller.forward();
+              });
+            }
+          }
+          else {
+            andmore = false;
           }
         }
-        else{
-          andmore = false;
-        }
-      }
-      if(status == AnimationStatus.completed || status == AnimationStatus.forward)
-        {
-          if(!notifshow) {
+        if (status == AnimationStatus.completed ||
+            status == AnimationStatus.forward) {
+          if (!notifshow) {
             notifshow = true;
             notiftext = Notifications.notifications[Notifications.notifcs];
             setState(() {});
             Notifications.notifcs++;
-            if(Notifications.notifcs <= Notifications.notifications.length) {
+            if (Notifications.notifcs <= Notifications.notifications.length) {
               Timer(Duration(seconds: 6), () {
                 notiftext = "";
                 setState(() {});
@@ -165,13 +178,20 @@ class _BrandingState extends State<Branding> with
               });
             }
           }
-          else{
+          else {
             andmore = false;
           }
         }
-    });
+      });
 
-    HelloMessage();
+      HelloMessage();
+    }
+    else{
+      setState(() {
+        abc = false;
+        efg = true;
+      });
+    }
   }
 
   Future<void> HelloMessage() async {
@@ -205,6 +225,8 @@ class _BrandingState extends State<Branding> with
     super.dispose();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -221,13 +243,13 @@ class _BrandingState extends State<Branding> with
           child: Container(
             alignment: Alignment.centerLeft,
             margin: const EdgeInsets.only(top: 10),
-            child: Text("TrackJobs".substring(0, double.parse(removetextAnimation.value.toString()).toInt()), style: GoogleFonts.msMadi(
+            child: Text("TrackJobs".substring(0, double.parse(removetextAnimation.value.toString()).toInt()), style: GoogleFonts.sacramento(
               fontSize: sizeAnimation.value,
-              color: Colors.brown.shade100,
-              fontWeight: FontWeight.bold,
+              color: ColorFromHexCode("#383C39"),
+              fontWeight: FontWeight.w800,
               shadows: [
-                Shadow(color: Colors.brown.shade900, offset: Offset(1, 1), blurRadius: 1),
-                Shadow(color: Colors.brown.shade900, offset: Offset(1, 1), blurRadius: 1),
+                Shadow(color: Colors.grey.shade100, offset: Offset(1, 1), blurRadius: 4),
+                Shadow(color: Colors.grey.shade100, offset: Offset(1, 1), blurRadius: 4),
               ]
             ),
             textAlign: TextAlign.start,),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/AdFile.dart';
 import 'package:governmentapp/Beauty/ShowSkeleton.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
@@ -26,9 +27,6 @@ class JobBoxs extends StatefulWidget {
 
 class _JobBoxsState extends State<JobBoxs> {
 
-  late AdWidget adWidget1;
-  late AdWidget adWidget2;
-  late AdWidget adWidget3;
 
   Map<String, List<JobBox>> _ToShowJobs = Map<String, List<JobBox>>();
   var AllDepartments = <Widget>[];
@@ -53,13 +51,13 @@ class _JobBoxsState extends State<JobBoxs> {
                 children: <Widget>[
                   SizedBox(height: 20,),
                   Text("Required Results Not Available.",
-                  style: TextStyle(fontWeight: FontWeight.w400,
+                  style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,
                   fontSize: 16,
                     color: Colors.grey.shade700
                   ),),
                   SizedBox(height: 10,),
                   Text("Click the icon below to find some more jobs.",
-                    style: TextStyle(fontWeight: FontWeight.w200,
+                    style: GoogleFonts.quicksand(fontWeight: FontWeight.w200,
                       fontSize: 12,
                       color: Colors.grey.shade400
                   ),),
@@ -127,23 +125,24 @@ class _JobBoxsState extends State<JobBoxs> {
 
       counts = 0;
       _ToShowJobs.forEach((key, value) async {
-        if (counts == 3 || counts == 6 || counts == 9)  {
-          if(AdsEnable == "TRUE") {
+        if (counts == 9 && AdsEnable == "TRUE" && TJSNInterstitialAd.adWidget3 != null) {
+          try {
             _AllDepartments.add(
                 Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     border: Border.all(width: 2, color: Colors.white),
                   ),
-                  child: counts == 3 ? adWidget1 :
-                      counts == 6 ? adWidget2 :
-                      adWidget3,
+                  child: counts == 3 ? TJSNInterstitialAd.adWidget1 :
+                  counts == 6 ? TJSNInterstitialAd.adWidget2 :
+                  TJSNInterstitialAd.adWidget3,
                   width: 300,
                   height: 250,
                 )
             );
           }
+          catch(e){print(e);}
         }
         else{
           _AllDepartments.add(
@@ -161,33 +160,13 @@ class _JobBoxsState extends State<JobBoxs> {
     });
   }
 
-  Future<void> LoadAds() async {
-    await TJSNInterstitialAd.LoadJobBoxs1();
-    TJSNInterstitialAd.JobBoxs1.load();
-    adWidget1 = AdWidget(
-        ad: TJSNInterstitialAd.JobBoxs1
-    );
-
-    await TJSNInterstitialAd.LoadJobBoxs2();
-    TJSNInterstitialAd.JobBoxs2.load();
-    adWidget2 = AdWidget(
-        ad: TJSNInterstitialAd.JobBoxs2
-    );
-
-    await TJSNInterstitialAd.LoadJobBoxs3();
-    TJSNInterstitialAd.JobBoxs3.load();
-    adWidget3 = AdWidget(
-        ad: TJSNInterstitialAd.JobBoxs3
-    );
-  }
-
-  void InitFunctions()
-  {
-    LoadAds();
+  Future<void> InitFunctions()
+  async {
     JobDisplayManagement.HOTJOBSF = (List<JobDisplayData> list){
       if(JobDisplayManagement.WhichShowing == 1)
         {
           print("HOTJOBS");
+          JobDisplayManagement.EASEBTNC.add("");
           Display(list);
         }
     };
@@ -195,6 +174,7 @@ class _JobBoxsState extends State<JobBoxs> {
       if(JobDisplayManagement.WhichShowing == 2)
       {
         print("CHOOSEJOBS");
+        JobDisplayManagement.EASEBTNC.add("");
         Display(list);
       }
     };
@@ -202,6 +182,7 @@ class _JobBoxsState extends State<JobBoxs> {
       if(JobDisplayManagement.WhichShowing == 3)
       {
         print("SEARCHJOBS");
+        JobDisplayManagement.EASEBTNC.add("");
         Display(list);
       }
     };
@@ -209,6 +190,7 @@ class _JobBoxsState extends State<JobBoxs> {
       if(JobDisplayManagement.WhichShowing == 4)
       {
         print("FAVJOBS");
+        JobDisplayManagement.EASEBTNC.add("");
         Display(list);
       }
     };
@@ -227,8 +209,16 @@ class _JobBoxsState extends State<JobBoxs> {
     };
   }
 
+  Future<void> LoadADs()
+  async {
+    await TJSNInterstitialAd.LoadJobBoxs3();
+    await TJSNInterstitialAd.LoadBannerAd();
+    await TJSNInterstitialAd.LoadBannerAd2();
+  }
+
   @override
   void initState() {
+    LoadADs();
     InitFunctions();
     InitCurrents();
     super.initState();

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:governmentapp/DataPullers/AllPullers.dart';
 import 'package:governmentapp/ForUsers/ChooseState.dart';
@@ -135,7 +136,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                       Container(
                           width:MediaQuery.of(context).size.width - 100,
                           child: Text(SelectedDepartment[i],
-                            style: const TextStyle(
+                            style: GoogleFonts.quicksand(
                               color: Colors.black,
                             ),
                           )
@@ -458,7 +459,7 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Text("Write the Choice",
-                                style: TextStyle(
+                                style: GoogleFonts.quicksand(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey.shade700
@@ -489,12 +490,12 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                                         decoration: InputDecoration(
                                             border: InputBorder.none,
                                             labelText: 'bank, force, defence, upsc, ssc, bihar',
-                                            labelStyle: TextStyle(
+                                            labelStyle: GoogleFonts.quicksand(
                                                 color: Colors.grey.shade500,
                                                 fontWeight: FontWeight.w500
                                             ),
                                             hintText: 'Please spell correct',
-                                            hintStyle: TextStyle(
+                                            hintStyle: GoogleFonts.quicksand(
                                                 color: Colors.grey.shade600
                                             )
                                         ),
@@ -566,9 +567,9 @@ class _ChooseDepartmentState extends State<ChooseDepartment> {
                     },
                     child: Container(
                       color: Colors.grey[900],
-                      child: const Center(child: Text(
+                      child: Center(child: Text(
                           "Proceed",
-                        style: TextStyle(fontSize: 18,
+                        style: GoogleFonts.quicksand(fontSize: 18,
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                         ),

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:governmentapp/JobData.dart';
 
 class CurrentJob{
+  static bool HomeButtonsAlreadyLoaded = false;
+
   static JobData currrentjobData = JobData();
   static StreamController<JobData> CurrentJobStreamController = StreamController<JobData>();
   static Stream currentjobStream = CurrentJobStreamController.stream;

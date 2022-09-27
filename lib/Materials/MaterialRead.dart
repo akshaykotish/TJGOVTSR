@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:governmentapp/AdFile.dart';
 import 'package:governmentapp/DataPullers/MaterialsPusher.dart';
@@ -37,23 +38,24 @@ class _MaterialReadState extends State<MaterialRead> {
   }
 
 
-  Container LoadADWidget()
-  {
-    TJSNInterstitialAd.LoadEncyclopedia();
-    TJSNInterstitialAd.myBanner.load();
-    return Container(
-      color: Colors.white,
-      child: AdWidget(
-        ad: TJSNInterstitialAd.Encyclopedia,
-      ),
+  Container adcntnr = Container();
+  Future<void> LoadADWidget()
+  async {
+    await TJSNInterstitialAd.LoadMaterial();
+    adcntnr = Container(
+      child: TJSNInterstitialAd.adWidget5,
       width: 320,
       height: 100,
     );
+    setState(() {
+
+    });
   }
 
 
   @override
   void initState() {
+    LoadADWidget();
     TJSNInterstitialAd.LoadMaterial();
     MaterialPusher.Execute();
     super.initState();
@@ -80,7 +82,7 @@ class _MaterialReadState extends State<MaterialRead> {
                 ),
               ),
               const SizedBox(height: 20,),
-              const Text("Find the Material", style: TextStyle(fontSize: 25, fontWeight: FontWeight.w700),),
+              Text("Find the Material", style: GoogleFonts.quicksand(fontSize: 25, fontWeight: FontWeight.w700),),
               const SizedBox(height: 20,),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -137,7 +139,7 @@ class _MaterialReadState extends State<MaterialRead> {
                   ),
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(20),
-                  child: Text("Search", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey[400]),),
+                  child: Text("Search", style: GoogleFonts.quicksand(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey[400]),),
                 ),
               ),
               Container(
@@ -148,7 +150,8 @@ class _MaterialReadState extends State<MaterialRead> {
                 child: isloading ? CircularProgressIndicator() : null,
               ),
               Container(
-                  child: LoadADWidget())
+                  child: adcntnr,
+              )
             ],
           ),
         ),

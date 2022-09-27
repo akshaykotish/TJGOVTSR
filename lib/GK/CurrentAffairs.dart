@@ -6,6 +6,7 @@ import 'package:governmentapp/DataPullers/GKPullers.dart';
 import 'package:governmentapp/GK/GKPage.dart';
 import 'package:governmentapp/GK/GKQuiz.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 class CurrentAffairs extends StatefulWidget {
@@ -67,30 +68,24 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
     print("GO TO FLOW ${e}");
   }
 
-
-  Container LoadADWidget()
-  {
-    TJSNInterstitialAd.LoadBannerAd();
-    TJSNInterstitialAd.myBanner.load();
-    return Container(
-      color: Colors.white,
-      child: AdWidget(
-        ad: TJSNInterstitialAd.myBanner,
-      ),
-      width: 300,
-      height: 100,
+  Container adCntnr = Container();
+  Future<void> LoadADWidget()
+  async {
+    await TJSNInterstitialAd.LoadBannerAd();
+    adCntnr = Container(
+      child: TJSNInterstitialAd.adWidget6,
     );
+    setState(() {
+
+    });
   }
 
 
   @override
   void initState() {
-    //LoadPageIndex();
+    LoadADWidget();
     GKPullers.Execute();
     LoadCurrentAffairs();
-    // pageController.addListener(() {
-    //   SavePageIndex(pageController.page!.toInt());
-    // });
     super.initState();
   }
 
@@ -104,7 +99,7 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
                 top: 0,
                 left: 0,
                 right: 0,
-                bottom: 120,
+                bottom:  TJSNInterstitialAd.adWidget6 != null ? 60 : 0,
                 child: PageView(
                   controller: pageController,
                   scrollDirection: Axis.vertical,
@@ -126,7 +121,7 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
                             padding: EdgeInsets.all(15),
                             color: Colors.grey[900],
                             width: MediaQuery.of(context).size.width,
-                            child: const Text("Give a Quiz on Current Affairs.", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white), textAlign: TextAlign.center,),
+                            child: Text("Give a Quiz on Current Affairs.", style: GoogleFonts.quicksand(fontSize: 16, fontWeight: FontWeight.w700, color: Colors.white), textAlign: TextAlign.center,),
                           ),
                           onTap: (){
                             Navigator.push(context, PageRouteBuilder(
@@ -145,10 +140,9 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
                           },
                         ),
                         Container(
-                            width: 320,
-                            height: 50,
-                            color: Colors.white,
-                            child: LoadADWidget()),
+                          height: TJSNInterstitialAd.adWidget6 != null ? 60 : 0,
+                            child: adCntnr
+                        ),
                       ],
                     ),
               ),

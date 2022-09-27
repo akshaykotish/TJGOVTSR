@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/ForUsers/ChooseDepartment.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -64,10 +65,9 @@ class _FilterPageState extends State<FilterPage> {
                 Container(
                     width:MediaQuery.of(context).size.width - 100,
                     child: Text(SelectedDepartment[i],
-                      style: const TextStyle(
+                      style: GoogleFonts.quicksand(
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
-                        fontFamily: "EBGaramond"
                       ),
                     )
                 ),
@@ -109,7 +109,7 @@ class _FilterPageState extends State<FilterPage> {
                 Container(
                     width:MediaQuery.of(context).size.width - 100,
                     child: Text(SelectedState[i],
-                      style: const TextStyle(
+                      style: GoogleFonts.quicksand(
                         color: Colors.black,
                       ),
                     )
@@ -152,7 +152,7 @@ class _FilterPageState extends State<FilterPage> {
                 Container(
                     width:MediaQuery.of(context).size.width - 100,
                     child: Text(SelectedInterest[i],
-                      style: const TextStyle(
+                      style: GoogleFonts.quicksand(
                         color: Colors.black,
                       ),
                     )
@@ -206,7 +206,7 @@ class _FilterPageState extends State<FilterPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Filtering Jobs", style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.grey[800]),),
+                      Text("Filtering Jobs", style: GoogleFonts.quicksand(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.grey[800]),),
                       const SizedBox(height: 20,),
                       Container(
                         margin: EdgeInsets.all(10),
@@ -227,7 +227,7 @@ class _FilterPageState extends State<FilterPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 20,),
-                            Text("Departments", style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
+                            Text("Departments", style: GoogleFonts.quicksand(fontSize: 18, fontWeight: FontWeight.w600),),
                             Column(
                               children: SelectedDepartmentWidget,
                             ),
@@ -236,12 +236,12 @@ class _FilterPageState extends State<FilterPage> {
                       ),
 
                       const SizedBox(height: 20,),
-                      const Text("States", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
+                      Text("States", style: GoogleFonts.quicksand(fontSize: 18, fontWeight: FontWeight.w600),),
                       Column(
                         children: SelectedStateWidget,
                       ),
                       const SizedBox(height: 20,),
-                      const Text("Interest", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
+                      Text("Interest", style: GoogleFonts.quicksand(fontSize: 18, fontWeight: FontWeight.w600),),
                       Column(
                         children: SelectedInterestWidget,
                       ),
@@ -264,9 +264,9 @@ class _FilterPageState extends State<FilterPage> {
                     },
                     child: Container(
                       color: Colors.grey[900],
-                      child: const Center(child: Text(
+                      child: Center(child: Text(
                         "Add/Edit Your Filters",
-                        style: TextStyle(fontSize: 18,
+                        style: GoogleFonts.quicksand(fontSize: 18,
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                         ),

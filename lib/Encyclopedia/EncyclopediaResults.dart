@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/Encyclopedia/EncyclopediaSearch.dart';
 import 'package:governmentapp/Encyclopedia/EncylopediaData.dart';
 import 'package:html/parser.dart';
@@ -123,8 +124,8 @@ class _EncyclopediaResultState extends State<EncyclopediaResult> {
               (
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(encylopediaData.Name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.blueAccent),),
-                Text(encylopediaData.Details, style: TextStyle(fontSize: 15,color: Colors.grey[500] ),),
+                Text(encylopediaData.Name, style: GoogleFonts.quicksand(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.blueAccent),),
+                Text(encylopediaData.Details, style: GoogleFonts.quicksand(fontSize: 15,color: Colors.grey[500] ),),
               ],
             ),
           ),

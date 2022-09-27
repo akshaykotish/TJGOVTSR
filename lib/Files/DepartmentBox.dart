@@ -63,7 +63,7 @@ class _DepartmentBoxState extends State<DepartmentBox> {
               child: Text(
                   widget.DepartmentName.length > 50 ? widget.DepartmentName.substring(0, 50).toTitleCase().replaceAll("\n", "") + "..." :
                 widget.DepartmentName.toTitleCase().replaceAll("\n", ""),
-                style: GoogleFonts.yantramanav(
+                style: GoogleFonts.quicksand(
                   fontWeight: FontWeight.w500,
                   fontSize: 12,
                   color: Colors.white.withOpacity(0.8),
@@ -74,7 +74,7 @@ class _DepartmentBoxState extends State<DepartmentBox> {
           Column(
             children: widget.jobboxes,
           ),
-          SizedBox(height: 10,),
+          SizedBox(height: 5,),
         ],
       ),
     );

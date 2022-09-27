@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -85,7 +86,7 @@ class _ChooseInterestState extends State<ChooseInterest> {
                 Container(
                     width:MediaQuery.of(context).size.width - 100,
                     child: Text(SelectedInterest[i],
-                      style: const TextStyle(
+                      style: GoogleFonts.quicksand(
                         color: Colors.black,
                       ),
                     )
@@ -292,7 +293,7 @@ class _ChooseInterestState extends State<ChooseInterest> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text("Write the Interest keyword",
-                                  style: TextStyle(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey.shade700
@@ -323,12 +324,12 @@ class _ChooseInterestState extends State<ChooseInterest> {
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
                                               labelText: 'clerk, po, engineer, civil, inspector',
-                                              labelStyle: TextStyle(
+                                              labelStyle: GoogleFonts.quicksand(
                                                   color: Colors.grey.shade500,
                                                   fontWeight: FontWeight.w500
                                               ),
                                               hintText: 'Please spell correct',
-                                              hintStyle: TextStyle(
+                                              hintStyle: GoogleFonts.quicksand(
                                                   color: Colors.grey.shade600
                                               )
                                           ),
@@ -400,9 +401,9 @@ class _ChooseInterestState extends State<ChooseInterest> {
                       },
                       child: Container(
                         color: Colors.grey[900],
-                        child: const Center(child: Text(
+                        child: Center(child: Text(
                           "Proceed",
-                          style: TextStyle(fontSize: 18,
+                          style: GoogleFonts.quicksand(fontSize: 18,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
                           ),

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/Beauty/Home.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/ForUsers/ChooseInterest.dart';
@@ -88,7 +89,7 @@ class _ChooseStateState extends State<ChooseState> {
                 Container(
                     width:MediaQuery.of(context).size.width - 100,
                     child: Text(SelectedState[i],
-                      style: const TextStyle(
+                      style: GoogleFonts.quicksand(
                         color: Colors.black,
                       ),
                     )
@@ -297,7 +298,7 @@ class _ChooseStateState extends State<ChooseState> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text("Confirm the Loaction",
-                                  style: TextStyle(
+                                  style: GoogleFonts.quicksand(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey.shade700
@@ -328,12 +329,12 @@ class _ChooseStateState extends State<ChooseState> {
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
                                               labelText: 'haryana, punjab, delhi, bihar',
-                                              labelStyle: TextStyle(
+                                              labelStyle: GoogleFonts.quicksand(
                                                   color: Colors.grey.shade500,
                                                   fontWeight: FontWeight.w500
                                               ),
                                               hintText: 'Please spell correct',
-                                              hintStyle: TextStyle(
+                                              hintStyle: GoogleFonts.quicksand(
                                                   color: Colors.grey.shade600
                                               )
                                           ),
@@ -405,9 +406,9 @@ class _ChooseStateState extends State<ChooseState> {
                       },
                       child: Container(
                         color: Colors.grey[900],
-                        child: const Center(child: Text(
+                        child: Center(child: Text(
                           "Confirm",
-                          style: TextStyle(fontSize: 18,
+                          style: GoogleFonts.quicksand(fontSize: 18,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
                           ),

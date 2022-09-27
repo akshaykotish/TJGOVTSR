@@ -74,7 +74,6 @@ class LatestJobs{
     int NetDataSize = Links.length;
     NewLastSavedSizes = LastSavedSizes;
 
-    print("Links Length: ${NetDataSize}");
     if(NetDataSize == LastSavedSizes){
       return;
     }
