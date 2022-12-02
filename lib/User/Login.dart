@@ -268,11 +268,11 @@ class _LoginAreaState extends State<LoginArea> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("Join TJ's", style: GoogleFonts.quicksand(fontWeight: FontWeight.w700, fontSize: 20, color: Colors.grey.shade800,),),
-                Text("Sarkari Naukri", style: GoogleFonts.quicksand(fontWeight: FontWeight.w700, fontSize: 30, color: Colors.grey.shade800,),),
-                Text("No worry, Your privacy is out top most priority.", style: GoogleFonts.quicksand(fontWeight: FontWeight.w400, fontSize: 10, color: Colors.grey.shade800,),),
+                Text("Join TJ's", style: TextStyle(fontFamily: "uber",fontWeight: FontWeight.w700, fontSize: 20, color: Colors.grey.shade800,),),
+                Text("Sarkari Naukri", style: TextStyle(fontFamily: "uber",fontWeight: FontWeight.w700, fontSize: 30, color: Colors.grey.shade800,),),
+                Text("Your data is safe with us.", style: TextStyle(fontFamily: "uber",fontWeight: FontWeight.w400, fontSize: 10, color: Colors.grey.shade800,),),
                 const SizedBox(height: 15,),
-                Text("${otptxt}", style: GoogleFonts.quicksand(fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black),),
+                Text("${otptxt}", style: TextStyle(fontFamily: "uber",fontSize: 12, fontWeight: FontWeight.w500, color: Colors.black),),
                 const SizedBox(height: 20,),
 //                const Text("Full Name"),
                 Container(
@@ -289,13 +289,13 @@ class _LoginAreaState extends State<LoginArea> {
                     },
                     decoration: InputDecoration(
                         border: InputBorder.none,
-                        labelText: 'Full Name',
-                        labelStyle: GoogleFonts.quicksand(
+                        labelText: 'Name',
+                        labelStyle: TextStyle(fontFamily: "uber",
                             color: Colors.grey.shade500,
                             fontWeight: FontWeight.w500
                         ),
-                        hintText: 'Please spell correct',
-                        hintStyle: GoogleFonts.quicksand(
+                        hintText: 'Write your name',
+                        hintStyle: TextStyle(fontFamily: "uber",
                             color: Colors.grey.shade600
                         ),
                       prefixText: "",
@@ -321,14 +321,13 @@ class _LoginAreaState extends State<LoginArea> {
                     },
                     decoration: InputDecoration(
                         border: InputBorder.none,
-
                         labelText: 'Contact',
-                        labelStyle: GoogleFonts.quicksand(
+                        labelStyle: TextStyle(fontFamily: "uber",
                             color: Colors.grey.shade500,
                             fontWeight: FontWeight.w500
                         ),
-                        hintText: 'Please spell correct',
-                        hintStyle: GoogleFonts.quicksand(
+                        hintText: 'Write your Contact.',
+                        hintStyle: TextStyle(fontFamily: "uber",
                             color: Colors.grey.shade600
                         ),
                         prefixText: "+91 ",
@@ -370,12 +369,12 @@ class _LoginAreaState extends State<LoginArea> {
                         decoration: InputDecoration(
                             border: InputBorder.none,
                             labelText: 'One Time Pin',
-                            labelStyle: GoogleFonts.quicksand(
+                            labelStyle: TextStyle(fontFamily: "uber",
                                 color: Colors.grey.shade500,
                                 fontWeight: FontWeight.w500
                             ),
                             hintText: 'Please spell correct',
-                            hintStyle: GoogleFonts.quicksand(
+                            hintStyle: TextStyle(fontFamily: "uber",
                                 color: Colors.grey.shade600
                             ),
                           prefixText: "OTP: ",
@@ -401,7 +400,7 @@ class _LoginAreaState extends State<LoginArea> {
                         decoration: BoxDecoration(
                           color: Colors.grey[800]
                         ),
-                        child: Text("Click to Login", style: GoogleFonts.quicksand(fontWeight: FontWeight.w400, color: Colors.white),),
+                        child: Text("Click to Login", style: TextStyle(fontFamily: "uber",fontWeight: FontWeight.w400, color: Colors.white),),
                       ),
                     ),
                   ),

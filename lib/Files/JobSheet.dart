@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
+import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/JobData.dart';
 import 'package:governmentapp/User/WriteALog.dart';
 import 'package:governmentapp/VacancyDetails.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../DataLoadingSystem/JobDisplayManagement.dart';
 
 
 class JobSheet extends StatefulWidget {
@@ -37,6 +40,7 @@ class _JobSheetState extends State<JobSheet> {
   var All_HowTo = <Widget>[];
   var All_Corrections = <Widget>[];
   var All_VDetails = <Widget>[];
+  var All_ButtonsVertical = <Widget>[];
 
 
   var Clicks = <Widget>[];
@@ -47,7 +51,7 @@ class _JobSheetState extends State<JobSheet> {
 
     _All_Dates.add(Padding(
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      child: Text("Dates", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+      child: Text("Dates", style: GoogleFonts.poppins( color: ColorFromHexCode("A0E3C7"), fontSize: 15, fontWeight: FontWeight.w500),),
     ));
     if(jobData.Important_Dates.length == 0)
       {
@@ -59,10 +63,10 @@ class _JobSheetState extends State<JobSheet> {
         if (!jobData.Important_Dates.keys.elementAt(index).contains(
             "Credit")) {
           _All_Dates.add(
-            Text(jobData.Important_Dates.keys.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w300,),),
+            Text(jobData.Important_Dates.keys.elementAt(index), style: GoogleFonts.poppins(fontWeight: FontWeight.w300, color: Colors.white,),),
           );
           _All_Dates.add(
-            Text(jobData.Important_Dates.values.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
+            Text(jobData.Important_Dates.values.elementAt(index), style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: Colors.white,),),
           );
           _All_Dates.add(SizedBox(height: 15,));
         }
@@ -80,7 +84,7 @@ class _JobSheetState extends State<JobSheet> {
 
     _All_Ages.add(Padding(
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      child: Text("Age Limits", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+      child: Text("Age Limits", style: GoogleFonts.poppins( color: ColorFromHexCode("A0E3C7"), fontSize: 15, fontWeight: FontWeight.w500),),
     ));
     if(jobData.AgeLimits.length == 0)
     {
@@ -92,10 +96,10 @@ class _JobSheetState extends State<JobSheet> {
         if (!jobData.AgeLimits.keys.elementAt(index).contains(
             "Credit")) {
           _All_Ages.add(
-            Text(jobData.AgeLimits.keys.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w300,),),
+            Text(jobData.AgeLimits.keys.elementAt(index), style: GoogleFonts.poppins(fontWeight: FontWeight.w300, color: Colors.white,),),
           );
           _All_Ages.add(
-            Text(jobData.AgeLimits.values.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
+            Text(jobData.AgeLimits.values.elementAt(index), style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: Colors.white,),),
           );
           _All_Ages.add(SizedBox(height: 15,));
         }
@@ -112,7 +116,7 @@ class _JobSheetState extends State<JobSheet> {
 
     _All_Centers.add(Padding(
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      child: Text("Exam Centers", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+      child: Text("Exam Centers", style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600),),
     ));
     if(jobData.AgeLimits.length == 0)
     {
@@ -124,10 +128,10 @@ class _JobSheetState extends State<JobSheet> {
         if (!jobData.ExamCenters.keys.elementAt(index).contains(
             "Credit")) {
           _All_Centers.add(
-            Text(jobData.ExamCenters.keys.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w300,),),
+            Text(jobData.ExamCenters.keys.elementAt(index), style: GoogleFonts.poppins(fontWeight: FontWeight.w300, color: Colors.white,),),
           );
           _All_Centers.add(
-            Text(jobData.ExamCenters.values.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
+            Text(jobData.ExamCenters.values.elementAt(index), style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: Colors.white,),),
           );
           _All_Centers.add(SizedBox(height: 15,));
         }
@@ -144,7 +148,7 @@ class _JobSheetState extends State<JobSheet> {
 
     _All_HowTo.add(Padding(
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      child: Text("How To Steps", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+      child: Text("How To Steps", style: GoogleFonts.poppins(color: ColorFromHexCode("A0E3C7"), fontSize: 15, fontWeight: FontWeight.w500),),
     ));
     if(jobData.AgeLimits.length == 0)
     {
@@ -154,7 +158,7 @@ class _JobSheetState extends State<JobSheet> {
       for (var index = 0; index <
           jobData.HowTo.length; index++) {
           _All_HowTo.add(
-            Text(jobData.HowTo[index], style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
+            Text(jobData.HowTo[index], style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: Colors.white,),),
           );
           _All_HowTo.add(SizedBox(height: 15,));
 
@@ -171,7 +175,7 @@ class _JobSheetState extends State<JobSheet> {
 
     _All_Corrections.add(Padding(
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      child: Text("Corrections", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+      child: Text("Corrections", style: GoogleFonts.poppins(color: ColorFromHexCode("#A0E3C7"), fontSize: 15, fontWeight: FontWeight.w500),),
     ));
     if(jobData.Corrections.length == 0)
     {
@@ -181,7 +185,7 @@ class _JobSheetState extends State<JobSheet> {
       for (var index = 0; index <
           jobData.Corrections.length; index++) {
         _All_Corrections.add(
-          Text(jobData.Corrections[index], style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
+          Text(jobData.Corrections[index], style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: Colors.white,),),
         );
         _All_Corrections.add(SizedBox(height: 15,));
 
@@ -198,24 +202,24 @@ class _JobSheetState extends State<JobSheet> {
 
     _All_Fees.add(Padding(
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
-      child: Text("Fees", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
+      child: Text("Fees", style: GoogleFonts.poppins( color: ColorFromHexCode("A0E3C7"), fontSize: 15, fontWeight: FontWeight.w500),),
     ));
 
     for(int index =0; index <  jobData.ApplicationFees.keys.length; index++) {
       if (!jobData.ApplicationFees.keys.elementAt(index).contains(
           "Credit")) {
         _All_Fees.add(
-          Text(jobData.ApplicationFees.keys.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w300,),),
+          Text(jobData.ApplicationFees.keys.elementAt(index), style: GoogleFonts.poppins(fontWeight: FontWeight.w300, color: Colors.white,),),
         );
 
         if(jobData.ApplicationFees.values.elementAt(index).toString().contains("/-")){
           _All_Fees.add(
-            Text("₹ ${jobData.ApplicationFees.values.elementAt(index)}", style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
+            Text("₹ ${jobData.ApplicationFees.values.elementAt(index)}", style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: Colors.white,),),
           );
         }
         else{
           _All_Fees.add(
-            Text(jobData.ApplicationFees.values.elementAt(index), style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,),),
+            Text(jobData.ApplicationFees.values.elementAt(index), style: GoogleFonts.poppins(fontWeight: FontWeight.w400, color: Colors.white,),),
           );
         }
 
@@ -230,8 +234,11 @@ class _JobSheetState extends State<JobSheet> {
   Future<void> LoadClicks() async
   {
     var _Clicks = <Widget>[];
+    var _All_ButtonsVertical = <Widget>[];
+
+    int index = 0;
     for(int i=0; i<jobData.ButtonsName.length; i++) {
-      if (jobData.ButtonsName[i].toString().contains("Telegram")) {
+      if (jobData.ButtonsName[i].toString().contains("Telegram") || jobData.ButtonsName[i].toString().contains("Resize") || jobData.ButtonsName[i].toString().contains("Maker") || jobData.ButtonsName[i].toString().contains("Typing")) {
         continue;
       }
       else {
@@ -251,7 +258,7 @@ class _JobSheetState extends State<JobSheet> {
               },
               child: Container(
                 padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Text(jobData.ButtonsName[i], style: GoogleFonts.quicksand(
+                child: Text(jobData.ButtonsName[i], style: GoogleFonts.poppins(
                   fontSize: 12,
                     color: Colors.grey[900],
                     fontWeight: FontWeight.w500,
@@ -260,9 +267,37 @@ class _JobSheetState extends State<JobSheet> {
               ),
             )
         );
+        index++;
+        _All_ButtonsVertical.add(
+            GestureDetector(
+              onTap: () async {
+                if(jobData.ButtonsName[i].toString().toLowerCase().contains("apply"))
+                {
+                  WriteALog.Write("Job Applied Click", jobData.path, DateTime.now().toIso8601String());
+                }
+                if (await canLaunch(jobData.ButtonsURL[i])) {
+                  await launch(jobData.ButtonsURL[i]);
+                }
+                else {
+                  print("Can't launch ${jobData.ButtonsURL[i]}");
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Text(index.toString() + ". " + jobData.ButtonsName[i], style: GoogleFonts.poppins(
+                  fontSize: 12,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.underline,
+                ),
+                ),
+              ),
+            )
+        );
         if (i == jobData.ButtonsName.length - 1) {
           setState(() {
             Clicks = _Clicks;
+            All_ButtonsVertical = _All_ButtonsVertical;
           });
         }
       }
@@ -277,8 +312,8 @@ class _JobSheetState extends State<JobSheet> {
       padding: const EdgeInsets.only(left: 0, top: 10, bottom: 10),
       child: Row(
         children: [
-          Text("Vacancies", style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),),
-          Text(" (Data Generated by Computer)", style: GoogleFonts.quicksand(fontSize: 10),)
+          Text("Vacancies", style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600),),
+          Text(" (Data Generated by Computer)", style: GoogleFonts.poppins(fontSize: 10),)
         ],
       ),
     ));
@@ -286,7 +321,7 @@ class _JobSheetState extends State<JobSheet> {
     int indx = 0;
     jobData.VDetails.forEach((VacancyDetails VDetail) {
       var _VDetailBox = <Widget>[];
-      _VDetailBox.add(Text(VDetail.Title, style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w600),)); //Title
+      _VDetailBox.add(Text(VDetail.Title, style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w600),)); //Title
       for(int i=0; i<VDetail.datas.length; i++) {
         var _VDetailRow = <Widget>[];
         for(int j=0; j<VDetail.datas[i].data.length; j++)
@@ -294,7 +329,7 @@ class _JobSheetState extends State<JobSheet> {
             var _VDetailColumn = <Widget>[];
             if(j < VDetail.headers.length)
             {
-              _VDetailColumn.add(Text(VDetail.headers[j], style: GoogleFonts.quicksand(color: Colors.grey[800], fontWeight: FontWeight.w300, fontSize: 10),));
+              _VDetailColumn.add(Text(VDetail.headers[j], style: GoogleFonts.poppins(color: Colors.white, fontWeight: FontWeight.w300, fontSize: 10),));
             }
             _VDetailColumn.add(Text(VDetail.datas[i].data[j]));
             _VDetailColumn.add(const SizedBox(height: 1,));
@@ -342,6 +377,7 @@ class _JobSheetState extends State<JobSheet> {
 
   @override
   void initState() {
+    print("${widget.jobData.vdetailsquery.length} is data...");
 
     jobData = widget.jobData;
 
@@ -457,296 +493,309 @@ class _JobSheetState extends State<JobSheet> {
   @override
   Widget build(BuildContext context)  {
     return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(image: AssetImage("./assets/branding/dbg.jpg"),
-        fit: BoxFit.fill)
-      ),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 35, sigmaY: 35),
-        child: Container(
-          color: Colors.white.withOpacity(0.1),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                height: 25,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  ),
-                ),
-                child: Center(
-                  child: Icon(Icons.drag_handle, color: Colors.grey[400],),
+      color: ColorFromHexCode("#404752"),
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              height: 25,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height - 120,
-                margin: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.5),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height - 120 - 50,
-                      padding: EdgeInsets.all(20),
-                      child: SingleChildScrollView(
-                        controller: scrollController,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(height: 25,),
-                            Container(
+              child: Center(
+                child: Icon(Icons.drag_handle, color: Colors.grey[400],),
+              ),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height - 120,
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height - 120 - 50,
+                    padding: EdgeInsets.all(20),
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            child: Text(widget.jobData.Designation.toString(),
+                            textAlign: TextAlign.start,
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: ColorFromHexCode("#A0E3C7"),
+                            ),
+                            ),
+                          ),
+                          SizedBox(height: 25,),
+                          GestureDetector(
+                           onTap: (){
+                             JobDisplayManagement.ChatBoxQueryC.add(widget.jobData.Department.toLowerCase());
+                             CurrentJob.HideJobSheetData.add("a");
+                           },
+                            child: Container(
                               width: MediaQuery.of(context).size.width,
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.all(10),
+                              alignment: Alignment.centerLeft,
                               child: Text(widget.jobData.Department.toString(),
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.grey[800],
+                                textAlign: TextAlign.start,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                  decoration: TextDecoration.underline,
                                 ),
                               ),
                             ),
-                            Container(
-                              child: Text(widget.jobData.Designation.toString(),
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.grey[800]
-                              ),
+                          ),
+                          SizedBox(height: 30,),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Text("Date: ${widget.jobData.LastUpdate}",
+                              textAlign: TextAlign.left,
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: Colors.white, fontWeight: FontWeight.w500
                               ),
                             ),
-                            SizedBox(height: 30,),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Text("Date: ${widget.jobData.LastUpdate}",
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.quicksand(
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Text("No.: ${widget.jobData.AdvertisementNumber.replaceAll("Short Details of Notification", "")}",
+                              textAlign: TextAlign.left,
+                              style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                color: Colors.white, fontWeight: FontWeight.w500
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              "Location: ${widget.jobData.Location}".toString(),
+                              style: GoogleFonts.poppins(
                                   fontSize: 14,
-                                  color: Colors.grey[700],
-                                ),
+                                  color: Colors.white
                               ),
                             ),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Text("No.: ${widget.jobData.AdvertisementNumber.replaceAll("Short Details of Notification", "")}",
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.quicksand(
-                                  fontSize: 14,
-                                  color: Colors.grey[700],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                "Location: ${widget.jobData.Location}".toString(),
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 14,
-                                    color: Colors.grey[700]
-                                ),
-                              ),
-                            ),
-                            widget.jobData.WebsiteLink != "" ? GestureDetector(
-                              onTap: () async {
-                                if (await canLaunch(jobData.WebsiteLink)) {
-                                await launch(jobData.WebsiteLink);
-                                }
-                                else {
-                                print("Can't launch ${jobData.WebsiteLink}");
-                                }
-                              },
-                              child: Container(
-                                  child:Text(
-                                    "Website: ${widget.jobData.WebsiteLink}".toString(),
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 14,
-                                        color: Colors.grey[700]
-                                    ),
-                                  )
-                              ),
-                            ) : Container(),
-                            SizedBox(height: 30,),
-                            Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text("Brief", style: GoogleFonts.quicksand(fontWeight: FontWeight.w500),),
-                                  Text(widget.jobData.Short_Details.toString(),
-                                    style: GoogleFonts.quicksand(
-                                        fontSize: 14,
-                                        color: Colors.grey[700]
-                                    ),
+                          ),
+                          widget.jobData.WebsiteLink != "" ? GestureDetector(
+                            onTap: () async {
+                              if (await canLaunch(jobData.WebsiteLink)) {
+                              await launch(jobData.WebsiteLink);
+                              }
+                              else {
+                              print("Can't launch ${jobData.WebsiteLink}");
+                              }
+                            },
+                            child: Container(
+                                child:Text(
+                                  "Website: ${widget.jobData.WebsiteLink}".toString(),
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                    decoration: TextDecoration.underline,
                                   ),
-                                ],
+                                )
+                            ),
+                          ) : Container(),
+                          SizedBox(height: 30,),
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text("Links", style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500, color: ColorFromHexCode("A0E3C7"),),),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: All_ButtonsVertical,
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 30,),
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text("Brief", style: GoogleFonts.poppins(fontSize: 15, fontWeight: FontWeight.w500, color: ColorFromHexCode("A0E3C7"),),),
+                                Text(widget.jobData.Short_Details.toString(),
+                                  style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      color: Colors.white
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          widget.jobData.DocumentRequired != "" ? Container(
+                            margin: EdgeInsets.only(top: 30),
+                            child: Text(
+                              "Document Required: ${widget.jobData.DocumentRequired}".toString(),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  color: ColorFromHexCode("A0E3C7")
                               ),
                             ),
-                            widget.jobData.DocumentRequired != "" ? Container(
+                          ):Container(),
+                          widget.jobData.Total_Vacancies != "" ? Container(
                               margin: EdgeInsets.only(top: 30),
                               child: Text(
-                                "Document Required: ${widget.jobData.DocumentRequired}".toString(),
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 14,
-                                    color: Colors.grey[700]
-                                ),
+                              "Total Vacancies: ${widget.jobData.Total_Vacancies}".toString(),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 15,
+                                  color: ColorFromHexCode("A0E3C7")
                               ),
-                            ):Container(),
-                            widget.jobData.Total_Vacancies != "" ? Container(
-                                margin: EdgeInsets.only(top: 30),
-                                child: Text(
-                                "Total Vacancies: ${widget.jobData.Total_Vacancies}".toString(),
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 15,
-                                    color: Colors.grey[800]
-                                ),
-                              )
-                            ):Container(),
-                            widget.jobData.Total_Vacancies != "" ? Container(
-                                margin: EdgeInsets.only(top: 30),
-                                child: Text(
-                                "Total Vacancies: ${widget.jobData.Total_Vacancies}".toString(),
-                                style: GoogleFonts.quicksand(
-                                    fontSize: 15,
-                                    color: Colors.grey[800]
-                                ),
-                              )
-                            ) : Container(),
-
-                            
-                            jobData.Important_Dates.isNotEmpty ? Container(
+                            )
+                          ):Container(),
+                          widget.jobData.Total_Vacancies != "" ? Container(
                               margin: EdgeInsets.only(top: 30),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: All_Dates,
+                              child: Text(
+                              "Total Vacancies: ${widget.jobData.Total_Vacancies}".toString(),
+                              style: GoogleFonts.poppins(
+                                  fontSize: 15,
+                                  color: ColorFromHexCode("A0E3C7")
                               ),
-                            ) : Container(),
-
-                            
-                            jobData.ApplicationFees.isNotEmpty ? Container(
-                              margin: EdgeInsets.only(top: 30),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: All_Fees,
-                              ),
-                            ) : Container(),
-
-                            
-                            jobData.AgeLimits.isNotEmpty ? Container(
-                              margin: EdgeInsets.only(top: 30),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: All_Ages,
-                              ),
-                            ) : Container(),
-
-                            
-                            jobData.ExamCenters.isNotEmpty ? Container(
-                              margin: EdgeInsets.only(top: 30),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: All_Centers,
-                              ),
-                            ) : Container(),
-
-                            
-                            jobData.HowTo.isNotEmpty ? Container(
-                              margin: EdgeInsets.only(top: 30),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: All_HowTo,
-                              ),
-                            ) : Container(),
-
-                            jobData.Corrections.isNotEmpty ? Container(
-                              margin: EdgeInsets.only(top: 30),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: All_Corrections,
-                              ),
-                            ) : Container(),
+                            )
+                          ) : Container(),
 
 
-                            jobData.VDetails.isNotEmpty ? Container(
-                              margin: EdgeInsets.only(top: 30),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: All_VDetails,
-                              ),
-                            ) : Container(),
+                          jobData.Important_Dates.isNotEmpty ? Container(
+                            margin: EdgeInsets.only(top: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: All_Dates,
+                            ),
+                          ) : Container(),
 
-                          ],
-                        ),
+
+                          jobData.ApplicationFees.isNotEmpty ? Container(
+                            margin: EdgeInsets.only(top: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: All_Fees,
+                            ),
+                          ) : Container(),
+
+
+                          jobData.AgeLimits.isNotEmpty ? Container(
+                            margin: EdgeInsets.only(top: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: All_Ages,
+                            ),
+                          ) : Container(),
+
+
+                          jobData.ExamCenters.isNotEmpty ? Container(
+                            margin: EdgeInsets.only(top: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: All_Centers,
+                            ),
+                          ) : Container(),
+
+
+                          jobData.HowTo.isNotEmpty ? Container(
+                            margin: EdgeInsets.only(top: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: All_HowTo,
+                            ),
+                          ) : Container(),
+
+                          jobData.Corrections.isNotEmpty ? Container(
+                            margin: EdgeInsets.only(top: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: All_Corrections,
+                            ),
+                          ) : Container(),
+
+
+                          jobData.VDetails.isNotEmpty ? Container(
+                            margin: EdgeInsets.only(top: 30),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: All_VDetails,
+                            ),
+                          ) : Container(),
+
+                        ],
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10))
-                      ),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: () async {
-                                OnLikeJob();
-                                setState(() {
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10))
+                    ),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () async {
+                              OnLikeJob();
+                              setState(() {
 
-                                });
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.only(left: 15, right: 15),
-                                child: lovebtntxt == "Loved" ? Row(
-                                  children: [
-                                    Text( "Favourite", style: GoogleFonts.quicksand(
-                                      fontSize: 12,
-                                      color: Colors.grey[900],
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    ),
-                                    SizedBox(width: 5,),
-                                    Icon(Icons.check),
-                                  ],
-                                ) : Text( "Add to Favourite", style: GoogleFonts.quicksand(
-                                  fontSize: 12,
-                                  color: Colors.grey[900],
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                ),
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.only(left: 15, right: 15),
+                              child: lovebtntxt == "Loved" ? Row(
+                                children: [
+                                  Text( "Favourite", style: GoogleFonts.poppins(
+                                    fontSize: 12,
+                                    color: Colors.grey[900],
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  ),
+                                  SizedBox(width: 5,),
+                                  Icon(Icons.check),
+                                ],
+                              ) : Text( "Add to Favourite", style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                color: Colors.grey[900],
+                                fontWeight: FontWeight.w500,
+                              ),
                               ),
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: Clicks,
-                            ),
-                          ],
-                        ),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: Clicks,
+                          ),
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -778,7 +827,7 @@ class GreyLine extends StatelessWidget {
 
 
 Widget HeaderTexts(String text){
-  return Text(text, style: GoogleFonts.quicksand(fontWeight: FontWeight.w600, fontSize: 20,  color: Colors.black),);
+  return Text(text, style: GoogleFonts.poppins(fontWeight: FontWeight.w600, fontSize: 20,  color: Colors.white),);
 }
 
 
@@ -819,7 +868,7 @@ Widget StylishBox(context, widget, String Header, String Content, String Img){
                 HeaderTexts(Header),
                 Text(
                   Content.toString(),
-                  style: GoogleFonts.quicksand(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black,
+                  style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white,
                   ),
                 ),
               ],
@@ -858,7 +907,7 @@ Container(
                                     ),
                                     child: Text(
                                       widget.jobData.Title.toString(),
-                                      style: GoogleFonts.quicksand(fontSize: 25, fontWeight: FontWeight.w700,
+                                      style: GoogleFonts.poppins(fontSize: 25, fontWeight: FontWeight.w700,
                                           color: Colors.grey[900]
                                       ),
                                     )
@@ -871,7 +920,7 @@ Container(
                                     ),
                                     child: Text(
                                       widget.jobData.Department.toString(),
-                                      style: GoogleFonts.quicksand(fontSize: 12, fontWeight: FontWeight.w700,
+                                      style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w700,
                                           color: Colors.blueAccent[200]
                                       ),
                                     )
@@ -901,7 +950,7 @@ Container(
                                                   color: applybtntxt == "Apply" ? ColorFromHexCode("#3498DB") : ColorFromHexCode("#F4F6F7")
                                               ),
                                               const SizedBox(width: 5,),
-                                              Text(applybtntxt, style: GoogleFonts.quicksand(color: applybtntxt == "Apply" ? ColorFromHexCode("#3498DB") : ColorFromHexCode("#F4F6F7") , fontWeight: FontWeight.w500),)
+                                              Text(applybtntxt, style: GoogleFonts.poppins(color: applybtntxt == "Apply" ? ColorFromHexCode("#3498DB") : ColorFromHexCode("#F4F6F7") , fontWeight: FontWeight.w500),)
                                             ],
                                           ),
 
@@ -951,7 +1000,7 @@ Container(
                                                   color: ColorFromHexCode("#3498DB")
                                               ),
                                               const SizedBox(width: 5,),
-                                              Text("Notice", style: GoogleFonts.quicksand(color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.w500),)
+                                              Text("Notice", style: GoogleFonts.poppins(color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.w500),)
                                             ],
                                           ),
 
@@ -995,7 +1044,7 @@ Container(
                                                 right: 20
                                             ),
                                             decoration: BoxDecoration(
-                                                color: Colors.white,
+                                                color: Colors.white, fontWeight: FontWeight.w500
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.grey.shade200,
@@ -1051,7 +1100,7 @@ Container(
                                                 right: 20
                                             ),
                                             decoration: BoxDecoration(
-                                                color: Colors.white,
+                                                color: Colors.white, fontWeight: FontWeight.w500
                                                 boxShadow: [
                                                   BoxShadow(
                                                     color: Colors.grey.shade200,
@@ -1157,7 +1206,7 @@ Container(
                                                         color: ColorFromHexCode("#3498DB")
                                                     ),
                                                     const SizedBox(width: 5,),
-                                                    Text("Need help?", style: GoogleFonts.quicksand(color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.w500),)
+                                                    Text("Need help?", style: GoogleFonts.poppins(color: ColorFromHexCode("#3498DB"), fontWeight: FontWeight.w500),)
                                                   ],
                                                 ),
 
@@ -1167,7 +1216,7 @@ Container(
                                         ),
                                         Text(
                                           widget.jobData.HowToApply == "" ? "How to Apply information not available" : widget.jobData.HowToApply.toString(),
-                                          style: GoogleFonts.quicksand(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey.shade800
+                                          style: GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.grey.shade800
                                           ),
                                         ),
                                       ],

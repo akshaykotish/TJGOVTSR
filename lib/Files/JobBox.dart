@@ -86,9 +86,13 @@ class _JobBoxState extends State<JobBox> with TickerProviderStateMixin {
             image: DecorationImage(
               image: AssetImage("./assets/icons/hot.png"),
             )
-          ),)  : Icon(Icons.search, color: Colors.grey[400], size: 5,),
+          ),)  : Icon(Icons.search, color: Colors.grey[400], size: 15,),
       Text(widget.jobDisplayData.Count == 50 ? " Trending Job" : widget.jobDisplayData.Count == 78 ? "Favourite" : widget.jobDisplayData.Count >= 3 ? "Result" : "Suggestion",
-        style: GoogleFonts.quicksand(fontSize: 10, fontWeight: FontWeight.w500, color: Colors.grey[600]),),
+        style: TextStyle(fontFamily: "uber",
+            fontSize: 10,
+            color: Colors.grey[400],
+            letterSpacing: 3,
+            fontWeight: FontWeight.w500),),
     ],
     ));
   }
@@ -131,81 +135,109 @@ class _JobBoxState extends State<JobBox> with TickerProviderStateMixin {
           });
         },
         child: Container(
-          padding: EdgeInsets.all(10),
-          height: 70,
-          margin: EdgeInsets.only(left: 20, top: 5, bottom: 5, right: 0),
+          height: 180,
+          margin: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(15),
-              bottomLeft: Radius.circular(15),
-            ),
-            color: ColorFromHexCode("#FFFCF5"),
+              color: ColorFromHexCode("#FFFFFF"),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
 //            border: Border.all(color: ColorFromHexCode("#FFBB00"), width: 1)
           boxShadow: [
             BoxShadow(
               offset: -Offset(3, 3),
               blurRadius: 5,
               spreadRadius: 1,
-              color: Colors.grey.shade200,
+              color: Colors.grey.shade400,
             ),
             BoxShadow(
               offset: Offset(3, 3),
               blurRadius: 5,
               spreadRadius: 1,
-              color: Colors.grey.shade200,
+              color: Colors.grey.shade400,
             ),
           ]
           ),
           alignment: Alignment.center,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                      alignment: Alignment.centerLeft,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: Center(child: Text(widget.jobDisplayData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").length > 4 ? widget.jobDisplayData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").substring(0, 4) : widget.jobDisplayData.Department.toShortForm().replaceAll("(", "").replaceAll(")", ""),
-                        style: GoogleFonts.quicksand(fontSize: 12, color: Colors.grey[700], fontWeight: FontWeight.w700),))),
-                  const SizedBox(width: 10,),
-                  GetJobType(),
-                ],
+              Container(
+                height: 60,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft:  Radius.circular(10), topRight:  Radius.circular(10)),
+                  image: DecorationImage(
+                    image: NetworkImage("https://firebasestorage.googleapis.com/v0/b/trackjobs-27c7b.appspot.com/o/Departments%2FWestern%20Coalfields%2Fcoald.jpg?alt=media&token=3d340dba-64ae-480a-9a32-2002086b3809"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Container(
+                height: 25,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade900,
+                ),
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 3, bottom:3),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Center(
+                            child: Text(
+                              widget.jobDisplayData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").length > 4 ? widget.jobDisplayData.Department.toShortForm().replaceAll("(", "").replaceAll(")", "").substring(0, 4) : widget.jobDisplayData.Department.toShortForm().replaceAll("(", "").replaceAll(")", ""),
+                          style:
+                          TextStyle(fontFamily: "uber",
+                              fontSize: 13,
+                              letterSpacing: 3,
+                              color: Colors.grey[400],
+                              fontWeight: FontWeight.w500,
+                          ),))),
+                    const SizedBox(width: 10,),
+                    GetJobType(),
+                  ],
+                ),
               ),
               const SizedBox(width: 20, height: 5,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width - 50,
-                    child: Text(widget.jobDisplayData.Designation.length > 40 ? widget.jobDisplayData.Designation.substring(0, 40).replaceAll("Online", "").replaceAll("Form", "") + "..." : widget.jobDisplayData.Designation.replaceAll("Online", "").replaceAll("Form", ""),
-                      style: GoogleFonts.quicksand(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                        color: ColorFromHexCode("#202B22"),
-                        shadows:<Shadow>[
-                          Shadow(
-                            color: Colors.grey.shade200,
-                            offset: Offset(4,4),
-                            blurRadius: 4,
-                          ),
-                          Shadow(
-                            color: Colors.grey.shade200,
-                            offset: Offset(2,2),
-                            blurRadius: 3,
-                          ),
-                        ],
-                    ),),
-                  ),
-                ],
+              Container(
+                height: 70,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width - 50,
+                      child: Text(widget.jobDisplayData.Designation.length > 100 ? widget.jobDisplayData.Designation.substring(0, 100).replaceAll("Online", "").replaceAll("Form", "") + "..." : widget.jobDisplayData.Designation.replaceAll("Online", "").replaceAll("Form", ""),
+                        style: TextStyle(
+                          fontFamily: "uber",
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300,
+                          color: ColorFromHexCode("#202B22"),
+                          shadows:<Shadow>[
+                            Shadow(
+                              color: Colors.grey.shade100,
+                              offset: Offset(2,2),
+                              blurRadius: 4,
+                            ),
+                            Shadow(
+                              color: Colors.grey.shade100,
+                              offset: Offset(2,2),
+                              blurRadius: 3,
+                            ),
+                          ],
+                      ),),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 3,),
               Container(
+                margin: EdgeInsets.only(bottom: 5),
                 width: animation.value,
                 height: 2,
                 decoration: const BoxDecoration(

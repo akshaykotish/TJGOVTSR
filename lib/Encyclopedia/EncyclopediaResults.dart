@@ -124,8 +124,8 @@ class _EncyclopediaResultState extends State<EncyclopediaResult> {
               (
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(encylopediaData.Name, style: GoogleFonts.quicksand(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.blueAccent),),
-                Text(encylopediaData.Details, style: GoogleFonts.quicksand(fontSize: 15,color: Colors.grey[500] ),),
+                Text(encylopediaData.Name, style: TextStyle(fontFamily: "uber",fontSize: 20, fontWeight: FontWeight.w700, color: Colors.blueAccent),),
+                Text(encylopediaData.Details, style: TextStyle(fontFamily: "uber",fontSize: 15,color: Colors.grey[500] ),),
               ],
             ),
           ),

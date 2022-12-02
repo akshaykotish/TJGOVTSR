@@ -89,7 +89,7 @@ class _ChooseStateState extends State<ChooseState> {
                 Container(
                     width:MediaQuery.of(context).size.width - 100,
                     child: Text(SelectedState[i],
-                      style: GoogleFonts.quicksand(
+                      style: TextStyle(fontFamily: "uber",
                         color: Colors.black,
                       ),
                     )
@@ -223,7 +223,7 @@ class _ChooseStateState extends State<ChooseState> {
 
 
     WriteALog.Write("New Location", SelectedState.toString(), DateTime.now().toString());
-    RequiredDataLoading.Execute();
+    //RequiredDataLoading.Execute();
 
     Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 300),
@@ -298,7 +298,7 @@ class _ChooseStateState extends State<ChooseState> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text("Confirm the Loaction",
-                                  style: GoogleFonts.quicksand(
+                                  style: TextStyle(fontFamily: "uber",
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey.shade700
@@ -329,12 +329,12 @@ class _ChooseStateState extends State<ChooseState> {
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
                                               labelText: 'haryana, punjab, delhi, bihar',
-                                              labelStyle: GoogleFonts.quicksand(
+                                              labelStyle: TextStyle(fontFamily: "uber",
                                                   color: Colors.grey.shade500,
                                                   fontWeight: FontWeight.w500
                                               ),
                                               hintText: 'Please spell correct',
-                                              hintStyle: GoogleFonts.quicksand(
+                                              hintStyle: TextStyle(fontFamily: "uber",
                                                   color: Colors.grey.shade600
                                               )
                                           ),
@@ -408,7 +408,7 @@ class _ChooseStateState extends State<ChooseState> {
                         color: Colors.grey[900],
                         child: Center(child: Text(
                           "Confirm",
-                          style: GoogleFonts.quicksand(fontSize: 18,
+                          style: TextStyle(fontFamily: "uber",fontSize: 18,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
                           ),

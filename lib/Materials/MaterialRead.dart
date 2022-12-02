@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:governmentapp/AdFile.dart';
+import 'package:governmentapp/Ads/HomeAd.dart';
 import 'package:governmentapp/DataPullers/MaterialsPusher.dart';
+import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/Materials/MaterialResults.dart';
 import 'package:governmentapp/Materials/MaterialData.dart';
 import 'package:html/parser.dart';
@@ -66,6 +68,7 @@ class _MaterialReadState extends State<MaterialRead> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
+          color: ColorFromHexCode("#FFFFFF"),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Column(
@@ -82,7 +85,7 @@ class _MaterialReadState extends State<MaterialRead> {
                 ),
               ),
               const SizedBox(height: 20,),
-              Text("Find the Material", style: GoogleFonts.quicksand(fontSize: 25, fontWeight: FontWeight.w700),),
+              Text("Find the Material", style: TextStyle(fontFamily: "uber",fontSize: 25, fontWeight: FontWeight.w700),),
               const SizedBox(height: 20,),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -139,7 +142,7 @@ class _MaterialReadState extends State<MaterialRead> {
                   ),
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(20),
-                  child: Text("Search", style: GoogleFonts.quicksand(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey[400]),),
+                  child: Text("Search", style: TextStyle(fontFamily: "uber",fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey[400]),),
                 ),
               ),
               Container(
@@ -149,9 +152,7 @@ class _MaterialReadState extends State<MaterialRead> {
                 padding: const EdgeInsets.all(20),
                 child: isloading ? CircularProgressIndicator() : null,
               ),
-              Container(
-                  child: adcntnr,
-              )
+              TJSNInterstitialAd.AdsEnabled ? HomeAd(adkey: "ca-app-pub-3701741585114162/1630773412",) : Container(child: Text(""),),
             ],
           ),
         ),

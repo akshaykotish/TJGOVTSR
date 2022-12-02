@@ -67,7 +67,7 @@ class _SearchSheetState extends State<SearchSheet> {
                     Container(
                         width:MediaQuery.of(context).size.width - 100,
                         child: Text(SelectedSearchWord[i],
-                          style: GoogleFonts.quicksand(
+                          style: TextStyle(fontFamily: "uber",
                             color: Colors.grey[600],
                             fontWeight: FontWeight.w500
                           ),
@@ -130,7 +130,7 @@ class _SearchSheetState extends State<SearchSheet> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(10),
-          child: Text(e.toString(), style: GoogleFonts.quicksand(color: Colors.grey[600], fontWeight: FontWeight.w500),),
+          child: Text(e.toString(), style: TextStyle(fontFamily: "uber",color: Colors.grey[600], fontWeight: FontWeight.w500),),
         ),
       ),
     );
@@ -178,7 +178,7 @@ class _SearchSheetState extends State<SearchSheet> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(10),
-              child: Text(Departmentis, style: GoogleFonts.quicksand(color: Colors.grey[600], fontWeight: FontWeight.w500),),
+              child: Text(Departmentis, style: TextStyle(fontFamily: "uber",color: Colors.grey[600], fontWeight: FontWeight.w500),),
             ),
           ),
         );
@@ -199,7 +199,7 @@ class _SearchSheetState extends State<SearchSheet> {
             child: Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.all(10),
-              child: Text(Jobis, style: GoogleFonts.quicksand(color: Colors.grey[600], fontWeight: FontWeight.w500),),
+              child: Text(Jobis, style: TextStyle(fontFamily: "uber",color: Colors.grey[600], fontWeight: FontWeight.w500),),
             ),
           ),
         );
@@ -357,7 +357,7 @@ class _SearchSheetState extends State<SearchSheet> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 Text("Write the search keyword",
-                                  style: GoogleFonts.quicksand(
+                                  style: TextStyle(fontFamily: "uber",
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.grey.shade700
@@ -388,12 +388,12 @@ class _SearchSheetState extends State<SearchSheet> {
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
                                               labelText: 'bank po, airforce, navy, clerk',
-                                              labelStyle: GoogleFonts.quicksand(
+                                              labelStyle: TextStyle(fontFamily: "uber",
                                                 color: Colors.grey.shade500,
                                                 fontWeight: FontWeight.w500
                                               ),
                                               hintText: 'Please spell correct',
-                                            hintStyle: GoogleFonts.quicksand(
+                                            hintStyle: TextStyle(fontFamily: "uber",
                                               color: Colors.grey.shade600
                                             )
                                           ),
@@ -467,7 +467,7 @@ class _SearchSheetState extends State<SearchSheet> {
                         color: Colors.grey[900],
                         child: Center(child: Text(
                           "Apply",
-                          style: GoogleFonts.quicksand(fontSize: 18,
+                          style: TextStyle(fontFamily: "uber",fontSize: 18,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
                           ),

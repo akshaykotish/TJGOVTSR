@@ -130,19 +130,21 @@ class RequiredDataLoading{
   static Future<void> LoadLikedJobs() async {
     await init();
     JobDisplayManagement.WhichShowing = 4;
-    JobDisplayManagement.FAVJOBSC.add(JobDisplayManagement.FAVJOBS);
 
+    print("IMHERE");
       if (Indexs.isNotEmpty) {
+        print("IMHEREINSIDE");
         for (var element in Indexs) {
           for(int i=0; i < LovedJobs.length; i++)
             {
               if(element.toString().contains(LovedJobs[i]))
                 {
                   JobDisplayManagement.FAVJOBS.add(JobDisplayData(element, 4));
-                  JobDisplayManagement.FAVJOBSC.add(JobDisplayManagement.FAVJOBS);
                 }
             }
         }
+        print("FAVIS${JobDisplayManagement.FAVJOBS.length}");
+        JobDisplayManagement.FAVJOBSC.add(JobDisplayManagement.FAVJOBS);
       }
   }
 
@@ -158,12 +160,9 @@ class RequiredDataLoading{
         for (var value in HotJobs) {
           String JobString = value.toString();
           JobDisplayManagement.HOTJOBS.add(JobDisplayData(JobString, 50));
-          JobDisplayManagement.HOTJOBSC.add(JobDisplayManagement.HOTJOBS);
         }
+        JobDisplayManagement.HOTJOBSC.add(JobDisplayManagement.HOTJOBS);
       }
-    }
-    else{
-      JobDisplayManagement.HOTJOBSC.add(JobDisplayManagement.HOTJOBS);
     }
   }
 
@@ -189,14 +188,15 @@ class RequiredDataLoading{
   static Future<void> Execute() async {
     await LoadIndexs();
     await init();
-    await LoadLikedNotifications();
+    await LoadHotJobs();
+    await LoadLikedJobs();
+//    await LoadLikedNotifications();
 
-    if(UserDepartments.isNotEmpty)
-      {
-        LoadChoosedJobs();
-      }
-    else{
-      LoadHotJobs();
-    }
+    // if(UserDepartments.isNotEmpty)
+    //   {
+    //     LoadChoosedJobs();
+    //   }
+    // else{
+    //}
   }
 }

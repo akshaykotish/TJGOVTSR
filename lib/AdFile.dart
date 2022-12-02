@@ -23,6 +23,7 @@ class TJSNInterstitialAd
   static var adWidget1;
   static var adWidget2;
   static var adWidget3;
+  static bool adWidget3Loaded = false;
 
   static var adWidget4;
   static var adWidget5;
@@ -182,38 +183,42 @@ class TJSNInterstitialAd
 
 
   static Future<void> LoadJobBoxs3() async {
-    if(AdsEnabled){
-    JobBoxs3 = await BannerAd(
-          adUnitId: 'ca-app-pub-3701741585114162/3438393693',
-          size: AdSize.mediumRectangle,
-          request: const AdRequest(),
-          listener: BannerAdListener(
-            onAdLoaded: (Ad ad) async {
-              print("LoadJobBoxs3 JOB Ad Loaded");
-              await JobBoxs3.load();
-              adWidget3 = AdWidget(
-                  ad: JobBoxs3
-              );
-            },
-            // Called when an ad request failed.
-            onAdFailedToLoad: (Ad ad, LoadAdError error) {
-              // Dispose the ad here to free resources.
-              ad.dispose();
-              print('LoadJobBoxs3 failed to load: $error');
-            },
-            // Called when an ad opens an overlay that covers the screen.
-            onAdOpened: (Ad ad) => print('Ad3 opened.'),
-            // Called when an ad removes an overlay that covers the screen.
-            onAdClosed: (Ad ad) => print('Ad3 closed.'),
-            // Called when an impression occurs on the ad.
-            onAdImpression: (Ad ad) => print('Ad3 impression.'),
-          ),
-        );
-        print("JobBox3 AD");
-        await JobBoxs3.load();
+    if (AdsEnabled) {
+      JobBoxs3 = await BannerAd(
+        adUnitId: 'ca-app-pub-3940256099942544/6300978111',//'ca-app-pub-3701741585114162/3438393693',
+        size: AdSize.mediumRectangle,
+        request: const AdRequest(),
+        listener: BannerAdListener(
+          onAdLoaded: (Ad ad) async {
+            print("LoadJobBoxs3 JOB Ad Loaded");
+            await JobBoxs3.load();
+            adWidget3 = AdWidget(
+                ad: JobBoxs3
+            );
+          },
+          // Called when an ad request failed.
+          onAdFailedToLoad: (Ad ad, LoadAdError error) {
+            // Dispose the ad here to free resources.
+            ad.dispose();
+            print('LoadJobBoxs3 failed to load: $error');
+          },
+          // Called when an ad opens an overlay that covers the screen.
+          onAdOpened: (Ad ad) => print('Ad3 opened.'),
+          // Called when an ad removes an overlay that covers the screen.
+          onAdClosed: (Ad ad) => print('Ad3 closed.'),
+          // Called when an impression occurs on the ad.
+          onAdImpression: (Ad ad) => print('Ad3 impression.'),
+        ),
+      );
+      print("JobBox3 AD");
+      await JobBoxs3.load();
+      if (adWidget3 != null) {
         adWidget3 = AdWidget(
             ad: JobBoxs3
         );
+        print("ADWIDGET ${adWidget3.runtimeType}");
+
+      }
     }
   }
 
@@ -295,6 +300,7 @@ class TJSNInterstitialAd
 
   static Future<void> init()
   async {
+    print("Main Ad loaded.");
     await InterstitialAd.load(
         adUnitId: 'ca-app-pub-3701741585114162/9498222392',
         request: AdRequest(),
@@ -336,13 +342,13 @@ class TJSNInterstitialAd
   static Future<void> IsAdEnabled() async {
     final prefs = await SharedPreferences.getInstance();
     String? AdsEnable = prefs.getString("AdsEnable");
-    if(AdsEnable == "TRUE")
-      {
+    //if(AdsEnable == "TRUE")
+      //{
         AdsEnabled = true;
-      }
-    else{
-      AdsEnabled = false;
-    }
+      //}
+    //else{
+      //AdsEnabled = false;
+    //}
   }
 
 
@@ -351,16 +357,18 @@ class TJSNInterstitialAd
     await IsAdEnabled();
     await LoadJobBoxs3();
 
-    final prefs = await SharedPreferences.getInstance();
-    String? AdsEnable = prefs.getString("AdsEnable");
-    if(AdsEnable == "TRUE") {
+    print("Ad started");
+    //final prefs = await SharedPreferences.getInstance();
+    //String? AdsEnable = prefs.getString("AdsEnable");
+//    if(AdsEnabled == "TRUE") {
+      print("Main Ad is ready to serve.");
       Timer.periodic(
-          const Duration(minutes: 1),
+          const Duration(minutes: 3),
               (timer) async {
             await init();
           }
       );
-    }
+  //  }
   }
 }
 

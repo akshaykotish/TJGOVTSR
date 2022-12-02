@@ -65,7 +65,7 @@ class _FilterPageState extends State<FilterPage> {
                 Container(
                     width:MediaQuery.of(context).size.width - 100,
                     child: Text(SelectedDepartment[i],
-                      style: GoogleFonts.quicksand(
+                      style: TextStyle(fontFamily: "uber",
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
                       ),
@@ -109,7 +109,7 @@ class _FilterPageState extends State<FilterPage> {
                 Container(
                     width:MediaQuery.of(context).size.width - 100,
                     child: Text(SelectedState[i],
-                      style: GoogleFonts.quicksand(
+                      style: TextStyle(fontFamily: "uber",
                         color: Colors.black,
                       ),
                     )
@@ -152,7 +152,7 @@ class _FilterPageState extends State<FilterPage> {
                 Container(
                     width:MediaQuery.of(context).size.width - 100,
                     child: Text(SelectedInterest[i],
-                      style: GoogleFonts.quicksand(
+                      style: TextStyle(fontFamily: "uber",
                         color: Colors.black,
                       ),
                     )
@@ -206,7 +206,7 @@ class _FilterPageState extends State<FilterPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Filtering Jobs", style: GoogleFonts.quicksand(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.grey[800]),),
+                      Text("Filtering Jobs", style: TextStyle(fontFamily: "uber",fontSize: 35, fontWeight: FontWeight.bold, color: Colors.grey[800]),),
                       const SizedBox(height: 20,),
                       Container(
                         margin: EdgeInsets.all(10),
@@ -227,7 +227,7 @@ class _FilterPageState extends State<FilterPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 20,),
-                            Text("Departments", style: GoogleFonts.quicksand(fontSize: 18, fontWeight: FontWeight.w600),),
+                            Text("Departments", style: TextStyle(fontFamily: "uber",fontSize: 18, fontWeight: FontWeight.w600),),
                             Column(
                               children: SelectedDepartmentWidget,
                             ),
@@ -236,12 +236,12 @@ class _FilterPageState extends State<FilterPage> {
                       ),
 
                       const SizedBox(height: 20,),
-                      Text("States", style: GoogleFonts.quicksand(fontSize: 18, fontWeight: FontWeight.w600),),
+                      Text("States", style: TextStyle(fontFamily: "uber",fontSize: 18, fontWeight: FontWeight.w600),),
                       Column(
                         children: SelectedStateWidget,
                       ),
                       const SizedBox(height: 20,),
-                      Text("Interest", style: GoogleFonts.quicksand(fontSize: 18, fontWeight: FontWeight.w600),),
+                      Text("Interest", style: TextStyle(fontFamily: "uber",fontSize: 18, fontWeight: FontWeight.w600),),
                       Column(
                         children: SelectedInterestWidget,
                       ),
@@ -266,7 +266,7 @@ class _FilterPageState extends State<FilterPage> {
                       color: Colors.grey[900],
                       child: Center(child: Text(
                         "Add/Edit Your Filters",
-                        style: GoogleFonts.quicksand(fontSize: 18,
+                        style: TextStyle(fontFamily: "uber",fontSize: 18,
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                         ),

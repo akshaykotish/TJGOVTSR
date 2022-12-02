@@ -32,10 +32,10 @@ class _SearchAreaState extends State<SearchArea> with
 try {
   controller = AnimationController(vsync: this, duration: Duration(seconds: 1));
   colorAnimation1 = ColorTween(
-      begin: Colors.grey.withOpacity(0.7), end: Colors.white.withOpacity(0.5))
+      begin: Colors.grey.withOpacity(0.5), end: Colors.white.withOpacity(0.5))
       .animate(controller);
   colorAnimation2 = ColorTween(
-      begin: Colors.white.withOpacity(0.5), end: Colors.grey.withOpacity(0.7))
+      begin: Colors.white.withOpacity(0.5), end: Colors.grey.withOpacity(0.5))
       .animate(controller);
   controller.forward();
   controller.addListener(() {
@@ -66,6 +66,7 @@ catch(e){}
           child: Container(
             decoration: BoxDecoration(
                 // border: Border.all(color: Colors.black.withOpacity(0.2), width: 1),
+
                 gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
@@ -77,28 +78,20 @@ catch(e){}
               borderRadius: const BorderRadius.all(Radius.circular(15))
             ),
             child: Container(
-              margin: EdgeInsets.all(5),
+              margin: EdgeInsets.all(1),
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.all(Radius.circular(15)),
-                color: Colors.white.withOpacity(0.4),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade400,
-                    offset: Offset(2, 2),
-                    blurRadius: 2,
-                    spreadRadius: 2,
-                  )
-                ]
+                color: Colors.white.withOpacity(1),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
                     padding: const EdgeInsets.only(
-                      top: 10,
-                      left: 20,
-                      bottom: 10,
-                      right: 20,
+                      top: 5,
+                      left: 10,
+                      bottom: 5,
+                      right: 10,
                     ),
                     child: GestureDetector(
                       onTap: () async {
@@ -131,10 +124,10 @@ catch(e){}
                           Container(
                             width: 30,
                             height: 30,
-                            child: Icon(Icons.search, size: 25, color: ColorFromHexCode("#383C39"),),
+                            child: Icon(Icons.search, size: 30, color: ColorFromHexCode("#383C39"),),
                           ),
                           const SizedBox(width: 20,),
-                          Text("Search your job", style: GoogleFonts.quicksand(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w400,),),
+                          Text("Search your job", style: TextStyle(fontFamily: "uber",fontSize: 20, color: Colors.black.withOpacity(0.7), fontWeight: FontWeight.w100,),),
                         ],
                       ),
                     ),

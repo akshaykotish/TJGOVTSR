@@ -2,10 +2,14 @@
 
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:governmentapp/Animations/SplashScreen.dart';
+
 import '../JobDisplayData.dart';
 
 class JobDisplayManagement{
 
+  static bool HomeToShow = false;
   static int WhichShowing = 0;
 
   static List<JobDisplayData> HOTJOBS = <JobDisplayData>[];
@@ -35,6 +39,17 @@ class JobDisplayManagement{
   static Stream EASEBTNS = EASEBTNC.stream;
   static late Function EASEBTNF;
 
+
+  static StreamController<String> ChatBoxQueryC = StreamController<String>();
+  static Stream ChatBoxQueryS = ChatBoxQueryC.stream;
+  static late Function ChatBoxQueryF;
+
+
+  static StreamController<String> LanguageChange = StreamController<String>();
+  static Stream LanguageChangeS = LanguageChange.stream;
+  static late Function LanguageChangeF;
+
+
   static bool ISLoading = false;
   static bool IsMoreLoading = false;
 
@@ -51,9 +66,17 @@ class JobDisplayManagement{
     FAVJOBSS.listen((event) async {
       FAVJOBSF(event);
     });
-    EASEBTNS.listen((event) async {
-      EASEBTNF(event);
+    ChatBoxQueryS.listen((event) async {
+      ChatBoxQueryF(event);
     });
+
+    LanguageChangeS.listen((event) async {
+      LanguageChangeF(event);
+    });
+
+    // EASEBTNS.listen((event) async {
+    //   EASEBTNF(event);
+    // });
   }
 
 

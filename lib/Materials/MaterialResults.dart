@@ -58,12 +58,12 @@ class _MaterialResultState extends State<MaterialResult> {
                       children: <Widget>[
                         SizedBox(width: 10,),
                         Text(Title == "" ? "My " +
-                            MaterialDatas.SearchTitle.toString() : Title, style: GoogleFonts.quicksand(
+                            MaterialDatas.SearchTitle.toString() : Title, style: TextStyle(fontFamily: "uber",
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
                           color: Colors.grey[900],
                         ),),
-                        Text("Source: ${materialData.Source}", style: GoogleFonts.quicksand(
+                        Text("Source: ${materialData.Source}", style: TextStyle(fontFamily: "uber",
                           fontWeight: FontWeight.w200,
                           fontSize: 7,
                           color: Colors.grey[200],
@@ -184,7 +184,7 @@ class _MaterialResultState extends State<MaterialResult> {
               Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(20),
-                child: Text("All the documents are scrapped from Internet. Some documents may need sign in.", style: GoogleFonts.quicksand(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey.shade300), textAlign: TextAlign.start,),
+                child: Text("All the documents are scrapped from Internet. Some documents may need sign in.", style: TextStyle(fontFamily: "uber",fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey.shade300), textAlign: TextAlign.start,),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,

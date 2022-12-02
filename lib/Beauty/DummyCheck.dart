@@ -15,7 +15,7 @@ class _DummyCheckState extends State<DummyCheck> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    RequiredDataLoading.Execute();
+    //RequiredDataLoading.Execute();
 
   }
 

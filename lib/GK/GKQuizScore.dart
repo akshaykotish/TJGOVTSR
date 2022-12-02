@@ -49,9 +49,9 @@ class _GKQuizScoreState extends State<GKQuizScore> {
             child: Column(
               children: <Widget>[
                 Text(q,
-                  style: GoogleFonts.quicksand(fontWeight: FontWeight.w700, fontSize: 20,),
+                  style: TextStyle(fontFamily: "uber",fontWeight: FontWeight.w700, fontSize: 20,),
                 ),
-                Text("Your answer: ", style: GoogleFonts.quicksand(fontSize: 12),),
+                Text("Your answer: ", style: TextStyle(fontFamily: "uber",fontSize: 12),),
                 Container(
                   decoration: BoxDecoration(
                     color: ua == a ? Colors.green.withOpacity(0.5) : Colors.red.withOpacity(0.5),
@@ -61,10 +61,10 @@ class _GKQuizScoreState extends State<GKQuizScore> {
                   ),
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.all(5),
-                  child: Text(ua, style: GoogleFonts.quicksand(fontSize: 15, fontWeight: FontWeight.w500),),
+                  child: Text(ua, style: TextStyle(fontFamily: "uber",fontSize: 15, fontWeight: FontWeight.w500),),
                 ),
                 SizedBox(height: 10,),
-                Text("Correct answer: ", style: GoogleFonts.quicksand(fontSize: 12),),
+                Text("Correct answer: ", style: TextStyle(fontFamily: "uber",fontSize: 12),),
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.grey.withOpacity(0.5),
@@ -74,10 +74,10 @@ class _GKQuizScoreState extends State<GKQuizScore> {
                   ),
                   padding: EdgeInsets.all(10),
                   margin: EdgeInsets.all(5),
-                  child: Text(a, style: GoogleFonts.quicksand(fontSize: 15, fontWeight: FontWeight.w500),),
+                  child: Text(a, style: TextStyle(fontFamily: "uber",fontSize: 15, fontWeight: FontWeight.w500),),
                 ),
-                Text("Explanation: ", style: GoogleFonts.quicksand(fontSize: 12),),
-                Text(h, style: GoogleFonts.quicksand(fontSize: 13, fontWeight: FontWeight.w500,),)
+                Text("Explanation: ", style: TextStyle(fontFamily: "uber",fontSize: 12),),
+                Text(h, style: TextStyle(fontFamily: "uber",fontSize: 13, fontWeight: FontWeight.w500,),)
               ],
             ),
           )
@@ -105,9 +105,9 @@ class _GKQuizScoreState extends State<GKQuizScore> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Result", style: GoogleFonts.quicksand(fontSize: 25, fontWeight: FontWeight.bold),),
+              Text("Result", style: TextStyle(fontFamily: "uber",fontSize: 25, fontWeight: FontWeight.bold),),
               SizedBox(height: 40,),
-              Text("Your Score is ${correct}/${total}", style: GoogleFonts.quicksand(fontSize: 20, fontWeight: FontWeight.w700,),),
+              Text("Your Score is ${correct}/${total}", style: TextStyle(fontFamily: "uber",fontSize: 20, fontWeight: FontWeight.w700,),),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: Results,

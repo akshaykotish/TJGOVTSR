@@ -102,7 +102,7 @@ class _PaymentPageState extends State<PaymentPage> {
         'key': 'rzp_live_h6o6VAlRxuQK16',
         'amount': Payment,
         'name': 'Akshay Lakshay Kotish Private Limited',
-        'description': 'TJ Sarkari Naukri Ad Free Subscription.',
+        'description': 'TJSN is always free.',
         'prefill': {
           'name': '$Name',
           'contact': '$Contact',
@@ -136,19 +136,30 @@ class _PaymentPageState extends State<PaymentPage> {
         visible: Header == "" ? false : true,
         child: Container(
           width: MediaQuery.of(context).size.width,
-          margin: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(
+            left: 40,
+            right: 40,
+            top: 20,
+            bottom: 40,
+          ),
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.7),
+            color: Colors.red,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                Header,
-                style: GoogleFonts.poppins(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500),
+              Row(
+                children: <Widget>[
+                  Icon(Icons.store, color: Colors.white,),
+                  SizedBox(width: 5,),
+                  Text(
+                    Header,
+                    style: GoogleFonts.poppins(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w700),
+                  ),
+                ],
               ),
             ],
           ),

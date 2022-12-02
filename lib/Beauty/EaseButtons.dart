@@ -53,6 +53,10 @@ class _EaseButtonsState extends State<EaseButtons> with TickerProviderStateMixin
         }
       }
     );
+
+    setState(() {
+
+    });
   }
 
   @override
@@ -69,7 +73,7 @@ class _EaseButtonsState extends State<EaseButtons> with TickerProviderStateMixin
             JobDisplayManagement.WhichShowing == 3 ? "Searched Results: ${JobDisplayManagement.SEARCHJOBS.length}" :
             JobDisplayManagement.WhichShowing == 4 ? "Favourite Jobs: ${JobDisplayManagement.FAVJOBS.length}" :
             "",
-            style: GoogleFonts.quicksand(
+            style: TextStyle(fontFamily: "uber",
               fontWeight: FontWeight.w600,
               fontSize: 15,
               color: Colors.grey[900]
@@ -83,7 +87,7 @@ class _EaseButtonsState extends State<EaseButtons> with TickerProviderStateMixin
               JobDisplayManagement.IsMoreLoading = false;
               JobDisplayManagement.ISLoading = false;
               if(animation.value == 20) {
-                RequiredDataLoading.LoadHotJobs();
+                //RequiredDataLoading.LoadHotJobs();
                 animationController.forward();
               }
               else{
@@ -111,7 +115,7 @@ class _EaseButtonsState extends State<EaseButtons> with TickerProviderStateMixin
                       padding: EdgeInsets.all(8),
                       child: Text(Showis,
                       textAlign: TextAlign.center
-                      , style: GoogleFonts.quicksand(
+                      , style: TextStyle(fontFamily: "uber",
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: Colors.white,

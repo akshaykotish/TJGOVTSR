@@ -144,8 +144,8 @@ class SearchAbleDataLoading{
 
   static Future<void> AddToShow(List<JobDisplayData> list) async
   {
-    JobDisplayManagement.SEARCHJOBS.addAll(list);
-      JobDisplayManagement.SEARCHJOBSC.add(JobDisplayManagement.SEARCHJOBS);
+    //JobDisplayManagement.SEARCHJOBS.addAll(list);
+      ////JobDisplayManagement.SEARCHJOBSC.add(//JobDisplayManagement.SEARCHJOBS);
   }
 
 
@@ -157,7 +157,6 @@ class SearchAbleDataLoading{
       JobDisplayManagement.SEARCHJOBS.add(JobDisplayData(JobString, count));
       JobDisplayManagement.ISLoading = false;
       JobDisplayManagement.IsMoreLoading = false;
-      JobDisplayManagement.SEARCHJOBSC.add(JobDisplayManagement.SEARCHJOBS);
     }
     else{
       beforeyears.add(JobDisplayData(JobString, count));
@@ -201,7 +200,8 @@ class SearchAbleDataLoading{
     JobDisplayManagement.IsMoreLoading = true;
 
     JobDisplayManagement.SEARCHJOBS.clear();
-    JobDisplayManagement.SEARCHJOBSC.add(JobDisplayManagement.SEARCHJOBS);
+    beforeyears.clear();
+    ////JobDisplayManagement.SEARCHJOBSC.add(//JobDisplayManagement.SEARCHJOBS);
 
 
     List<String> ReversedSearchAbleCache = List.from(SearchAbleCache.reversed);
@@ -293,6 +293,8 @@ class SearchAbleDataLoading{
         }
 
 
+        ////JobDisplayManagement.SEARCHJOBSC.add(//JobDisplayManagement.SEARCHJOBS);
+
 
         for(int j=0; j<suggestions.length; j++)
         {
@@ -329,18 +331,20 @@ class SearchAbleDataLoading{
             }
           }
         }
-        if(i == (maxvalue -1) && SuggestionsJobs.isNotEmpty) {
-          if(JobDisplayManagement.SEARCHJOBS.length < 10) {
-            if(SuggestionsJobs.length > 10) {
-              LetsDisplayJobs(SuggestionsJobs.sublist(0, 10));
-            }
-            else{
-              LetsDisplayJobs(SuggestionsJobs);
-            }
-          }
-          JobDisplayManagement.SEARCHJOBS.addAll(beforeyears);
-          JobDisplayManagement.SEARCHJOBSC.add(JobDisplayManagement.SEARCHJOBS);
-        }
+
+        JobDisplayManagement.SEARCHJOBS.addAll(beforeyears);
+        ////JobDisplayManagement.SEARCHJOBSC.add(//JobDisplayManagement.SEARCHJOBS);
+        //s
+        // if(i == (maxvalue -1) && SuggestionsJobs.isNotEmpty) {
+        //   if(JobDisplayManagement.SEARCHJOBS.length < 10) {
+        //     if(SuggestionsJobs.length > 10) {
+        //       LetsDisplayJobs(SuggestionsJobs.sublist(0, 10));
+        //     }
+        //     else{
+        //       LetsDisplayJobs(SuggestionsJobs);
+        //     }
+        //   }
+        // }
 
       }
 

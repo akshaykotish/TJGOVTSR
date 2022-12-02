@@ -165,15 +165,15 @@
 //                   SizedBox(height: 10,),
 //                   JobDisplayManagement.ismoreloadingjobs == false ? Container(
 //                       width: MediaQuery.of(context).size.width,
-//                       child: Text("If you don't find what are you looking for", style: GoogleFonts.quicksand(color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)) : Container(),
+//                       child: Text("If you don't find what are you looking for", style: TextStyle(fontFamily: "uber",color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)) : Container(),
 //                   JobDisplayManagement.ismoreloadingjobs == false ? Row(
 //                     mainAxisAlignment: MainAxisAlignment.center,
 //                     children: <Widget>[
 //                       Container(
-//                         child: Text("click to ", style: GoogleFonts.quicksand(color: Colors.black.withOpacity(0.4), fontWeight: FontWeight.bold,), textAlign: TextAlign.center,),
+//                         child: Text("click to ", style: TextStyle(fontFamily: "uber",color: Colors.black.withOpacity(0.4), fontWeight: FontWeight.bold,), textAlign: TextAlign.center,),
 //                       ),
 //                       Container(
-//                           child: Text("try with some more filters", style: GoogleFonts.quicksand(color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)),
+//                           child: Text("try with some more filters", style: TextStyle(fontFamily: "uber",color: Colors.grey[400], fontWeight: FontWeight.bold,), textAlign: TextAlign.center,)),
 //                       SizedBox(width: 5,),
 //                       Icon(Icons.filter_list_outlined, color: Colors.grey[400],)
 //                     ],

@@ -73,8 +73,8 @@ class _BrandingState extends State<Branding> with
     loadflipsAnimation =
         Tween<double>(begin: 150, end: 70.0).animate(loadflipscontroller);
     loadflipcolorAnimation = ColorTween(
-        begin: ColorFromHexCode("#383C39").withOpacity(1),
-        end: ColorFromHexCode("#383C39").withOpacity(0.1)).animate(
+        begin: ColorFromHexCode("#FFFFFF").withOpacity(1),
+        end: ColorFromHexCode("#FFFFFF").withOpacity(0.1)).animate(
         loadflipscontroller);
 
     notifscontroller = AnimationController(
@@ -243,14 +243,20 @@ class _BrandingState extends State<Branding> with
           child: Container(
             alignment: Alignment.centerLeft,
             margin: const EdgeInsets.only(top: 10),
-            child: Text("TrackJobs".substring(0, double.parse(removetextAnimation.value.toString()).toInt()), style: GoogleFonts.sacramento(
+            child: Text("Trackjobs".substring(0, double.parse(removetextAnimation.value.toString()).toInt()), style: GoogleFonts.pacifico(
               fontSize: sizeAnimation.value,
-              color: ColorFromHexCode("#383C39"),
-              fontWeight: FontWeight.w800,
-              shadows: [
-                Shadow(color: Colors.grey.shade100, offset: Offset(1, 1), blurRadius: 4),
-                Shadow(color: Colors.grey.shade100, offset: Offset(1, 1), blurRadius: 4),
-              ]
+                color: ColorFromHexCode("#383C39").withOpacity(0.9),
+              fontWeight: FontWeight.w700,
+                shadows: [
+                  Shadow(color: Colors.grey.shade100
+                      .withOpacity(0.5),
+                      offset: Offset(1, 1),
+                      blurRadius: 2),
+                  Shadow(color: Colors.grey.shade300
+                      .withOpacity(0.5),
+                      offset: Offset(2, 2),
+                      blurRadius: 2),
+                ]
             ),
             textAlign: TextAlign.start,),
           ),

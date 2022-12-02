@@ -28,35 +28,35 @@ class PostGraphic extends CustomPainter{
       canvas.drawImage(GetTheIMage.backgroundImage, Offset(0, 0), paint);
     }
 
-    TextSpan spanPostName = new TextSpan(style: GoogleFonts.quicksand(color: ColorFromHexCode("#E4A700"), fontWeight: FontWeight.w600, fontSize: 30 ), text:PostName);
-    TextPainter tpPostName = new TextPainter(text: spanPostName, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
-    tpPostName.layout(minWidth: size.width - 80, maxWidth: size.width - 80);
-    tpPostName.paint(canvas, new Offset(60, 60));
-
-
-    TextSpan spanDepartment = new TextSpan(style: GoogleFonts.quicksand(color: ColorFromHexCode("#402F00"), fontWeight: FontWeight.w500, fontSize: 55 ), text: Department);
-    TextPainter tpDepartment = new TextPainter(text: spanDepartment, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
-    tpDepartment.layout(minWidth: size.width - 80, maxWidth: size.width - 80);
-    tpDepartment.paint(canvas, new Offset(60, 140));
-
-
-    TextSpan spanLocation = new TextSpan(style: GoogleFonts.quicksand(color: ColorFromHexCode("#402F00"), fontSize: 30), text: Location);
-    TextPainter tpLocation = new TextPainter(text: spanLocation, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
-    tpLocation.layout(minWidth: size.width - 80, maxWidth: size.width - 80);
-    tpLocation.paint(canvas, new Offset(60, 350));
-
-
-    TextSpan spanAboutJob = new TextSpan(style: GoogleFonts.quicksand(color: ColorFromHexCode("#402F00"), fontWeight: FontWeight.w300, fontSize: 25), text: AboutJob);
-    TextPainter tpAboutJob = new TextPainter(text: spanAboutJob, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
-    tpAboutJob.layout(minWidth: size.width - 80, maxWidth: size.width - 80);
-    tpAboutJob.paint(canvas, new Offset(60, 400));
-
-
-
-    TextSpan spanUpdateName = new TextSpan(style: GoogleFonts.quicksand(color: ColorFromHexCode("#FF0000"), fontSize: 30), text: UpdateName + ": " + UpdateDate);
+    TextSpan spanUpdateName = new TextSpan(style: GoogleFonts.poppins(color: ColorFromHexCode("#A0E3C7"), fontSize: 60, fontWeight: FontWeight.bold), text: UpdateName + ": " + UpdateDate);
     TextPainter tpUpdateName = new TextPainter(text: spanUpdateName, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
     tpUpdateName.layout(minWidth: size.width - 80, maxWidth: size.width - 80);
-    tpUpdateName.paint(canvas, new Offset(60, 700));
+    tpUpdateName.paint(canvas, new Offset(60, 330));
+
+    TextSpan spanLocation = new TextSpan(style: GoogleFonts.poppins(color: ColorFromHexCode("#FFFFFF"), fontSize: 30), text: "Location: " + Location);
+    TextPainter tpLocation = new TextPainter(text: spanLocation, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
+    tpLocation.layout(minWidth: size.width - 80, maxWidth: size.width - 80);
+    tpLocation.paint(canvas, new Offset(60, 500));
+
+
+    TextSpan spanDepartment = new TextSpan(style: GoogleFonts.poppins(color: ColorFromHexCode("#F2E7D5"), fontWeight: FontWeight.w500, fontSize: 25 ), text: Department);
+    TextPainter tpDepartment = new TextPainter(text: spanDepartment, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
+    tpDepartment.layout(minWidth: size.width - 80, maxWidth: size.width - 80);
+    tpDepartment.paint(canvas, new Offset(60, 550));
+
+    TextSpan spanPostName = new TextSpan(style: GoogleFonts.poppins(color: ColorFromHexCode("#FFFFFF"), fontWeight: FontWeight.w600, fontSize: 30 ), text:PostName);
+    TextPainter tpPostName = new TextPainter(text: spanPostName, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
+    tpPostName.layout(minWidth: size.width - 80, maxWidth: size.width - 80);
+    tpPostName.paint(canvas, new Offset(60, 600));
+
+    TextSpan spanAboutJob = new TextSpan(style: GoogleFonts.poppins(color: ColorFromHexCode("#FFFFFF"), fontWeight: FontWeight.w300, fontSize: 15), text: AboutJob);
+    TextPainter tpAboutJob = new TextPainter(text: spanAboutJob, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
+    tpAboutJob.layout(minWidth: size.width - 80, maxWidth: size.width - 80);
+    tpAboutJob.paint(canvas, new Offset(60, 700));
+
+
+
+
 
     
   }

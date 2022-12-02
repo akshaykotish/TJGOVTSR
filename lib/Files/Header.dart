@@ -31,7 +31,7 @@ class _HeaderState extends State<Header> {
             width: 220,
             height: 60,
             padding: EdgeInsets.all(10),
-            child: Center(child: Text("#BornToProud", style: GoogleFonts.quicksand(fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black),)),
+            child: Center(child: Text("#BornToProud", style: TextStyle(fontFamily: "uber",fontSize: 24, fontWeight: FontWeight.w500, color: Colors.black),)),
           ),
 
       GestureDetector(

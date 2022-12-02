@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:governmentapp/AdFile.dart';
+import 'package:governmentapp/Ads/HomeAd.dart';
 import 'package:governmentapp/Encyclopedia/EncyclopediaResults.dart';
 import 'package:governmentapp/Encyclopedia/EncylopediaData.dart';
+import 'package:governmentapp/HexColors.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 
@@ -49,7 +51,7 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
       String pagedata = "";
       try {
         var data = res.bodyBytes.sublist(0, lastbyte-1);
-        pagedata = String.fromCharCodes(data).replaceAll("Wikipedia", "Encyclopedia");
+        pagedata = String.fromCharCodes(data).replaceAll("Wikipedia", "TJSNPedia");
         await ScrapResults(pagedata);
 
       }
@@ -133,30 +135,21 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
+          color: ColorFromHexCode("#404752"),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Container(
-                width: 200,
-                height: 200,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("./assets/branding/encyclopedia.png")
-                  )
-                ),
-              ),
-              const SizedBox(height: 20,),
-              Text("Encyclopedia", style: GoogleFonts.quicksand(fontSize: 25, fontWeight: FontWeight.w700),),
+              Text("TJSNPedia", style: GoogleFonts.poppins(fontSize: 30, fontWeight: FontWeight.w700, color: ColorFromHexCode("#F2E7D5")),),
               const SizedBox(height: 20,),
               Container(
                 width: MediaQuery.of(context).size.width,
                 margin: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  color: ColorFromHexCode("#D9D9D9"),
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
                 ),
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.all(10),
@@ -168,27 +161,17 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
                   onChanged: (e){
 
                   },
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                       border: InputBorder.none,
                     hintText: "Search anything",
+                    hintStyle: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                    suffixIcon: GestureDetector(
+                        onTap: (){
+                          Search();
+                        },
+                        child: Icon(Icons.search)),
                   ),
-                ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  Search();
-                },
-                child: Container(
-                  height: 60,
-                  width: MediaQuery.of(context).size.width,
-                  margin: const EdgeInsets.only(left: 90, right: 90, top: 20, bottom: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[900],
-                    borderRadius: const BorderRadius.all(Radius.circular(15)),
-                  ),
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.all(20),
-                  child: Text("Search", style: GoogleFonts.quicksand(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.grey[400]),),
+
                 ),
               ),
               Container(
@@ -198,8 +181,8 @@ class _EncyclopediaReadState extends State<EncyclopediaRead> {
                 padding: const EdgeInsets.all(20),
                 child: isloading ? CircularProgressIndicator() : null,
               ),
-              Container(
-                  child: adCntnr)
+              TJSNInterstitialAd.AdsEnabled ? HomeAd(adkey: "ca-app-pub-3701741585114162/7553732677",) : Container(child: Text(""),),
+
             ],
           ),
         ),

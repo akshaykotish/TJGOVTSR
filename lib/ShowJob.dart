@@ -26,13 +26,13 @@ class _ShowJobState extends State<ShowJob> {
               children: <Widget>[
                 Container(
                   width: MediaQuery.of(context).size.width/1.8,
-                  child: Text(key, style: GoogleFonts.quicksand(
+                  child: Text(key, style: TextStyle(fontFamily: "uber",
                       fontSize: 15, fontWeight: FontWeight.bold ),),
                 ),
                 Text(" - "),
                 Container(
                   width: MediaQuery.of(context).size.width/3.5,
-                  child: Text(widget.jobData.Important_Dates[key].toString(), style: GoogleFonts.quicksand(
+                  child: Text(widget.jobData.Important_Dates[key].toString(), style: TextStyle(fontFamily: "uber",
                     fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey[800]),),
                 )
               ],
@@ -44,7 +44,7 @@ class _ShowJobState extends State<ShowJob> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Important Dates", style: GoogleFonts.quicksand(
+        Text("Important Dates", style: TextStyle(fontFamily: "uber",
           fontSize: 15, ),),
         Container(
           child: Column(
@@ -68,11 +68,11 @@ class _ShowJobState extends State<ShowJob> {
               children: <Widget>[
                 Container(
                   width: MediaQuery.of(context).size.width/1.6,
-                  child: Text(key, style: GoogleFonts.quicksand(
+                  child: Text(key, style: TextStyle(fontFamily: "uber",
                       fontSize: 15, fontWeight: FontWeight.bold ),),
                 ),
                 const Text(" - "),
-                Text(widget.jobData.ApplicationFees[key].toString(), style: GoogleFonts.quicksand(
+                Text(widget.jobData.ApplicationFees[key].toString(), style: TextStyle(fontFamily: "uber",
                     fontSize: 15, fontWeight: FontWeight.bold, color: Colors.grey[800]),)
               ],
             ),
@@ -83,7 +83,7 @@ class _ShowJobState extends State<ShowJob> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Application Fees", style: GoogleFonts.quicksand(
+        Text("Application Fees", style: TextStyle(fontFamily: "uber",
           fontSize: 15, ),),
         Column(
             children: ApplicationFees
@@ -112,7 +112,7 @@ class _ShowJobState extends State<ShowJob> {
                     children: <Widget>[
                         k < widget.jobData.VDetails[i].headers.length ? Text(widget.jobData.VDetails[i].headers[k]) : Text(""),
                         Text(widget.jobData.VDetails[i].datas[j].data[k]
-                        , style: GoogleFonts.quicksand(fontWeight: FontWeight.bold, fontSize: 15),
+                        , style: TextStyle(fontFamily: "uber",fontWeight: FontWeight.bold, fontSize: 15),
                         )
                     ],
                   )
@@ -137,7 +137,7 @@ class _ShowJobState extends State<ShowJob> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("Vacancy Details", style: GoogleFonts.quicksand(
+        Text("Vacancy Details", style: TextStyle(fontFamily: "uber",
           fontSize: 15, ),),
         Column(
             children: VDetails
@@ -152,12 +152,12 @@ class _ShowJobState extends State<ShowJob> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text("How to Apply", style: GoogleFonts.quicksand(
+        Text("How to Apply", style: TextStyle(fontFamily: "uber",
           fontSize: 14, ),),
         Container(
             child: Text(
               widget.jobData.HowToApply,
-              style: GoogleFonts.quicksand(fontSize: 15, fontWeight: FontWeight.bold),
+              style: TextStyle(fontFamily: "uber",fontSize: 15, fontWeight: FontWeight.bold),
               textAlign: TextAlign.justify,
             )
         ),
@@ -184,7 +184,7 @@ class _ShowJobState extends State<ShowJob> {
                     top: 50,
                     bottom: 5,
                   ),
-                  child: Text("TJ Job", style: GoogleFonts.quicksand(fontSize: 55, fontWeight: FontWeight.w900),)
+                  child: Text("TJ Job", style: TextStyle(fontFamily: "uber",fontSize: 55, fontWeight: FontWeight.w900),)
               ),
               Container(
                   alignment: Alignment.center,
@@ -192,7 +192,7 @@ class _ShowJobState extends State<ShowJob> {
                     top: 5,
                     bottom: 5,
                   ),
-                  child: Text("www.trackjobs.in", style: GoogleFonts.quicksand(fontSize: 14, fontWeight: FontWeight.w500),)
+                  child: Text("www.trackjobs.in", style: TextStyle(fontFamily: "uber",fontSize: 14, fontWeight: FontWeight.w500),)
               ),
               Container(
                   alignment: Alignment.center,
@@ -200,7 +200,7 @@ class _ShowJobState extends State<ShowJob> {
                     top: 5,
                     bottom: 40,
                   ),
-                  child: Text("AAPKE SAPNE KA SATHI", style: GoogleFonts.quicksand(fontSize: 15, fontWeight: FontWeight.w700),)
+                  child: Text("AAPKE SAPNE KA SATHI", style: TextStyle(fontFamily: "uber",fontSize: 15, fontWeight: FontWeight.w700),)
               ),
               Row(
                 children: <Widget>[
@@ -220,30 +220,30 @@ class _ShowJobState extends State<ShowJob> {
                 ],
               ),
               const SizedBox(height: 10,),
-              Text("Department", style: GoogleFonts.quicksand(
+              Text("Department", style: TextStyle(fontFamily: "uber",
                 fontSize: 14, ),),
-              Text(widget.jobData.Department, style: GoogleFonts.quicksand(fontWeight: FontWeight.bold,
+              Text(widget.jobData.Department, style: TextStyle(fontFamily: "uber",fontWeight: FontWeight.bold,
                 fontSize: 15, ),),
               const SizedBox(height: 10,),
-              Text("Title", style: GoogleFonts.quicksand(
+              Text("Title", style: TextStyle(fontFamily: "uber",
                 fontSize: 14, ),),
-              Text(widget.jobData.Title, style: GoogleFonts.quicksand(fontWeight: FontWeight.bold,
+              Text(widget.jobData.Title, style: TextStyle(fontFamily: "uber",fontWeight: FontWeight.bold,
                 fontSize: 15, ),),
               const SizedBox(height: 10,),
               Load_ImportantDates(),
               const SizedBox(height: 10,),
               Load_ApplicationFees(),
               const SizedBox(height: 10,),
-              Text("Vacancies", style: GoogleFonts.quicksand(
+              Text("Vacancies", style: TextStyle(fontFamily: "uber",
                 fontSize: 14, ),),
-              Text(widget.jobData.Total_Vacancies, style: GoogleFonts.quicksand(fontWeight: FontWeight.bold,
+              Text(widget.jobData.Total_Vacancies, style: TextStyle(fontFamily: "uber",fontWeight: FontWeight.bold,
                 fontSize: 15, ),),
               const SizedBox(height: 10,),
               Load_VDetails(),
               const SizedBox(height: 10,),
-              Text("Document Required", style: GoogleFonts.quicksand(
+              Text("Document Required", style: TextStyle(fontFamily: "uber",
                 fontSize: 14, ),),
-              Text(widget.jobData.DocumentRequired, style: GoogleFonts.quicksand(fontWeight: FontWeight.bold,
+              Text(widget.jobData.DocumentRequired, style: TextStyle(fontFamily: "uber",fontWeight: FontWeight.bold,
                 fontSize: 15, ),),
               const SizedBox(height: 10,),
               Load_HowToApply(),

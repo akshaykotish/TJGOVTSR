@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/AdFile.dart';
+import 'package:governmentapp/Ads/HomeAd.dart';
 import 'package:governmentapp/Beauty/ShowSkeleton.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
@@ -27,6 +28,7 @@ class JobBoxs extends StatefulWidget {
 
 class _JobBoxsState extends State<JobBoxs> {
 
+  var AdContainer = HomeAd(adkey: "ca-app-pub-3701741585114162/6132005649",);
 
   Map<String, List<JobBox>> _ToShowJobs = Map<String, List<JobBox>>();
   var AllDepartments = <Widget>[];
@@ -51,17 +53,17 @@ class _JobBoxsState extends State<JobBoxs> {
                 children: <Widget>[
                   SizedBox(height: 20,),
                   Text("Required Results Not Available.",
-                  style: GoogleFonts.quicksand(fontWeight: FontWeight.w400,
+                  style: TextStyle(fontFamily: "uber",fontWeight: FontWeight.w400,
                   fontSize: 16,
                     color: Colors.grey.shade700
                   ),),
                   SizedBox(height: 10,),
                   Text("Click the icon below to find some more jobs.",
-                    style: GoogleFonts.quicksand(fontWeight: FontWeight.w200,
+                    style: TextStyle(fontFamily: "uber",fontWeight: FontWeight.w200,
                       fontSize: 12,
                       color: Colors.grey.shade400
                   ),),
-                  SizedBox(height: 5,),
+                  SizedBox(height: 10,),
                   GestureDetector(
                     onTap: (){
                       Navigator.push(context, PageRouteBuilder(
@@ -125,24 +127,14 @@ class _JobBoxsState extends State<JobBoxs> {
 
       counts = 0;
       _ToShowJobs.forEach((key, value) async {
-        if (counts == 9 && AdsEnable == "TRUE" && TJSNInterstitialAd.adWidget3 != null) {
+        if (counts == 9 && AdsEnable == "TRUE" && TJSNInterstitialAd.adWidget3 != null && TJSNInterstitialAd.adWidget3Loaded == false) {
           try {
+            print("INAD3");
             _AllDepartments.add(
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    border: Border.all(width: 2, color: Colors.white),
-                  ),
-                  child: counts == 3 ? TJSNInterstitialAd.adWidget1 :
-                  counts == 6 ? TJSNInterstitialAd.adWidget2 :
-                  TJSNInterstitialAd.adWidget3,
-                  width: 300,
-                  height: 250,
-                )
+                AdContainer
             );
           }
-          catch(e){print(e);}
+          catch(e){print("AD3 =  + $e");}
         }
         else{
           _AllDepartments.add(
@@ -209,20 +201,14 @@ class _JobBoxsState extends State<JobBoxs> {
     };
   }
 
-  Future<void> LoadADs()
-  async {
-    await TJSNInterstitialAd.LoadJobBoxs3();
-    await TJSNInterstitialAd.LoadBannerAd();
-    await TJSNInterstitialAd.LoadBannerAd2();
-  }
 
   @override
   void initState() {
-    LoadADs();
     InitFunctions();
     InitCurrents();
     super.initState();
-    RequiredDataLoading.Execute();
+    //RequiredDataLoading.Execute();
+   // ChatDatas.CreateHotJobs();
   }
 
   @override

@@ -77,7 +77,7 @@ class _PositionedSearchAreaState extends State<PositionedSearchArea> {
                   children: <Widget>[
                     Icon(Icons.search, color: Colors.grey[900], size: 30,),
                     SizedBox(width: 20,),
-                    Text("Search for a job...", style: GoogleFonts.quicksand(fontSize: 18, color: Colors.grey[800]),),
+                    Text("Search for a job...", style: TextStyle(fontFamily: "uber",fontSize: 18, color: Colors.grey[800]),),
                   ],
                 ),
               ),

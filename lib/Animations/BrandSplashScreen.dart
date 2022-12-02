@@ -17,7 +17,7 @@ class BrandSplashScreen extends StatefulWidget {
 }
 
 class _BrandSplashScreenState extends State<BrandSplashScreen> with
-    TickerProviderStateMixin{
+    TickerProviderStateMixin {
 
 
   late AnimationController controller;
@@ -40,28 +40,34 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
   late AnimationController attsycontroller;
   late Animation attsyAnimation;
 
-  Future<void> InitializeAnimations()
-  async {
-    opacitycontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
-    opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(opacitycontroller);
+  Future<void> InitializeAnimations() async {
+    opacitycontroller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
+    opacityAnimation =
+        Tween<double>(begin: 0.0, end: 1.0).animate(opacitycontroller);
 
-    textcontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+    textcontroller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
     textAnimation = Tween<double>(begin: 0.0, end: 9.0).animate(textcontroller);
 
-    bttcontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
-    bttAnimation = Tween<double>(begin: 400.0, end: 50.0).animate(bttcontroller);
+    bttcontroller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
+    bttAnimation =
+        Tween<double>(begin: 400.0, end: 50.0).animate(bttcontroller);
 
-    bbcontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+    bbcontroller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
     bbAnimation = Tween<double>(begin: 0.0, end: 10.0).animate(bttcontroller);
 
-    attsycontroller = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+    attsycontroller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
     attsyAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(bttcontroller);
 
     await LoadProfile();
     OpacityAnimation();
   }
 
-  void OpacityAnimation(){
+  void OpacityAnimation() {
     opacitycontroller.forward();
     opacitycontroller.addListener(() {
       setState(() {
@@ -69,14 +75,13 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
       });
     });
     opacitycontroller.addStatusListener((status) {
-      if(status == AnimationStatus.completed)
-        {
-          TextAnimation();
-        }
+      if (status == AnimationStatus.completed) {
+        TextAnimation();
+      }
     });
   }
 
-  void TextAnimation(){
+  void TextAnimation() {
     textcontroller.forward();
     textcontroller.addListener(() {
       setState(() {
@@ -84,14 +89,13 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
       });
     });
     textcontroller.addStatusListener((status) {
-      if(status == AnimationStatus.completed)
-      {
+      if (status == AnimationStatus.completed) {
         BottomToTopAnimation();
       }
     });
   }
 
-  void BottomToTopAnimation(){
+  void BottomToTopAnimation() {
     bttcontroller.forward();
     bttcontroller.addListener(() {
       setState(() {
@@ -100,16 +104,15 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
     });
 
     bttcontroller.addStatusListener((status) {
-      if(status == AnimationStatus.completed)
-      {
-        if(!islogin) {
+      if (status == AnimationStatus.completed) {
+        if (!islogin) {
           BackgroundBlurAnimation();
         }
       }
     });
   }
 
-  void BackgroundBlurAnimation(){
+  void BackgroundBlurAnimation() {
     bbcontroller.forward();
     bbcontroller.addListener(() {
       setState(() {
@@ -118,15 +121,14 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
     });
 
     bbcontroller.addStatusListener((status) {
-      if(status == AnimationStatus.completed)
-      {
+      if (status == AnimationStatus.completed) {
         ATTSYAnimation();
       }
     });
   }
 
 
-  void ATTSYAnimation(){
+  void ATTSYAnimation() {
     attsycontroller.forward();
     attsycontroller.addListener(() {
       setState(() {
@@ -135,67 +137,67 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
     });
 
     attsycontroller.addStatusListener((status) {
-      if(status == AnimationStatus.completed)
-      {
+      if (status == AnimationStatus.completed) {
         LoadHomePage();
       }
     });
   }
 
-  void LoadHomePage(){
+  void LoadHomePage() {
     print("LoadHomePage");
     Navigator.of(context).pushAndRemoveUntil(PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 500),
-        transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation, Widget child){
+        transitionsBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secAnimation, Widget child) {
           return FadeTransition(
-            opacity: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(parent: animation, curve: Curves.fastOutSlowIn)),
+            opacity: Tween(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+                parent: animation, curve: Curves.fastOutSlowIn)),
             child: child,
           );
         },
-        pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secAnimation){
+        pageBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secAnimation) {
           return Home();
         }), (Route route) => false
     );
   }
 
   static bool islogin = true;
+
   Future<void> LoadProfile() async {
     final prefs = await SharedPreferences.getInstance();
     String? Contact = prefs.getString("LoginContact");
     String? AdsEnable = prefs.getString("AdsEnable");
-    if(Contact != null)
-      {
-        prefs.setString("AdsEnable", "TRUE");
-        print("Ads enabled");
-        var User = await FirebaseFirestore.instance.collection("Users").doc(
-            Contact).get();
-          String? Expiry = User.data()!["Expiry"];
-          if(Expiry != null) {
-            print("Expiry ${Expiry}");
-            DateTime expiryDate = DateTime.parse(Expiry);
-            print("Expiry => ${!expiryDate
-                .difference(DateTime.now())
-                .isNegative}");
-            if (!expiryDate
-                .difference(DateTime.now())
-                .isNegative) {
-
-              prefs.setString("AdsEnable", "FALSE");
-              print("Ads disabled");
-
-            }
-            else{
-              prefs.setString("AdsEnable", "TRUE");
-              print("Ads enabled");
-            }
-          }
-
-        print("Contact is " + Contact);
-        setState(() {
-          islogin = false;
-        });
+    if (Contact != null) {
+      prefs.setString("AdsEnable", "TRUE");
+      print("Ads enabled");
+      var User = await FirebaseFirestore.instance.collection("Users").doc(
+          Contact).get();
+      String? Expiry = User.data()!["Expiry"];
+      if (Expiry != null) {
+        print("Expiry ${Expiry}");
+        DateTime expiryDate = DateTime.parse(Expiry);
+        print("Expiry => ${!expiryDate
+            .difference(DateTime.now())
+            .isNegative}");
+        if (!expiryDate
+            .difference(DateTime.now())
+            .isNegative) {
+          prefs.setString("AdsEnable", "FALSE");
+          print("Ads disabled");
+        }
+        else {
+          prefs.setString("AdsEnable", "TRUE");
+          print("Ads enabled");
+        }
       }
-    else{
+
+      print("Contact is " + Contact);
+      setState(() {
+        islogin = false;
+      });
+    }
+    else {
       setState(() {
         islogin = true;
       });
@@ -204,8 +206,7 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
 
   @override
   void initState() {
-    InitializeAnimations().then((value){
-    });
+    InitializeAnimations().then((value) {});
     super.initState();
   }
 
@@ -219,7 +220,9 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
       bbcontroller.dispose();
       attsycontroller.dispose();
     }
-    catch(e){print(e);}
+    catch (e) {
+      print(e);
+    }
     super.dispose();
   }
 
@@ -228,8 +231,14 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height,
           decoration: BoxDecoration(
               color: ColorFromHexCode("#E2E2E2"),
               image: const DecorationImage(
@@ -241,7 +250,8 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
           ),
           child: ClipRect(
             child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: bbAnimation.value, sigmaY: bbAnimation.value),
+              filter: ImageFilter.blur(
+                  sigmaX: bbAnimation.value, sigmaY: bbAnimation.value),
               child: Container(
                 color: Colors.grey.withOpacity(0.1),
                 child: Stack(
@@ -251,13 +261,22 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                       child: Opacity(
                         opacity: attsyAnimation.value,
                         child: islogin ? Container(
-                          width: MediaQuery.of(context).size.width,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
                           height: 800,
                           child: SingleChildScrollView(child: LoginArea()),
                         ) :
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height - 200,
+                        Container(
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width,
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height - 200,
                           child:
                           Center(
                               child: Column(
@@ -266,55 +285,59 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                                   Container(
                                     child: Text(
                                       "LKS",
-                                      style: GoogleFonts.quicksand(
+                                      style: TextStyle(fontFamily: "uber",
                                         fontWeight: FontWeight.w800,
                                         fontSize: 40,
-                                        color: Colors.grey.shade900.withOpacity(0.5),
+                                        color: Colors.grey.shade900.withOpacity(
+                                            0.5),
                                         letterSpacing: 30,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height:10,),
+                                  SizedBox(height: 10,),
                                   Container(
                                     child: Text(
                                       "Brand Signature",
-                                      style: GoogleFonts.quicksand(
+                                      style: TextStyle(fontFamily: "uber",
                                         fontWeight: FontWeight.w800,
                                         fontSize: 10,
-                                        color: Colors.grey.shade900.withOpacity(0.1),
-                                        letterSpacing:4.5,
+                                        color: Colors.grey.shade900.withOpacity(
+                                            0.1),
+                                        letterSpacing: 4.5,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height:150,),
+                                  SizedBox(height: 150,),
                                   Opacity(
                                     opacity: 0.4,
                                     child: Container(
                                       width: 200,
                                       height: 50,
                                       decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage("./assets/branding/flute.png"),
-                                        )
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                "./assets/branding/flute.png"),
+                                          )
                                       ),
                                     ),
                                   ),
                                   Container(
                                     child: Text(
                                       "Love My God, MK & AB",
-                                      style: GoogleFonts.quicksand(
+                                      style: TextStyle(fontFamily: "uber",
                                         fontWeight: FontWeight.w800,
                                         fontSize: 10,
-                                        color: Colors.grey.shade500.withOpacity(0.2),
+                                        color: Colors.grey.shade500.withOpacity(
+                                            0.2),
                                         letterSpacing: 5,
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height:50,),
+                                  SizedBox(height: 50,),
                                   Container(
                                     child: Text(
                                       "An Akshay Kotish & Co. Product",
-                                      style: GoogleFonts.quicksand(
+                                      style: TextStyle(fontFamily: "uber",
                                         fontWeight: FontWeight.w500,
                                         fontSize: 12,
                                         color: Colors.grey.shade800,
@@ -322,11 +345,11 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height:10,),
+                                  SizedBox(height: 10,),
                                   Container(
                                     child: Text(
                                       "Made for India",
-                                      style: GoogleFonts.quicksand(
+                                      style: TextStyle(fontFamily: "uber",
                                         fontWeight: FontWeight.w300,
                                         fontSize: 10,
                                         color: Colors.grey.shade600,
@@ -337,7 +360,7 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                                 ],
                               )
                           ),
-                ),
+                        ),
                       ),
                     ),
                     Positioned(
@@ -347,23 +370,36 @@ class _BrandSplashScreenState extends State<BrandSplashScreen> with
                         opacity: opacityAnimation.value,
                         child: Container(
                           padding: EdgeInsets.all(10),
-                          width: MediaQuery.of(context).size.width - 20,
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width - 20,
                           height: 120,
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(15)),
                           ),
+
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
-                                child: Text("TrackJobs".substring(0, double.parse(textAnimation.value.toString()).toInt()), style: GoogleFonts.sacramento(
-                                  fontSize: 55,
-                                    color: ColorFromHexCode("#383C39"),
-                                    fontWeight: FontWeight.w800,
+                                child: Text("TrackJobs".substring(0,
+                                    double.parse(textAnimation.value.toString())
+                                        .toInt()), style: GoogleFonts.pacifico(
+                                    fontSize: 55,
+                                    color: ColorFromHexCode("#383C39").withOpacity(0.9),
+                                    fontWeight: FontWeight.w700,
                                     shadows: [
-                                      Shadow(color: Colors.grey.shade100, offset: Offset(1, 1), blurRadius: 4),
-                                      Shadow(color: Colors.grey.shade100, offset: Offset(1, 1), blurRadius: 4),
-                                    ]),),
+                                      Shadow(color: Colors.grey.shade100
+                                          .withOpacity(0.5),
+                                          offset: Offset(1, 1),
+                                          blurRadius: 4),
+                                      Shadow(color: Colors.grey.shade300
+                                          .withOpacity(0.5),
+                                          offset: Offset(4, 4),
+                                          blurRadius: 4),
+                                    ]
+                                ),),
                               ),
                             ],
                           ),

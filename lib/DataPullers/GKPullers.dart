@@ -11,6 +11,9 @@ class GKPullers{
 }
 
 class GKTodayData{
+
+  static String CurrentLanguage = "English";
+
   String Heading = "";
   String Date = "";
   String Image = "";
@@ -168,6 +171,7 @@ class GKTodayQuiz{
   static List<GKTodayQuizData> GKTodayQuizDatas = <GKTodayQuizData>[];
 
   static Future<void> PushOnFirebase() async {
+    print("Came here");
     String ThisMonth = DateTime.now().month.toString() + DateTime.now().year.toString();
     await FirebaseFirestore.instance.collection("GKTodayQuiz").doc(ThisMonth).delete();
 
@@ -273,6 +277,7 @@ class GKTodayQuiz{
     var Timings = await FirebaseFirestore.instance.collection("Logs").doc("GKDates").get();
     var Time = Timings.exists ? Timings.data()!["GKQUIZ"] : "";
 
+    print("TIME is $Time");
     if(Time != "${DateTime
         .now()
         .year}-${DateTime
@@ -280,6 +285,7 @@ class GKTodayQuiz{
         .month}-${DateTime
         .now()
         .day}") {
+      print("Different Data");
       await LoadQuizData();
     }
   }
