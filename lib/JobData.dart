@@ -241,7 +241,9 @@ class JobData {
         indx++;
       });
     }
-    catch (e) {}
+    catch (e) {
+      print("Error of TJSN Job Sheet Vacancy ${e}");
+    }
   }
 
   Future<void> LoadFromFireStoreValues(var job) async {
@@ -291,6 +293,8 @@ class JobData {
           HowTo = job.data()["HowTo"];
 
           await LoadingVDetails(job, ref);
+          print("MY Vdetails are :- ${VDetails.length} ${vdetailsquery}");
+
         }
         catch(e)
         {

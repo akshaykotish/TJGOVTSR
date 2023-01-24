@@ -38,10 +38,12 @@ class _TopBarState extends State<TopBar> {
               color: Colors.black,
             ),
             ),
-            SizedBox(width: MediaQuery.of(context).size.width/4,),
+            SizedBox(
+              width: MediaQuery.of(context).size.width/4.6,
+            ),
             Container(
               alignment: Alignment.centerRight,
-              child: Text("Akshay Kotish & Co.\nversion: 1.1.18",
+              child: Text("build for the winners🥇\n achieve the power 💪🏻",
                 textAlign: TextAlign.right,
                 style: GoogleFonts.poppins(
                   fontSize: 8,

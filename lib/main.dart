@@ -17,12 +17,12 @@ import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/Graphics/PostGraphic.dart';
 import 'package:governmentapp/JobDisplayData.dart';
 import 'package:governmentapp/Materials/MaterialData.dart';
+import 'package:governmentapp/Testing/AutoPost.dart';
 import 'package:workmanager/workmanager.dart';
 import 'BackgroundController.dart';
 import 'DataLoadingSystem/SearchAbleDataLoading.dart';
 
 Future<void> RequiredLoads() async {
-   await TJSNInterstitialAd.AdManager();
     await CurrentJob.Listen();
     JobDisplayManagement.Execute();
 
@@ -31,16 +31,10 @@ Future<void> RequiredLoads() async {
     await SearchAbleDataLoading.Execute();
 
      GKPullers.Execute();
-    Timer(Duration(seconds: 5), () async {
-      await RequiredDataLoading.Execute();
-      Timer(Duration(seconds: 4), () async {
-        await ChatDatas.CreateNotifications();
-        await ChatDatas.CreateNotifications();
-        JobDisplayManagement.HOTJOBSC.add([]);
-      });
-    });
+    await RequiredDataLoading.Execute();
 
   await GetTheIMage.getUiImage("./assets/branding/graphicbg.png", 1080, 1080);
+    await TJSNInterstitialAd.AdManager();
 }
 
 Future<void> main() async {

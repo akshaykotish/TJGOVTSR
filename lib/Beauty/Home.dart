@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:governmentapp/Animations/Disclaimer.dart';
 import 'package:governmentapp/Animations/SplashScreen.dart';
 import 'package:governmentapp/Beauty/BottomBar.dart';
 import 'package:governmentapp/Beauty/Chat.dart';

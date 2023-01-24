@@ -2,6 +2,7 @@ import 'dart:core';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:governmentapp/Graphics/PostGraphic.dart';
 import 'dart:ui' as ui;
@@ -12,19 +13,19 @@ import 'package:http/http.dart' as http;
 
 
 class PostOnSocialMedia{
-  static String Designation = "";
-  static String Department = "";
-  static String Path = "";
-  static String JobString = "";
-  static String AboutJob = "";
-  static String Location = "";
-  static String URL = "";
+   String Designation = "";
+   String Department = "";
+   String Path = "";
+   String JobString = "";
+   String AboutJob = "";
+   String Location = "";
+   String URL = "";
 
-  static String InstagramAT = "EAAxKt4iMcvYBAI3pVoiVKjGZCizkv3DPOZCWcUTTKvvP8PDRW4RLK6gIwsXTo7CuEcdiToVtR1InnW7maqQJsad04WngHpo3OrFSXnmAqrymOYnwjanBAvNvl4f2FOSs3KHZCvpz1q8ChYlZCKFKKKrVkxEG5QZCdyDHSLAS8sh4zP3ROwfZCI";
-  static String FacebookAT = "EAAxKt4iMcvYBAI3pVoiVKjGZCizkv3DPOZCWcUTTKvvP8PDRW4RLK6gIwsXTo7CuEcdiToVtR1InnW7maqQJsad04WngHpo3OrFSXnmAqrymOYnwjanBAvNvl4f2FOSs3KHZCvpz1q8ChYlZCKFKKKrVkxEG5QZCdyDHSLAS8sh4zP3ROwfZCI";
+  PostOnSocialMedia() {
 
+  }
 
-  static Future<ui.Image> getImage(String UpdateName, String UpdateDate) async {
+   Future<ui.Image> getImage(String UpdateName, String UpdateDate) async {
     PostGraphic postGraphic = PostGraphic(PostName: Designation, Department: Department, AboutJob: AboutJob, Location: Location, UpdateName: UpdateName, UpdateDate: UpdateDate);
     ui.PictureRecorder recorder = ui.PictureRecorder();
     postGraphic.paint(Canvas(recorder), Size(1080, 1080));
@@ -33,28 +34,29 @@ class PostOnSocialMedia{
   }
 
 
-  static Future<void> UploadPhoto(String ID, String UpdateName, String UpdateDate) async {
+   Future<void> UploadPhoto(String UpdateName, String UpdateDate) async {
     var rng = Random();
     int random = rng.nextInt(5);
+    String FileName = "ToUploadFile${random}";
 
     final storageRef = FirebaseStorage.instance.ref();
-    final logfile = storageRef.child("logfile${random}.png");
+    final logfile = storageRef.child("${FileName}.png");
     ui.Image image = await getImage(UpdateName, UpdateDate);
 
     var bytes = await image.toByteData(format: ui.ImageByteFormat.png);
 
     if(bytes != null) {
       Directory appDocDir = await getApplicationDocumentsDirectory();
-      File file = File("${appDocDir.path}/logfile${random}.png");
+      File file = File("${appDocDir.path}/${FileName}.png");
       await file.writeAsBytes(bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes));
       try {
         await logfile.putFile(file);
         URL = await logfile.getDownloadURL();
 
         print("URL: $URL");
-
-        await PostOnFacebook(URL);
-        await PostOnInstagram(URL);
+        SocialMedia socialMedia = SocialMedia();
+        await socialMedia.PostOnFacebook(URL);
+        await socialMedia.PostOnInstagram(URL, Designation);
       }
       catch (e) {
         print("URL ERROR ${e}");
@@ -62,16 +64,37 @@ class PostOnSocialMedia{
     }
   }
 
-  static Future<void> PostOnFacebook(String url) async {
-    Uri uri = Uri.parse("https://graph.facebook.com/101660532329466/photos?url=${url}&access_token=$FacebookAT");
+}
+
+class SocialMedia{
+
+
+  SocialMedia(){
+    FirebaseFirestore.instance.collection("APIs").doc("SocialMedia").get().then((SM){
+      if(SM.exists) {
+        String fb = SM.data()!["Facebook"];
+        String ig = SM.data()!["Instagram"];
+
+        InstagramAT = ig;
+        FacebookAT = fb;
+
+        print("RECIEVED OK ${InstagramAT} and ${FacebookAT}");
+      }
+    });
+  }
+
+  Future<void> PostOnFacebook(String ToUploadLink) async {
+    print("Facebook:- " + ToUploadLink);
+    Uri uri = Uri.parse("https://graph.facebook.com/101660532329466/photos?url=${ToUploadLink}&access_token=$FacebookAT");
     var res = await http.post(uri);
     print("Facebook = " + res.body);
   }
 
-  static Future<void> PostOnInstagram(String url) async {
+   Future<void> PostOnInstagram(String ToUploadLink, String caption) async {
     //Uri uri = Uri.parse("https://graph.facebook.com/v15.0/17841455470887325/media?image_url=$url&caption=#sarkarinaukri&access_token=$InstagramAT");
 
-    Uri uri = Uri.parse("https://graph.facebook.com/v15.0/17841455470887325/media?image_url=${url}&caption=${"Download our app from playstore. Link in the bio."}&access_token=$InstagramAT");
+     print("Instagram:- " + ToUploadLink);
+    Uri uri = Uri.parse("https://graph.facebook.com/v15.0/17841455470887325/media?image_url=${ToUploadLink}&caption=${caption}&access_token=$InstagramAT");
     var res = await http.post(uri);
     print(res.body);
     String pid = res.body.replaceAll("{", "").replaceAll("}", "").split(":")[1].replaceAll('"', "");

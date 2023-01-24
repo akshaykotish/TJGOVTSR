@@ -39,7 +39,7 @@ class PostGraphic extends CustomPainter{
     tpLocation.paint(canvas, new Offset(60, 500));
 
 
-    TextSpan spanDepartment = new TextSpan(style: GoogleFonts.poppins(color: ColorFromHexCode("#F2E7D5"), fontWeight: FontWeight.w500, fontSize: 25 ), text: Department);
+    TextSpan spanDepartment = new TextSpan(style: GoogleFonts.poppins(color: ColorFromHexCode("#F2E7D5"), fontWeight: FontWeight.w500, fontSize: 25 ), text: Department.length > 60 ? Department.substring(0, 60) : Department);
     TextPainter tpDepartment = new TextPainter(text: spanDepartment, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
     tpDepartment.layout(minWidth: size.width - 80, maxWidth: size.width - 80);
     tpDepartment.paint(canvas, new Offset(60, 550));

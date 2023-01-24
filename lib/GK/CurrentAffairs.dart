@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -45,6 +44,7 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
               element.data()["Image"].toString(),
               element.data()["Content"].toString(),
               element.data()["URL"].toString(),
+              element.id
           );
           _GKs.add(
             GKPage(gkTodayData: gktoday),
@@ -107,12 +107,12 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
     });
   }
 
-
   @override
   void initState() {
     LoadCurrentAffairs();
     LoadADWidget();
     GetLanguage();
+
     super.initState();
   }
 
@@ -150,7 +150,7 @@ class _CurrentAffairsState extends State<CurrentAffairs> {
               ),
               Positioned(
                 right: 50,
-                bottom: 60,
+                bottom: 80,
                 child: GestureDetector(
                   onTap: () async {
                     if(Language == "English") {

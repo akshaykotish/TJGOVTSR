@@ -19,10 +19,11 @@ class GKTodayData{
   String Image = "";
   String Content = "";
   String URL = "";
+  String DocID = "";
 
-  GKTodayData(String heading, String date, String image, String content, String url)
+  GKTodayData(String heading, String date, String image, String content, String url, String docID)
   {
-    Heading = heading; Date = date; Image = image; Content = content; URL = url;
+    Heading = heading; Date = date; Image = image; Content = content; URL = url; DocID = docID;
   }
 }
 
@@ -97,7 +98,7 @@ class GKToday{
         if(type == "p" && classis != "small-font")
         {
           Content = subnodes[i].text;
-          GKtodayDatas.add(GKTodayData(Heading, Date, Image, Content, URL));
+          GKtodayDatas.add(GKTodayData(Heading, Date, Image, Content, URL, ""));
           Content = "";
           Date = "";
           Image = "";

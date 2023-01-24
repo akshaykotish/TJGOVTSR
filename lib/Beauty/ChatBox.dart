@@ -37,12 +37,12 @@ class _ChatBoxState extends State<ChatBox> {
 
   void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
-      _lastWords = result.recognizedWords;
-      textEditingController.text = _lastWords;
+      _lastWords = result.recognizedWords.toLowerCase();
+      textEditingController.text = _lastWords.toLowerCase();
     });
     if(result.finalResult == true)
       {
-        JobDisplayManagement.ChatBoxQueryC.add(result.recognizedWords.toString());
+        JobDisplayManagement.ChatBoxQueryC.add(result.recognizedWords.toString().toLowerCase());
       }
   }
 

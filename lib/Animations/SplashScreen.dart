@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:governmentapp/Animations/Disclaimer.dart';
 import 'package:governmentapp/Beauty/Home.dart';
 import 'package:governmentapp/Files/CurrentJob.dart';
 import 'package:governmentapp/HexColors.dart';
@@ -17,7 +18,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 5), (){
+    Timer(Duration(seconds: 5), () {
+      Navigator.pop(context);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Disclaimer()));
+    });
+    Timer(Duration(seconds: 12), (){
       Navigator.pop(context);
       Navigator.push(context, PageRouteBuilder(
           transitionDuration: const Duration(seconds: 1),

@@ -10,7 +10,9 @@ import '../JobDisplayData.dart';
 class JobDisplayManagement{
 
   static bool HomeToShow = false;
+  static bool NotificationPosted = false;
   static int WhichShowing = 0;
+  static bool Posted = false;
 
   static List<JobDisplayData> HOTJOBS = <JobDisplayData>[];
   static List<JobDisplayData> SEARCHJOBS = <JobDisplayData>[];

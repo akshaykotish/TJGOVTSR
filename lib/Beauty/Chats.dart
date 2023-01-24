@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/BackgroundController.dart';
@@ -13,6 +14,7 @@ import 'package:governmentapp/HexColors.dart';
 import 'package:governmentapp/JobData.dart';
 import 'package:governmentapp/JobDisplayData.dart';
 import 'package:governmentapp/Notifcations.dart';
+import 'package:governmentapp/PostOnSocialMedia.dart';
 
 class Chats extends StatefulWidget {
   const Chats({Key? key}) : super(key: key);
@@ -158,7 +160,7 @@ class _ChatsState extends State<Chats> {
               ),
               padding: EdgeInsets.all(10),
               margin: EdgeInsets.only(
-                left: 5,
+                left: 10,
               ),
               child: Image.asset("./assets/branding/loading.gif", fit: BoxFit.fill, alignment: Alignment.centerLeft,),
             )
@@ -192,8 +194,26 @@ class _ChatsState extends State<Chats> {
       }
       print("I Came here and ${list.length} and ${Notifications.notifications.length}");
       await LoadingJobChat();
-      scrollController.animateTo(scrollController.position.maxScrollExtent + 100,
-          duration: Duration(seconds: 1), curve: Curves.bounceIn);
+      // scrollController.animateTo(scrollController.position.maxScrollExtent + 100,
+      //     duration: Duration(seconds: 1), curve: Curves.bounceIn);
+
+      PostOnSocialMedia postOnSocialMedia = PostOnSocialMedia();
+        var Job = await FirebaseFirestore.instance.doc(list[0].Path).get();
+        var Posted = Job.data()!["Posted"];
+        if (Posted == null || Posted == "F") {
+                  print("READ TO POST");
+                  String JobString = list[0].JobString;
+
+                  var Parts = JobString.split(";");
+                  postOnSocialMedia.Department = Parts[1];
+                  postOnSocialMedia.Designation = Parts[2];
+                  postOnSocialMedia.Location = Parts[0].split("/")[2];
+                  postOnSocialMedia.AboutJob = Parts[3];
+
+                  await postOnSocialMedia.UploadPhoto(
+                      "New Job Update", "Download the app now.");
+                  FirebaseFirestore.instance.doc(list[0].Path).update({"Posted": "T",});
+        }
     };
     JobDisplayManagement.CHOOSEJOBSF = (List<JobDisplayData> list) async {
       iswaiting = false;
@@ -270,6 +290,11 @@ class _ChatsState extends State<Chats> {
     LoadChats();
     InitFunctions();
     super.initState();
+
+    if(JobDisplayManagement.HOTJOBS.isNotEmpty && AllChats.length < 5)
+      {
+        JobDisplayManagement.HOTJOBSC.add(JobDisplayManagement.HOTJOBS);
+      }
   }
 
   @override

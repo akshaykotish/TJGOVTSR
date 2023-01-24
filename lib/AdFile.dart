@@ -1,6 +1,7 @@
 
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -362,8 +363,10 @@ class TJSNInterstitialAd
     //String? AdsEnable = prefs.getString("AdsEnable");
 //    if(AdsEnabled == "TRUE") {
       print("Main Ad is ready to serve.");
+      Random random = Random();
+      int randomMin = random.nextInt(2) + 2;
       Timer.periodic(
-          const Duration(minutes: 3),
+           Duration(minutes: randomMin),
               (timer) async {
             await init();
           }

@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataPullers/GKPullers.dart';
+import 'package:governmentapp/GK/PostGKOnSocialMedia.dart';
 import 'package:governmentapp/HexColors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:translator/translator.dart';
@@ -30,6 +32,21 @@ class _GKPageState extends State<GKPage> {
     });
   }
 
+  Future<void> ToExportPng() async {
+    var GK = await FirebaseFirestore.instance.collection("GKToday").doc(widget.gkTodayData.DocID).get();
+    if(GK.exists)
+      {
+        var IsPosted = GK.data()!["IsPosted"];
+        if(IsPosted == null || IsPosted == "F")
+          {
+            PostGKOnSocialMedia postGKOnSocialMedia = PostGKOnSocialMedia();
+            postGKOnSocialMedia.Execute(widget.gkTodayData);
+            print("This Page:- /GKToday/" +  widget.gkTodayData.DocID);
+            FirebaseFirestore.instance.collection("GKToday").doc(widget.gkTodayData.DocID).update({"IsPosted": "T"});
+          }
+      }
+  }
+
   @override
   void initState() {
     JobDisplayManagement.LanguageChangeF = (String lang)
@@ -40,6 +57,7 @@ class _GKPageState extends State<GKPage> {
     };
     ConvertToHindi();
     super.initState();
+    ToExportPng();
   }
 
   @override

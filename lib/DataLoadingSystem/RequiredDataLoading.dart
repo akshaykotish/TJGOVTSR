@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:governmentapp/ChatDatas.dart';
 import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/SearchAbleDataLoading.dart';
 import 'package:governmentapp/JobData.dart';
@@ -156,15 +157,26 @@ class RequiredDataLoading{
           .doc("Hots")
           .get();
       if (Hots.exists) {
-        var HotJobs = (Hots.data()!["Hots"] as List<dynamic>).reversed;
+        var HotJobs = await (Hots.data()!["Hots"] as List<dynamic>).reversed;
         for (var value in HotJobs) {
           String JobString = value.toString();
           JobDisplayManagement.HOTJOBS.add(JobDisplayData(JobString, 50));
         }
         JobDisplayManagement.HOTJOBSC.add(JobDisplayManagement.HOTJOBS);
+
       }
     }
   }
+
+  static Future<void> CheckJobsNotification() async {
+    await Future.forEach(JobDisplayManagement.HOTJOBS, (JobDisplayData jobDisplayData) async {
+      await jobDisplayData.CheckForNotifications();
+      print("Notifications" + jobDisplayData.Designation);
+    });
+
+    await ChatDatas.CreateNotifications();
+  }
+
 
   static Future<void> LoadLikedNotifications() async {
 
@@ -190,6 +202,7 @@ class RequiredDataLoading{
     await init();
     await LoadHotJobs();
     await LoadLikedJobs();
+    await CheckJobsNotification();
 //    await LoadLikedNotifications();
 
     // if(UserDepartments.isNotEmpty)

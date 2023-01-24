@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:governmentapp/DataLoadingSystem/JobDisplayManagement.dart';
 import 'package:governmentapp/DataLoadingSystem/RequiredDataLoading.dart';
 import 'package:governmentapp/Graphics/PostGraphic.dart';
 import 'package:governmentapp/JobData.dart';
@@ -31,28 +32,36 @@ class JobDisplayData {
 
   late JobData jobData;
 
+  PostOnSocialMedia postOnSocialMedia = PostOnSocialMedia();
+
   void LoadFromSearchString(String jobString) {
     JobString = jobString;
   }
 
   Future<void> CheckPostLog(String ID, String UpdateName, String UpdateDate) async {
-
     var Log = await FirebaseFirestore.instance.doc(Path).collection("Logs").doc(ID).get();
     if(Log.exists == false)
       {
         print("$ID is here");
-        await PostOnSocialMedia.UploadPhoto(ID, UpdateName, UpdateDate);
+        if(JobDisplayManagement.NotificationPosted == false) {
+          await postOnSocialMedia.UploadPhoto(UpdateName, UpdateDate);
 
-        await FirebaseFirestore.instance.doc(Path).collection("Logs").doc(ID).set({
-          "ID": ID,
-          "URL": PostOnSocialMedia.URL,
-          "TimeStamp": DateTime.now().toIso8601String(),
-        });
+          await FirebaseFirestore.instance.doc(Path).collection("Logs")
+              .doc(ID)
+              .set({
+            "ID": ID,
+            "URL": postOnSocialMedia.URL,
+            "TimeStamp": DateTime.now().toIso8601String(),
+          });
+          JobDisplayManagement.NotificationPosted = true;
+        }
       }
   }
 
+
   Future<void> CheckForNotifications() async {
     try {
+      print("IM in Notifications");
       var parts = Path.split(";");
       if (parts.length == 4) {
         var Job = await FirebaseFirestore.instance.doc(Path).get();
@@ -119,10 +128,10 @@ class JobDisplayData {
       // AboutJob = Parts[3];
       //
 
-      PostOnSocialMedia.Department = Department = Parts[1];
-      PostOnSocialMedia.Designation = Designation = Parts[2];
-      PostOnSocialMedia.AboutJob = AboutJob = Parts[0].split("/")[2];
-      PostOnSocialMedia.Location = Location = Parts[3];
+      postOnSocialMedia.Department = Department = Parts[1];
+      postOnSocialMedia.Designation = Designation = Parts[2];
+      postOnSocialMedia.Location = Location = Parts[0].split("/")[2];
+      postOnSocialMedia.AboutJob = AboutJob = Parts[3];
 
       int l = Designation.indexOf("Online Form");
       if(l >= 0) {
@@ -131,5 +140,6 @@ class JobDisplayData {
       Path = Parts[0];
     }
     CheckForNotifications();
+
   }
 }
